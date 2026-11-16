@@ -25,13 +25,32 @@
             assign href = routes.all_products_collection_url
           endif
         -%}
+        {%- liquid
+          assign fallback = b.asset_file
+          if fallback == blank
+            case b.title
+              when 'Birthday Gifts'
+                assign fallback = 'ohs-gift-birthday.jpg'
+              when 'Baby Shower Gifts'
+                assign fallback = 'ohs-gift-shower.jpg'
+              when 'Newborn Gifts'
+                assign fallback = 'ohs-gift-newborn.jpg'
+              when 'Everyday Surprises'
+                assign fallback = 'ohs-gift-everyday.jpg'
+              else
+                assign fallback = 'ohs-feat-gifts.jpg'
+            endcase
+          endif
+        -%}
         <a class="ohs-tile ohs-tile--{{ b.tone | default: 'peach' }}" href="{{ href }}" {{ block.shopify_attributes }} data-uc-reveal>
-          {%- if b.image != blank -%}
-            <div class="ohs-tile__media">
+          <div class="ohs-tile__media">
+            {%- if b.image != blank -%}
               {{ b.image | image_url: width: 800 | image_tag: loading: 'lazy', widths: '400,600,800', sizes: '(min-width: 750px) 22vw, 45vw', alt: b.title }}
-            </div>
-            <span class="ohs-tile__shade" aria-hidden="true"></span>
-          {%- endif -%}
+            {%- else -%}
+              {% render 'ohs-asset-img', file: fallback, alt: b.title %}
+            {%- endif -%}
+          </div>
+          <span class="ohs-tile__shade" aria-hidden="true"></span>
           <div class="ohs-tile__body">
             <h3 class="ohs-tile__title">{{ b.title | escape }}</h3>
             {%- if b.description != blank -%}<p class="ohs-tile__desc">{{ b.description | escape }}</p>{%- endif -%}
@@ -64,6 +83,7 @@
         { "type": "collection", "id": "collection", "label": "Collection" },
         { "type": "url", "id": "link", "label": "Custom link" },
         { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "asset_file", "label": "Fallback asset filename", "default": "ohs-gift-birthday.jpg" },
         {
           "type": "select",
           "id": "tone",

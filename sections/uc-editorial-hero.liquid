@@ -111,19 +111,37 @@
  >
  </picture>
  {%- else -%}
- <div class="ueh__img ueh__img--placeholder" aria-hidden="true"></div>
+ {%- liquid
+   assign ohs_hero_fallback = 'ohs-hero-1.jpg'
+   if forloop.index == 2
+     assign ohs_hero_fallback = 'ohs-hero-2.jpg'
+   endif
+ -%}
+ <img
+   class="ueh__img"
+   src="{{ ohs_hero_fallback | asset_url }}"
+   alt="{{ shop.name | escape }}"
+   style="object-position: {{ b.focal_point | default: 'center center' }};"
+   {% if forloop.first %}fetchpriority="high" decoding="sync"{% else %}loading="lazy" decoding="async"{% endif %}
+ >
  {%- endif -%}
  </div>
 
- {%- if s.enable_overlay and img_d != blank -%}
+ {%- if s.enable_overlay -%}
  <div class="ueh__overlay" aria-hidden="true"></div>
  {%- endif -%}
 
  {%- liquid
  assign ueh_text_d = b.text_color | default: '#ffffff'
  assign ueh_text_m = b.text_color_mobile | default: '#171717'
+ assign ueh_has_media = false
+ if img_d != blank
+   assign ueh_has_media = true
+ else
+   assign ueh_has_media = true
+ endif
  -%}
- <div class="ueh__content ueh__content--{{ pos }}{% if img_d == blank %} ueh__content--on-cream{% endif %}"{% if img_d != blank %} data-uc-theme-text style="{% render 'uc-theme-text-vars', text: ueh_text_d, text_mobile: ueh_text_m %}--ueh-text: var(--uc-theme-text);"{% else %} style="--ueh-text: #171717;"{% endif %}>
+ <div class="ueh__content ueh__content--{{ pos }}" data-uc-theme-text style="{% render 'uc-theme-text-vars', text: ueh_text_d, text_mobile: ueh_text_m %}--ueh-text: var(--uc-theme-text);">
  <div class="ueh__copy">
  {%- if b.subheading != blank -%}
  <p class="ueh__eyebrow">{{ b.subheading | escape }}</p>

@@ -38,13 +38,36 @@
             assign title = 'Collection'
           endif
         -%}
+        {%- liquid
+          assign fallback = b.asset_file
+          if fallback == blank
+            case title
+              when 'Little Explorers'
+                assign fallback = 'ohs-feat-explorers.jpg'
+              when 'First Toys'
+                assign fallback = 'ohs-feat-first.jpg'
+              when 'Learning Through Play'
+                assign fallback = 'ohs-feat-learning.jpg'
+              when 'Wooden Wonders'
+                assign fallback = 'ohs-feat-wooden.jpg'
+              when 'Soft & Cuddly'
+                assign fallback = 'ohs-feat-soft.jpg'
+              when 'Perfect Little Gifts'
+                assign fallback = 'ohs-feat-gifts.jpg'
+              else
+                assign fallback = 'ohs-cat-baby.jpg'
+            endcase
+          endif
+        -%}
         <a class="ohs-tile ohs-tile--{{ b.tone | default: 'sage' }}" href="{{ href }}" {{ block.shopify_attributes }} data-uc-reveal style="min-height: 260px;">
-          {%- if image != blank -%}
-            <div class="ohs-tile__media">
+          <div class="ohs-tile__media">
+            {%- if image != blank -%}
               {{ image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '400,600,900', sizes: '(min-width: 750px) 22vw, 45vw', alt: title }}
-            </div>
-            <span class="ohs-tile__shade" aria-hidden="true"></span>
-          {%- endif -%}
+            {%- else -%}
+              {% render 'ohs-asset-img', file: fallback, alt: title %}
+            {%- endif -%}
+          </div>
+          <span class="ohs-tile__shade" aria-hidden="true"></span>
           <div class="ohs-tile__body">
             <h3 class="ohs-tile__title">{{ title | escape }}</h3>
             {%- if b.description != blank -%}<p class="ohs-tile__desc">{{ b.description | escape }}</p>{%- endif -%}
@@ -77,6 +100,7 @@
         { "type": "collection", "id": "collection", "label": "Collection" },
         { "type": "url", "id": "link", "label": "Custom link" },
         { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "asset_file", "label": "Fallback asset filename", "default": "ohs-feat-explorers.jpg" },
         {
           "type": "select",
           "id": "tone",

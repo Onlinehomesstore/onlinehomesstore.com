@@ -182,9 +182,34 @@
  decoding="async"
  style="object-fit: cover; object-position: {{ focal }};">
  {%- else -%}
- <div class="cs-card__img cs-card__placeholder">
- {{ 'collection-1' | placeholder_svg_tag: 'cs-card__placeholder-svg' }}
- </div>
+ {%- liquid
+   assign ohs_fallback = 'ohs-cat-baby.jpg'
+   assign _title_down = card_title | downcase
+   if _title_down contains 'rattle' or _title_down contains 'teether'
+     assign ohs_fallback = 'ohs-cat-rattles.jpg'
+   elsif _title_down contains 'plush' or _title_down contains 'soft'
+     assign ohs_fallback = 'ohs-cat-plush.jpg'
+   elsif _title_down contains 'musical'
+     assign ohs_fallback = 'ohs-cat-musical.jpg'
+   elsif _title_down contains 'sensory'
+     assign ohs_fallback = 'ohs-cat-sensory.jpg'
+   elsif _title_down contains 'gym' or _title_down contains 'mat'
+     assign ohs_fallback = 'ohs-cat-gyms.jpg'
+   elsif _title_down contains 'educational' or _title_down contains 'learning'
+     assign ohs_fallback = 'ohs-cat-educational.jpg'
+   elsif _title_down contains 'wooden'
+     assign ohs_fallback = 'ohs-cat-wooden.jpg'
+   elsif _title_down contains 'block'
+     assign ohs_fallback = 'ohs-cat-blocks.jpg'
+   elsif _title_down contains 'bath'
+     assign ohs_fallback = 'ohs-cat-bath.jpg'
+   elsif _title_down contains 'pretend'
+     assign ohs_fallback = 'ohs-cat-pretend.jpg'
+   elsif _title_down contains 'puzzle' or _title_down contains 'game'
+     assign ohs_fallback = 'ohs-cat-puzzles.jpg'
+   endif
+ -%}
+ <img class="cs-card__img" src="{{ ohs_fallback | asset_url }}" alt="{{ card_title | escape }}" loading="lazy" decoding="async" width="800" height="800" style="object-fit: cover; object-position: {{ focal }};">
  {%- endif -%}
 
  {%- if s.enable_gradient -%}

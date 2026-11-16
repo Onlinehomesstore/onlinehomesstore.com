@@ -12,9 +12,7 @@
         {%- if s.image != blank -%}
           {{ s.image | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '600,900,1200,1400', sizes: '(min-width: 900px) 48vw, 100vw', alt: s.heading }}
         {%- else -%}
-          <div style="min-height:280px;display:grid;place-items:center;padding:2rem;color:#777D78;text-align:center;">
-            Add a lifestyle image of children at play
-          </div>
+          {% render 'ohs-asset-img', file: 'ohs-edu-play.jpg', alt: s.heading, loading: 'lazy' %}
         {%- endif -%}
       </div>
       <div class="ohs-edu__copy" data-uc-reveal>

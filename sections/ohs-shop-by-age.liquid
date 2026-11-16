@@ -28,13 +28,36 @@
             assign href = routes.all_products_collection_url
           endif
         -%}
+        {%- liquid
+          assign fallback = b.asset_file
+          if fallback == blank
+            case b.title
+              when '0–6 Months'
+                assign fallback = 'ohs-age-0-6.jpg'
+              when '6–12 Months'
+                assign fallback = 'ohs-age-6-12.jpg'
+              when '1–2 Years'
+                assign fallback = 'ohs-age-1-2.jpg'
+              when '2–3 Years'
+                assign fallback = 'ohs-age-2-3.jpg'
+              when '3–5 Years'
+                assign fallback = 'ohs-age-3-5.jpg'
+              when '5+ Years'
+                assign fallback = 'ohs-age-5.jpg'
+              else
+                assign fallback = 'ohs-prod-1.jpg'
+            endcase
+          endif
+        -%}
         <a class="ohs-tile ohs-tile--{{ tile_tone }}" href="{{ href }}" {{ block.shopify_attributes }} data-uc-reveal>
-          {%- if b.image != blank -%}
-            <div class="ohs-tile__media">
+          <div class="ohs-tile__media">
+            {%- if b.image != blank -%}
               {{ b.image | image_url: width: 720 | image_tag: loading: 'lazy', widths: '360,540,720', sizes: '(min-width: 990px) 16vw, (min-width: 750px) 30vw, 45vw', alt: b.title }}
-            </div>
-            <span class="ohs-tile__shade" aria-hidden="true"></span>
-          {%- endif -%}
+            {%- else -%}
+              {% render 'ohs-asset-img', file: fallback, alt: b.title %}
+            {%- endif -%}
+          </div>
+          <span class="ohs-tile__shade" aria-hidden="true"></span>
           <div class="ohs-tile__body">
             {%- if b.label != blank -%}<p class="ohs-tile__label">{{ b.label | escape }}</p>{%- endif -%}
             <h3 class="ohs-tile__title">{{ b.title | escape }}</h3>
@@ -67,6 +90,7 @@
         { "type": "collection", "id": "collection", "label": "Collection" },
         { "type": "url", "id": "link", "label": "Custom link" },
         { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "asset_file", "label": "Fallback asset filename", "default": "ohs-age-0-6.jpg" },
         {
           "type": "select",
           "id": "tone",

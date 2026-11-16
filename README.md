@@ -42,3 +42,14 @@ locales/
 ```
 
 See `THEME-UPDATE.md` and `docs/UPLOAD-GUIDE.md`.
+
+## Demo catalog + images
+
+Premium lifestyle/product images are stored in `assets/ohs-*.jpg`.
+
+Import demo data from the `demo/` folder:
+
+1. `demo/products.csv` ? Admin ? Products ? Import
+2. Create collections using handles in `demo/collections.csv` (or automated collections by product tags)
+3. After import, homepage grids automatically prefer live collections when they contain products
+

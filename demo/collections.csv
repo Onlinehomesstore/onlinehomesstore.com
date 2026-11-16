@@ -1,0 +1,32 @@
+Handle,Title,Body (HTML),Published,Sort Order,Template Suffix,Image Src
+baby-toys,Baby Toys,"<p>Gentle first toys for tiny hands and curious minds.</p>",TRUE,Best-selling,,https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=1400&q=85
+rattles-teethers,Rattles & Teethers,"<p>Soothing textures and simple sounds for early play.</p>",TRUE,Best-selling,,https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?auto=format&fit=crop&w=1400&q=85
+soft-plush-toys,Soft & Plush Toys,"<p>Cuddly companions for comfort and imaginative play.</p>",TRUE,Best-selling,,https://images.unsplash.com/photo-1558060370-d644479cb6f7?auto=format&fit=crop&w=1400&q=85
+musical-toys,Musical Toys,"<p>Rhythm, melody and joyful sound discovery.</p>",TRUE,Best-selling,,https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=1400&q=85
+sensory-toys,Sensory Toys,"<p>Textures, colours and shapes that invite exploration.</p>",TRUE,Best-selling,,https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&w=1400&q=85
+activity-gyms-play-mats,Activity Gyms & Play Mats,"<p>Comfortable spaces for tummy time and early movement.</p>",TRUE,Best-selling,,https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=1400&q=85
+educational-toys,Educational Toys,"<p>Playful tools that encourage curiosity and problem-solving.</p>",TRUE,Best-selling,,https://images.unsplash.com/photo-1587654780291-39c9404d746b?auto=format&fit=crop&w=1400&q=85
+wooden-toys,Wooden Toys,"<p>Timeless, tactile toys with a natural feel.</p>",TRUE,Best-selling,,https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&w=1400&q=85
+building-blocks,Building Blocks,"<p>Stack, build and create with open-ended play.</p>",TRUE,Best-selling,,https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=1400&q=85
+bath-toys,Bath Toys,"<p>Splashy fun that makes bathtime brighter.</p>",TRUE,Best-selling,,https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1400&q=85
+pretend-play,Pretend Play,"<p>Role-play sets for storytelling and creativity.</p>",TRUE,Best-selling,,https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=1400&q=85
+puzzles-games,Puzzles & Games,"<p>Quiet-time favourites for focus and family fun.</p>",TRUE,Best-selling,,https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=1400&q=85
+baby-gift-sets,Baby Gift Sets,"<p>Thoughtful gift-ready sets for little celebrations.</p>",TRUE,Best-selling,,https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=1400&q=85
+new-arrivals,New Arrivals,"<p>Fresh finds for playtime, learning and gifting.</p>",TRUE,Created-descending,,https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?auto=format&fit=crop&w=1400&q=85
+best-sellers,Best Sellers,"<p>Popular toys loved by families.</p>",TRUE,Best-selling,,https://images.unsplash.com/photo-1558060370-d644479cb6f7?auto=format&fit=crop&w=1400&q=85
+0-6-months,0–6 Months,"<p>Thoughtful toys for the earliest stage.</p>",TRUE,Best-selling,,https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?auto=format&fit=crop&w=1400&q=85
+6-12-months,6–12 Months,"<p>Play pieces for growing curiosity.</p>",TRUE,Best-selling,,https://images.unsplash.com/photo-1555252333-9f8e92e65df9?auto=format&fit=crop&w=1400&q=85
+1-2-years,1–2 Years,"<p>Active play for busy toddlers.</p>",TRUE,Best-selling,,https://images.unsplash.com/photo-1587654780291-39c9404d746b?auto=format&fit=crop&w=1400&q=85
+2-3-years,2–3 Years,"<p>Creative toys for expanding imaginations.</p>",TRUE,Best-selling,,https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&w=1400&q=85
+3-5-years,3–5 Years,"<p>Learning and pretend play favourites.</p>",TRUE,Best-selling,,https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=1400&q=85
+5-plus-years,5+ Years,"<p>Toys for growing minds and bigger adventures.</p>",TRUE,Best-selling,,https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=1400&q=85
+birthday-gifts,Birthday Gifts,"<p>Gift ideas for birthday celebrations.</p>",TRUE,Best-selling,,https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=1400&q=85
+baby-shower-gifts,Baby Shower Gifts,"<p>Welcome gifts for baby celebrations.</p>",TRUE,Best-selling,,https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?auto=format&fit=crop&w=1400&q=85
+newborn-gifts,Newborn Gifts,"<p>Soft and thoughtful gifts for newborns.</p>",TRUE,Best-selling,,https://images.unsplash.com/photo-1555252333-9f8e92e65df9?auto=format&fit=crop&w=1400&q=85
+everyday-gifts,Everyday Surprises,"<p>Small joyful gifts for any day.</p>",TRUE,Best-selling,,https://images.unsplash.com/photo-1558060370-d644479cb6f7?auto=format&fit=crop&w=1400&q=85
+little-explorers,Little Explorers,"<p>Toys that invite adventure and discovery.</p>",TRUE,Best-selling,,https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=1400&q=85
+first-toys,First Toys,"<p>Beautiful beginnings for brand-new players.</p>",TRUE,Best-selling,,https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?auto=format&fit=crop&w=1400&q=85
+learning-through-play,Learning Through Play,"<p>Educational favourites that keep play joyful.</p>",TRUE,Best-selling,,https://images.unsplash.com/photo-1587654780291-39c9404d746b?auto=format&fit=crop&w=1400&q=85
+wooden-wonders,Wooden Wonders,"<p>Natural, tactile wooden classics.</p>",TRUE,Best-selling,,https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&w=1400&q=85
+soft-and-cuddly,Soft & Cuddly,"<p>Plush companions for comfort and love.</p>",TRUE,Best-selling,,https://images.unsplash.com/photo-1558060370-d644479cb6f7?auto=format&fit=crop&w=1400&q=85
+perfect-little-gifts,Perfect Little Gifts,"<p>Gift-ready picks for every little occasion.</p>",TRUE,Best-selling,,https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=1400&q=85

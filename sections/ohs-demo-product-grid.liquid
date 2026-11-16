@@ -1,0 +1,230 @@
+{%- comment -%}
+  Demo / live product grid for Online Homes Store.
+  Uses a real collection when products exist; otherwise renders curated demo cards with theme assets.
+{%- endcomment -%}
+{{ 'ohs-brand-override.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign s = section.settings
+  assign collection = collections[s.collection]
+  assign use_live = false
+  if collection != blank and collection.products_count > 0
+    assign use_live = true
+  endif
+-%}
+
+<section class="ohs-section ohs-demo-grid" id="OhsDemoGrid-{{ section.id }}" style="{% if s.background != blank %}background:{{ s.background }};{% endif %}">
+  <div class="ohs-section__inner">
+    <header class="ohs-section__head ohs-demo-grid__head" data-uc-reveal>
+      <div>
+        {%- if s.eyebrow != blank -%}<p class="ohs-section__eyebrow">{{ s.eyebrow | escape }}</p>{%- endif -%}
+        {%- if s.heading != blank -%}<h2 class="ohs-section__heading">{{ s.heading | escape }}</h2>{%- endif -%}
+        {%- if s.description != blank -%}<p class="ohs-section__desc">{{ s.description | escape }}</p>{%- endif -%}
+      </div>
+      {%- if s.view_all_label != blank -%}
+        <a class="ohs-demo-grid__viewall" href="{{ s.view_all_link | default: routes.all_products_collection_url }}">{{ s.view_all_label | escape }}</a>
+      {%- endif -%}
+    </header>
+
+    <div class="ohs-demo-grid__grid">
+      {%- if use_live -%}
+        {%- for product in collection.products limit: s.products_to_show -%}
+          <article class="ohs-demo-card" data-uc-reveal>
+            <a class="ohs-demo-card__media" href="{{ product.url }}">
+              {%- if product.featured_media -%}
+                {{ product.featured_media | image_url: width: 900 | image_tag: loading: 'lazy', widths: '400,600,900', sizes: '(min-width: 990px) 22vw, 45vw', alt: product.title }}
+              {%- else -%}
+                {% render 'ohs-asset-img', file: 'ohs-prod-1.jpg', alt: product.title, class: 'ohs-demo-card__img' %}
+              {%- endif -%}
+            </a>
+            <div class="ohs-demo-card__body">
+              <h3 class="ohs-demo-card__title"><a href="{{ product.url }}">{{ product.title }}</a></h3>
+              <p class="ohs-demo-card__price">{{ product.price | money }}</p>
+              {%- if product.available -%}
+                <form method="post" action="{{ routes.cart_add_url }}" class="ohs-demo-card__form">
+                  <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                  <button type="submit" class="ohs-demo-card__btn">Add to cart</button>
+                </form>
+              {%- else -%}
+                <span class="ohs-demo-card__btn ohs-demo-card__btn--disabled">Sold out</span>
+              {%- endif -%}
+            </div>
+          </article>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for block in section.blocks limit: s.products_to_show -%}
+          {%- assign b = block.settings -%}
+          <article class="ohs-demo-card" {{ block.shopify_attributes }} data-uc-reveal>
+            <a class="ohs-demo-card__media" href="{{ b.link | default: routes.all_products_collection_url }}">
+              {%- if b.image != blank -%}
+                {{ b.image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '400,600,900', sizes: '(min-width: 990px) 22vw, 45vw', alt: b.title }}
+              {%- else -%}
+                {% render 'ohs-asset-img', file: b.asset_file, alt: b.title, class: 'ohs-demo-card__img' %}
+              {%- endif -%}
+              {%- if b.badge != blank -%}<span class="ohs-demo-card__badge">{{ b.badge | escape }}</span>{%- endif -%}
+            </a>
+            <div class="ohs-demo-card__body">
+              <h3 class="ohs-demo-card__title"><a href="{{ b.link | default: routes.all_products_collection_url }}">{{ b.title | escape }}</a></h3>
+              <p class="ohs-demo-card__price">
+                {%- if b.compare_price != blank -%}<span class="ohs-demo-card__compare">{{ b.compare_price | escape }}</span>{%- endif -%}
+                {{ b.price | escape }}
+              </p>
+              <a class="ohs-demo-card__btn" href="{{ b.link | default: routes.all_products_collection_url }}">View product</a>
+            </div>
+          </article>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<style>
+  #OhsDemoGrid-{{ section.id }} .ohs-demo-grid__head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    max-width: none;
+  }
+  #OhsDemoGrid-{{ section.id }} .ohs-demo-grid__viewall {
+    color: #C98770;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  #OhsDemoGrid-{{ section.id }} .ohs-demo-grid__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+  @media (min-width: 750px) {
+    #OhsDemoGrid-{{ section.id }} .ohs-demo-grid__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 990px) {
+    #OhsDemoGrid-{{ section.id }} .ohs-demo-grid__grid {
+      grid-template-columns: repeat({{ s.columns_desktop | default: 4 }}, minmax(0, 1fr));
+    }
+  }
+  #OhsDemoGrid-{{ section.id }} .ohs-demo-card {
+    background: #fff;
+    border: 1px solid rgba(41,45,43,0.06);
+    border-radius: 18px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  #OhsDemoGrid-{{ section.id }} .ohs-demo-card__media {
+    position: relative;
+    display: block;
+    aspect-ratio: 1;
+    background: #F8F5EE;
+    overflow: hidden;
+  }
+  #OhsDemoGrid-{{ section.id }} .ohs-demo-card__media img,
+  #OhsDemoGrid-{{ section.id }} .ohs-demo-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  #OhsDemoGrid-{{ section.id }} .ohs-demo-card__badge {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    background: #C98770;
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.55rem;
+    border-radius: 999px;
+  }
+  #OhsDemoGrid-{{ section.id }} .ohs-demo-card__body {
+    padding: 1rem 1.05rem 1.15rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    flex: 1;
+  }
+  #OhsDemoGrid-{{ section.id }} .ohs-demo-card__title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+  #OhsDemoGrid-{{ section.id }} .ohs-demo-card__title a {
+    color: #292D2B;
+    text-decoration: none;
+  }
+  #OhsDemoGrid-{{ section.id }} .ohs-demo-card__price {
+    margin: 0;
+    color: #292D2B;
+    font-weight: 600;
+  }
+  #OhsDemoGrid-{{ section.id }} .ohs-demo-card__compare {
+    color: #A0A39F;
+    text-decoration: line-through;
+    font-weight: 500;
+    margin-right: 0.4rem;
+  }
+  #OhsDemoGrid-{{ section.id }} .ohs-demo-card__btn {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    border-radius: 999px;
+    background: #C98770;
+    color: #fff !important;
+    text-decoration: none;
+    border: 0;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+  #OhsDemoGrid-{{ section.id }} .ohs-demo-card__btn--disabled {
+    background: #EDE5D9;
+    color: #777D78 !important;
+    cursor: default;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "OHS Product Grid",
+  "tag": "section",
+  "class": "ohs-demo-product-grid",
+  "max_blocks": 16,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "PARENT FAVOURITES" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Best Sellers" },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "Popular picks for playtime, learning and gifting." },
+    { "type": "collection", "id": "collection", "label": "Live collection (used when it has products)" },
+    { "type": "range", "id": "products_to_show", "min": 4, "max": 16, "step": 1, "label": "Products to show", "default": 8 },
+    { "type": "range", "id": "columns_desktop", "min": 2, "max": 4, "step": 1, "label": "Columns desktop", "default": 4 },
+    { "type": "text", "id": "view_all_label", "label": "View all label", "default": "Shop all" },
+    { "type": "url", "id": "view_all_link", "label": "View all link" },
+    { "type": "color", "id": "background", "label": "Background", "default": "#FFFDF8" }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Demo product",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Soft Cloud Plush" },
+        { "type": "text", "id": "price", "label": "Price", "default": "$24.00" },
+        { "type": "text", "id": "compare_price", "label": "Compare-at price" },
+        { "type": "text", "id": "badge", "label": "Badge" },
+        { "type": "text", "id": "asset_file", "label": "Fallback asset filename", "default": "ohs-prod-1.jpg" },
+        { "type": "image_picker", "id": "image", "label": "Image override" },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "OHS Product Grid" }]
+}
+{% endschema %}
