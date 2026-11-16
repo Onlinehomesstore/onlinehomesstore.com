@@ -1,9 +1,3 @@
-/*
- * ------------------------------------------------------------
- * Online Homes Store — Materials & Care guide page
- * (template filename retained for existing page assignments)
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "intro": {
@@ -67,7 +61,12 @@
           }
         }
       },
-      "block_order": ["t1", "t2", "t3", "t4"],
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4"
+      ],
       "settings": {
         "eyebrow": "QUICK TIPS",
         "heading": "Simple habits for confident shopping",
@@ -79,5 +78,9 @@
       }
     }
   },
-  "order": ["intro", "content", "tips"]
+  "order": [
+    "intro",
+    "content",
+    "tips"
+  ]
 }

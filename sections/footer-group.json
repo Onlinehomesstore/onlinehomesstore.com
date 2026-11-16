@@ -1,8 +1,3 @@
-/*
- * ------------------------------------------------------------
- * Online Homes Store — Footer group
- * ------------------------------------------------------------
- */
 {
   "name": "t:sections.footer.name",
   "type": "footer",
@@ -21,7 +16,7 @@
         "accent_color": "#C98770",
         "divider_color": "#E8E2D8",
         "bottom_bg": "#F8F5EE",
-        "grid_cols": "1.4fr 1fr 1.1fr 1.3fr",
+        "grid_cols": "1.8fr 1fr 1fr 1fr 1.4fr",
         "show_newsletter": true,
         "nl_bg": "#FFFFFF",
         "nl_text_color": "#292D2B",

@@ -1,8 +1,3 @@
-/*
- * ------------------------------------------------------------
- * Online Homes Store — Contact page
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "main": {
@@ -76,7 +71,12 @@
           }
         }
       },
-      "block_order": ["ch_support", "ch_sales", "ch_wholesale", "ch_business"],
+      "block_order": [
+        "ch_support",
+        "ch_sales",
+        "ch_wholesale",
+        "ch_business"
+      ],
       "settings": {
         "use_global_colors": true,
         "card_radius": 20,
@@ -129,9 +129,12 @@
           }
         }
       },
-      "block_order": ["fq1", "fq2", "fq3"],
+      "block_order": [
+        "fq1",
+        "fq2",
+        "fq3"
+      ],
       "settings": {
-        "use_global_colors": true,
         "heading": "Common questions",
         "subtitle": "Quick answers before you send a message.",
         "show_search": false,
@@ -164,5 +167,13 @@
       }
     }
   },
-  "order": ["hero", "channels", "inquiry", "faq_preview", "cta", "main", "form_legacy"]
+  "order": [
+    "hero",
+    "channels",
+    "inquiry",
+    "faq_preview",
+    "cta",
+    "main",
+    "form_legacy"
+  ]
 }

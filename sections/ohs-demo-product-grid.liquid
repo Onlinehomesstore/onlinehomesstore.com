@@ -6,7 +6,7 @@
 
 {%- liquid
   assign s = section.settings
-  assign collection = collections[s.collection]
+  assign collection = s.collection
   assign use_live = false
   if collection != blank and collection.products_count > 0
     assign use_live = true

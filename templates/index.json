@@ -1,12 +1,30 @@
-/*
- * ------------------------------------------------------------
- * Online Homes Store — Baby Toys homepage (demo media)
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "uc_hero_home": {
       "type": "uc-editorial-hero",
+      "settings": {
+        "container_width": 1720,
+        "gutter": 8,
+        "header_gap": 0,
+        "corner_radius": 28,
+        "height_desktop": 760,
+        "height_tablet": 600,
+        "height_mobile": 560,
+        "content_width": 560,
+        "enable_overlay": true,
+        "overlay_opacity": 18,
+        "overlay_direction": "right",
+        "heading_size": 36,
+        "heading_size_mobile": 28,
+        "accent_color": "#C98770",
+        "autoplay": true,
+        "autoplay_speed": 7,
+        "transition_speed": 700,
+        "show_arrows": true,
+        "show_dots": true,
+        "ken_burns": false
+      },
+      "name": "Home hero",
       "blocks": {
         "slide_1": {
           "type": "slide",
@@ -46,33 +64,48 @@
       "block_order": [
         "slide_1",
         "slide_2"
-      ],
-      "name": "Home hero",
-      "settings": {
-        "container_width": 1720,
-        "gutter": 8,
-        "header_gap": 0,
-        "corner_radius": 28,
-        "height_desktop": 760,
-        "height_tablet": 600,
-        "height_mobile": 560,
-        "content_width": 560,
-        "enable_overlay": true,
-        "overlay_opacity": 18,
-        "overlay_direction": "right",
-        "heading_size": 36,
-        "heading_size_mobile": 28,
-        "accent_color": "#C98770",
-        "autoplay": true,
-        "autoplay_speed": 7,
-        "transition_speed": 700,
-        "show_arrows": true,
-        "show_dots": true,
-        "ken_burns": false
-      }
+      ]
     },
     "category_showcase": {
       "type": "category-showcase",
+      "settings": {
+        "subheading": "EXPLORE",
+        "heading": "Shop by Category",
+        "description": "<p>Browse baby toys, learning play, soft companions and gift-ready favourites.</p>",
+        "button_label": "Shop All",
+        "button_link": "/collections/all",
+        "header_button_style": "secondary",
+        "columns_desktop": 4,
+        "columns_tablet": 2,
+        "columns_mobile": "1",
+        "full_width": false,
+        "container_width": 1440,
+        "card_gap": 20,
+        "image_ratio": 115,
+        "image_object_fit": "cover",
+        "card_radius": 20,
+        "card_shadow": 12,
+        "overlay_strength": 30,
+        "color_scheme": "scheme-1",
+        "enable_slider": true,
+        "enable_hover": true,
+        "enable_image_zoom": true,
+        "enable_animation": true,
+        "enable_gradient": true,
+        "enable_badge": true,
+        "enable_description": true,
+        "enable_count": false,
+        "enable_button": true,
+        "enable_lazy": true,
+        "show_arrows": true,
+        "show_pagination": true,
+        "slider_loop": true,
+        "autoplay": false,
+        "padding_top": 56,
+        "padding_bottom": 40,
+        "use_global_colors": true
+      },
+      "name": "Shop by Category",
       "blocks": {
         "cat_baby": {
           "type": "category",
@@ -225,48 +258,21 @@
         "cat_bath",
         "cat_pretend",
         "cat_puzzles"
-      ],
-      "name": "Shop by Category",
-      "settings": {
-        "subheading": "EXPLORE",
-        "heading": "Shop by Category",
-        "description": "<p>Browse baby toys, learning play, soft companions and gift-ready favourites.</p>",
-        "button_label": "Shop All",
-        "button_link": "/collections/all",
-        "header_button_style": "secondary",
-        "columns_desktop": 4,
-        "columns_tablet": 2,
-        "columns_mobile": "1",
-        "full_width": false,
-        "container_width": 1440,
-        "card_gap": 20,
-        "image_ratio": 115,
-        "image_object_fit": "cover",
-        "card_radius": 20,
-        "card_shadow": 12,
-        "overlay_strength": 30,
-        "color_scheme": "scheme-1",
-        "enable_slider": true,
-        "enable_hover": true,
-        "enable_image_zoom": true,
-        "enable_animation": true,
-        "enable_gradient": true,
-        "enable_badge": true,
-        "enable_description": true,
-        "enable_count": false,
-        "enable_button": true,
-        "enable_lazy": true,
-        "show_arrows": true,
-        "show_pagination": true,
-        "slider_loop": true,
-        "autoplay": false,
-        "padding_top": 56,
-        "padding_bottom": 40,
-        "use_global_colors": true
-      }
+      ]
     },
     "best_sellers": {
       "type": "ohs-demo-product-grid",
+      "settings": {
+        "eyebrow": "PARENT FAVOURITES",
+        "heading": "Best Sellers",
+        "description": "Popular picks for playtime, learning and gifting.",
+        "collection": "best-sellers",
+        "products_to_show": 8,
+        "columns_desktop": 4,
+        "view_all_label": "View Best Sellers",
+        "view_all_link": "/collections/best-sellers",
+        "background": "#FFFDF8"
+      },
       "blocks": {
         "p1": {
           "type": "product",
@@ -358,21 +364,16 @@
         "p6",
         "p7",
         "p8"
-      ],
-      "settings": {
-        "eyebrow": "PARENT FAVOURITES",
-        "heading": "Best Sellers",
-        "description": "Popular picks for playtime, learning and gifting.",
-        "collection": "best-sellers",
-        "products_to_show": 8,
-        "columns_desktop": 4,
-        "view_all_label": "View Best Sellers",
-        "view_all_link": "/collections/best-sellers",
-        "background": "#FFFDF8"
-      }
+      ]
     },
     "shop_by_age": {
       "type": "ohs-shop-by-age",
+      "settings": {
+        "eyebrow": "SHOP BY AGE",
+        "heading": "Find play that fits every stage.",
+        "description": "Browse thoughtful toys chosen for each early milestone.",
+        "background": "#FFFDF8"
+      },
       "blocks": {
         "age_0_6": {
           "type": "age",
@@ -436,16 +437,30 @@
         "age_2_3",
         "age_3_5",
         "age_5"
-      ],
-      "settings": {
-        "eyebrow": "SHOP BY AGE",
-        "heading": "Find play that fits every stage.",
-        "description": "Browse thoughtful toys chosen for each early milestone.",
-        "background": "#FFFDF8"
-      }
+      ]
     },
     "why_parents": {
       "type": "uc-feature-cards",
+      "settings": {
+        "eyebrow": "WHY PARENTS CHOOSE US",
+        "heading": "Simple, trusted shopping for little joy.",
+        "subheading": "Designed to feel calm, clear and helpful from first click to checkout.",
+        "columns": 4,
+        "columns_mobile": 1,
+        "card_gap": 20,
+        "card_radius": 18,
+        "padding_top": 48,
+        "padding_bottom": 48,
+        "accent_color": "#C98770",
+        "icon_color": "#C98770",
+        "icon_bg": "rgba(201,135,112,0.12)",
+        "card_bg": "#FFFFFF",
+        "title_color": "#292D2B",
+        "desc_color": "#777D78",
+        "background_color": "#F8F5EE",
+        "card_style": "soft",
+        "card_layout": "stacked"
+      },
       "blocks": {
         "f1": {
           "type": "feature",
@@ -485,31 +500,16 @@
         "f2",
         "f3",
         "f4"
-      ],
-      "settings": {
-        "eyebrow": "WHY PARENTS CHOOSE US",
-        "heading": "Simple, trusted shopping for little joy.",
-        "subheading": "Designed to feel calm, clear and helpful from first click to checkout.",
-        "columns": 4,
-        "columns_tablet": 2,
-        "columns_mobile": 1,
-        "card_gap": 20,
-        "card_radius": 18,
-        "padding_top": 48,
-        "padding_bottom": 48,
-        "accent_color": "#C98770",
-        "icon_color": "#C98770",
-        "icon_bg": "rgba(201,135,112,0.12)",
-        "card_bg": "#FFFFFF",
-        "title_color": "#292D2B",
-        "desc_color": "#777D78",
-        "background_color": "#F8F5EE",
-        "card_style": "soft",
-        "card_layout": "column"
-      }
+      ]
     },
     "featured_collections": {
       "type": "ohs-featured-collections",
+      "settings": {
+        "eyebrow": "COLLECTIONS",
+        "heading": "Featured Collections",
+        "description": "Curated edits for explorers, first toys, wooden wonders and soft cuddles.",
+        "background": "#FFFDF8"
+      },
       "blocks": {
         "fc1": {
           "type": "collection_card",
@@ -567,16 +567,21 @@
         "fc4",
         "fc5",
         "fc6"
-      ],
-      "settings": {
-        "eyebrow": "COLLECTIONS",
-        "heading": "Featured Collections",
-        "description": "Curated edits for explorers, first toys, wooden wonders and soft cuddles.",
-        "background": "#FFFDF8"
-      }
+      ]
     },
     "new_arrivals": {
       "type": "ohs-demo-product-grid",
+      "settings": {
+        "eyebrow": "JUST IN",
+        "heading": "New Arrivals",
+        "description": "Fresh finds ready for playtime, gifting and everyday discovery.",
+        "collection": "new-arrivals",
+        "products_to_show": 8,
+        "columns_desktop": 4,
+        "view_all_label": "Shop New Arrivals",
+        "view_all_link": "/collections/new-arrivals",
+        "background": "#FFFDF8"
+      },
       "blocks": {
         "n1": {
           "type": "product",
@@ -669,18 +674,7 @@
         "n6",
         "n7",
         "n8"
-      ],
-      "settings": {
-        "eyebrow": "JUST IN",
-        "heading": "New Arrivals",
-        "description": "Fresh finds ready for playtime, gifting and everyday discovery.",
-        "collection": "new-arrivals",
-        "products_to_show": 8,
-        "columns_desktop": 4,
-        "view_all_label": "Shop New Arrivals",
-        "view_all_link": "/collections/new-arrivals",
-        "background": "#FFFDF8"
-      }
+      ]
     },
     "educational_play": {
       "type": "ohs-educational-play",
@@ -696,6 +690,12 @@
     },
     "gift_shopping": {
       "type": "ohs-gift-shopping",
+      "settings": {
+        "eyebrow": "GIFTS",
+        "heading": "Find Something Special for Every Little One.",
+        "description": "Thoughtful gift ideas for birthdays, baby showers, newcomers and everyday joy.",
+        "background": "#F8F5EE"
+      },
       "blocks": {
         "g1": {
           "type": "gift",
@@ -735,13 +735,7 @@
         "g2",
         "g3",
         "g4"
-      ],
-      "settings": {
-        "eyebrow": "GIFTS",
-        "heading": "Find Something Special for Every Little One.",
-        "description": "Thoughtful gift ideas for birthdays, baby showers, newcomers and everyday joy.",
-        "background": "#F8F5EE"
-      }
+      ]
     },
     "newsletter": {
       "type": "uc-newsletter-banner",

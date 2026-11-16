@@ -1,8 +1,3 @@
-/*
- * ------------------------------------------------------------
- * Online Homes Store — Product template
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "premium_product_hero": {
@@ -51,7 +46,7 @@
         "delivery_6": {
           "type": "delivery_card",
           "settings": {
-            "icon": "sparkles",
+            "icon": "truck",
             "heading": "Easy to browse",
             "description": "Clear product details to help you choose with confidence."
           }

@@ -1,8 +1,3 @@
-/*
- * ------------------------------------------------------------
- * Online Homes Store — About page
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "hero": {
@@ -115,7 +110,12 @@
           }
         }
       },
-      "block_order": ["v1", "v2", "v3", "v4"],
+      "block_order": [
+        "v1",
+        "v2",
+        "v3",
+        "v4"
+      ],
       "settings": {
         "eyebrow": "WHAT WE STAND FOR",
         "heading": "Values that guide every page",
@@ -128,5 +128,11 @@
       }
     }
   },
-  "order": ["hero", "story", "philosophy", "mission", "values"]
+  "order": [
+    "hero",
+    "story",
+    "philosophy",
+    "mission",
+    "values"
+  ]
 }

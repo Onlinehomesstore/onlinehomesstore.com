@@ -1,16 +1,14 @@
-{%- doc -%}
+{%- comment -%}
   Renders a theme asset image by filename (e.g. ohs-hero-1.jpg).
-  @param {string} file - Asset filename
-  @param {string} [alt] - Alt text
-  @param {string} [class] - CSS class
-  @param {string} [loading] - lazy | eager
-  @param {string} [sizes] - sizes attribute
-{%- enddoc -%}
+  Params: file, alt, class, loading, sizes
+{%- endcomment -%}
 {%- if file != blank -%}
   <img
     class="{{ class }}"
     src="{{ file | asset_url }}"
     alt="{{ alt | default: shop.name | escape }}"
+    width="1200"
+    height="1200"
     loading="{{ loading | default: 'lazy' }}"
     decoding="async"
     {% if sizes != blank %}sizes="{{ sizes }}"{% endif %}

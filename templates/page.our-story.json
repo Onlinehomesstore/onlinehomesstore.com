@@ -1,8 +1,3 @@
-/*
- * ------------------------------------------------------------
- * Online Homes Store — Our Story page
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "hero": {
@@ -67,5 +62,10 @@
       }
     }
   },
-  "order": ["hero", "beginning", "today", "cta"]
+  "order": [
+    "hero",
+    "beginning",
+    "today",
+    "cta"
+  ]
 }
