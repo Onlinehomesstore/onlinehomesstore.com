@@ -1,0 +1,19 @@
+{% comment %}
+ uc-org-schema.liquid - Organization JSON-LD (optional on brand pages).
+{% endcomment %}
+{%- if shop.name != blank -%}
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "Organization",
+ "name": {{ shop.name | json }},
+ "url": {{ shop.url | json }}
+ {%- if shop.description != blank -%},
+ "description": {{ shop.description | strip_html | json }}
+ {%- endif -%}
+ {%- if settings.logo != blank -%},
+ "logo": {{ settings.logo | image_url: width: 512 | json }}
+ {%- endif -%}
+}
+</script>
+{%- endif -%}

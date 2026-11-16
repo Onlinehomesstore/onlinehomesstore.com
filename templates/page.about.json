@@ -1,0 +1,132 @@
+/*
+ * ------------------------------------------------------------
+ * Online Homes Store — About page
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "uc-page-intro",
+      "settings": {
+        "eyebrow": "ABOUT US",
+        "heading": "Online Homes Store",
+        "tagline": "A trusted, delightful destination for parents looking for quality toys, learning products, sensory play and meaningful gifts for babies and young children.",
+        "padding_top": 0,
+        "padding_bottom": 12,
+        "use_global_colors": true,
+        "color_scheme": ""
+      }
+    },
+    "story": {
+      "type": "uc-narrative",
+      "settings": {
+        "layout_style": "split",
+        "image_position": "left",
+        "layout_alternate": false,
+        "lock_media_frame": true,
+        "media_placeholder": "lifestyle-1",
+        "image_alt": "",
+        "media_badge": "",
+        "eyebrow": "OUR BEGINNING",
+        "heading": "Built for little moments that matter",
+        "body": "<p>Online Homes Store was created to make finding beautiful, practical toys feel simple. We focus on calm browsing, clear categories and products that support everyday play.</p><p>From first rattles to wooden classics and soft companions, every edit is chosen to feel thoughtful, useful and gift-ready.</p>",
+        "button_label": "Shop All Toys",
+        "button_link": "/collections/all",
+        "button_secondary_label": "",
+        "button_secondary_link": "",
+        "media_radius": 24,
+        "media_aspect_ratio": "1 / 1",
+        "media_aspect_ratio_mobile": "1 / 1",
+        "media_object_fit": "cover",
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "use_global_colors": true
+      }
+    },
+    "philosophy": {
+      "type": "uc-narrative",
+      "settings": {
+        "layout_style": "statement",
+        "image_position": "left",
+        "layout_alternate": false,
+        "lock_media_frame": true,
+        "media_placeholder": "lifestyle-1",
+        "eyebrow": "OUR PHILOSOPHY",
+        "heading": "Quality play should feel simple",
+        "body": "<p>We believe shopping for children should feel calm and clear. Our store highlights thoughtfully selected toys that invite imagination, exploration and joyful everyday play — without clutter, noise or overpromise.</p>",
+        "media_radius": 20,
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "use_global_colors": true
+      }
+    },
+    "mission": {
+      "type": "uc-narrative",
+      "settings": {
+        "layout_style": "split",
+        "image_position": "left",
+        "layout_alternate": true,
+        "lock_media_frame": true,
+        "media_placeholder": "lifestyle-2",
+        "eyebrow": "OUR MISSION",
+        "heading": "Help parents discover play with confidence",
+        "body": "<p>We aim to make it easier to find age-appropriate toys, educational favourites and lovely gifts in one welcoming place. Clear navigation, secure checkout and helpful support sit at the heart of the experience.</p>",
+        "button_label": "Explore Educational Toys",
+        "button_link": "/collections/educational-toys",
+        "media_radius": 24,
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "use_global_colors": true
+      }
+    },
+    "values": {
+      "type": "uc-feature-cards",
+      "blocks": {
+        "v1": {
+          "type": "feature",
+          "settings": {
+            "icon": "heart",
+            "title": "Thoughtful curation",
+            "description": "Products selected for everyday play, learning and gifting."
+          }
+        },
+        "v2": {
+          "type": "feature",
+          "settings": {
+            "icon": "sparkles",
+            "title": "Calm shopping",
+            "description": "A clean layout that helps you find the right toy quickly."
+          }
+        },
+        "v3": {
+          "type": "feature",
+          "settings": {
+            "icon": "lock",
+            "title": "Secure checkout",
+            "description": "Shopify-powered payments you can trust."
+          }
+        },
+        "v4": {
+          "type": "feature",
+          "settings": {
+            "icon": "message-circle",
+            "title": "Helpful support",
+            "description": "Friendly guidance when you need product or order help."
+          }
+        }
+      },
+      "block_order": ["v1", "v2", "v3", "v4"],
+      "settings": {
+        "eyebrow": "WHAT WE STAND FOR",
+        "heading": "Values that guide every page",
+        "subheading": "Trust, simplicity and joyful play.",
+        "columns": 4,
+        "background_color": "#F8F5EE",
+        "accent_color": "#C98770",
+        "icon_color": "#C98770",
+        "icon_bg": "rgba(201,135,112,0.12)"
+      }
+    }
+  },
+  "order": ["hero", "story", "philosophy", "mission", "values"]
+}

@@ -1,0 +1,5 @@
+# Shopify CLI / GitHub integration — theme root is this repository.
+# Shopify Connect from GitHub requires layout/, config/, templates/ at branch root.
+
+[theme]
+name = "UNIK Care"

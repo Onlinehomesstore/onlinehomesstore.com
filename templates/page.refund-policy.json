@@ -1,0 +1,81 @@
+/*
+ * ------------------------------------------------------------
+ * Online Homes Store — legal / policy template
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "uc-legal-page",
+      "blocks": {
+        "eligibility": {
+          "type": "section",
+          "settings": {
+            "eyebrow": "Change of mind",
+            "heading": "Change of mind",
+            "content": "<p>If you buy online you have 14 days from the day you receive the order to cancel, under the Consumer Contracts Regulations 2013.</p><ul><li>Tell us you want to cancel within those 14 days.</li><li>Send the item back within 14 days of telling us.</li><li>The item should be unused, unopened, and in its original pack where this is possible.</li></ul>"
+          }
+        },
+        "faulty": {
+          "type": "section",
+          "settings": {
+            "eyebrow": "Faulty items",
+            "heading": "Faulty items",
+            "content": "<p>If an item is faulty, not as described, or not fit for use, the Consumer Rights Act 2015 gives you extra rights. You may ask for a repair, replacement, or refund. These rights are not limited by the 14-day window above.</p>"
+          }
+        },
+        "non_refundable": {
+          "type": "section",
+          "settings": {
+            "eyebrow": "What we cannot take back",
+            "heading": "What we cannot take back (change of mind)",
+            "content": "<ul><li>Opened or used products, for hygiene reasons, unless they are faulty.</li><li>Items not bought from onlinehomesstore.com.</li><li>Change-of-mind returns sent after the legal time limits.</li></ul>"
+          }
+        },
+        "how_to": {
+          "type": "section",
+          "settings": {
+            "eyebrow": "How to return",
+            "heading": "How to return",
+            "content": "<ul><li>Email <a href=\"mailto:info@onlinehomesstore.com\">info@onlinehomesstore.com</a> with your order number and why you want to return.</li><li>We will reply with the return steps.</li><li>For a change of mind, you pay the return postage unless the item is faulty.</li></ul>"
+          }
+        },
+        "process": {
+          "type": "section",
+          "settings": {
+            "eyebrow": "Refund timing",
+            "heading": "Refund timing",
+            "content": "<ul><li>We refund to the same payment method you used.</li><li>For a change of mind we refund within 14 days of getting the item back, or of proof you sent it, whichever is first.</li><li>Faulty-item refunds follow UK consumer law.</li></ul>"
+          }
+        }
+      },
+      "block_order": [
+        "eligibility",
+        "faulty",
+        "non_refundable",
+        "how_to",
+        "process"
+      ],
+      "settings": {
+        "eyebrow": "Refund policy",
+        "heading": "Refund Policy",
+        "effective_date": "17 October 2026",
+        "markets_note": "This policy follows the Consumer Rights Act 2015 and the Consumer Contracts Regulations 2013.",
+        "intro": "<p>This page explains how returns and refunds work for orders from onlinehomesstore.com.</p>",
+        "use_page_content": false,
+        "show_contact_details": true,
+        "show_contact_cta": false,
+        "cta_text": "Questions about this policy? Contact our team.",
+        "cta_label": "Contact us",
+        "cta_link": "/pages/contact",
+        "padding_top": 32,
+        "padding_bottom": 48,
+        "accent_color": "#B68A35",
+        "content_width": 1280
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

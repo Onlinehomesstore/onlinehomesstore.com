@@ -1,0 +1,105 @@
+{% comment %}
+ uc-narrative-block.liquid
+ Single image + copy row (used by uc-narrative and uc-content-split).
+
+ Parameters:
+ block - optional block object (content-split); if nil, uses flat params
+ section - section object (for shopify_attributes)
+ uid - section.id
+ forloop - optional forloop for auto-alternate layout
+ image_position, image, image_alt, media_badge, eyebrow, heading, body
+ button_label, button_link, button_secondary_label, button_secondary_link
+ delay - reveal delay ms
+{% endcomment %}
+{%- liquid
+ if block != blank
+ assign bs = block.settings
+ assign image_position = bs.image_position
+ assign image = bs.image
+ assign image_alt = bs.image_alt
+ assign media_badge = bs.media_badge
+ assign eyebrow = bs.eyebrow
+ assign heading = bs.heading
+ assign body = bs.body
+ assign button_label = bs.button_label
+ assign button_link = bs.button_link
+ assign button_secondary_label = bs.button_secondary_label
+ assign button_secondary_link = bs.button_secondary_link
+ assign shopify_attrs = block.shopify_attributes
+ endif
+
+ assign reverse = false
+ if image_position == 'right'
+ assign reverse = true
+ elsif layout_alternate and image_position == 'left'
+ assign reverse = true
+ elsif image_position == 'auto' and forloop != blank and forloop.index0 != 0
+ assign mod = forloop.index0 | modulo: 2
+ if mod == 1
+ assign reverse = true
+ endif
+ elsif image_position == 'auto' and layout_alternate == true
+ assign reverse = true
+ endif
+
+ assign delay = delay | default: 0
+ assign layout_style = layout_style | default: 'split'
+ assign ph_key = media_placeholder | default: 'lifestyle-1'
+ assign is_statement = false
+ if layout_style == 'statement'
+ assign is_statement = true
+ endif
+-%}
+
+<article
+ class="ucs__row{% if reverse %} ucs__row--reverse{% endif %}{% if is_statement %} ucs__row--statement{% endif %}"
+ data-uc-reveal
+ style="--ucs-delay: {{ delay }}ms"
+ {{ shopify_attrs }}
+>
+ {%- unless is_statement -%}
+ <div class="ucs__media" data-uc-3d-image>
+ {%- if image != blank -%}
+ {%- assign ucs_img_alt = image_alt | default: heading | escape -%}
+ {{
+ image
+ | image_url: width: 960
+ | image_tag:
+ class: 'ucs__img',
+ loading: 'lazy',
+ widths: '480, 720, 960',
+ sizes: '(min-width: 990px) 45vw, 92vw',
+ alt: ucs_img_alt
+ }}
+ {%- else -%}
+ {{ ph_key | placeholder_svg_tag: 'ucs__img ucs__img--placeholder' }}
+ {%- endif -%}
+ {%- if media_badge != blank -%}
+ <span class="ucs__badge">{{ media_badge | escape }}</span>
+ {%- endif -%}
+ </div>
+ {%- endunless -%}
+ <div class="ucs__content">
+ {%- if eyebrow != blank -%}
+ <p class="uc-sec__eyebrow ucs__eyebrow">{{ eyebrow | escape }}</p>
+ {%- endif -%}
+ {%- if heading != blank -%}
+ <h2 class="uc-sec__heading ucs__heading">{{ heading | escape }}</h2>
+ {%- endif -%}
+ {%- if body != blank -%}
+ <div class="ucs__body rte">{{ body }}</div>
+ {%- endif -%}
+ {%- if button_label != blank -%}
+ <div class="ucs__actions">
+ <a href="{{ button_link | default: '#' }}" class="uc-btn uc-btn--primary">
+ {{ button_label | escape }}
+ </a>
+ {%- if button_secondary_label != blank -%}
+ <a href="{{ button_secondary_link | default: '#' }}" class="uc-btn uc-btn--secondary">
+ {{ button_secondary_label | escape }}
+ </a>
+ {%- endif -%}
+ </div>
+ {%- endif -%}
+ </div>
+</article>

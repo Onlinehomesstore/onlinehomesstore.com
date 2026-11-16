@@ -1,0 +1,27 @@
+{% comment %}
+ uc-faq-schema.liquid - FAQPage JSON-LD from FAQ section blocks.
+ Parameters: blocks {Array} - section.blocks filtered to faq_item type
+{% endcomment %}
+{%- assign faq_items = blocks | where: 'type', 'faq_item' -%}
+{%- if faq_items.size > 0 -%}
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+ {%- for block in faq_items -%}
+ {%- if block.settings.question != blank and block.settings.answer != blank -%}
+ {
+ "@type": "Question",
+ "name": {{ block.settings.question | json }},
+ "acceptedAnswer": {
+ "@type": "Answer",
+ "text": {{ block.settings.answer | strip_html | json }}
+ }
+ }{%- unless forloop.last -%},{%- endunless -%}
+ {%- endif -%}
+ {%- endfor -%}
+ ]
+}
+</script>
+{%- endif -%}

@@ -1,0 +1,99 @@
+/*
+ * ------------------------------------------------------------
+ * Online Homes Store — legal / policy template
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "uc-legal-page",
+      "blocks": {
+        "general": {
+          "type": "section",
+          "settings": {
+            "eyebrow": "Using this site",
+            "heading": "1. Using this site",
+            "content": "<ul><li>You must be 18 or older, or have a parent or guardian agree, to use this site.</li><li>We may refuse an order or an account if we have a fair reason.</li></ul>"
+          }
+        },
+        "accuracy": {
+          "type": "section",
+          "settings": {
+            "eyebrow": "Products",
+            "heading": "2. Products and stock",
+            "content": "<ul><li>We try to keep photos, prices, and descriptions correct. Errors can still happen.</li><li>Price and stock can change. We will not charge you if we cannot fulfil an order.</li></ul>"
+          }
+        },
+        "orders": {
+          "type": "section",
+          "settings": {
+            "eyebrow": "Orders",
+            "heading": "3. Orders and payment",
+            "content": "<ul><li>An order is accepted when we send a confirmation email.</li><li>Please give correct billing and delivery details.</li><li>Your rights under the Consumer Rights Act 2015 still apply. Goods must match the description, be of satisfactory quality, and be fit for the stated use.</li></ul>"
+          }
+        },
+        "ip": {
+          "type": "section",
+          "settings": {
+            "eyebrow": "Our content",
+            "heading": "4. Our content",
+            "content": "<p>Product names, photos, text, and branding on this site belong to Online Homes Store. Please do not copy them without our written OK.</p>"
+          }
+        },
+        "liability": {
+          "type": "section",
+          "settings": {
+            "eyebrow": "If something goes wrong",
+            "heading": "5. If something goes wrong",
+            "content": "<p>Nothing in these terms takes away rights you have under UK consumer law. We do not exclude liability for death or personal injury caused by our negligence, or for fraud.</p>"
+          }
+        },
+        "law": {
+          "type": "section",
+          "settings": {
+            "eyebrow": "Which law applies",
+            "heading": "6. Which law applies",
+            "content": "<p>These terms are governed by the laws of England and Wales. UK courts can hear any dispute. If you live in Scotland or Northern Ireland, you may also use your local courts.</p>"
+          }
+        },
+        "changes": {
+          "type": "section",
+          "settings": {
+            "eyebrow": "Changes",
+            "heading": "7. Changes",
+            "content": "<p>We may update these terms. The date at the top shows the latest version. Using the site after a change means you accept the new terms.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "general",
+        "accuracy",
+        "orders",
+        "ip",
+        "liability",
+        "law",
+        "changes"
+      ],
+      "settings": {
+        "eyebrow": "Terms of service",
+        "heading": "Terms of Service",
+        "effective_date": "17 October 2026",
+        "markets_note": "These terms follow UK consumer law, including the Consumer Rights Act 2015.",
+        "intro": "<p>These terms cover your use of onlinehomesstore.com and any order you place with Online Homes Store.</p>",
+        "use_page_content": false,
+        "show_contact_details": true,
+        "show_contact_cta": false,
+        "cta_text": "Questions about this policy? Contact our team.",
+        "cta_label": "Contact us",
+        "cta_link": "/pages/contact",
+        "padding_top": 32,
+        "padding_bottom": 48,
+        "accent_color": "#B68A35",
+        "content_width": 1280
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

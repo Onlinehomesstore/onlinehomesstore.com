@@ -1,0 +1,49 @@
+{%- comment -%}
+ Resolves UK / US (and other) contact + shipping copy from theme settings.
+ Uses Shopify Markets localization - no custom currency logic.
+
+ Output assigns (use in parent scope):
+ uc_market_iso, uc_market_name, uc_market_phone, uc_market_email,
+ uc_market_address, uc_market_hours, uc_market_shipping, uc_market_support_note
+{%- endcomment -%}
+
+{%- liquid
+ assign uc_market_iso = localization.country.iso_code | upcase
+ assign uc_market_name = localization.country.name
+
+ assign uc_market_phone = blank
+ assign uc_market_email = settings.uc_contact_email_default
+ assign uc_market_address = settings.uc_contact_address_default
+ assign uc_market_hours = settings.uc_contact_hours_default
+ assign uc_market_shipping = settings.uc_shipping_message_default
+ assign uc_market_support_note = settings.uc_support_response_default
+
+ case uc_market_iso
+ when 'GB'
+ if settings.uc_contact_email_gb != blank
+ assign uc_market_email = settings.uc_contact_email_gb
+ endif
+ if settings.uc_contact_address_gb != blank
+ assign uc_market_address = settings.uc_contact_address_gb
+ endif
+ if settings.uc_contact_hours_gb != blank
+ assign uc_market_hours = settings.uc_contact_hours_gb
+ endif
+ if settings.uc_shipping_message_gb != blank
+ assign uc_market_shipping = settings.uc_shipping_message_gb
+ endif
+ when 'US'
+ if settings.uc_contact_email_us != blank
+ assign uc_market_email = settings.uc_contact_email_us
+ endif
+ if settings.uc_contact_address_us != blank
+ assign uc_market_address = settings.uc_contact_address_us
+ endif
+ if settings.uc_contact_hours_us != blank
+ assign uc_market_hours = settings.uc_contact_hours_us
+ endif
+ if settings.uc_shipping_message_us != blank
+ assign uc_market_shipping = settings.uc_shipping_message_us
+ endif
+ endcase
+-%}

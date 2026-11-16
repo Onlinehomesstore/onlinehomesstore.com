@@ -1,0 +1,506 @@
+{% comment %}
+ UC Global UI - scroll-to-top, popups, purchase notifications.
+ Add via overlay-group. All settings persist in section JSON.
+{% endcomment %}
+
+{{ 'uc-global-ui.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'uc-global-ui.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+ assign s = section.settings
+ assign scroll_pos = s.scroll_top_position | default: 'bottom-right'
+ case scroll_pos
+ when 'bottom-left'
+ assign scroll_class = 'uc-scroll-top--bl'
+ when 'top-right'
+ assign scroll_class = 'uc-scroll-top--tr'
+ when 'top-left'
+ assign scroll_class = 'uc-scroll-top--tl'
+ else
+ assign scroll_class = 'uc-scroll-top--br'
+ endcase
+
+ assign toast_collection = s.purchase_collection
+-%}
+
+{%- capture toast_json -%}
+[
+{%- if s.purchase_enable and s.purchase_demo_mode and toast_collection != blank -%}
+ {%- for product in toast_collection.products limit: 12 -%}
+ {%- unless forloop.first -%},{%- endunless -%}
+ {"title":{{ product.title | json }},"image":{% if product.featured_image %}{{ product.featured_image | image_url: width: 96 | json }}{% else %}""{% endif %}}
+ {%- endfor -%}
+{%- endif -%}
+]
+{%- endcapture -%}
+
+{%- style -%}
+ #shopify-section-{{ section.id }} {
+ --uc-scroll-top-size: {{ s.scroll_top_size | default: 48 }}px;
+ --uc-scroll-top-x: {{ s.scroll_top_offset_x | default: 24 }}px;
+ --uc-scroll-top-y: {{ s.scroll_top_offset_y | default: 24 }}px;
+ --uc-scroll-top-blur: {{ s.scroll_top_blur | default: 18 }}px;
+ --uc-scroll-top-opacity: {{ s.scroll_top_opacity | default: 100 | divided_by: 100.0 }};
+ --uc-scroll-top-bg: {{ s.scroll_top_bg | default: 'rgba(252,250,247,0.88)' }};
+ --uc-scroll-top-color: {{ s.scroll_top_color | default: '#171717' }};
+ --uc-scroll-top-border: {{ s.scroll_top_border | default: 'rgba(255,255,255,0.48)' }};
+ --uc-popup-max: {{ s.popup_max_width | default: 520 }}px;
+ }
+{%- endstyle -%}
+
+<div class="uc-global-ui-section" data-uc-global-ui aria-hidden="false">
+ {%- if s.scroll_top_enable -%}
+ <button
+ type="button"
+ class="uc-scroll-top {{ scroll_class }}"
+ data-uc-scroll-top
+ data-threshold="{{ s.scroll_top_threshold | default: 400 }}"
+ aria-label="{{ s.scroll_top_label | default: 'Back to top' | escape }}"
+ aria-hidden="true"
+ tabindex="-1"
+ style="width: var(--uc-scroll-top-size); height: var(--uc-scroll-top-size); border-radius: {{ s.scroll_top_radius | default: 50 }}%;"
+ >
+ {%- assign uc_scroll_icon_size = s.scroll_top_icon_size | default: 20 -%}
+ {% render 'uc-icon', icon: 'arrow-up', size: uc_scroll_icon_size %}
+ </button>
+ {%- endif -%}
+
+ {%- for block in section.blocks -%}
+ {%- if block.type == 'popup' and block.settings.enabled -%}
+ <div
+ class="uc-popup-layer"
+ data-uc-popup
+ data-popup-id="{{ block.id }}"
+ data-trigger="{{ block.settings.trigger_type | default: 'delay' }}"
+ data-delay="{{ block.settings.trigger_delay | default: 5 }}"
+ data-scroll="{{ block.settings.trigger_scroll | default: 50 }}"
+ data-min-time="{{ block.settings.trigger_min_time | default: 0 }}"
+ data-once="{% if block.settings.show_once %}true{% else %}false{% endif %}"
+ data-anim="{{ block.settings.animation | default: 'scale' }}"
+ hidden
+ aria-hidden="true"
+ role="dialog"
+ aria-modal="true"
+ aria-labelledby="UcPopupHeading-{{ block.id }}"
+ {{ block.shopify_attributes }}
+ >
+ <div class="uc-popup">
+ <button type="button" class="uc-popup__close" data-uc-popup-close aria-label="Close">
+ {% render 'uc-icon', icon: 'x', size: 18 %}
+ </button>
+ {%- if block.settings.image != blank -%}
+ <div class="uc-popup__media">
+ {%- assign uc_popup_img_alt = block.settings.heading | escape -%}
+ {{ block.settings.image | image_url: width: 800 | image_tag: loading: 'lazy', alt: uc_popup_img_alt }}
+ </div>
+ {%- endif -%}
+ <div class="uc-popup__body">
+ {%- if block.settings.heading != blank -%}
+ <h2 class="uc-popup__heading" id="UcPopupHeading-{{ block.id }}">{{ block.settings.heading | escape }}</h2>
+ {%- endif -%}
+ {%- if block.settings.description != blank -%}
+ <p class="uc-popup__desc">{{ block.settings.description | escape }}</p>
+ {%- endif -%}
+ {%- if block.settings.coupon_code != blank -%}
+ <div class="uc-popup__coupon">{{ block.settings.coupon_code | escape }}</div>
+ {%- endif -%}
+ {%- if block.settings.show_countdown and block.settings.countdown_minutes > 0 -%}
+ <p class="uc-popup__countdown" data-countdown-min="{{ block.settings.countdown_minutes }}">Offer ends soon</p>
+ {%- endif -%}
+ <div class="uc-popup__actions">
+ {%- if block.settings.btn_label != blank -%}
+ <a href="{{ block.settings.btn_url | default: routes.root_url }}" class="uc-btn uc-btn--primary uc-sec__btn">{{ block.settings.btn_label | escape }}</a>
+ {%- endif -%}
+ {%- if block.settings.btn_secondary_label != blank -%}
+ <a href="{{ block.settings.btn_secondary_url | default: routes.root_url }}" class="uc-btn uc-btn--secondary uc-sec__btn">{{ block.settings.btn_secondary_label | escape }}</a>
+ {%- endif -%}
+ </div>
+ </div>
+ </div>
+ </div>
+ {%- endif -%}
+ {%- endfor -%}
+
+ {%- if s.purchase_enable and toast_collection != blank and toast_collection.products_count > 0 -%}
+ <div
+ class="uc-purchase-toast-layer uc-purchase-toast-layer--desktop-{{ s.purchase_position_desktop | default: 'bl' }} uc-purchase-toast-layer--mobile"
+ data-uc-purchase-toasts
+ data-products='{{ toast_json | strip }}'
+ data-names="{{ s.purchase_demo_names | default: 'Alex,Jordan,Sam,Casey,Riley' | escape }}"
+ data-cities="{{ s.purchase_demo_cities | default: 'London,Manchester,Birmingham,Leeds,Bristol' | escape }}"
+ data-min-delay="{{ s.purchase_interval_min | default: 8 }}"
+ data-max-delay="{{ s.purchase_interval_max | default: 18 }}"
+ data-anim="{{ s.purchase_animation | default: 'fade' }}"
+ ></div>
+ {%- endif -%}
+</div>
+
+{% schema %}
+{
+ "name": "UC Global UI",
+ "tag": "section",
+ "class": "uc-global-ui-section",
+ "settings": [
+ {
+ "type": "header",
+ "content": "Scroll to top"
+ },
+ {
+ "type": "checkbox",
+ "id": "scroll_top_enable",
+ "label": "Enable scroll to top",
+ "default": true
+ },
+ {
+ "type": "select",
+ "id": "scroll_top_position",
+ "label": "Position",
+ "default": "bottom-right",
+ "options": [
+ { "value": "bottom-right", "label": "Bottom right" },
+ { "value": "bottom-left", "label": "Bottom left" },
+ { "value": "top-right", "label": "Top right" },
+ { "value": "top-left", "label": "Top left" }
+ ]
+ },
+ {
+ "type": "range",
+ "id": "scroll_top_threshold",
+ "label": "Show after scroll",
+ "min": 100,
+ "max": 1200,
+ "step": 50,
+ "unit": "px",
+ "default": 400
+ },
+ {
+ "type": "range",
+ "id": "scroll_top_size",
+ "label": "Button size",
+ "min": 40,
+ "max": 64,
+ "step": 2,
+ "unit": "px",
+ "default": 48
+ },
+ {
+ "type": "range",
+ "id": "scroll_top_icon_size",
+ "label": "Icon size",
+ "min": 16,
+ "max": 28,
+ "step": 2,
+ "unit": "px",
+ "default": 20
+ },
+ {
+ "type": "range",
+ "id": "scroll_top_radius",
+ "label": "Border radius",
+ "min": 8,
+ "max": 50,
+ "step": 2,
+ "unit": "px",
+ "default": 50
+ },
+ {
+ "type": "range",
+ "id": "scroll_top_blur",
+ "label": "Blur",
+ "min": 0,
+ "max": 32,
+ "step": 2,
+ "unit": "px",
+ "default": 18
+ },
+ {
+ "type": "range",
+ "id": "scroll_top_opacity",
+ "label": "Opacity",
+ "min": 50,
+ "max": 100,
+ "step": 5,
+ "unit": "%",
+ "default": 100
+ },
+ {
+ "type": "range",
+ "id": "scroll_top_offset_x",
+ "label": "Horizontal offset",
+ "min": 8,
+ "max": 48,
+ "step": 4,
+ "unit": "px",
+ "default": 24
+ },
+ {
+ "type": "range",
+ "id": "scroll_top_offset_y",
+ "label": "Vertical offset",
+ "min": 8,
+ "max": 48,
+ "step": 4,
+ "unit": "px",
+ "default": 24
+ },
+ {
+ "type": "color",
+ "id": "scroll_top_bg",
+ "label": "Background",
+ "default": "#FCFAF7"
+ },
+ {
+ "type": "color",
+ "id": "scroll_top_color",
+ "label": "Icon color",
+ "default": "#171717"
+ },
+ {
+ "type": "text",
+ "id": "scroll_top_border",
+ "label": "Border (CSS)",
+ "default": "rgba(255,255,255,0.48)"
+ },
+ {
+ "type": "text",
+ "id": "scroll_top_label",
+ "label": "Accessible label",
+ "default": "Back to top"
+ },
+ {
+ "type": "header",
+ "content": "Purchase notifications"
+ },
+ {
+ "type": "checkbox",
+ "id": "purchase_enable",
+ "label": "Enable purchase notifications",
+ "default": false
+ },
+ {
+ "type": "checkbox",
+ "id": "purchase_demo_mode",
+ "label": "Demo mode (random products from collection)",
+ "default": true
+ },
+ {
+ "type": "collection",
+ "id": "purchase_collection",
+ "label": "Products for demo notifications"
+ },
+ {
+ "type": "select",
+ "id": "purchase_position_desktop",
+ "label": "Desktop position",
+ "default": "bl",
+ "options": [
+ { "value": "bl", "label": "Bottom left" },
+ { "value": "br", "label": "Bottom right" }
+ ]
+ },
+ {
+ "type": "select",
+ "id": "purchase_animation",
+ "label": "Animation",
+ "default": "fade",
+ "options": [
+ { "value": "fade", "label": "Fade" },
+ { "value": "slide", "label": "Slide" },
+ { "value": "scale", "label": "Scale" },
+ { "value": "blur", "label": "Blur" }
+ ]
+ },
+ {
+ "type": "range",
+ "id": "purchase_interval_min",
+ "label": "Minimum interval",
+ "min": 4,
+ "max": 30,
+ "step": 1,
+ "unit": "s",
+ "default": 8
+ },
+ {
+ "type": "range",
+ "id": "purchase_interval_max",
+ "label": "Maximum interval",
+ "min": 8,
+ "max": 60,
+ "step": 1,
+ "unit": "s",
+ "default": 18
+ },
+ {
+ "type": "text",
+ "id": "purchase_demo_names",
+ "label": "Demo first names (comma-separated)",
+ "default": "Alex,Jordan,Sam,Casey,Riley"
+ },
+ {
+ "type": "text",
+ "id": "purchase_demo_cities",
+ "label": "Demo cities (comma-separated)",
+ "default": "London,Manchester,Birmingham,Leeds,Bristol"
+ },
+ {
+ "type": "header",
+ "content": "Popups"
+ },
+ {
+ "type": "range",
+ "id": "popup_max_width",
+ "label": "Popup max width",
+ "min": 360,
+ "max": 640,
+ "step": 20,
+ "unit": "px",
+ "default": 520
+ }
+ ],
+ "blocks": [
+ {
+ "type": "popup",
+ "name": "Popup",
+ "settings": [
+ {
+ "type": "checkbox",
+ "id": "enabled",
+ "label": "Enabled",
+ "default": true
+ },
+ {
+ "type": "select",
+ "id": "popup_type",
+ "label": "Popup type",
+ "default": "newsletter",
+ "options": [
+ { "value": "newsletter", "label": "Newsletter" },
+ { "value": "promotion", "label": "Promotion" },
+ { "value": "discount", "label": "Discount" },
+ { "value": "announcement", "label": "Announcement" },
+ { "value": "welcome", "label": "Welcome" },
+ { "value": "exit", "label": "Exit intent" }
+ ]
+ },
+ {
+ "type": "image_picker",
+ "id": "image",
+ "label": "Image"
+ },
+ {
+ "type": "text",
+ "id": "heading",
+ "label": "Heading",
+ "default": "Welcome to UNIK CARE"
+ },
+ {
+ "type": "textarea",
+ "id": "description",
+ "label": "Description"
+ },
+ {
+ "type": "text",
+ "id": "coupon_code",
+ "label": "Coupon code"
+ },
+ {
+ "type": "checkbox",
+ "id": "show_countdown",
+ "label": "Show countdown",
+ "default": false
+ },
+ {
+ "type": "range",
+ "id": "countdown_minutes",
+ "label": "Countdown minutes",
+ "min": 5,
+ "max": 120,
+ "step": 5,
+ "default": 30
+ },
+ {
+ "type": "text",
+ "id": "btn_label",
+ "label": "Primary button label"
+ },
+ {
+ "type": "url",
+ "id": "btn_url",
+ "label": "Primary button link"
+ },
+ {
+ "type": "text",
+ "id": "btn_secondary_label",
+ "label": "Secondary button label"
+ },
+ {
+ "type": "url",
+ "id": "btn_secondary_url",
+ "label": "Secondary button link"
+ },
+ {
+ "type": "select",
+ "id": "trigger_type",
+ "label": "Display trigger",
+ "default": "delay",
+ "options": [
+ { "value": "delay", "label": "Time delay" },
+ { "value": "scroll", "label": "Scroll percentage" },
+ { "value": "exit", "label": "Exit intent" }
+ ]
+ },
+ {
+ "type": "range",
+ "id": "trigger_delay",
+ "label": "Delay (seconds)",
+ "min": 0,
+ "max": 60,
+ "step": 1,
+ "default": 5
+ },
+ {
+ "type": "range",
+ "id": "trigger_scroll",
+ "label": "Scroll percentage",
+ "min": 10,
+ "max": 90,
+ "step": 5,
+ "default": 50
+ },
+ {
+ "type": "range",
+ "id": "trigger_min_time",
+ "label": "Minimum time on page",
+ "min": 0,
+ "max": 60,
+ "step": 1,
+ "unit": "s",
+ "default": 0
+ },
+ {
+ "type": "checkbox",
+ "id": "show_once",
+ "label": "Show once per session",
+ "default": true
+ },
+ {
+ "type": "select",
+ "id": "animation",
+ "label": "Animation",
+ "default": "scale",
+ "options": [
+ { "value": "scale", "label": "Scale" },
+ { "value": "fade", "label": "Fade" },
+ { "value": "blur", "label": "Blur" }
+ ]
+ }
+ ]
+ }
+ ],
+ "presets": [
+ {
+ "name": "UC Global UI"
+ }
+ ]
+}
+{% endschema %}

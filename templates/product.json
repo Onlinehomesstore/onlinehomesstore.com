@@ -1,0 +1,323 @@
+/*
+ * ------------------------------------------------------------
+ * Online Homes Store — Product template
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "premium_product_hero": {
+      "type": "premium-product-hero",
+      "blocks": {
+        "delivery_1": {
+          "type": "delivery_card",
+          "settings": {
+            "icon": "shield",
+            "heading": "Secure checkout",
+            "description": "Your payment details are protected at checkout."
+          }
+        },
+        "delivery_2": {
+          "type": "delivery_card",
+          "settings": {
+            "icon": "truck",
+            "heading": "Fast delivery",
+            "description": "Shipping options are shown at checkout."
+          }
+        },
+        "delivery_3": {
+          "type": "delivery_card",
+          "settings": {
+            "icon": "shield",
+            "heading": "Easy product information",
+            "description": "Clear details to help you choose with confidence."
+          }
+        },
+        "delivery_4": {
+          "type": "delivery_card",
+          "settings": {
+            "icon": "recycle",
+            "heading": "Easy returns",
+            "description": "Simple returns if something is not right."
+          }
+        },
+        "delivery_5": {
+          "type": "delivery_card",
+          "settings": {
+            "icon": "gift",
+            "heading": "Gift-ready picks",
+            "description": "Lovely options for birthdays, baby showers and everyday surprises."
+          }
+        },
+        "delivery_6": {
+          "type": "delivery_card",
+          "settings": {
+            "icon": "sparkles",
+            "heading": "Easy to browse",
+            "description": "Clear product details to help you choose with confidence."
+          }
+        }
+      },
+      "block_order": [
+        "delivery_1",
+        "delivery_2",
+        "delivery_3",
+        "delivery_4",
+        "delivery_5",
+        "delivery_6"
+      ],
+      "settings": {
+        "eyebrow": "ONLINE HOMES STORE",
+        "subtitle": "Thoughtfully chosen toys for play, learning and little everyday moments.",
+        "show_vendor": true,
+        "show_rating": true,
+        "rating_value": "",
+        "review_count": "",
+        "show_verified_badge": false,
+        "verified_label": "Verified buyers",
+        "reviews_link": "#Upr",
+        "star_color": "#f5a623",
+        "tax_info": "Taxes and shipping calculated at checkout.",
+        "installment_text": "",
+        "show_money_saved": true,
+        "money_saved_label": "You save",
+        "show_stock_line": true,
+        "in_stock_line": "In stock and ready to ship",
+        "low_stock_line": "Only a few left in stock",
+        "out_of_stock_line": "Currently out of stock",
+        "use_benefits_as_highlights": false,
+        "show_benefits_grid": false,
+        "variant_style": "cards",
+        "enable_thumbnails": true,
+        "show_image_counter": true,
+        "enable_hover_zoom": true,
+        "gallery_col_width": 50,
+        "gallery_aspect_ratio": "1 / 1",
+        "gallery_image_fit": "contain",
+        "show_badge_bestseller": true,
+        "badge_bestseller": "Best Seller",
+        "show_badge_new": false,
+        "badge_new": "New",
+        "show_badge_lowstock": true,
+        "badge_lowstock": "Only a few left",
+        "lowstock_threshold": 5,
+        "atc_text": "Add to Cart",
+        "soldout_text": "Sold out",
+        "atc_radius": 16,
+        "show_buy_now": true,
+        "buy_now_text": "Buy Now",
+        "show_dynamic_checkout": false,
+        "benefits_heading": "",
+        "max_width": 1280,
+        "col_gap": 48,
+        "stack_gap": 24,
+        "border_radius": 18,
+        "padding_top": 24,
+        "padding_bottom": 40,
+        "pad_top_lg": 0,
+        "pad_top_xxl": 0,
+        "container_max_lg": 1280,
+        "container_mode": "boxed",
+        "eyebrow_size_xs": 11,
+        "eyebrow_size_md": 11,
+        "eyebrow_size_lg": 12,
+        "eyebrow_size_xxl": 12,
+        "h_size_xs": 26,
+        "h_size_md": 26,
+        "h_size_lg": 28,
+        "h_size_xxl": 28,
+        "sub_size_xs": 16,
+        "sub_size_md": 17,
+        "sub_size_lg": 18,
+        "sub_size_xxl": 18,
+        "desc_size_xs": 14,
+        "desc_size_md": 15,
+        "desc_size_lg": 15,
+        "desc_size_xxl": 16,
+        "btn_size_xs": 13,
+        "btn_size_md": 13,
+        "btn_size_lg": 14,
+        "btn_size_xxl": 14,
+        "color_scheme": "scheme-1",
+        "background_color": "",
+        "heading_color": "",
+        "heading_color_mobile": "",
+        "accent_color": "#C98770",
+        "use_custom_section_styles": false,
+        "use_global_colors": true
+      }
+    },
+    "product_reviews": {
+      "type": "uc-product-reviews",
+      "settings": {
+        "eyebrow": "CUSTOMER REVIEWS",
+        "heading": "What customers say",
+        "empty_text": "No reviews yet. Be the first to share what you thought.",
+        "form_always_open": false,
+        "form_toggle_label": "Write a review",
+        "form_heading": "Write a review",
+        "form_lead": "Tell others what you thought. Photos are optional.",
+        "submit_label": "Submit review",
+        "form_note": "We read every review before it goes live. Photos show after we approve them.",
+        "success_text": "Thank you. Your review has been sent for a quick check.",
+        "container_width": 1100,
+        "card_radius": 18,
+        "padding_top": 56,
+        "padding_bottom": 56,
+        "accent_color": "#C98770",
+        "background_color": ""
+      }
+    },
+    "product_related": {
+      "type": "product-related",
+      "settings": {
+        "eyebrow": "KEEP EXPLORING",
+        "heading": "You may also like",
+        "subtitle": "More toys and gifts parents often browse together.",
+        "products_to_show": 4,
+        "recommendation_intent": "related",
+        "image_ratio": "square",
+        "show_rating": true,
+        "show_quick_add": true,
+        "show_savings": true,
+        "show_vendor": false,
+        "card_radius": 18,
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "pad_top_lg": 80,
+        "pad_top_xxl": 96,
+        "container_max_lg": 1280,
+        "container_mode": "boxed",
+        "eyebrow_size_xs": 11,
+        "eyebrow_size_md": 11,
+        "eyebrow_size_lg": 11,
+        "eyebrow_size_xxl": 11,
+        "h_size_xs": 26,
+        "h_size_md": 26,
+        "h_size_lg": 28,
+        "h_size_xxl": 28,
+        "sub_size_xs": 16,
+        "sub_size_md": 17,
+        "sub_size_lg": 18,
+        "sub_size_xxl": 18,
+        "desc_size_xs": 15,
+        "desc_size_md": 15,
+        "desc_size_lg": 16,
+        "desc_size_xxl": 16,
+        "btn_size_xs": 13,
+        "btn_size_md": 13,
+        "btn_size_lg": 14,
+        "btn_size_xxl": 14,
+        "color_scheme": "scheme-1",
+        "background_color": "",
+        "use_custom_section_styles": false,
+        "use_global_colors": true
+      }
+    },
+    "sticky_atc": {
+      "type": "sticky-atc",
+      "settings": {
+        "show_image": true,
+        "show_title": true,
+        "show_variant_selector": true,
+        "show_quantity": true,
+        "atc_label": "Add to Cart",
+        "sold_out_label": "Sold Out",
+        "save_label": "You save",
+        "enable_animation": true,
+        "z_index": 200,
+        "pad_top_lg": 80,
+        "pad_top_xxl": 96,
+        "container_max_lg": 1280,
+        "container_mode": "boxed",
+        "eyebrow_size_xs": 11,
+        "eyebrow_size_md": 11,
+        "eyebrow_size_lg": 12,
+        "eyebrow_size_xxl": 12,
+        "h_size_xs": 24,
+        "h_size_md": 26,
+        "h_size_lg": 30,
+        "h_size_xxl": 32,
+        "sub_size_xs": 16,
+        "sub_size_md": 17,
+        "sub_size_lg": 18,
+        "sub_size_xxl": 18,
+        "desc_size_xs": 14,
+        "desc_size_md": 15,
+        "desc_size_lg": 15,
+        "desc_size_xxl": 16,
+        "btn_size_xs": 13,
+        "btn_size_md": 13,
+        "btn_size_lg": 14,
+        "btn_size_xxl": 14,
+        "use_global_colors": true,
+        "background_color": "",
+        "accent_color": ""
+      }
+    },
+    "sticky_mobile_atc": {
+      "type": "sticky-mobile-atc",
+      "settings": {
+        "show_info_bar": true,
+        "show_variant_selector": true,
+        "show_quantity": false,
+        "show_buy_now": true,
+        "show_on_desktop": false,
+        "atc_label": "Add to Cart",
+        "sold_out_label": "Sold Out",
+        "buy_now_label": "Buy Now",
+        "shipping_text": "Shipping options are shown at checkout.",
+        "low_stock_threshold": 5,
+        "z_index": 300,
+        "pad_top_lg": 80,
+        "pad_top_xxl": 96,
+        "container_max_lg": 1280,
+        "container_mode": "boxed",
+        "eyebrow_size_xs": 11,
+        "eyebrow_size_md": 11,
+        "eyebrow_size_lg": 12,
+        "eyebrow_size_xxl": 12,
+        "h_size_xs": 24,
+        "h_size_md": 26,
+        "h_size_lg": 30,
+        "h_size_xxl": 32,
+        "sub_size_xs": 16,
+        "sub_size_md": 17,
+        "sub_size_lg": 18,
+        "sub_size_xxl": 18,
+        "desc_size_xs": 14,
+        "desc_size_md": 15,
+        "desc_size_lg": 15,
+        "desc_size_xxl": 16,
+        "btn_size_xs": 13,
+        "btn_size_md": 13,
+        "btn_size_lg": 14,
+        "btn_size_xxl": 14,
+        "use_global_colors": true,
+        "background_color": "",
+        "accent_color": ""
+      }
+    },
+    "product_recently_viewed": {
+      "type": "product-recently-viewed",
+      "settings": {
+        "eyebrow": "KEEP BROWSING",
+        "heading": "Recently viewed",
+        "max_products": 4,
+        "image_ratio": "square",
+        "card_radius": 18,
+        "padding_top": 48,
+        "padding_bottom": 48,
+        "use_global_colors": true,
+        "color_scheme": "scheme-1"
+      }
+    }
+  },
+  "order": [
+    "premium_product_hero",
+    "product_reviews",
+    "product_related",
+    "product_recently_viewed",
+    "sticky_atc",
+    "sticky_mobile_atc"
+  ]
+}

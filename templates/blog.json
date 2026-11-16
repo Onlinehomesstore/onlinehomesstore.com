@@ -1,0 +1,71 @@
+/*
+ * ------------------------------------------------------------
+ * Online Homes Store — Blog template
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "uc-blog-posts",
+      "blocks": {
+        "feat_1": {
+          "type": "featured",
+          "settings": {
+            "title": "Choosing first toys with confidence",
+            "excerpt": "A calm guide to browsing early play favourites by age and interest.",
+            "date": "",
+            "link": "/blogs/news"
+          }
+        },
+        "feat_2": {
+          "type": "featured",
+          "settings": {
+            "title": "Gift ideas for little ones",
+            "excerpt": "Thoughtful suggestions for birthdays, baby showers and everyday surprises.",
+            "date": "",
+            "link": "/blogs/news"
+          }
+        },
+        "feat_3": {
+          "type": "featured",
+          "settings": {
+            "title": "Wooden toys and open-ended play",
+            "excerpt": "Why simple, tactile toys remain favourites for creative everyday play.",
+            "date": "",
+            "link": "/blogs/news"
+          }
+        },
+        "feat_4": {
+          "type": "featured",
+          "settings": {
+            "title": "Sensory play at home",
+            "excerpt": "Soft textures, colours and shapes that invite gentle exploration.",
+            "date": "",
+            "link": "/blogs/news"
+          }
+        }
+      },
+      "block_order": ["feat_1", "feat_2", "feat_3", "feat_4"],
+      "settings": {
+        "h_size_xs": 24,
+        "h_size_lg": 28,
+        "h_size_xxl": 28,
+        "desc_size_xs": 15,
+        "desc_size_lg": 17,
+        "eyebrow": "JOURNAL",
+        "heading": "Playful inspiration",
+        "description": "Ideas, gift guides and gentle tips for everyday play.",
+        "posts_count": 4,
+        "show_date": true,
+        "show_reading_time": true,
+        "show_excerpt": true,
+        "read_more_label": "Read article",
+        "btn_label": "View all articles",
+        "image_ratio": "16 / 9",
+        "padding_top": 48,
+        "padding_bottom": 64
+      }
+    }
+  },
+  "order": ["main"]
+}

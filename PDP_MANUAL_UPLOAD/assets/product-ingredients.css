@@ -1,0 +1,632 @@
+/*
+  ============================================================================
+  PRODUCT INGREDIENTS — CSS (~280 lines)
+  ----------------------------------------------------------------------------
+  Extends: uc-design-tokens.css, uc-components.css
+  CSS prefix: pi-
+  ============================================================================
+*/
+
+/* ── Layout ───────────────────────────────────────────────────────────────── */
+.pi {
+  padding-block: var(--pi-pad-top, 64px) var(--pi-pad-bottom, 64px);
+  overflow: hidden;
+  font-family: var(--uc-font-body, 'Poppins', system-ui, sans-serif);
+}
+
+.pi__eyebrow,
+.pi__heading,
+.pi__subtitle,
+.pi__card,
+.pi__card-title,
+.pi__card-desc,
+.pi__formula-badge,
+.pi__count-badge {
+  font-family: var(--uc-font-body, 'Poppins', system-ui, sans-serif) !important;
+}
+
+.pi__heading {
+  font-family: var(--uc-font-heading, 'Poppins', system-ui, sans-serif) !important;
+  font-size: clamp(1.7rem, 1.4rem + 0.9vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0 0 12px;
+  color: rgb(var(--color-foreground));
+  letter-spacing: -0.02em;
+}
+
+.pi__inner {
+  max-width: min(var(--container-max, var(--page-width)), 100%);
+  margin-inline: auto;
+  padding-inline: var(--container-pad, 24px);
+  display: grid;
+  grid-template-columns: 42fr 58fr;
+  gap: clamp(32px, 5vw, 64px);
+  align-items: start;
+}
+
+@media (max-width: 989px) {
+  .pi__inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+/* ── Hero media ───────────────────────────────────────────────────────────── */
+.pi__media {
+  position: sticky;
+  top: 100px;
+  border-radius: var(--pi-img-radius, 24px);
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+}
+
+@media (max-width: 989px) {
+  .pi__media {
+    position: static;
+    border-radius: var(--pi-img-radius, 24px);
+    max-height: 46vw;
+    overflow: hidden;
+  }
+}
+
+.pi__media-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.pi__media-img--placeholder {
+  aspect-ratio: 1 / 1;
+  background: rgba(var(--color-foreground), 0.04);
+}
+
+/* Floating badge overlays */
+.pi__formula-badge,
+.pi__count-badge {
+  position: absolute;
+  backdrop-filter: blur(10px) saturate(1.4);
+  -webkit-backdrop-filter: blur(10px) saturate(1.4);
+  background: rgba(var(--color-base-background-1, 255 255 255), 0.82);
+  border: 1px solid rgba(var(--color-foreground), 0.08);
+  border-radius: 50px;
+  font-size: clamp(1rem, 0.9rem + 0.2vw, 1.15rem);
+  font-weight: 600;
+  color: rgb(var(--color-foreground));
+  padding: 8px 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+}
+
+.pi__formula-badge {
+  top: 18px;
+  left: 18px;
+}
+
+.pi__count-badge {
+  bottom: 18px;
+  right: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 18px;
+  border-radius: 18px;
+  gap: 2px;
+}
+
+.pi__count-num {
+  font-size: clamp(1.5rem, 1.3rem + 0.4vw, 1.9rem);
+  font-weight: 800;
+  color: var(--pi-accent, rgb(182 138 53));
+  line-height: 1;
+}
+
+.pi__count-label {
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: rgba(var(--color-foreground), 0.7);
+  line-height: 1.2;
+}
+
+/* ── Section header ───────────────────────────────────────────────────────── */
+.pi__header {
+  margin-bottom: clamp(20px, 3vw, 32px);
+}
+
+.pi__eyebrow {
+  font-size: clamp(1rem, 0.9rem + 0.2vw, 1.1rem);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--pi-accent, rgb(182 138 53));
+  margin: 0 0 10px;
+}
+
+.pi__heading {
+  font-family: var(--uc-font-heading, 'Poppins', system-ui, sans-serif) !important;
+  font-size: clamp(1.7rem, 1.4rem + 0.9vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0 0 12px;
+  color: rgb(var(--color-foreground));
+  letter-spacing: -0.02em;
+}
+
+.pi__subtitle {
+  font-size: clamp(1.1rem, 1rem + 0.25vw, 1.25rem);
+  color: rgba(var(--color-foreground), 0.65);
+  margin: 0;
+  max-width: 52ch;
+  line-height: 1.6;
+}
+
+/* ── Ingredient cards grid ────────────────────────────────────────────────── */
+.pi__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--pi-gap, 14px);
+}
+
+@media (max-width: 479px) {
+  .pi__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Single card ──────────────────────────────────────────────────────────── */
+.pi__card {
+  background: rgba(var(--color-foreground), 0.03);
+  border: 1.5px solid rgba(var(--color-foreground), 0.08);
+  border-radius: var(--pi-card-radius, 16px);
+  overflow: hidden;
+  transition: border-color 0.28s ease, box-shadow 0.28s ease, transform 0.28s var(--ease-premium, cubic-bezier(.22,.68,0,1.2));
+}
+
+.pi__card:hover {
+  border-color: rgba(var(--color-foreground), 0.15);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+.pi__card.is-open {
+  border-color: rgba(182, 138, 53, 0.25);
+  box-shadow: 0 8px 32px rgba(182, 138, 53, 0.1);
+}
+
+.pi__card-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 10px;
+  padding: 14px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+}
+
+.pi__card-trigger:focus-visible {
+  outline: 2px solid var(--pi-accent, rgb(182 138 53));
+  outline-offset: -2px;
+  border-radius: calc(var(--pi-card-radius, 16px) - 1px);
+}
+
+.pi__card-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  flex: 1;
+}
+
+.pi__card-img-wrap {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: rgba(var(--color-foreground), 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pi__card-img-wrap--empty {
+  color: rgba(var(--color-foreground), 0.35);
+}
+
+.pi__card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.pi__card-info {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pi__card-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.pi__badge {
+  display: inline-block;
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 20px;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+}
+
+.pi__badge--natural {
+  background: rgba(5, 150, 105, 0.12);
+  color: #059669;
+  border: 1px solid rgba(5, 150, 105, 0.2);
+}
+
+.pi__badge--cert {
+  background: rgba(245, 158, 11, 0.1);
+  color: #d97706;
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.pi__card-name {
+  font-size: clamp(1rem, 0.95rem + 0.15vw, 1.1rem);
+  font-weight: 700;
+  color: rgb(var(--color-foreground));
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pi__card-sci {
+  font-size: 0.95rem;
+  color: rgba(var(--color-foreground), 0.5);
+  font-style: italic;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pi__card-chevron {
+  flex-shrink: 0;
+  width: 15px;
+  height: 15px;
+  color: rgba(var(--color-foreground), 0.4);
+  transition: transform 0.3s var(--ease-premium, cubic-bezier(.22,.68,0,1.2)), color 0.2s;
+}
+
+.pi__card.is-open .pi__card-chevron {
+  transform: rotate(90deg);
+  color: var(--pi-accent, rgb(182 138 53));
+}
+
+/* ── Card expandable body ──────────────────────────────────────────────────── */
+.pi__card-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.36s var(--ease-premium, cubic-bezier(.22,.68,0,1.2));
+  overflow: hidden;
+}
+
+.pi__card.is-open .pi__card-body {
+  grid-template-rows: 1fr;
+}
+
+.pi__card-details {
+  min-height: 0;
+  overflow: hidden;
+  padding: 0 14px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pi__card-row {
+  display: flex;
+  gap: 8px;
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+.pi__card-row-label {
+  font-weight: 600;
+  color: rgba(var(--color-foreground), 0.6);
+  flex-shrink: 0;
+  min-width: 80px;
+}
+
+.pi__card-row-val {
+  color: rgb(var(--color-foreground));
+}
+
+.pi__card-rte,
+.pi__card-rte p,
+.pi__card-rte li,
+.pi__card-rte span {
+  margin-top: 4px;
+  font-size: 1.05rem;
+  color: rgba(var(--color-foreground), 0.75);
+  line-height: 1.6;
+  font-family: var(--uc-font-body, 'Poppins', system-ui, sans-serif) !important;
+  border-top: 1px solid rgba(var(--color-foreground), 0.08);
+  padding-top: 10px;
+}
+
+.pi__card-rte p + p {
+  border-top: 0;
+  padding-top: 0;
+  margin-top: 0.55em;
+}
+
+/* ── CTA ──────────────────────────────────────────────────────────────────── */
+.pi__cta {
+  margin-top: 24px;
+}
+
+/* Meta chips — used when no hero image (mobile/desktop) */
+.pi__meta-chips {
+  display: none;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.pi__meta-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.3;
+  background: rgba(182, 138, 53, 0.12);
+  border: 1px solid rgba(182, 138, 53, 0.22);
+  color: #8f6824;
+}
+
+.pi__meta-chip--count {
+  background: #fff;
+  border-color: rgba(23, 23, 23, 0.1);
+  color: rgba(23, 23, 23, 0.72);
+  box-shadow: 0 4px 14px rgba(26, 22, 18, 0.05);
+}
+
+.pi__meta-chip--count strong {
+  color: var(--pi-accent, #b68a35);
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+@media screen and (min-width: 990px) {
+  .pi--no-media .pi__inner {
+    grid-template-columns: 1fr;
+    max-width: min(720px, 100%);
+  }
+
+  .pi--no-media .pi__meta-chips {
+    display: flex;
+  }
+}
+
+/* ── Mobile / tablet — content-first, stacked cards, no empty square ─────── */
+@media screen and (max-width: 989px) {
+  .pi {
+    padding-block: clamp(28px, 5vw, 40px);
+    overflow: visible;
+  }
+
+  .pi__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    padding-inline: clamp(16px, 4.2vw, 24px);
+    max-width: 100%;
+  }
+
+  .pi__content {
+    order: 1;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .pi__media {
+    order: 2;
+    position: static;
+    width: 100%;
+    max-width: 100%;
+    aspect-ratio: 4 / 5;
+    max-height: none;
+    border-radius: 18px;
+  }
+
+  .pi--no-media .pi__meta-chips {
+    display: flex;
+  }
+
+  .pi:not(.pi--no-media) .pi__meta-chips {
+    display: none;
+  }
+
+  .pi__header {
+    margin-bottom: 14px;
+    text-align: left;
+    align-items: flex-start;
+  }
+
+  .pi__eyebrow {
+    display: inline-flex;
+    width: fit-content;
+    margin: 0 0 10px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    background: rgba(182, 138, 53, 0.12);
+    border: 1px solid rgba(182, 138, 53, 0.22);
+    font-size: 0.8125rem;
+    letter-spacing: 0.12em;
+    color: #b68a35;
+  }
+
+  .pi__heading {
+    font-size: clamp(1.45rem, 5vw, 1.85rem) !important;
+    line-height: 1.18 !important;
+    margin: 0 0 8px !important;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .pi__subtitle {
+    font-size: clamp(1.05rem, 3.4vw, 1.125rem) !important;
+    line-height: 1.55 !important;
+    max-width: 100% !important;
+    color: rgba(var(--color-foreground), 0.68) !important;
+    overflow-wrap: anywhere;
+  }
+
+  .pi__formula-badge,
+  .pi__count-badge {
+    font-size: 0.8125rem;
+    padding: 7px 12px;
+    z-index: 2;
+  }
+
+  .pi__count-badge {
+    padding: 10px 14px;
+    border-radius: 14px;
+    bottom: 12px;
+    right: 12px;
+  }
+
+  .pi__count-num {
+    font-size: 1.35rem;
+  }
+
+  .pi__count-label {
+    font-size: 0.72rem;
+  }
+
+  .pi__formula-badge {
+    top: 12px;
+    left: 12px;
+  }
+
+  /* Kill horizontal carousel — stacked accordions */
+  .pi__grid,
+  .template-product .pi__grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 10px !important;
+    overflow: visible !important;
+    flex-wrap: unset !important;
+    scroll-snap-type: none !important;
+    padding-bottom: 0 !important;
+  }
+
+  .pi__grid > *,
+  .template-product .pi__grid > * {
+    flex: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .pi__card,
+  .template-product .pi__card {
+    width: 100% !important;
+    padding: 0 !important;
+    border-radius: 14px !important;
+    background: #fff !important;
+    border: 1px solid rgba(23, 23, 23, 0.08) !important;
+    box-shadow: 0 6px 18px rgba(26, 22, 18, 0.04);
+  }
+
+  .pi__card-trigger {
+    padding: 14px 12px !important;
+    gap: 10px;
+  }
+
+  .pi__card-img-wrap {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+  }
+
+  .pi__card-name {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+    font-size: 1rem !important;
+    line-height: 1.3 !important;
+  }
+
+  .pi__card-sci {
+    white-space: normal;
+  }
+
+  .pi__card-details {
+    padding: 0 12px 14px;
+  }
+
+  .pi__card-row {
+    flex-direction: column;
+    gap: 2px;
+    font-size: clamp(0.95rem, 3vw, 1.05rem);
+  }
+
+  .pi__card-row-label {
+    min-width: 0;
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .pi__card-rte,
+  .pi__card-rte p,
+  .pi__card-rte li,
+  .pi__card-rte span {
+    font-size: clamp(0.98rem, 3.2vw, 1.08rem) !important;
+    line-height: 1.55 !important;
+  }
+
+  .pi__cta .uc-btn {
+    width: 100%;
+    justify-content: center;
+    min-height: 50px;
+    font-size: 1.0625rem;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .pi__media {
+    aspect-ratio: 1 / 1;
+    max-width: min(100%, 420px);
+    margin-inline: auto;
+  }
+}
+
+/* ── Scroll reveal ────────────────────────────────────────────────────────── */
+.pi--reveal [data-pi-reveal] {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.55s ease var(--pi-delay, 0ms),
+    transform 0.55s var(--ease-premium, cubic-bezier(.22,.68,0,1.2)) var(--pi-delay, 0ms);
+}
+
+.pi--reveal [data-pi-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}

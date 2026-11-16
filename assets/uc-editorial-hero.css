@@ -1,0 +1,603 @@
+/* uc-editorial-hero.css — full-bleed overlay banner slideshow (ueh namespace) */
+
+.shopify-section.section-uc-editorial-hero {
+  position: relative;
+  z-index: 1;
+}
+
+.ueh {
+  display: block;
+  width: min(100%, var(--ueh-max, 1920px));
+  margin-inline: auto;
+  padding-inline: var(--ueh-pad-x, 0px);
+  /* Default: sit under floating capsule; subpages add extra gap via body class overrides */
+  padding-top: calc(var(--uc-phdr-offset, 80px) + var(--ueh-header-gap, 0px));
+  padding-bottom: var(--ueh-pad-bottom, 0px);
+}
+
+/* Subpages: first MainContent section already clears the header */
+body:not(.template-index) .ueh {
+  padding-top: 8px !important;
+}
+
+.ueh__frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--ueh-radius, 20px);
+  background: var(--ueh-bg, #efe8de);
+  box-shadow:
+    0 18px 48px rgba(23, 23, 23, 0.1),
+    0 2px 0 rgba(255, 255, 255, 0.65) inset;
+  isolation: isolate;
+  transition: box-shadow 0.45s ease, transform 0.45s ease;
+}
+
+@media (hover: hover) {
+  .ueh__frame:hover {
+    box-shadow:
+      0 24px 56px rgba(23, 23, 23, 0.14),
+      0 2px 0 rgba(255, 255, 255, 0.7) inset;
+    transform: translateY(-2px);
+  }
+}
+
+/* Viewport / track — fills most of the screen under the floating header */
+.ueh__viewport {
+  position: relative;
+  height: min(var(--ueh-h, 860px), calc(100svh - var(--uc-phdr-offset, 72px) - 8px));
+  min-height: min(var(--ueh-h, 860px), calc(100svh - var(--uc-phdr-offset, 72px) - 8px));
+}
+
+.ueh__track {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.ueh__slide {
+  position: relative;
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Single-slide (no JS) fallback: stack, show first */
+.ueh--single .ueh__slide { flex-basis: 100%; }
+
+/* Slider mode */
+.ueh--slider .ueh__track {
+  transition: transform var(--ueh-slide-dur, 700ms) cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+/* Media — must fill the entire slide so copy overlays the photo (no empty band) */
+.ueh__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.ueh__media picture {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ueh__img,
+.ueh__media .ueh__img,
+.ueh__media img,
+.ueh__media svg {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  object-fit: cover !important;
+  object-position: var(--ueh-focal, center center);
+  display: block;
+  margin: 0 !important;
+  transform: scale(1.04);
+  transition: transform 6000ms ease-out;
+}
+
+/* Empty slide — cream luxury plane (never Shopify lifestyle fashion SVG) */
+.ueh__img--placeholder {
+  background:
+    radial-gradient(ellipse 70% 55% at 70% 30%, rgba(182, 138, 53, 0.12) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 20% 80%, rgba(182, 138, 53, 0.08) 0%, transparent 50%),
+    linear-gradient(155deg, #f7f4ef 0%, #efe6d8 48%, #e8dfd2 100%);
+  transform: none !important;
+}
+
+.ueh__content--on-cream {
+  --ueh-text: #171717;
+}
+.ueh__content--on-cream .ueh__btn--glass {
+  background: rgba(255, 255, 255, 0.65);
+  color: #171717;
+  border: none;
+  box-shadow: inset 0 0 0 1px rgba(23, 23, 23, 0.1);
+}
+.ueh__eyebrow {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.72;
+  color: inherit;
+}
+
+.ueh__slide.is-active .ueh__img {
+  transform: scale(1);
+}
+
+.ueh--kenburns .ueh__slide.is-active .ueh__img {
+  animation: ueh-kenburns 12s ease-out forwards;
+}
+
+@keyframes ueh-kenburns {
+  from { transform: scale(1.02); }
+  to { transform: scale(1.1); }
+}
+
+/* Overlay for readability */
+.ueh__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: var(--ueh-overlay-bg, linear-gradient(105deg, rgba(12, 10, 8, 0.62) 0%, rgba(12, 10, 8, 0.28) 42%, transparent 68%));
+  opacity: var(--ueh-overlay-opacity, 0.35);
+}
+
+/* Content — always overlays the image (never stacks below it) */
+.ueh__content {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  padding: clamp(20px, 5vw, 64px);
+  pointer-events: none;
+}
+
+.ueh__content a,
+.ueh__content button {
+  pointer-events: auto;
+}
+
+/* Position modifiers */
+.ueh__content--tl { align-items: flex-start; justify-content: flex-start; text-align: left; }
+.ueh__content--tc { align-items: flex-start; justify-content: center; text-align: center; }
+.ueh__content--tr { align-items: flex-start; justify-content: flex-end; text-align: right; }
+.ueh__content--cl { align-items: center; justify-content: flex-start; text-align: left; }
+.ueh__content--cc { align-items: center; justify-content: center; text-align: center; }
+.ueh__content--cr { align-items: center; justify-content: flex-end; text-align: right; }
+.ueh__content--bl { align-items: flex-end; justify-content: flex-start; text-align: left; }
+.ueh__content--bc { align-items: flex-end; justify-content: center; text-align: center; }
+.ueh__content--br { align-items: flex-end; justify-content: flex-end; text-align: right; }
+
+.ueh__copy {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(12px, 1.6vw, 20px);
+  max-width: min(100%, var(--ueh-copy-max, 520px));
+  color: var(--ueh-text, #fff);
+}
+
+.ueh__slide.is-active .ueh__copy > * {
+  animation: ueh-rise var(--ueh-anim-dur, 700ms) cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.ueh__slide.is-active .ueh__copy > *:nth-child(1) { animation-delay: 120ms; }
+.ueh__slide.is-active .ueh__copy > *:nth-child(2) { animation-delay: 220ms; }
+.ueh__slide.is-active .ueh__copy > *:nth-child(3) { animation-delay: 320ms; }
+.ueh__slide.is-active .ueh__copy > *:nth-child(4) { animation-delay: 420ms; }
+
+@keyframes ueh-rise {
+  from { opacity: 0; transform: translate3d(0, 20px, 0); }
+  to { opacity: 1; transform: none; }
+}
+
+.ueh__badge {
+  align-self: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  padding: 7px 15px;
+  border-radius: var(--uc-radius-pill, 999px);
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: inherit;
+}
+
+.ueh__content--tc .ueh__badge,
+.ueh__content--cc .ueh__badge,
+.ueh__content--bc .ueh__badge { margin-inline: auto; }
+
+.ueh__content--tr .ueh__badge,
+.ueh__content--cr .ueh__badge,
+.ueh__content--br .ueh__badge { margin-inline-start: auto; }
+
+.ueh__heading {
+  margin: 0;
+  font-family: var(--uc-font-heading, 'Manrope', sans-serif);
+  font-size: var(--ueh-h-size, 38px);
+  font-weight: 700;
+  line-height: 1.03;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  color: inherit;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.28);
+}
+
+.ueh__heading--mobile {
+  display: none;
+}
+
+@media screen and (max-width: 749px) {
+  .ueh__heading--has-mobile {
+    display: none;
+  }
+  .ueh__heading--mobile {
+    display: block;
+  }
+}
+
+.ueh__heading p,
+.ueh__heading span {
+  margin: 0;
+  color: inherit;
+  font: inherit;
+}
+
+.ueh__subheading {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
+.ueh__desc {
+  margin: 0;
+  max-width: 46ch;
+  font-size: var(--ueh-desc-size, 16px);
+  line-height: 1.6;
+  opacity: 0.96;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.22);
+}
+
+.ueh__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.ueh__content--tc .ueh__actions,
+.ueh__content--cc .ueh__actions,
+.ueh__content--bc .ueh__actions { justify-content: center; }
+
+.ueh__content--tr .ueh__actions,
+.ueh__content--cr .ueh__actions,
+.ueh__content--br .ueh__actions { justify-content: flex-end; }
+
+.ueh__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 50px;
+  padding: 0 26px;
+  border-radius: var(--uc-radius-pill, 999px);
+  font-family: var(--uc-font-btn, 'Manrope', sans-serif);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 260ms ease, background 260ms ease, color 260ms ease;
+}
+
+.ueh__btn--primary {
+  background: var(--ueh-accent, #765a24);
+  color: #fff;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.22);
+}
+
+.ueh__btn--glass {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.55);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  color: #fff;
+}
+
+@media (hover: hover) {
+  .ueh__btn--primary:hover { transform: translate3d(0, -2px, 0); box-shadow: 0 18px 40px rgba(0, 0, 0, 0.3); }
+  .ueh__btn--glass:hover { transform: translate3d(0, -2px, 0); background: rgba(255, 255, 255, 0.26); }
+}
+
+/* Arrows */
+.ueh__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  color: #fff;
+  cursor: pointer;
+  transition: background 220ms ease, transform 220ms ease, opacity 220ms ease;
+}
+
+@media (hover: hover) {
+  .ueh__frame .ueh__arrow {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .ueh:hover .ueh__arrow,
+  .ueh__frame:hover .ueh__arrow,
+  .ueh__frame:focus-within .ueh__arrow {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+@media screen and (min-width: 750px) and (hover: hover) {
+  .ueh__arrow:focus-visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+.ueh__arrow:hover { background: rgba(255, 255, 255, 0.36); }
+.ueh__arrow--prev { left: clamp(10px, 2vw, 20px); }
+.ueh__arrow--next { right: clamp(10px, 2vw, 20px); }
+.ueh__arrow svg { width: 22px; height: 22px; }
+
+/* Dots */
+.ueh__dots {
+  position: absolute;
+  bottom: clamp(12px, 2vw, 20px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  display: flex;
+  gap: 8px;
+}
+.ueh__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 0;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: transform 220ms ease, background 220ms ease, width 220ms ease;
+}
+.ueh__dot.is-active {
+  width: 26px;
+  border-radius: 999px;
+  background: #fff;
+}
+
+/* Tablet */
+@media screen and (max-width: 989px) {
+  .ueh__viewport {
+    height: min(var(--ueh-h-t, 680px), calc(100svh - var(--uc-phdr-offset, 68px) - 8px));
+    min-height: min(var(--ueh-h-t, 680px), calc(100svh - var(--uc-phdr-offset, 68px) - 8px));
+  }
+}
+
+/* Mobile — image banner on top, copy UNDER (not overlay) */
+@media screen and (max-width: 749px) {
+  .ueh {
+    padding-inline: max(12px, var(--ueh-pad-x, 12px));
+    padding-bottom: 8px;
+  }
+
+  .ueh__frame {
+    overflow: hidden;
+    background: #f7f4ef;
+    box-shadow: none;
+    border-radius: 14px;
+  }
+
+  .ueh__viewport {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: hidden;
+  }
+
+  .ueh__track {
+    height: auto;
+    align-items: stretch;
+  }
+
+  .ueh__slide {
+    display: flex;
+    flex-direction: column;
+    flex: 0 0 100%;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 6px 20px rgba(23, 23, 23, 0.05);
+  }
+
+  .ueh__arrow {
+    display: none !important;
+  }
+
+  .ueh__media,
+  .ueh__media picture {
+    position: relative !important;
+    inset: auto !important;
+    z-index: 0;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    max-height: none;
+    border-radius: 14px 14px 0 0;
+    overflow: hidden;
+    flex: 0 0 auto;
+  }
+
+  .ueh__img,
+  .ueh__media .ueh__img,
+  .ueh__media img,
+  .ueh__media svg {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    transform: none !important;
+    animation: none !important;
+  }
+
+  .ueh__overlay {
+    display: none !important;
+  }
+
+  .ueh__content,
+  .ueh__content--tl,
+  .ueh__content--tc,
+  .ueh__content--tr,
+  .ueh__content--cl,
+  .ueh__content--cc,
+  .ueh__content--cr,
+  .ueh__content--bl,
+  .ueh__content--bc,
+  .ueh__content--br {
+    position: relative !important;
+    inset: auto !important;
+    z-index: 2;
+    display: flex;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    text-align: left !important;
+    padding: 18px 16px 20px !important;
+    pointer-events: auto;
+    --ueh-text: var(--uc-theme-text-mobile, #171717);
+    color: var(--ueh-text);
+  }
+
+  .ueh__copy {
+    max-width: 100%;
+    width: 100%;
+    color: var(--uc-theme-text-mobile, var(--ueh-text, #171717));
+    gap: 12px;
+  }
+
+  .ueh__heading,
+  .ueh__desc,
+  .ueh__eyebrow,
+  .ueh__subheading {
+    color: inherit;
+    text-shadow: none !important;
+    opacity: 1;
+  }
+
+  .ueh__desc {
+    opacity: 1;
+    max-width: none;
+    font-size: 15px;
+  }
+
+  .ueh__heading {
+    font-size: var(--ueh-h-size, 26px) !important;
+    line-height: 1.18;
+  }
+
+  .ueh__actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start !important;
+  }
+
+  .ueh__btn {
+    flex: 1 1 auto;
+    width: 100%;
+    min-height: 48px;
+  }
+
+  .ueh__btn--glass {
+    background: #fff;
+    color: #171717;
+    border: 1px solid rgba(23, 23, 23, 0.12);
+    box-shadow: none;
+  }
+
+  .ueh__badge {
+    background: rgba(182, 138, 53, 0.12);
+    border-color: rgba(182, 138, 53, 0.28);
+    color: #8f6824;
+  }
+
+  .ueh__arrow {
+    width: 40px;
+    height: 40px;
+    top: calc(min(62vh, 520px) * 0.5);
+    transform: translateY(-50%);
+  }
+
+  .ueh__dots {
+    bottom: auto;
+    top: auto;
+    position: relative;
+    margin: 10px auto 0;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .ueh__dot {
+    width: 6px !important;
+    height: 6px !important;
+    min-width: 6px;
+    min-height: 6px;
+  }
+
+  .ueh__dot.is-active {
+    width: 16px !important;
+    height: 6px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ueh__img,
+  .ueh--slider .ueh__track,
+  .ueh__slide.is-active .ueh__copy > * {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}

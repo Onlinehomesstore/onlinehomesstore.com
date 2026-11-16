@@ -1,0 +1,542 @@
+{%- comment -%}
+ ============================================================================
+ PRODUCT TESTIMONIALS + SOCIAL PROOF
+ ----
+ Horizontal scroll-snap carousel of premium testimonial cards.
+ Social proof statistics strip below with animated count-up.
+
+ Carousel widths:
+ Desktop >= 990px -> 3 cards
+ Tablet 750 - 989 -> 2 cards
+ Mobile < 750px -> 1.2 cards (peek next)
+
+ Reuses: uc-design-tokens.css, uc-components.css, uc-icon.liquid.
+ Adds: product-testimonials.css, product-testimonials.js.
+ CSS prefix: pt-
+ ============================================================================
+{%- endcomment -%}
+{{ 'product-testimonials.css' | asset_url | stylesheet_tag }}
+{{ 'uc-reviews-stream.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+ assign s = section.settings
+ assign uid = section.id
+ assign testimonial_blocks = section.blocks | where: 'type', 'testimonial'
+ assign stat_blocks = section.blocks | where: 'type', 'stat'
+
+ assign total = testimonial_blocks.size
+
+ assign rating_sum = 0
+ for block in testimonial_blocks
+   assign br = block.settings.rating | default: 5 | plus: 0
+   assign rating_sum = rating_sum | plus: br
+ endfor
+
+ if s.use_review_catalog
+   assign avg_rating = s.average_rating_text | default: '4.8'
+   assign review_count = s.review_count | default: '36'
+   assign review_count_label = s.review_count_label | default: 'verified reviews'
+ elsif testimonial_blocks.size > 0
+   assign avg_rating = rating_sum | times: 1.0 | divided_by: testimonial_blocks.size
+   assign avg_rating = avg_rating | round: 1
+   assign review_count = testimonial_blocks.size
+   assign review_count_label = 'customer stories'
+   if testimonial_blocks.size == 1
+     assign review_count_label = 'customer story'
+   endif
+ elsif product.metafields.reviews.rating.value != blank
+   assign avg_rating = product.metafields.reviews.rating.value.rating | default: product.metafields.reviews.rating.value
+   assign review_count = s.review_count | default: '0'
+   assign review_count_label = s.review_count_label | default: 'reviews'
+ else
+   assign avg_rating = s.average_rating_text | default: '5'
+   assign review_count = s.review_count | default: '0'
+   assign review_count_label = s.review_count_label | default: 'reviews'
+ endif
+
+ assign product_count = shop.products_count | default: collections.all.products_count | default: 0
+ assign accent = s.accent_color | default: settings.uc_color_primary | default: '#B68A35'
+
+ assign dist_5 = 0
+ assign dist_4 = 0
+ assign dist_3 = 0
+ assign dist_2 = 0
+ assign dist_1 = 0
+ for block in testimonial_blocks
+ assign r = block.settings.rating | default: 5 | plus: 0
+ case r
+ when 5
+ assign dist_5 = dist_5 | plus: 1
+ when 4
+ assign dist_4 = dist_4 | plus: 1
+ when 3
+ assign dist_3 = dist_3 | plus: 1
+ when 2
+ assign dist_2 = dist_2 | plus: 1
+ else
+ assign dist_1 = dist_1 | plus: 1
+ endcase
+ endfor
+ assign dist_total = testimonial_blocks.size | at_least: 1
+ assign page_size = s.reviews_per_page | default: 6
+-%}
+
+{%- assign uc_sec_scope = '#ProductTestimonials-' | append: uid -%}
+{%- render 'uc-section-vars', section: section, scope: uc_sec_scope -%}
+{%- render 'uc-section-colors', section: section -%}
+
+{%- style -%}
+ #ProductTestimonials-{{ uid }} {
+ --pt-pad-top: {{ s.padding_top | default: 72 }}px;
+ --pt-pad-bottom: {{ s.padding_bottom | default: 72 }}px;
+ --pt-gap: {{ s.card_gap | default: 16 }}px;
+ --pt-card-radius: {{ s.card_radius | default: 20 }}px;
+ --pt-accent: {{ accent }};
+ }
+ {%- if s.background_color != blank -%}
+ #ProductTestimonials-{{ uid }} { background: {{ s.background_color }}; }
+ {%- endif -%}
+{%- endstyle -%}
+
+<section
+ id="ProductTestimonials-{{ uid }}"
+ class="pt uc-sec color-{{ s.color_scheme }}"
+ data-pt-section
+ data-pt-autoplay="{% if s.enable_autoplay %}{{ s.autoplay_speed | default: 5 | times: 1000 }}{% else %}0{% endif %}"
+ data-pt-page-size="{{ page_size }}"
+ data-pt-catalog="{% if s.use_review_catalog %}{{ 'uc-reviews-catalog.json' | asset_url }}{% endif %}"
+>
+ <div class="pt__inner uc-sec__container">
+
+ {%- comment -%} -- Header ---- {%- endcomment -%}
+ {%- if s.show_distribution -%}
+ {% render 'uc-section-header',
+ eyebrow: s.eyebrow,
+ heading: s.heading,
+ description: s.subtitle,
+ reveal: true,
+ header_class: 'pt__header-row'
+ %}
+ {%- else -%}
+ {%- capture pt_rating_actions -%}
+ <div class="pt__rating-summary">
+ <div class="pt__stars-wrap" aria-label="Rated {{ avg_rating }} out of 5">
+ {%- assign star_pct = avg_rating | times: 20 -%}
+ {%- assign pt_summary_label = 'Rated ' | append: avg_rating | append: ' out of 5' -%}
+ {%- render 'uc-star-rating', pct: star_pct, class: 'pt__stars', label: pt_summary_label -%}
+ </div>
+ <strong class="pt__rating-num">{{ avg_rating }}</strong>
+ <span class="pt__rating-count">{{ review_count }} {{ review_count_label | escape }}</span>
+ </div>
+ {%- endcapture -%}
+ {% render 'uc-section-header',
+ eyebrow: s.eyebrow,
+ heading: s.heading,
+ description: s.subtitle,
+ reveal: true,
+ actions_html: pt_rating_actions,
+ header_class: 'pt__header-row'
+ %}
+ {%- endif -%}
+
+ {%- if testimonial_blocks.size > 0 or s.use_review_catalog -%}
+ {%- if s.show_distribution -%}
+ <div class="pt__summary uc-glass-card uc-reveal" data-pt-summary>
+ <div class="pt__summary-score">
+ <div class="pt__summary-rating">
+ <strong class="pt__summary-num">{{ avg_rating }}</strong>
+ {%- assign star_pct = avg_rating | times: 20 -%}
+ {%- render 'uc-star-rating', pct: star_pct, class: 'pt__stars pt__summary-stars', label: 'Average rating' -%}
+ </div>
+ <span class="pt__summary-count">{{ review_count }} {{ review_count_label | escape }}</span>
+ </div>
+ <div class="pt__distribution" aria-label="Rating distribution" data-pt-distribution>
+ {%- if s.use_review_catalog -%}
+ {%- assign dist_rows = '5,4,3,2,1' | split: ',' -%}
+ {%- assign cat_pcts = '88,9,3,0,0' | split: ',' -%}
+ {%- for star in dist_rows -%}
+ <div class="pt__dist-row">
+ <span class="pt__dist-label">{{ star }}★</span>
+ <div class="pt__dist-track" role="presentation">
+ <span class="pt__dist-fill" style="--pt-dist-pct: {{ cat_pcts[forloop.index0] }}%;" data-pt-dist-fill></span>
+ </div>
+ <span class="pt__dist-count" data-pt-dist-pct>{{ cat_pcts[forloop.index0] }}%</span>
+ </div>
+ {%- endfor -%}
+ {%- else -%}
+ {%- assign dist_rows = '5,4,3,2,1' | split: ',' -%}
+ {%- for star in dist_rows -%}
+ {%- assign star_n = star | plus: 0 -%}
+ {%- case star_n -%}
+ {%- when 5 -%}{%- assign star_count = dist_5 -%}
+ {%- when 4 -%}{%- assign star_count = dist_4 -%}
+ {%- when 3 -%}{%- assign star_count = dist_3 -%}
+ {%- when 2 -%}{%- assign star_count = dist_2 -%}
+ {%- else -%}{%- assign star_count = dist_1 -%}
+ {%- endcase -%}
+ {%- assign bar_pct = star_count | times: 100.0 | divided_by: dist_total | round -%}
+ <div class="pt__dist-row">
+ <span class="pt__dist-label">{{ star_n }}★</span>
+ <div class="pt__dist-track" role="presentation">
+ <span class="pt__dist-fill" style="--pt-dist-pct: {{ bar_pct }}%;"></span>
+ </div>
+ <span class="pt__dist-count">{{ bar_pct }}%</span>
+ </div>
+ {%- endfor -%}
+ {%- endif -%}
+ </div>
+ </div>
+ {%- endif -%}
+
+ <div class="pt__toolbar uc-reveal" data-pt-toolbar>
+ <div class="pt__filters" role="tablist" aria-label="Filter reviews">
+ <button type="button" class="pt__filter uc-btn uc-btn--glass is-active" data-pt-filter="all" role="tab" aria-selected="true">All</button>
+ <button type="button" class="pt__filter uc-btn uc-btn--glass" data-pt-filter="photos" role="tab" aria-selected="false">With photos</button>
+ <button type="button" class="pt__filter uc-btn uc-btn--glass" data-pt-filter="verified" role="tab" aria-selected="false">Verified</button>
+ <button type="button" class="pt__filter uc-btn uc-btn--glass" data-pt-filter="top" role="tab" aria-selected="false">Top rated</button>
+ </div>
+ <label class="pt__sort-wrap">
+ <span class="visually-hidden">Sort reviews</span>
+ <select class="pt__sort" data-pt-sort aria-label="Sort reviews">
+ <option value="default">Most recent</option>
+ <option value="rating-desc">Highest rating</option>
+ <option value="helpful-desc">Most helpful</option>
+ </select>
+ </label>
+ </div>
+
+ <div class="pt__carousel" data-pt-carousel>
+ <div class="pt__track" data-pt-track>
+ {%- for block in testimonial_blocks -%}
+ {%- assign b = block.settings -%}
+ {%- assign star_fill = b.rating | default: 5 | times: 20 -%}
+ {%- assign card_rating = b.rating | default: 5 -%}
+ {%- assign pt_card_label = 'Rated ' | append: card_rating | append: ' out of 5 stars' -%}
+
+ {%- liquid
+ assign has_photo = false
+ if b.customer_image != blank or b.before_image != blank or b.after_image != blank or b.review_photo != blank
+ assign has_photo = true
+ endif
+ assign helpful_num = b.helpful_count | replace: ',', '' | plus: 0
+ -%}
+
+ <article
+ class="pt__card uc-card-stable{% if forloop.index > page_size %} pt__card--paginated{% endif %}"
+ data-pt-card="{{ forloop.index0 }}"
+ data-pt-rating="{{ b.rating | default: 5 }}"
+ data-pt-has-photo="{% if has_photo %}true{% else %}false{% endif %}"
+ data-pt-verified="{% if b.verified %}true{% else %}false{% endif %}"
+ data-pt-helpful="{{ helpful_num }}"
+ data-pt-index="{{ forloop.index0 }}"
+ aria-label="Review by {{ b.customer_name | default: 'Customer' | escape }}"
+ {{ block.shopify_attributes }}
+ >
+ {%- comment -%} Card top: stars + verified + date {%- endcomment -%}
+ <header class="pt__card-head">
+ {%- render 'uc-star-rating', pct: star_fill, class: 'pt__card-stars', label: pt_card_label -%}
+
+ <div class="pt__card-meta-right">
+ {%- if b.verified -%}
+ <span class="pt__card-verified">
+ {%- render 'uc-icon', icon: 'badge-check', size: 13 -%}
+ Verified
+ </span>
+ {%- endif -%}
+ {%- if b.review_date != blank -%}
+ <time class="pt__card-date" datetime="{{ b.review_date }}">{{ b.review_date | escape }}</time>
+ {%- endif -%}
+ </div>
+ </header>
+
+ {%- if b.review_photo != blank -%}
+ <div class="pt__card-photo">
+ {{
+ b.review_photo
+ | image_url: width: 600
+ | image_tag: loading: 'lazy', class: 'pt__card-photo-img', alt: 'Customer photo', widths: '300, 450, 600'
+ }}
+ </div>
+ {%- endif -%}
+
+ {%- comment -%} Review title {%- endcomment -%}
+ {%- if b.review_title != blank -%}
+ <h3 class="pt__card-title">{{ b.review_title | escape }}</h3>
+ {%- endif -%}
+
+ {%- comment -%} Review text {%- endcomment -%}
+ {%- if b.review_text != blank -%}
+ <p class="pt__card-text">&ldquo;{{ b.review_text | escape }}&rdquo;</p>
+ {%- endif -%}
+
+ {%- comment -%} Result duration tag {%- endcomment -%}
+ {%- if b.result_duration != blank -%}
+ <span class="pt__card-result">
+ {%- render 'uc-icon', icon: 'clock', size: 12 -%}
+ {{ b.result_duration | escape }}
+ </span>
+ {%- endif -%}
+
+ {%- comment -%} Optional before/after thumbnails {%- endcomment -%}
+ {%- if b.before_image != blank or b.after_image != blank -%}
+ <div class="pt__card-ba" aria-label="Before and after images">
+ {%- if b.before_image != blank -%}
+ <div class="pt__card-ba-item">
+ {{
+ b.before_image
+ | image_url: width: 180
+ | image_tag:
+ class: 'pt__card-ba-img',
+ loading: 'lazy',
+ alt: 'Before',
+ widths: '90, 140, 180'
+ }}
+ <span class="pt__card-ba-label">Before</span>
+ </div>
+ {%- endif -%}
+ {%- if b.after_image != blank -%}
+ <div class="pt__card-ba-item">
+ {{
+ b.after_image
+ | image_url: width: 180
+ | image_tag:
+ class: 'pt__card-ba-img',
+ loading: 'lazy',
+ alt: 'After',
+ widths: '90, 140, 180'
+ }}
+ <span class="pt__card-ba-label">After</span>
+ </div>
+ {%- endif -%}
+ </div>
+ {%- endif -%}
+
+ {%- comment -%} Card footer: avatar + name + product {%- endcomment -%}
+ <footer class="pt__card-footer">
+ <div class="pt__card-avatar-wrap">
+ {%- if b.customer_image != blank -%}
+ {%- assign pt_avatar_alt = b.customer_name | escape -%}
+ {{
+ b.customer_image
+ | image_url: width: 80
+ | image_tag:
+ class: 'pt__card-avatar',
+ loading: 'lazy',
+ alt: pt_avatar_alt,
+ widths: '40, 60, 80'
+ }}
+ {%- else -%}
+ <div class="pt__card-avatar pt__card-avatar--placeholder" aria-hidden="true">
+ {%- render 'uc-icon', icon: 'user', size: 18 -%}
+ </div>
+ {%- endif -%}
+ </div>
+ <div class="pt__card-person">
+ {%- if b.customer_name != blank -%}
+ <strong class="pt__card-name">{{ b.customer_name | escape }}</strong>
+ {%- endif -%}
+ {%- if b.location != blank -%}
+ <span class="pt__card-location">{{ b.location | escape }}</span>
+ {%- endif -%}
+ {%- if b.purchased_variant != blank -%}
+ <span class="pt__card-variant">{{ b.purchased_variant | escape }}</span>
+ {%- endif -%}
+ </div>
+ {%- if b.helpful_count != blank -%}
+ <div class="pt__card-helpful">
+ {%- render 'uc-icon', icon: 'thumbs-up', size: 13 -%}
+ {{ b.helpful_count | escape }}
+ </div>
+ {%- endif -%}
+ </footer>
+ </article>
+ {%- endfor -%}
+ </div>
+
+ {%- comment -%} Arrows {%- endcomment -%}
+ <div class="pt__arrows" aria-label="Carousel navigation">
+ <button class="pt__arrow pt__arrow--prev" data-pt-prev aria-label="Previous testimonial" disabled>
+ {%- render 'uc-icon', icon: 'chevron-left', size: 18 -%}
+ </button>
+ <button class="pt__arrow pt__arrow--next" data-pt-next aria-label="Next testimonial">
+ {%- render 'uc-icon', icon: 'chevron-right', size: 18 -%}
+ </button>
+ </div>
+
+ {%- comment -%} Progress bar {%- endcomment -%}
+ {%- if s.show_progress -%}
+ <div class="pt__progress" aria-hidden="true" data-pt-progress>
+ <div class="pt__progress-fill" data-pt-progressfill></div>
+ </div>
+ {%- endif -%}
+ </div>
+
+ {%- comment -%} Load-more removed — catalog renders with carousel filters only {%- endcomment -%}
+ {%- endif -%}
+
+ {%- comment -%} -- Social Proof Stats Strip ---- {%- endcomment -%}
+ {%- if stat_blocks.size > 0 -%}
+ <div class="pt__stats" data-pt-stats role="list" aria-label="Trust statistics">
+ {%- for block in stat_blocks -%}
+ {%- liquid
+   assign stat_num = block.settings.number
+   assign stat_prefix = block.settings.prefix
+   assign stat_suffix = block.settings.suffix
+   if block.settings.stars
+     assign stat_num = avg_rating
+     assign stat_suffix = ''
+   elsif block.settings.label contains 'community' or block.settings.label contains 'experiences'
+     if s.use_review_catalog
+       assign stat_num = review_count | replace: ',', '' | plus: 0
+     else
+       assign stat_num = testimonial_blocks.size
+     endif
+     assign stat_suffix = ''
+   elsif block.settings.label contains 'shades' or block.settings.label contains 'formats'
+     assign stat_num = product_count
+     assign stat_suffix = ''
+   endif
+ -%}
+ <div class="pt__stat" role="listitem" {{ block.shopify_attributes }}>
+ {%- if block.settings.icon != blank -%}
+ <div class="pt__stat-icon" aria-hidden="true">
+ {%- render 'uc-icon', icon: block.settings.icon, size: 22 -%}
+ </div>
+ {%- elsif block.settings.stars -%}
+ {%- assign stat_star_pct = avg_rating | times: 20 -%}
+ {%- render 'uc-star-rating', pct: stat_star_pct, class: 'pt__stat-stars uc-stars--sm', label: 'Average rating' -%}
+ {%- endif -%}
+ <span
+ class="pt__stat-number"
+ data-count="{{ stat_num }}"
+ data-prefix="{{ stat_prefix | escape }}"
+ data-suffix="{{ stat_suffix | escape }}"
+ >{{ stat_prefix }}{{ stat_num }}{{ stat_suffix }}</span>
+ <span class="pt__stat-label">{{ block.settings.label | escape }}</span>
+ </div>
+ {%- endfor -%}
+ </div>
+ {%- endif -%}
+
+ </div>
+</section>
+
+<script src="{{ 'uc-reviews-stream.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'product-testimonials.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+ "name": "UC Testimonials",
+ "tag": "section",
+ "class": "section section-product-testimonials",
+ "max_blocks": 50,
+ "settings": [
+ { "type": "header", "content": "Section header" },
+ { "type": "text", "id": "eyebrow", "label": "Eyebrow label", "default": "REAL CUSTOMER STORIES" },
+ { "type": "text", "id": "heading", "label": "Heading", "default": "What our customers say." },
+ { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Colour routines begin with UNIK CARE. Here are experiences shared by our customers." },
+
+ { "type": "header", "content": "Rating summary" },
+ { "type": "text", "id": "average_rating_text", "label": "Average rating (e.g. 4.9)", "default": "4.9" },
+ { "type": "text", "id": "review_count", "label": "Review count (e.g. 36)", "default": "36" },
+ { "type": "text", "id": "review_count_label", "label": "Review count label", "default": "verified reviews" },
+ { "type": "checkbox", "id": "use_review_catalog", "label": "Load 100+ review catalog (synced counts)", "default": true },
+ { "type": "checkbox", "id": "show_distribution", "label": "Show rating distribution bar", "default": true },
+ { "type": "range", "id": "reviews_per_page", "label": "Reviews shown before Load more", "min": 3, "max": 24, "step": 1, "default": 9 },
+
+ { "type": "header", "content": "Carousel" },
+ { "type": "checkbox", "id": "enable_autoplay", "label": "Autoplay", "default": false },
+ { "type": "range", "id": "autoplay_speed", "label": "Autoplay delay (seconds)", "min": 3, "max": 12, "step": 1, "default": 5 },
+ { "type": "checkbox", "id": "show_progress", "label": "Show progress bar", "default": true },
+ { "type": "range", "id": "card_gap", "label": "Card gap", "min": 8, "max": 32, "step": 2, "unit": "px", "default": 16 },
+ { "type": "range", "id": "card_radius", "label": "Card radius", "min": 0, "max": 36, "step": 2, "unit": "px", "default": 20 },
+
+ { "type": "header", "content": "Layout" },
+ { "type": "range", "id": "padding_top", "label": "Padding top (mobile base)", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 80 },
+ { "type": "range", "id": "padding_bottom", "label": "Padding bottom (mobile base)", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 80 },
+ { "type": "range", "id": "pad_top_lg", "label": "Padding top (laptop 990px+)", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+ { "type": "range", "id": "pad_top_xxl", "label": "Padding top (large desktop 1440px+)", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 96 },
+ { "type": "range", "id": "container_max_lg", "label": "Container max width (laptop+)", "min": 960, "max": 1440, "step": 20, "unit": "px", "default": 1280 },
+ { "type": "select", "id": "container_mode", "label": "Container width", "default": "boxed", "options": [{ "value": "boxed", "label": "Boxed" }, { "value": "full", "label": "Full width" }] },
+
+ { "type": "header", "content": "Typography — sizes by device" },
+ { "type": "paragraph", "content": "Set font sizes per breakpoint. Values apply immediately (no override checkbox required)." },
+ { "type": "range", "id": "eyebrow_size_xs", "label": "Eyebrow / pill label — mobile", "min": 9, "max": 18, "step": 1, "unit": "px", "default": 11 },
+ { "type": "range", "id": "eyebrow_size_md", "label": "Eyebrow / pill label — tablet (750px+)", "min": 9, "max": 18, "step": 1, "unit": "px", "default": 11 },
+ { "type": "range", "id": "eyebrow_size_lg", "label": "Eyebrow / pill label — laptop (990px+)", "min": 9, "max": 20, "step": 1, "unit": "px", "default": 12 },
+ { "type": "range", "id": "eyebrow_size_xxl", "label": "Eyebrow / pill label — large desktop", "min": 9, "max": 20, "step": 1, "unit": "px", "default": 12 },
+ { "type": "range", "id": "h_size_xs", "label": "Heading — mobile", "min": 18, "max": 56, "step": 1, "unit": "px", "default": 24 },
+ { "type": "range", "id": "h_size_md", "label": "Heading — tablet (750px+)", "min": 18, "max": 64, "step": 1, "unit": "px", "default": 26 },
+ { "type": "range", "id": "h_size_lg", "label": "Heading — laptop (990px+)", "min": 20, "max": 64, "step": 1, "unit": "px", "default": 30 },
+ { "type": "range", "id": "h_size_xxl", "label": "Heading — large desktop", "min": 20, "max": 72, "step": 1, "unit": "px", "default": 32 },
+ { "type": "range", "id": "sub_size_xs", "label": "Subheading — mobile", "min": 12, "max": 36, "step": 1, "unit": "px", "default": 16 },
+ { "type": "range", "id": "sub_size_md", "label": "Subheading — tablet", "min": 12, "max": 40, "step": 1, "unit": "px", "default": 17 },
+ { "type": "range", "id": "sub_size_lg", "label": "Subheading — laptop+", "min": 12, "max": 40, "step": 1, "unit": "px", "default": 18 },
+ { "type": "range", "id": "sub_size_xxl", "label": "Subheading — large desktop", "min": 12, "max": 44, "step": 1, "unit": "px", "default": 18 },
+ { "type": "range", "id": "desc_size_xs", "label": "Description — mobile", "min": 12, "max": 22, "step": 1, "unit": "px", "default": 14 },
+ { "type": "range", "id": "desc_size_md", "label": "Description — tablet", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 15 },
+ { "type": "range", "id": "desc_size_lg", "label": "Description — laptop+", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 15 },
+ { "type": "range", "id": "desc_size_xxl", "label": "Description — large desktop", "min": 12, "max": 26, "step": 1, "unit": "px", "default": 16 },
+ { "type": "range", "id": "btn_size_xs", "label": "Button / pill text — mobile", "min": 11, "max": 18, "step": 1, "unit": "px", "default": 13 },
+ { "type": "range", "id": "btn_size_md", "label": "Button / pill text — tablet", "min": 11, "max": 18, "step": 1, "unit": "px", "default": 13 },
+ { "type": "range", "id": "btn_size_lg", "label": "Button / pill text — laptop+", "min": 11, "max": 20, "step": 1, "unit": "px", "default": 14 },
+ { "type": "range", "id": "btn_size_xxl", "label": "Button / pill text — large desktop", "min": 11, "max": 20, "step": 1, "unit": "px", "default": 14 },
+ { "type": "color_scheme", "id": "color_scheme", "label": "Colour scheme", "default": "scheme-2" },
+ { "type": "color", "id": "background_color", "label": "Background override" },
+ { "type": "color", "id": "accent_color", "label": "Accent colour override" }
+ ],
+ "blocks": [
+ {
+ "type": "testimonial",
+ "name": "Testimonial",
+ "settings": [
+ { "type": "image_picker", "id": "review_photo", "label": "Customer result photo (optional)", "info": "Shown in gallery filter - 800 × 800 px square" },
+ { "type": "image_picker", "id": "customer_image", "label": "Customer photo", "info": "Recommended: 400 × 400 px" },
+ { "type": "checkbox", "id": "verified", "label": "Verified purchase badge", "default": true },
+ { "type": "text", "id": "customer_name", "label": "Customer name", "default": "Sarah M." },
+ { "type": "text", "id": "location", "label": "Location", "default": "Lahore, PK" },
+ { "type": "range", "id": "rating", "label": "Star rating", "min": 1, "max": 5, "step": 1, "default": 5 },
+ { "type": "text", "id": "review_title", "label": "Review title", "default": "Absolutely amazing results!" },
+ { "type": "textarea", "id": "review_text", "label": "Review text", "default": "I have been struggling with grey hair for years. After just 3 applications I noticed a visible difference. Highly recommend to everyone." },
+ { "type": "text", "id": "result_duration", "label": "Result duration (optional)", "default": "After 4 weeks" },
+ { "type": "image_picker", "id": "before_image", "label": "Before image (optional)", "info": "Recommended: 1400 × 1600 px" },
+ { "type": "image_picker", "id": "after_image", "label": "After image (optional)", "info": "Recommended: 1400 × 1600 px" },
+ { "type": "text", "id": "purchased_variant", "label": "Purchased variant / product (optional)", "default": "Dark Brown  -  200ml" },
+ { "type": "text", "id": "review_date", "label": "Review date", "default": "July 2025" },
+ { "type": "text", "id": "helpful_count", "label": "Helpful count (e.g. 34)", "default": "34" }
+ ]
+ },
+ {
+ "type": "stat",
+ "name": "Social Proof Stat",
+ "settings": [
+ { "type": "text", "id": "icon", "label": "Lucide icon name (optional)" },
+ { "type": "checkbox", "id": "stars", "label": "Show star icon instead", "default": false },
+ { "type": "text", "id": "prefix", "label": "Prefix (e.g. $)" },
+ { "type": "text", "id": "number", "label": "Number (e.g. 50000)", "default": "4.9" },
+ { "type": "text", "id": "suffix", "label": "Suffix (e.g. +, %)" },
+ { "type": "text", "id": "label", "label": "Label", "default": "Average Rating" }
+ ]
+ }
+ ],
+ "presets": [
+ {
+ "name": "Testimonials",
+ "blocks": [
+ { "type": "testimonial", "settings": { "customer_name": "Sarah M.", "location": "Lahore, PK", "rating": 5, "review_title": "Absolutely amazing!", "review_text": "I have been struggling with grey hair for years. After just 3 applications I noticed a visible difference. Cannot recommend this enough.", "result_duration": "After 4 weeks", "verified": true, "review_date": "July 2025", "helpful_count": "34", "purchased_variant": "Dark Brown  -  200ml" } },
+ { "type": "testimonial", "settings": { "customer_name": "Ahmed R.", "location": "Karachi, PK", "rating": 5, "review_title": "Game changer for me", "review_text": "Easy to use, smells great and the coverage is incredible. My wife noticed the difference in the first week!", "result_duration": "After 2 weeks", "verified": true, "review_date": "June 2025", "helpful_count": "21" } },
+ { "type": "testimonial", "settings": { "customer_name": "Fatima K.", "location": "Islamabad, PK", "rating": 5, "review_title": "Natural looking results", "review_text": "Very natural finish  -  you cannot tell it is a hair product at all. My friends keep asking what I have been doing differently.", "result_duration": "After 6 weeks", "verified": true, "review_date": "May 2025", "helpful_count": "18" } },
+ { "type": "stat", "settings": { "stars": true, "number": "4.9", "label": "Average Rating" } },
+ { "type": "stat", "settings": { "icon": "users", "number": "50000", "suffix": "+", "label": "Happy Customers" } },
+ { "type": "stat", "settings": { "icon": "trending-up", "number": "98", "suffix": "%", "label": "Recommend This Product" } },
+ { "type": "stat", "settings": { "icon": "shield-check", "number": "30", "suffix": " Day", "label": "Money Back Guarantee" } },
+ { "type": "stat", "settings": { "icon": "lock", "number": "100", "suffix": "%", "label": "Secure Checkout" } }
+ ]
+ },
+ {
+ "name": "Content - Customer reviews",
+ "settings": { "heading": "What customers say" }
+ }
+ ]
+}
+{% endschema %}

@@ -1,0 +1,101 @@
+{%- comment -%}
+  Unique heading + copy under the collection product grid.
+  Priority: metafields → section settings → handle-specific copy → collection description.
+{%- endcomment -%}
+{{ 'uc-collection-seo.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign handle = collection.handle
+  assign seo_heading = collection.metafields.custom.seo_heading.value | default: section.settings.heading
+  assign seo_body = collection.metafields.custom.seo_body.value | default: section.settings.body
+
+  if seo_heading == blank
+    case handle
+      when 'all', 'all-products', 'products'
+        assign seo_heading = 'Shop baby toys, learning play and little gifts'
+      when 'baby-toys'
+        assign seo_heading = 'Baby toys for first discoveries'
+      when 'rattles-teethers'
+        assign seo_heading = 'Rattles and teethers for early play'
+      when 'soft-plush-toys'
+        assign seo_heading = 'Soft and plush toys for cuddly comfort'
+      when 'musical-toys'
+        assign seo_heading = 'Musical toys for joyful sound play'
+      when 'sensory-toys'
+        assign seo_heading = 'Sensory toys that invite exploration'
+      when 'activity-gyms-play-mats'
+        assign seo_heading = 'Activity gyms and play mats'
+      when 'educational-toys'
+        assign seo_heading = 'Educational toys for curious minds'
+      when 'wooden-toys'
+        assign seo_heading = 'Wooden toys with a timeless feel'
+      when 'building-blocks'
+        assign seo_heading = 'Building blocks for open-ended play'
+      when 'bath-toys'
+        assign seo_heading = 'Bath toys for splashy fun'
+      when 'pretend-play'
+        assign seo_heading = 'Pretend play for storytelling'
+      when 'puzzles-games'
+        assign seo_heading = 'Puzzles and games for quiet-time fun'
+      when 'new-arrivals'
+        assign seo_heading = 'New arrivals for little ones'
+      when 'best-sellers'
+        assign seo_heading = 'Best-selling toys parents love'
+      else
+        assign seo_heading = collection.title
+    endcase
+  endif
+
+  if seo_body == blank
+    case handle
+      when 'all', 'all-products', 'products'
+        assign seo_body = '<p>Browse thoughtfully chosen baby toys, educational play, sensory favourites and gift-ready finds for little ones. Filter by stock and price above, then add your favourites to the cart when you are ready.</p>'
+      when 'baby-toys'
+        assign seo_body = '<p>Discover gentle first toys designed for tiny hands and early curiosity. Explore rattles, soft companions and simple play pieces that make everyday moments special.</p>'
+      when 'educational-toys'
+        assign seo_body = '<p>Explore learning-inspired toys that encourage curiosity, problem-solving and imaginative play. Shop age-friendly options for growing minds.</p>'
+      when 'wooden-toys'
+        assign seo_body = '<p>Browse wooden toys with a natural, tactile feel — from classic shapes to open-ended play pieces that last through many little moments.</p>'
+      when 'new-arrivals'
+        assign seo_body = '<p>See the latest toys and gifts added to Online Homes Store. Fresh finds for playtime, learning and thoughtful gifting.</p>'
+      when 'best-sellers'
+        assign seo_body = '<p>Shop popular toys loved by families. These best sellers are frequently browsed for everyday play and special occasions.</p>'
+      else
+        if collection.description != blank
+          assign seo_body = collection.description
+        else
+          assign seo_body = '<p>Shop ' | append: collection.title | append: ' at Online Homes Store — a calm destination for baby toys, educational play and meaningful gifts.</p>'
+        endif
+    endcase
+  endif
+-%}
+
+{%- if seo_heading != blank or seo_body != blank -%}
+<section class="uc-col-seo uc-sec" id="CollectionSeo-{{ section.id }}" {{ section.shopify_attributes }}>
+  <div class="uc-col-seo__shell page-width">
+    <div class="uc-col-seo__gutter" aria-hidden="true"></div>
+    <div class="uc-col-seo__inner">
+    {%- if seo_heading != blank -%}
+      <h2 class="uc-col-seo__heading">{{ seo_heading | escape }}</h2>
+    {%- endif -%}
+    {%- if seo_body != blank -%}
+      <div class="uc-col-seo__body rte">{{ seo_body }}</div>
+    {%- endif -%}
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Collection SEO copy",
+  "tag": "section",
+  "class": "section section-uc-collection-seo",
+  "enabled_on": { "templates": ["collection"] },
+  "settings": [
+    { "type": "paragraph", "content": "Shown under the product grid. Leave blank to use unique copy for this collection handle, or fill metafields custom.seo_heading and custom.seo_body." },
+    { "type": "text", "id": "heading", "label": "Heading override" },
+    { "type": "richtext", "id": "body", "label": "Content override" }
+  ]
+}
+{% endschema %}

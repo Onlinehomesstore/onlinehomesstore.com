@@ -1,0 +1,96 @@
+{%- comment -%}
+  Gift shopping — birthday, baby shower, newborn, everyday gifts.
+{%- endcomment -%}
+{{ 'ohs-brand-override.css' | asset_url | stylesheet_tag }}
+
+{%- assign s = section.settings -%}
+
+<section class="ohs-section" id="OhsGift-{{ section.id }}" style="{% if s.background != blank %}background:{{ s.background }};{% endif %}">
+  <div class="ohs-section__inner">
+    <header class="ohs-section__head" data-uc-reveal>
+      {%- if s.eyebrow != blank -%}<p class="ohs-section__eyebrow">{{ s.eyebrow | escape }}</p>{%- endif -%}
+      {%- if s.heading != blank -%}<h2 class="ohs-section__heading">{{ s.heading | escape }}</h2>{%- endif -%}
+      {%- if s.description != blank -%}<p class="ohs-section__desc">{{ s.description | escape }}</p>{%- endif -%}
+    </header>
+
+    <div class="ohs-grid ohs-grid--gifts">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign b = block.settings
+          assign href = b.link
+          if href == blank and b.collection != blank
+            assign href = b.collection.url
+          endif
+          if href == blank
+            assign href = routes.all_products_collection_url
+          endif
+        -%}
+        <a class="ohs-tile ohs-tile--{{ b.tone | default: 'peach' }}" href="{{ href }}" {{ block.shopify_attributes }} data-uc-reveal>
+          {%- if b.image != blank -%}
+            <div class="ohs-tile__media">
+              {{ b.image | image_url: width: 800 | image_tag: loading: 'lazy', widths: '400,600,800', sizes: '(min-width: 750px) 22vw, 45vw', alt: b.title }}
+            </div>
+            <span class="ohs-tile__shade" aria-hidden="true"></span>
+          {%- endif -%}
+          <div class="ohs-tile__body">
+            <h3 class="ohs-tile__title">{{ b.title | escape }}</h3>
+            {%- if b.description != blank -%}<p class="ohs-tile__desc">{{ b.description | escape }}</p>{%- endif -%}
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "OHS Gift Shopping",
+  "tag": "section",
+  "class": "ohs-gift-shopping",
+  "max_blocks": 8,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "GIFTS" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Find Something Special for Every Little One." },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "Thoughtful gift ideas for birthdays, baby showers, newcomers and everyday joy." },
+    { "type": "color", "id": "background", "label": "Background", "default": "#F8F5EE" }
+  ],
+  "blocks": [
+    {
+      "type": "gift",
+      "name": "Gift category",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Birthday Gifts" },
+        { "type": "textarea", "id": "description", "label": "Description" },
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "url", "id": "link", "label": "Custom link" },
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        {
+          "type": "select",
+          "id": "tone",
+          "label": "Pastel tone",
+          "options": [
+            { "value": "peach", "label": "Peach" },
+            { "value": "mint", "label": "Mint" },
+            { "value": "sage", "label": "Sage" },
+            { "value": "powder", "label": "Powder blue" },
+            { "value": "beige", "label": "Beige" },
+            { "value": "cream", "label": "Cream" }
+          ],
+          "default": "peach"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "OHS Gift Shopping",
+      "blocks": [
+        { "type": "gift", "settings": { "title": "Birthday Gifts", "tone": "peach", "link": "/collections/birthday-gifts" } },
+        { "type": "gift", "settings": { "title": "Baby Shower Gifts", "tone": "mint", "link": "/collections/baby-shower-gifts" } },
+        { "type": "gift", "settings": { "title": "Newborn Gifts", "tone": "powder", "link": "/collections/newborn-gifts" } },
+        { "type": "gift", "settings": { "title": "Everyday Surprises", "tone": "beige", "link": "/collections/everyday-gifts" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

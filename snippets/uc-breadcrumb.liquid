@@ -1,0 +1,30 @@
+{% comment %}
+ uc-breadcrumb.liquid - Accessible breadcrumb trail for pages and collections.
+ Parameters:
+ show_home {Boolean} default true
+ current_title {String} override current page title
+ extra_class {String}
+{% endcomment %}
+{%- liquid
+ assign show_home = show_home | default: true
+ assign current = current_title | default: page.title | default: collection.title
+ assign root = routes.root_url
+-%}
+<nav class="uc-breadcrumb{% if extra_class != blank %} {{ extra_class }}{% endif %}" aria-label="Breadcrumb">
+ <ol class="uc-breadcrumb__list" itemscope itemtype="https://schema.org/BreadcrumbList">
+ {%- if show_home -%}
+ <li class="uc-breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+ <a class="uc-breadcrumb__link" href="{{ root }}" itemprop="item">
+ <span itemprop="name">Home</span>
+ </a>
+ <meta itemprop="position" content="1">
+ <span class="uc-breadcrumb__sep" aria-hidden="true">/</span>
+ </li>
+ {%- endif -%}
+ <li class="uc-breadcrumb__item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+ <span class="uc-breadcrumb__current" itemprop="name" aria-current="page">{{ current | escape }}</span>
+ <meta itemprop="item" content="{{ canonical_url }}">
+ <meta itemprop="position" content="{% if show_home %}2{% else %}1{% endif %}">
+ </li>
+ </ol>
+</nav>

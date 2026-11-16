@@ -1,0 +1,166 @@
+/*
+  UC Radius Lock — header capsule pill radius (16px) sitewide.
+  Load LAST after uc-type-lock.css. Structure only — not typography.
+*/
+
+:root,
+html {
+  --uc-phdr-capsule-radius: 16px;
+  --uc-radius-pill: 16px;
+  --uc-radius-btn: 16px;
+  --uc-btn-radius: 16px;
+  --button-radius: 16px;
+  --sec-btn-radius: 16px;
+}
+
+/* True circles — qty, gallery, wishlist, header icons, avatars, dots */
+html body .pph__qty-btn,
+html body .pph-gallery__arrow,
+html body .pph-lightbox__close,
+html body .pph-lightbox__nav,
+html body .pc-card__wish,
+html body .pf-card__wish,
+html body .uc-phdr__icon,
+html body .uc-phdr__icon-btn,
+html body .uc-phdr__menu-toggle,
+html body .uc-phdr__close,
+html body .pph__pill--color,
+html body .uc-nlp__close,
+html body .uc-nlp__close-btn,
+html body [class*='__avatar'],
+html body [class*='__dot'],
+html body .swiper-pagination-bullet,
+html body .slider-button--prev,
+html body .slider-button--next,
+html body .uc-ft-social__link,
+html body .uc-ft-social a,
+html body .pt__avatar,
+html body .pt__photo,
+html body [class*='__round'],
+html body [class*='-round'] {
+  /* preserve component-defined circle radius */
+}
+
+/* Header capsule radius — buttons, pills, CTAs, form fields, badges */
+html body :is(
+  button,
+  .button,
+  .shopify-challenge__button,
+  .customer button,
+  .uc-btn,
+  a.button,
+  input[type='submit'],
+  input[type='button'],
+  .shopify-payment-button__button,
+  .cart__checkout-button,
+  .cart__update-button,
+  .pc-card__btn,
+  .pc-card__buy,
+  .pph__atc,
+  .pph__buy,
+  .pph__pill:not(.pph__pill--color),
+  .pf-qv__atc,
+  .pf-qv__buy,
+  .pf-qv__btn,
+  .category-showcase__header-btn,
+  .ubp__cta,
+  .uc-ft-nl-input,
+  .uc-ft-nl-btn,
+  .uc-ft-nl-submit,
+  .uc-ft-nl-form button,
+  .field__input,
+  .search__input,
+  .search-modal__form input,
+  .uc-search__input,
+  .uc-search__submit,
+  .ucw__btn,
+  .ucw__cta,
+  .uc-404__btn,
+  .uc-404__link,
+  .uc-contact__submit,
+  .uc-ch-submit,
+  .cart__ctas button,
+  .uc-cart__checkout,
+  .uc-cart__continue,
+  .uc-nlp__input,
+  .uc-nlp__submit,
+  .uc-nlp__btn,
+  .pvr-card__atc,
+  .pvr-card__buy,
+  .pvr-card__form button,
+  .pvr-card__form .shopify-payment-button__button,
+  .pvr-ctl:not(.pvr-card__play):not(.pvr-card__mute),
+  .pb__cta,
+  .pt__cta,
+  .ueh__cta,
+  .ueh__btn,
+  .upi__cta,
+  .ucta__btn,
+  .pfaq__btn,
+  .vr__cta,
+  .hiw__cta,
+  .ppb__cta,
+  .cs-card__btn,
+  .pf-card__btn,
+  .pf-card__buy,
+  .newsletter-form__button,
+  .contact-form button,
+  .product-form__submit,
+  .product-form__buttons button,
+  select,
+  textarea
+):not(
+  .pph__qty-btn,
+  .pph-gallery__arrow,
+  .pph-lightbox__close,
+  .pph-lightbox__nav,
+  .pc-card__wish,
+  .pf-card__wish,
+  .uc-phdr__icon,
+  .uc-phdr__icon-btn,
+  .uc-phdr__menu-toggle,
+  .pph__pill--color,
+  .uc-nlp__close,
+  .uc-nlp__close-btn,
+  [class*='__avatar'],
+  [class*='__dot'],
+  .swiper-pagination-bullet,
+  .slider-button--prev,
+  .slider-button--next,
+  .uc-ft-social__link,
+  .uc-ft-social a,
+  [class*='__round'],
+  [class*='-round']
+),
+html body [class*='__eyebrow']:not(.uc-ft-nl-eyebrow),
+html body [class*='__pill']:not(.pph__pill--color),
+html body [class*='__btn']:not([class*='__btn-icon']):not([class*='__round']),
+html body [class*='__atc'],
+html body [class*='__buy']:not([class*='__buy-now-icon']),
+html body [class*='__cta']:not([class*='__cta-icon']),
+html body [class*='__tag'],
+html body [class*='__chip'],
+html body .pc-badge--soldout,
+html body .pf-badge--sold,
+html body .pph__badge--soldout,
+html body .pph__variant-card__badge,
+html body .badge.price__badge-sold-out,
+html body .price__badge-sold-out,
+html body .pvr-card__mute,
+html body .pvr-card__play,
+html body .pvr-card__btn-mute,
+html body .pvr-card button.pvr-card__mute-btn {
+  border-radius: var(--uc-phdr-capsule-radius, 16px) !important;
+}
+
+/* Search + contact pill fields (Dawn + UC) */
+html body.template-search .field__input,
+html body.template-search .search__input,
+html body.template-search input[type='search'],
+html body .uc-search-page__input,
+html body .uc-search-page__submit,
+html body .uc-search-bar,
+html body .uc-search-bar__input,
+html body .uc-search-bar__btn {
+  border-radius: var(--uc-phdr-capsule-radius, 16px) !important;
+}

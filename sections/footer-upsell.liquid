@@ -1,0 +1,355 @@
+{%- comment -%}
+ ============================================================================
+ FOOTER UPSELL and TRUST  -  Section 14
+ ----
+ Final trust-building section before checkout.
+ Layers: Trust Banner -> Upsell Products -> Guarantee Cards ->
+ Payment Icons -> Shipping Info -> Newsletter.
+
+ Reuses: uc-design-tokens.css, uc-components.css, uc-icon.liquid,
+ uc-product-card.liquid (for upsell products),
+ uc-product-card.css + uc-product-card.js.
+ Adds: footer-upsell.css.
+ CSS prefix: fu-
+ ============================================================================
+{%- endcomment -%}
+{{ 'uc-product-card.css' | asset_url | stylesheet_tag }}
+{{ 'footer-upsell.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign s = section.settings
+  assign uid = section.id
+  assign trust_blocks = section.blocks | where: 'type', 'trust_item'
+  assign guarantee_blocks = section.blocks | where: 'type', 'guarantee'
+  assign upsell_blocks = section.blocks | where: 'type', 'upsell_product'
+  assign payment_blocks = section.blocks | where: 'type', 'payment'
+  assign fu_form_id = 'fu-newsletter-' | append: uid
+  assign ship_threshold = s.free_shipping_threshold | default: 2000 | times: 100
+-%}
+
+<script type="application/json" id="fu-data-{{ uid }}">
+ {
+ "threshold": {{ ship_threshold | default: 0 }},
+ "thresholdDisplay": {{ s.free_shipping_threshold | default: 2000 | money | json }},
+ "currency": {{ cart.currency.iso_code | json }},
+ "bundleVariantIds": [
+ {%- assign fu_first = true -%}
+ {%- for block in upsell_blocks -%}
+ {%- if block.settings.product != blank and block.settings.product.selected_or_first_available_variant != blank -%}
+ {%- unless fu_first -%},{%- endunless -%}
+ {{ block.settings.product.selected_or_first_available_variant.id }}
+ {%- assign fu_first = false -%}
+ {%- endif -%}
+ {%- endfor -%}
+ ]
+ }
+</script>
+
+{%- assign uc_sec_scope = '#FooterUpsell-' | append: uid -%}
+{%- render 'uc-section-vars', section: section, scope: uc_sec_scope -%}
+{%- render 'uc-section-colors', section: section -%}
+
+{%- style -%}
+ #FooterUpsell-{{ uid }} {
+ --fu-pad-top: {{ s.padding_top | default: 64 }}px;
+ --fu-pad-bottom: {{ s.padding_bottom | default: 48 }}px;
+ }
+ {%- if s.accent_color != blank -%}
+ #FooterUpsell-{{ uid }} { --fu-accent: {{ s.accent_color }}; }
+ {%- endif -%}
+{%- endstyle -%}
+
+<section
+ id="FooterUpsell-{{ uid }}"
+ class="fu uc-sec color-{{ s.color_scheme }}"
+ data-fu-section
+>
+
+ {%- comment -%} -- Trust Banner ---- {%- endcomment -%}
+ {%- if s.show_trust_banner and trust_blocks.size > 0 -%}
+ <div class="fu__trust" role="list" aria-label="Trust signals">
+ <div class="fu__trust-inner">
+ {%- for block in trust_blocks -%}
+ <div class="fu__trust-item" role="listitem" {{ block.shopify_attributes }}>
+ {%- if block.settings.icon != blank -%}
+ <span class="fu__trust-icon" aria-hidden="true">
+ {%- render 'uc-icon', icon: block.settings.icon, size: 22 -%}
+ </span>
+ {%- endif -%}
+ <span class="fu__trust-label">{{ block.settings.label | escape }}</span>
+ </div>
+ {%- endfor -%}
+ </div>
+ </div>
+ {%- endif -%}
+
+ <div class="fu__inner uc-sec__container">
+
+ {%- if s.show_shipping_progress and request.page_type != 'product' -%}
+ <div class="fu__ship-progress uc-glass-card" data-fu-shipping aria-live="polite">
+ <div class="fu__ship-head">
+ <span class="fu__ship-label" data-fu-ship-label>{{ s.shipping_progress_label | default: 'Free shipping progress' | escape }}</span>
+ <span class="fu__ship-amount" data-fu-ship-amount></span>
+ </div>
+ <div class="fu__ship-track" role="presentation">
+ <span class="fu__ship-fill" data-fu-ship-fill style="--fu-ship-pct: 0%;"></span>
+ </div>
+ <p class="fu__ship-msg" data-fu-ship-msg>{{ s.shipping_progress_hint | default: 'Add items to unlock free delivery' | escape }}</p>
+ </div>
+ {%- endif -%}
+
+ {%- comment -%} Upsell Products {%- endcomment -%}
+ {%- if s.show_upsells and upsell_blocks.size > 0 -%}
+ <div class="fu__upsell">
+ <header class="fu__section-head">
+ {%- if s.upsell_eyebrow != blank -%}
+ <p class="fu__eyebrow">{{ s.upsell_eyebrow | escape }}</p>
+ {%- endif -%}
+ <h2 class="fu__heading uc-sec__heading">{{ s.upsell_heading | default: 'Frequently bought together' | escape }}</h2>
+ {%- if s.show_bundle_cta and upsell_blocks.size > 1 -%}
+ <button type="button" class="uc-btn uc-btn--premium fu__bundle-btn" data-fu-bundle-add>
+ {{ s.bundle_cta_label | default: 'Add bundle to cart' | escape }}
+ </button>
+ {%- endif -%}
+ </header>
+ <div class="fu__upsell-grid">
+ {%- for block in upsell_blocks -%}
+ {%- if block.settings.product != blank -%}
+ {%- render 'uc-product-card',
+ product: block.settings.product,
+ image_ratio: 'square',
+ show_rating: true,
+ show_quick_add: true,
+ show_savings: true,
+ lazy: true,
+ section_id: uid,
+ card_index: forloop.index,
+ badge_type: block.settings.badge_type,
+ badge_label: block.settings.badge_label
+ -%}
+ {%- endif -%}
+ {%- endfor -%}
+ </div>
+ </div>
+ {%- endif -%}
+
+ {%- comment -%} -- Guarantee Cards ---- {%- endcomment -%}
+ {%- if s.show_guarantees and guarantee_blocks.size > 0 -%}
+ <div class="fu__guarantees" role="list" aria-label="Guarantees">
+ {%- for block in guarantee_blocks -%}
+ <div class="fu__guarantee" role="listitem" {{ block.shopify_attributes }}>
+ {%- if block.settings.icon != blank -%}
+ <span class="fu__guarantee-icon" aria-hidden="true">
+ {%- render 'uc-icon', icon: block.settings.icon, size: 26 -%}
+ </span>
+ {%- endif -%}
+ <div>
+ <strong class="fu__guarantee-title">{{ block.settings.title | escape }}</strong>
+ {%- if block.settings.text != blank -%}
+ <p class="fu__guarantee-text">{{ block.settings.text | escape }}</p>
+ {%- endif -%}
+ </div>
+ </div>
+ {%- endfor -%}
+ </div>
+ {%- endif -%}
+
+ {%- comment -%} -- Payment Icons + Newsletter ---- {%- endcomment -%}
+ <div class="fu__bottom-row">
+
+ {%- comment -%} Shipping + payment info {%- endcomment -%}
+ {%- if s.show_payments -%}
+ <div class="fu__payment-wrap">
+ {%- if s.shipping_headline != blank -%}
+ <p class="fu__shipping-head">{{ s.shipping_headline | escape }}</p>
+ {%- endif -%}
+ {%- if s.shipping_body != blank -%}
+ <p class="fu__shipping-body">{{ s.shipping_body | escape }}</p>
+ {%- endif -%}
+ <div class="fu__payment-icons" aria-label="Accepted payment methods">
+ {%- for block in payment_blocks -%}
+ {%- if block.settings.payment_image != blank -%}
+ {%- assign fu_pay_alt = block.settings.alt | default: 'Payment method' | escape -%}
+ {{ block.settings.payment_image | image_url: width: 80 | image_tag: class: 'fu__pay-icon', loading: 'lazy', alt: fu_pay_alt }}
+ {%- endif -%}
+ {%- endfor -%}
+ {%- comment -%} Built-in SVG payment icons {%- endcomment -%}
+ {%- if s.show_default_payment_icons -%}
+ {{- shop.enabled_payment_types | payment_type_svg_tag: class: 'fu__pay-icon' -}}
+ {%- endif -%}
+ </div>
+ </div>
+ {%- endif -%}
+
+ {%- comment -%} Newsletter {%- endcomment -%}
+ {%- if s.show_newsletter -%}
+ <div class="fu__newsletter">
+ {%- if s.newsletter_heading != blank -%}
+ <h3 class="fu__newsletter-heading">{{ s.newsletter_heading | escape }}</h3>
+ {%- endif -%}
+ {%- if s.newsletter_subtitle != blank -%}
+ <p class="fu__newsletter-subtitle">{{ s.newsletter_subtitle | escape }}</p>
+ {%- endif -%}
+ {%- form 'customer', class: 'fu__newsletter-form', id: fu_form_id -%}
+ <input type="hidden" name="contact[tags]" value="newsletter">
+ <div class="fu__newsletter-field">
+ <label for="fu-email-{{ uid }}" class="visually-hidden">{{ s.newsletter_placeholder | default: 'Your email address' | escape }}</label>
+ <input
+ type="email"
+ id="fu-email-{{ uid }}"
+ name="contact[email]"
+ class="fu__newsletter-input"
+ placeholder="{{ s.newsletter_placeholder | default: 'Your email address' | escape }}"
+ required
+ autocomplete="email"
+ >
+ <button type="submit" class="uc-btn uc-btn--premium fu__newsletter-btn">
+ {%- render 'uc-icon', icon: 'send', size: 16 -%}
+ {{ s.newsletter_btn_label | default: 'Subscribe' | escape }}
+ </button>
+ </div>
+ {%- if s.newsletter_privacy != blank -%}
+ <p class="fu__newsletter-privacy">{{ s.newsletter_privacy | escape }}</p>
+ {%- endif -%}
+ {%- if form.posted_successfully? -%}
+ <p class="fu__newsletter-success" role="status">{{ s.newsletter_success | default: 'Thank you for subscribing!' | escape }}</p>
+ {%- endif -%}
+ {%- endform -%}
+ </div>
+ {%- endif -%}
+ </div>
+
+ </div>
+</section>
+
+<script src="{{ 'uc-product-card.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'footer-upsell.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+ "name": "Footer Upsell and Trust",
+ "tag": "section",
+ "class": "section section-footer-upsell",
+ "max_blocks": 30,
+ "settings": [
+ { "type": "header", "content": "Trust banner" },
+ { "type": "checkbox", "id": "show_trust_banner", "label": "Show trust banner", "default": true },
+
+ { "type": "header", "content": "Upsell products" },
+ { "type": "checkbox", "id": "show_upsells", "label": "Show upsell products", "default": true },
+ { "type": "text", "id": "upsell_eyebrow", "label": "Upsell eyebrow", "default": "Bundle and save" },
+ { "type": "text", "id": "upsell_heading", "label": "Upsell heading", "default": "Frequently bought together" },
+ { "type": "checkbox", "id": "show_bundle_cta", "label": "Show add bundle button", "default": true },
+ { "type": "text", "id": "bundle_cta_label", "label": "Bundle button label", "default": "Add bundle to cart" },
+
+ { "type": "header", "content": "Free shipping progress" },
+ { "type": "checkbox", "id": "show_shipping_progress", "label": "Show cart free-shipping bar", "default": true },
+ { "type": "number", "id": "free_shipping_threshold", "label": "Free shipping minimum (store currency units)", "default": 2000 },
+ { "type": "text", "id": "shipping_progress_label", "label": "Progress label", "default": "Free shipping progress" },
+ { "type": "text", "id": "shipping_progress_hint", "label": "Progress hint", "default": "Add items to unlock free delivery" },
+
+ { "type": "header", "content": "Guarantees" },
+ { "type": "checkbox", "id": "show_guarantees", "label": "Show guarantee cards", "default": true },
+
+ { "type": "header", "content": "Payments" },
+ { "type": "checkbox", "id": "show_payments", "label": "Show payment section", "default": true },
+ { "type": "checkbox", "id": "show_default_payment_icons", "label": "Show Shopify payment icons", "default": true },
+ { "type": "text", "id": "shipping_headline", "label": "Shipping headline", "default": "Fast and secure delivery" },
+ { "type": "text", "id": "shipping_body", "label": "Shipping body text", "default": "Orders dispatched within 24 hours. Free delivery on orders above Rs. 2,000." },
+
+ { "type": "header", "content": "Newsletter" },
+ { "type": "checkbox", "id": "show_newsletter", "label": "Show newsletter", "default": true },
+ { "type": "text", "id": "newsletter_heading", "label": "Newsletter heading", "default": "Join the inner circle" },
+ { "type": "text", "id": "newsletter_subtitle", "label": "Newsletter subtitle", "default": "Exclusive offers, tips, and updates. No spam, ever." },
+ { "type": "text", "id": "newsletter_placeholder", "label": "Email placeholder", "default": "Your email address" },
+ { "type": "text", "id": "newsletter_btn_label", "label": "Subscribe button label", "default": "Subscribe" },
+ { "type": "text", "id": "newsletter_success", "label": "Success message", "default": "You are in! Thank you for subscribing." },
+ { "type": "text", "id": "newsletter_privacy", "label": "Privacy note", "default": "No spam. Unsubscribe anytime." },
+
+ { "type": "header", "content": "Layout" },
+ { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 64 },
+ { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 48 },
+
+ { "type": "header", "content": "UC - Responsive spacing" },
+ { "type": "range", "id": "pad_top_lg", "label": "Top padding - laptop (990px+)", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+ { "type": "range", "id": "pad_top_xxl", "label": "Top padding - large desktop (1440px+)", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 96 },
+ { "type": "range", "id": "container_max_lg", "label": "Container max width - laptop+", "min": 960, "max": 1600, "step": 20, "unit": "px", "default": 1280 },
+ { "type": "select", "id": "container_mode", "label": "Container", "default": "boxed", "options": [{"value":"boxed","label":"Boxed"},{"value":"full","label":"Full width"}] },
+ { "type": "header", "content": "Typography — sizes by device" },
+ { "type": "paragraph", "content": "Set font sizes per breakpoint. Values apply immediately (no override checkbox required)." },
+ { "type": "range", "id": "eyebrow_size_xs", "label": "Eyebrow / pill label — mobile", "min": 9, "max": 18, "step": 1, "unit": "px", "default": 11 },
+ { "type": "range", "id": "eyebrow_size_md", "label": "Eyebrow / pill label — tablet (750px+)", "min": 9, "max": 18, "step": 1, "unit": "px", "default": 11 },
+ { "type": "range", "id": "eyebrow_size_lg", "label": "Eyebrow / pill label — laptop (990px+)", "min": 9, "max": 20, "step": 1, "unit": "px", "default": 12 },
+ { "type": "range", "id": "eyebrow_size_xxl", "label": "Eyebrow / pill label — large desktop", "min": 9, "max": 20, "step": 1, "unit": "px", "default": 12 },
+ { "type": "range", "id": "h_size_xs", "label": "Heading — mobile", "min": 18, "max": 56, "step": 1, "unit": "px", "default": 24 },
+ { "type": "range", "id": "h_size_md", "label": "Heading — tablet (750px+)", "min": 18, "max": 64, "step": 1, "unit": "px", "default": 26 },
+ { "type": "range", "id": "h_size_lg", "label": "Heading — laptop (990px+)", "min": 20, "max": 64, "step": 1, "unit": "px", "default": 30 },
+ { "type": "range", "id": "h_size_xxl", "label": "Heading — large desktop", "min": 20, "max": 72, "step": 1, "unit": "px", "default": 32 },
+ { "type": "range", "id": "sub_size_xs", "label": "Subheading — mobile", "min": 12, "max": 36, "step": 1, "unit": "px", "default": 16 },
+ { "type": "range", "id": "sub_size_md", "label": "Subheading — tablet", "min": 12, "max": 40, "step": 1, "unit": "px", "default": 17 },
+ { "type": "range", "id": "sub_size_lg", "label": "Subheading — laptop+", "min": 12, "max": 40, "step": 1, "unit": "px", "default": 18 },
+ { "type": "range", "id": "sub_size_xxl", "label": "Subheading — large desktop", "min": 12, "max": 44, "step": 1, "unit": "px", "default": 18 },
+ { "type": "range", "id": "desc_size_xs", "label": "Description — mobile", "min": 12, "max": 22, "step": 1, "unit": "px", "default": 14 },
+ { "type": "range", "id": "desc_size_md", "label": "Description — tablet", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 15 },
+ { "type": "range", "id": "desc_size_lg", "label": "Description — laptop+", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 15 },
+ { "type": "range", "id": "desc_size_xxl", "label": "Description — large desktop", "min": 12, "max": 26, "step": 1, "unit": "px", "default": 16 },
+ { "type": "range", "id": "btn_size_xs", "label": "Button / pill text — mobile", "min": 11, "max": 18, "step": 1, "unit": "px", "default": 13 },
+ { "type": "range", "id": "btn_size_md", "label": "Button / pill text — tablet", "min": 11, "max": 18, "step": 1, "unit": "px", "default": 13 },
+ { "type": "range", "id": "btn_size_lg", "label": "Button / pill text — laptop+", "min": 11, "max": 20, "step": 1, "unit": "px", "default": 14 },
+ { "type": "range", "id": "btn_size_xxl", "label": "Button / pill text — large desktop", "min": 11, "max": 20, "step": 1, "unit": "px", "default": 14 },
+ { "type": "color_scheme", "id": "color_scheme", "label": "Colour scheme", "default": "scheme-2" },
+ { "type": "color", "id": "accent_color", "label": "Accent colour override" }
+ ],
+ "blocks": [
+ {
+ "type": "trust_item",
+ "name": "Trust Item",
+ "settings": [
+ { "type": "text", "id": "icon", "label": "Lucide icon name", "default": "shield-check" },
+ { "type": "text", "id": "label", "label": "Label", "default": "30 Day Guarantee" }
+ ]
+ },
+ {
+ "type": "guarantee",
+ "name": "Guarantee Card",
+ "settings": [
+ { "type": "text", "id": "icon", "label": "Lucide icon name", "default": "rotate-ccw" },
+ { "type": "text", "id": "title", "label": "Title", "default": "Free Returns" },
+ { "type": "text", "id": "text", "label": "Description", "default": "Return any unopened product within 30 days for a full refund." }
+ ]
+ },
+ {
+ "type": "upsell_product",
+ "name": "Upsell Product",
+ "settings": [
+ { "type": "product", "id": "product", "label": "Product" },
+ { "type": "select", "id": "badge_type", "label": "Badge", "options": [{"value": "auto", "label": "Auto"}, {"value": "bestseller", "label": "Best Seller"}, {"value": "new", "label": "New"}], "default": "auto" },
+ { "type": "text", "id": "badge_label", "label": "Custom badge text" }
+ ]
+ },
+ {
+ "type": "payment",
+ "name": "Payment Icon",
+ "settings": [
+ { "type": "image_picker", "id": "payment_image", "label": "Payment icon image" },
+ { "type": "text", "id": "alt", "label": "Alt text", "default": "Payment method" }
+ ]
+ }
+ ],
+ "presets": [
+ {
+ "name": "Footer Upsell and Trust",
+ "blocks": [
+ { "type": "trust_item", "settings": { "icon": "shield-check", "label": "30 Day Money Back" } },
+ { "type": "trust_item", "settings": { "icon": "truck", "label": "Fast Delivery" } },
+ { "type": "trust_item", "settings": { "icon": "lock", "label": "Secure Checkout" } },
+ { "type": "trust_item", "settings": { "icon": "award", "label": "Premium Quality" } },
+ { "type": "trust_item", "settings": { "icon": "message-circle", "label": "24 / 7 Support" } },
+ { "type": "guarantee", "settings": { "icon": "rotate-ccw", "title": "Free Returns", "text": "Return any unopened product within 30 days for a full refund, no questions asked." } },
+ { "type": "guarantee", "settings": { "icon": "lock", "title": "Secure Payments", "text": "All transactions are encrypted and processed securely. Your data is never stored." } },
+ { "type": "guarantee", "settings": { "icon": "zap", "title": "Fast Dispatch", "text": "Orders placed before 2 PM are dispatched the same day, Monday to Saturday." } }
+ ]
+ }
+ ]
+}
+{% endschema %}

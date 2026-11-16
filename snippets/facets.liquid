@@ -1,0 +1,10 @@
+{% comment %}
+  Facets redirect — all filtering UI lives in uc-facets.liquid
+{% endcomment %}
+{% render 'uc-facets',
+  results: results,
+  enable_filtering: enable_filtering,
+  enable_sorting: enable_sorting,
+  filter_type: filter_type,
+  paginate: paginate
+%}

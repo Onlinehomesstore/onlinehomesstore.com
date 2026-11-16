@@ -1,0 +1,243 @@
+/* =============================================================================
+   UC IMAGE SYSTEM — global aspect ratios, CLS wrappers, object-fit utilities
+   Consumes tokens from uc-design-tokens.css; optional global overrides from
+   Theme Editor (uc-design-system.liquid).
+   ============================================================================= */
+
+/* Media frame — reserves space before image decode (CLS) */
+.uc-img-wrap {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  background: rgba(var(--color-foreground, 23 23 23), 0.04);
+}
+
+.uc-img-wrap--product    { aspect-ratio: var(--uc-ar-product, 1 / 1); }
+.uc-img-wrap--collection { aspect-ratio: var(--uc-ar-collection, 4 / 5); }
+.uc-img-wrap--hero       { aspect-ratio: var(--uc-ar-hero-mobile, 3 / 4); }
+.uc-img-wrap--hero-d     { aspect-ratio: var(--uc-ar-hero-desktop, 192 / 90); }
+.uc-img-wrap--ba         { aspect-ratio: var(--uc-ar-before-after, 4 / 5); }
+.uc-img-wrap--blog       { aspect-ratio: var(--uc-ar-blog, 3 / 2); }
+.uc-img-wrap--testimonial { aspect-ratio: var(--uc-ar-testimonial, 1 / 1); }
+.uc-img-wrap--ingredient { aspect-ratio: var(--uc-ar-ingredient, 1 / 1); }
+.uc-img-wrap--category   { aspect-ratio: var(--uc-ar-category, 4 / 5); }
+
+@media screen and (min-width: 750px) {
+  .uc-img-wrap--hero { aspect-ratio: var(--uc-ar-hero-tablet, 7 / 5); }
+}
+
+@media screen and (min-width: 990px) {
+  .uc-img-wrap--hero { aspect-ratio: var(--uc-ar-hero-desktop, 192 / 90); }
+}
+
+.uc-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: var(--uc-img-fit, cover);
+  object-position: var(--uc-img-position, center center);
+  border-radius: var(--uc-img-radius, 0);
+}
+
+.uc-img--contain { object-fit: contain; }
+.uc-img--cover   { object-fit: cover; }
+
+.uc-img-wrap .uc-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Product cards — global default square master */
+.pc-card__media--square,
+.pf-card__media {
+  aspect-ratio: var(--uc-ar-product, 1 / 1);
+}
+
+.pc-card__media--portrait {
+  aspect-ratio: var(--uc-ar-collection, 4 / 5);
+}
+
+.pc-card__img,
+.pf-card__img,
+.cs-card__img {
+  object-fit: var(--cs-object-fit, var(--uc-img-fit, cover));
+  object-position: var(--uc-img-position, center center);
+}
+
+@media screen and (min-width: 750px) {
+  .uc-img--mobile-only { display: none !important; }
+}
+
+@media screen and (max-width: 749px) {
+  .uc-img--mobile-only { display: block; width: 100%; height: 100%; object-fit: inherit; }
+  .uc-img-wrap:has(.uc-img--mobile-only) > .uc-img:not(.uc-img--mobile-only) { display: none; }
+}
+
+/* Category / collection cards — 4:5 media, polished placeholders */
+.cs-card__media {
+  aspect-ratio: var(--cs-ratio, 4 / 5);
+  border-radius: var(--uc-radius-media, 16px) var(--uc-radius-media, 16px) 0 0;
+  background: linear-gradient(160deg, #f3eee6 0%, #e8e2d8 100%);
+}
+
+.cs-card__placeholder {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  background: linear-gradient(165deg, #faf8f4, #efe9df);
+}
+
+.cs-card__placeholder-svg {
+  width: 42% !important;
+  max-width: 120px;
+  height: auto !important;
+  opacity: 0.28;
+  color: #8a7d6a;
+}
+
+.ucs__img--placeholder,
+.ubt__thumb .placeholder-svg,
+.pc-card__img--placeholder {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: linear-gradient(165deg, #faf8f4, #efe9df);
+}
+
+.ucs__media,
+.ubt__thumb {
+  aspect-ratio: 1 / 1;
+  border-radius: var(--uc-radius-media, 16px);
+  overflow: hidden;
+  background: linear-gradient(165deg, #faf8f4, #efe9df);
+}
+
+.cs-card__media {
+  aspect-ratio: 1 / var(--cs-ratio, var(--uc-ar-collection-ratio, 1.25));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .uc-img-wrap img {
+    transition: none !important;
+  }
+}
+
+/* =============================================================================
+   CONTAINER STABILITY — images & videos respect Theme Editor dimensions
+   Key: the container defines its size via CSS var or aspect-ratio; the media
+   fills it with object-fit:cover. The container NEVER resizes to fit the media.
+   ============================================================================= */
+
+/* Hero / banner: fixed height from Theme Editor (--ueh-height or aspect-ratio) */
+.ueh__media,
+.ueh__media-wrap {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.ueh__img,
+.ueh__media img,
+.ueh__media video {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Content-split (Our Story): respect the section-defined media dimensions */
+.ucs__media-wrap,
+.ucs__media {
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.ucs__img,
+.ucs__media img,
+.ucs__media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Gallery / collection images: strict container sizing */
+.uc-gallery__media,
+.uc-gallery__item {
+  overflow: hidden;
+}
+
+.uc-gallery__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Reel media: video inside already has aspect-ratio via pvr-card__media */
+.pvr-card__video-slot,
+.pvr-card__poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.pvr-card__video-slot > video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  object-position: center;
+}
+
+.pvr-card__poster {
+  object-fit: cover !important;
+  object-position: center center !important;
+}
+
+/* Card media: always fill the cell, never overflow */
+.pc-card__media,
+.pf-card__media,
+.cs-card__media {
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.pc-card__img,
+.pf-card__img,
+.cs-card__img {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  display: block;
+}
+
+/* RTE images inside pages: respect container, no overflow */
+.rte img,
+.template-page .rte img,
+.shopify-policy__body img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+}
+
+/* Uploaded banner images via Shopify's image picker */
+[data-shopify-section] img:not([class]) {
+  max-width: 100%;
+  height: auto;
+}
+

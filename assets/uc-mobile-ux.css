@@ -1,0 +1,663 @@
+/*
+  uc-mobile-ux.css ? FINAL mobile / small-tablet polish
+  Scope: max-width 749px (phones) + gentle tablet tweaks ?989px
+  Desktop (?990px) is intentionally untouched.
+*/
+
+/* ??????????????????????????????????????????????????????????????????????????
+   0) Global mobile spacing system
+   ?????????????????????????????????????????????????????????????????????????? */
+@media screen and (max-width: 749px) {
+  :root {
+    --uc-gutter: 16px;
+    --uc-gutter-safe: max(16px, env(safe-area-inset-left, 0px));
+    --uc-gutter-safe-r: max(16px, env(safe-area-inset-right, 0px));
+    --uc-section-gap: 28px;
+    --uc-card-pad: 18px;
+    --uc-radius-m: 18px;
+
+    /* Unified mobile type ? one brand voice */
+    --uc-m-eyebrow: 11px;
+    --uc-m-h2: 26px;
+    --uc-m-h3: 18px;
+    --uc-m-body: 15px;
+    --uc-m-small: 13px;
+    --uc-m-lh-h: 1.22;
+    --uc-m-lh-b: 1.6;
+  }
+
+  .page-width,
+  .uc-sec__container,
+  .vr__inner,
+  .pt__inner,
+  .pvr__inner,
+  .category-showcase__inner,
+  .pf-showcase .category-showcase__inner,
+  .ucs__inner,
+  .pfaq__inner,
+  .ubp__inner,
+  .ufc__inner,
+  .ba__inner,
+  .ucta__inner,
+  .upr__inner,
+  .fu__inner,
+  .uc-ft__inner,
+  .uc-ft-nl-outer,
+  .newsletter__wrapper,
+  .cart__warnings,
+  .customer,
+  .main-blog,
+  .article-template,
+  .collection,
+  .product-grid-container,
+  .uc-contact .uc-sec__container,
+  .uwa__grid,
+  .ucd .uc-sec__container {
+    padding-inline: var(--uc-gutter-safe) var(--uc-gutter-safe-r) !important;
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  /* Kill lean-to-one-side from negative margins */
+  .category-showcase__grid,
+  .pf-showcase .category-showcase__grid,
+  .pvr__track,
+  .pt__track,
+  .uc-scroll-track {
+    margin-inline: 0 !important;
+    padding-inline: 0 !important;
+    scroll-padding-inline: var(--uc-gutter);
+  }
+}
+
+/* ??????????????????????????????????????????????????????????????????????????
+   1) Mobile typography consistency
+   ?????????????????????????????????????????????????????????????????????????? */
+@media screen and (max-width: 749px) {
+  .category-showcase__title,
+  .ubp__heading,
+  .ufc__heading,
+  .prel__heading,
+  .uc-sec__heading,
+  .ucs__heading,
+  .pfaq__heading,
+  .pwu__heading,
+  .pb__heading,
+  .vr__heading,
+  .ubt__heading,
+  .ucta__heading,
+  .upr__heading,
+  .ueh__heading,
+  .ueh__heading p,
+  .pt__heading,
+  .pvr__heading,
+  .ba__heading,
+  .fu__heading,
+  .newsletter__heading,
+  .cart__empty-text,
+  .main-page-title,
+  .article-template__title,
+  .collection-hero__title,
+  .h2 {
+    font-size: var(--uc-m-h2) !important;
+    line-height: var(--uc-m-lh-h) !important;
+    letter-spacing: -0.02em !important;
+    font-weight: 700 !important;
+    margin-bottom: 0 !important;
+    max-width: none !important;
+  }
+
+  .category-showcase__label,
+  .ubp__eyebrow,
+  .ufc__eyebrow,
+  .uc-sec__eyebrow,
+  .ucs__eyebrow,
+  .pfaq__eyebrow,
+  .upr__eyebrow,
+  .pt__eyebrow,
+  .pvr__eyebrow,
+  .vr__eyebrow,
+  .ba__eyebrow {
+    font-size: var(--uc-m-eyebrow) !important;
+    letter-spacing: 0.14em !important;
+    margin-bottom: 8px !important;
+  }
+
+  .category-showcase__intro,
+  .uc-sec__desc,
+  .pt__subtitle,
+  .vr__description,
+  .pvr__subtitle,
+  .pfaq__subtitle,
+  .ucs__subtitle,
+  .ba__subtitle,
+  .newsletter__subheading,
+  .rte p {
+    font-size: var(--uc-m-body) !important;
+    line-height: var(--uc-m-lh-b) !important;
+  }
+
+  h3,
+  .h3,
+  .cs-card__title,
+  .pc-card__title,
+  .pt__card-title,
+  .upr__card-title,
+  .vr-feature__title,
+  .pfaq__question,
+  .uc-ft-col-title {
+    font-size: var(--uc-m-h3) !important;
+    line-height: 1.3 !important;
+  }
+
+  .cs-card__desc {
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+  }
+
+  .pc-card__title,
+  .pf-card__title {
+    font-size: 15px !important;
+  }
+}
+
+/* ??????????????????????????????????????????????????????????????????????????
+   2) Visible Results ? premium mobile cards only
+   ?????????????????????????????????????????????????????????????????????????? */
+@media screen and (max-width: 749px) {
+  .vr__features {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 12px !important;
+  }
+
+  /* Stats: always 2�2 on mobile (never single-column stack) */
+  .vr__stats,
+  .vr__stats:has(.vr-stat:nth-child(5)) {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px 10px !important;
+  }
+
+  .vr-stat {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    justify-content: flex-start !important;
+  }
+
+  .vr-feature {
+    min-height: 100%;
+    padding: 16px 14px !important;
+    border-radius: 16px !important;
+    background: #fff !important;
+    border: 1px solid rgba(23, 23, 23, 0.06) !important;
+    box-shadow: 0 6px 20px rgba(23, 23, 23, 0.04);
+    gap: 10px !important;
+    align-items: flex-start !important;
+    text-align: left !important;
+  }
+
+  .vr-feature--center {
+    align-items: flex-start !important;
+    text-align: left !important;
+  }
+
+  .vr-feature__icon {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 12px !important;
+    background: rgba(182, 138, 53, 0.12) !important;
+    color: #b68a35 !important;
+  }
+
+  .vr-feature__icon svg,
+  .vr-feature__img {
+    width: 22px !important;
+    height: 22px !important;
+  }
+
+  .vr-feature__title {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: unset !important;
+    font-size: 15px !important;
+    line-height: 1.3 !important;
+  }
+
+  .vr-feature__desc {
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .vr-feature:active {
+    transform: scale(0.985);
+  }
+}
+
+@media screen and (max-width: 380px) {
+  .vr__features {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ??????????????????????????????????????????????????????????????????????????
+   3) Reviews / Testimonials ? mobile structure
+   ?????????????????????????????????????????????????????????????????????????? */
+@media screen and (max-width: 749px) {
+  /* Rating lives in summary card only when distribution is shown */
+  .pt__header-row .pt__rating-summary {
+    display: none !important;
+  }
+
+  .pt__header-row {
+    flex-direction: column;
+    align-items: stretch !important;
+    gap: 12px;
+    margin-bottom: 20px !important;
+  }
+
+  .pt__summary {
+    width: 100%;
+    margin-inline: 0 !important;
+    padding: var(--uc-card-pad) !important;
+    border-radius: var(--uc-radius-m) !important;
+    box-sizing: border-box;
+  }
+
+  .pt__summary-num {
+    font-size: 36px !important;
+    line-height: 1 !important;
+  }
+
+  .pt__filters {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 8px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 2px;
+    margin-inline: 0 !important;
+    width: 100%;
+  }
+
+  .pt__filters::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pt__filter {
+    flex: 0 0 auto !important;
+    white-space: nowrap;
+    min-height: 38px;
+    padding: 0 14px !important;
+    font-size: 13px !important;
+    border-radius: 999px !important;
+  }
+
+  .pt__sort-wrap {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .pt__sort,
+  select.pt__sort {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 44px;
+    margin-top: 10px;
+    border-radius: 999px !important;
+    box-sizing: border-box;
+  }
+
+  .pt__card,
+  .upr__card {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-inline: 0 !important;
+    padding: var(--uc-card-pad) !important;
+    border-radius: var(--uc-radius-m) !important;
+    box-sizing: border-box;
+    box-shadow: 0 8px 28px rgba(23, 23, 23, 0.05);
+  }
+
+  .pt__card-title,
+  .upr__card-title {
+    margin: 10px 0 8px !important;
+  }
+
+  .pt__card-body,
+  .upr__card-body {
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+  }
+
+  .pt__card-top,
+  .upr__card-top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .pt__track,
+  .pt__grid {
+    gap: 14px !important;
+  }
+
+  /* Balance left/right ? full bleed cards inside container */
+  .pt__slider,
+  .pt__viewport {
+    margin-inline: 0 !important;
+    padding-inline: 0 !important;
+    width: 100%;
+  }
+}
+
+/* Newsletter mobile styles live in uc-site-unify.css (single source of truth) */
+
+/* ??????????????????????????????????????????????????????????????????????????
+   5) Reels ? native swipe (no drag fight) + no popup chrome
+   ?????????????????????????????????????????????????????????????????????????? */
+@media screen and (max-width: 749px) {
+  .pvr__track {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x !important;
+    scrollbar-width: none;
+  }
+
+  .pvr__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .pvr__cell {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .pvr-card__media {
+    overflow: hidden !important;
+  }
+
+  .pvr-card__poster,
+  .pvr-card__video-slot > video {
+    object-fit: cover !important;
+    object-position: center center !important;
+  }
+
+  .pvr-card__mute {
+    z-index: 8;
+  }
+}
+
+/* ??????????????????????????????????????????????????????????????????????????
+   6) Mobile menu ? staggered nav entrance + smooth close
+   ?????????????????????????????????????????????????????????????????????????? */
+@media screen and (max-width: 989px) {
+  .uc-phdr-drawer__list > li,
+  .uc-phdr-drawer__nav > a,
+  .uc-phdr-drawer__link {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+    transition:
+      opacity 320ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+
+  .uc-phdr-drawer.is-open .uc-phdr-drawer__list > li,
+  .uc-phdr-drawer.is-open .uc-phdr-drawer__nav > a,
+  .uc-phdr-drawer.is-open .uc-phdr-drawer__link {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .uc-phdr-drawer.is-open .uc-phdr-drawer__list > li:nth-child(1) { transition-delay: 50ms; }
+  .uc-phdr-drawer.is-open .uc-phdr-drawer__list > li:nth-child(2) { transition-delay: 90ms; }
+  .uc-phdr-drawer.is-open .uc-phdr-drawer__list > li:nth-child(3) { transition-delay: 130ms; }
+  .uc-phdr-drawer.is-open .uc-phdr-drawer__list > li:nth-child(4) { transition-delay: 170ms; }
+  .uc-phdr-drawer.is-open .uc-phdr-drawer__list > li:nth-child(5) { transition-delay: 210ms; }
+  .uc-phdr-drawer.is-open .uc-phdr-drawer__list > li:nth-child(6) { transition-delay: 250ms; }
+  .uc-phdr-drawer.is-open .uc-phdr-drawer__list > li:nth-child(7) { transition-delay: 290ms; }
+  .uc-phdr-drawer.is-open .uc-phdr-drawer__list > li:nth-child(8) { transition-delay: 330ms; }
+  .uc-phdr-drawer.is-open .uc-phdr-drawer__list > li:nth-child(n + 9) { transition-delay: 370ms; }
+
+  /* Nested links inherit parent li animation */
+  .uc-phdr-drawer.is-open .uc-phdr-drawer__list > li .uc-phdr-drawer__link {
+    opacity: 1;
+    transform: none;
+    transition-delay: inherit;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .uc-phdr-drawer__list > li,
+  .uc-phdr-drawer__nav > a,
+  .uc-phdr-drawer__link {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   7) Product grids — carousel on showcase/home only; collection/search = 2-col grid
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 749px) {
+  .uc-m-carousel {
+    position: relative;
+    width: 100%;
+  }
+
+  .uc-m-carousel__nav {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 14px;
+    padding-inline: 2px;
+  }
+
+  .uc-m-carousel__btn {
+    display: inline-grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid rgba(26, 24, 20, 0.12);
+    background: #fff;
+    color: #1a1814;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(26, 24, 20, 0.06);
+  }
+
+  .uc-m-carousel__btn:active {
+    transform: scale(0.96);
+  }
+
+  /* Showcase / carousel tracks only */
+  .uc-scroll-track,
+  .category-showcase__grid.uc-scroll-track,
+  .pf-showcase .category-showcase__grid.uc-scroll-track {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    grid-template-columns: none !important;
+    gap: 14px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    padding-bottom: 4px !important;
+  }
+
+  .uc-scroll-track > .grid__item,
+  .uc-scroll-track > li {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    scroll-snap-align: start;
+    min-width: 0 !important;
+  }
+
+  /* Collection + search: proper 2-column grid */
+  .template-collection #product-grid.product-grid,
+  .template-search #product-grid.product-grid,
+  .template-collection .collection .product-grid,
+  .template-search .collection .product-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px 10px !important;
+    overflow: visible !important;
+    scroll-snap-type: none !important;
+    margin: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .template-collection #product-grid .grid__item,
+  .template-search #product-grid .grid__item,
+  .template-collection .collection .product-grid .grid__item,
+  .template-search .collection .product-grid .grid__item {
+    flex: none !important;
+    width: auto !important;
+    max-width: 100% !important;
+    scroll-snap-align: none !important;
+  }
+
+  .template-collection .uc-m-carousel__nav,
+  .template-search .uc-m-carousel__nav {
+    display: none !important;
+  }
+
+  .template-collection .pc-card__media,
+  .template-search .pc-card__media {
+    aspect-ratio: 1 / 1 !important;
+  }
+
+  /* Card buttons ? never clip Buy Now */
+  .pc-card__actions {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+
+  .pc-card__btn {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    min-height: 44px !important;
+    padding: 0 8px !important;
+    font-size: 12px !important;
+    box-sizing: border-box !important;
+  }
+
+  .pc-card__btn-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .pc-card__btn--add .pc-card__btn-icon {
+    display: none;
+  }
+
+  .pc-card__actions .pc-card__btn:only-child {
+    grid-column: 1 / -1;
+  }
+
+  .pc-card__info {
+    padding: 14px 12px 16px !important;
+  }
+
+  .pc-card__title {
+    font-size: 15px !important;
+    line-height: 1.35 !important;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  .pc-card__actions {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Balanced section rhythm ? not too tight, not too airy */
+@media screen and (max-width: 749px) {
+  .shopify-section .uc-sec,
+  .shopify-section .pt,
+  .shopify-section .vr,
+  .shopify-section .pvr,
+  .shopify-section .category-showcase,
+  .shopify-section .pf-showcase,
+  .shopify-section .pfaq {
+    padding-block: clamp(28px, 6vw, 40px) !important;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .uc-m-carousel__nav {
+    display: none !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   8) PDP / cart / account / blog ? same mobile type + gutters
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 749px) {
+  .pph__title,
+  .product__title,
+  .cart-items + .title,
+  .main-page-title,
+  .article-template__title,
+  .customer h1,
+  .customer__title {
+    font-size: var(--uc-m-h2, 26px) !important;
+    line-height: var(--uc-m-lh-h, 1.22) !important;
+    letter-spacing: -0.02em !important;
+  }
+
+  .pph__price,
+  .price,
+  .cart-item__price,
+  .totals__subtotal-value {
+    font-size: 18px !important;
+    line-height: 1.3 !important;
+  }
+
+  .pph,
+  .pfaq,
+  .product,
+  .cart,
+  .customer {
+    --uc-local-gutter: var(--uc-gutter-safe, 16px);
+  }
+
+  .pph__shell,
+  .pph__grid,
+  .product__info-wrapper,
+  .cart__contents,
+  .customer .page-width {
+    padding-inline: var(--uc-gutter-safe, 16px) var(--uc-gutter-safe-r, 16px);
+    box-sizing: border-box;
+  }
+
+  /* Kill horizontal page lean */
+  body,
+  #MainContent,
+  .shopify-section {
+    overflow-x: clip;
+  }
+}

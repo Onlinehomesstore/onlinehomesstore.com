@@ -1,0 +1,491 @@
+/*
+  uc-pdp-sections.css — Product page section polish (desktop/laptop + mobile)
+*/
+
+/* PDP pills inherit site-wide uc-type-system rules */
+
+/* ── Hero typography consistency ───────────────────────────────────────── */
+.template-product .pph__col--summary {
+  gap: clamp(10px, 1.2vw, 16px) !important;
+}
+
+.template-product .pph__post-buy {
+  gap: clamp(12px, 1.4vw, 16px) !important;
+  margin-top: clamp(6px, 0.8vw, 12px) !important;
+}
+
+.template-product .pph__price-block {
+  margin-bottom: 0 !important;
+}
+
+.template-product .pph__tax-info,
+.template-product .pph__installment {
+  margin-top: 2px !important;
+}
+
+.template-product .pph__title {
+  font-size: clamp(1.625rem, 1.2rem + 1.4vw, 2.25rem) !important;
+  line-height: 1.12 !important;
+  letter-spacing: -0.02em !important;
+  max-width: none !important;
+}
+
+.template-product .pph__subtitle {
+  font-size: clamp(1.0625rem, 1rem + 0.28vw, 1.1875rem) !important;
+  line-height: 1.58 !important;
+  max-width: none !important;
+}
+
+.template-product .pph__price {
+  font-size: clamp(1.5rem, 1.2rem + 0.8vw, 2rem) !important;
+}
+
+.template-product .pph__tax-info,
+.template-product .pph__installment,
+.template-product .pph__stock {
+  font-size: clamp(0.9375rem, 0.9rem + 0.18vw, 1.0625rem) !important;
+  line-height: 1.5 !important;
+}
+
+/* ── Desktop / laptop hero — 50 / 50 balance ───────────────────────────── */
+@media screen and (min-width: 990px) {
+  .template-product .pph__inner {
+    grid-template-columns: minmax(0, var(--pph-gallery-col, 50%)) minmax(0, var(--pph-info-col, 50%)) !important;
+    gap: clamp(28px, 3.5vw, 48px) !important;
+    align-items: start !important;
+  }
+
+  .template-product .pph__col--gallery {
+    position: relative !important;
+    top: auto !important;
+    width: 100%;
+    min-width: 0;
+    z-index: 1;
+  }
+
+  .template-product .pph-gallery__shell[data-pph-gallery-parallax] {
+    transform: none !important;
+  }
+
+  .template-product .pph-gallery__viewport {
+    max-height: calc(100svh - var(--uc-phdr-offset, 80px) - 72px);
+    will-change: auto;
+  }
+
+  .template-product .pph-gallery__thumb-img {
+    object-fit: cover !important;
+    padding: 0 !important;
+  }
+
+  .template-product .pph__col--summary {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .template-product .pph__delivery-heading {
+    font-size: clamp(0.9375rem, 0.9rem + 0.15vw, 1.0625rem) !important;
+  }
+
+  .template-product .pph__delivery-body {
+    font-size: clamp(0.875rem, 0.84rem + 0.12vw, 0.9375rem) !important;
+    line-height: 1.45 !important;
+  }
+
+  .template-product .pph__delivery-card {
+    min-height: 104px;
+  }
+}
+
+.template-product .pph__option-label {
+  font-size: clamp(0.9rem, 0.86rem + 0.2vw, 1rem) !important;
+}
+
+/* ── Centered section headers on PDP ───────────────────────────────────── */
+.template-product .hiw .category-showcase__header,
+.template-product .upr .category-showcase__header {
+  grid-template-columns: 1fr !important;
+  justify-items: center !important;
+  text-align: center !important;
+  max-width: min(100%, 42rem);
+  margin-inline: auto !important;
+}
+
+.template-product .hiw .category-showcase__heading-group,
+.template-product .upr .category-showcase__heading-group {
+  max-width: 100% !important;
+  text-align: center !important;
+}
+
+.template-product .hiw .category-showcase__intro,
+.template-product .upr .category-showcase__intro {
+  margin-inline: auto !important;
+  text-align: center !important;
+}
+
+/* ── FIND YOUR FIT — full-width one-liner header ───────────────────────── */
+.template-product .pct__header {
+  text-align: center !important;
+  max-width: 100% !important;
+  width: 100%;
+  margin-inline: auto !important;
+  margin-bottom: clamp(28px, 4vw, 44px) !important;
+}
+
+.template-product .pct__heading {
+  font-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.5rem) !important;
+  line-height: 1.1 !important;
+  margin-bottom: 10px !important;
+  text-wrap: balance;
+}
+
+@media screen and (min-width: 990px) {
+  .template-product .pct__heading {
+    white-space: nowrap;
+  }
+}
+
+.template-product .pct__subtitle {
+  max-width: min(100%, 56rem) !important;
+  margin-inline: auto !important;
+  font-size: clamp(0.9375rem, 0.9rem + 0.15vw, 1.0625rem) !important;
+  line-height: 1.5 !important;
+  text-wrap: balance;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+/* ── Gallery — no aggressive crop, parallax on viewport ────────────────── */
+.template-product .pph-gallery__viewport {
+  transition: transform 0.12s linear;
+  will-change: transform;
+}
+
+@media screen and (min-width: 990px) {
+  .template-product .pph-gallery__slide {
+    min-height: 0 !important;
+    aspect-ratio: var(--pph-gallery-aspect, 1 / 1);
+  }
+
+  .template-product .pph__col--gallery {
+    align-self: start;
+  }
+
+  .template-product .pph-gallery__viewport {
+    max-height: none !important;
+  }
+}
+
+@media screen and (max-width: 989px) {
+  .template-product .pph__inner {
+    gap: 16px;
+  }
+
+  .template-product .pph-gallery__viewport {
+    max-height: none !important;
+  }
+}
+
+/* ── Quantity number — readable, not tiny ────────────────────────────────── */
+.template-product .pph__qty-input {
+  width: 52px !important;
+  min-width: 52px !important;
+  font-size: 1.125rem !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+}
+
+/* ── HOW IT WORKS — clean single-marker cards ───────────────────────────── */
+.template-product .hiw {
+  background: linear-gradient(180deg, #fcfaf6 0%, #f7f3ec 100%);
+}
+
+.template-product .hiw__timeline {
+  background: #fff;
+  border: 1px solid rgba(23, 23, 23, 0.08);
+  border-radius: 22px;
+  box-shadow: 0 12px 36px rgba(26, 24, 20, 0.05);
+  padding: clamp(20px, 3vw, 28px) clamp(12px, 2vw, 20px);
+  gap: clamp(8px, 1.5vw, 14px);
+}
+
+.template-product .hiw__line-track {
+  display: none !important;
+}
+
+.template-product .hiw__step {
+  padding: 14px 10px !important;
+  gap: 8px !important;
+  background: rgba(182, 138, 53, 0.05);
+  border-radius: 16px;
+  border: 1px solid rgba(182, 138, 53, 0.1);
+}
+
+.template-product .hiw__step-head,
+.template-product .hiw__step-circle,
+.template-product .hiw__step-dot {
+  display: none !important;
+}
+
+.template-product .hiw__step-icon {
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 50% !important;
+  border: 1px solid rgba(182, 138, 53, 0.22) !important;
+  background: rgba(182, 138, 53, 0.12) !important;
+  margin-bottom: 2px !important;
+}
+
+.template-product .hiw__step-illus {
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 50% !important;
+  overflow: hidden;
+  border: 1px solid rgba(182, 138, 53, 0.22);
+}
+
+.template-product .hiw__step-title {
+  font-size: clamp(0.9375rem, 0.9rem + 0.15vw, 1.05rem) !important;
+  font-weight: 700 !important;
+}
+
+.template-product .hiw__step-desc {
+  font-size: 0.875rem !important;
+  line-height: 1.45 !important;
+}
+
+.template-product .hiw__focus {
+  margin-top: clamp(16px, 2.5vw, 24px) !important;
+  min-height: 0 !important;
+}
+
+.template-product .hiw__focus-panel {
+  padding: clamp(14px, 2vw, 20px) clamp(16px, 2.5vw, 24px) !important;
+}
+
+/* ── FIND YOUR FIT — tighter table ─────────────────────────────────────── */
+.template-product .pct__table-wrap {
+  max-width: min(100%, 880px);
+  margin-inline: auto;
+  border-radius: 20px;
+}
+
+.template-product .pct__tr {
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr) minmax(0, 0.95fr) !important;
+}
+
+.template-product .pct__th,
+.template-product .pct__td {
+  padding: 12px 16px !important;
+}
+
+.template-product .pct__th--ours {
+  padding-block: 14px !important;
+}
+
+.template-product .pct__td--feature {
+  font-size: 0.9375rem !important;
+}
+
+.template-product .pct__val--text {
+  font-size: 0.9375rem !important;
+}
+
+/* ── Reviews — centered head ───────────────────────────────────────────── */
+.template-product .upr__head {
+  margin-bottom: clamp(20px, 3vw, 32px) !important;
+}
+
+@media screen and (max-width: 749px) {
+  .template-product .hiw__timeline {
+    padding: 16px 12px;
+    border-radius: 18px;
+  }
+
+  .template-product .pct__heading {
+    white-space: normal;
+  }
+
+  .template-product .pct__th,
+  .template-product .pct__td {
+    padding: 10px 12px !important;
+  }
+
+  .template-product .pct__tr {
+    grid-template-columns: 1.2fr 1fr 0.9fr !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   MOBILE / TABLET PDP ONLY (≤989) — gallery-first, type, cards, BA
+   Desktop ≥990 untouched.
+   ═══════════════════════════════════════════════════════════════════════ */
+@media screen and (max-width: 989px) {
+  .template-product {
+    --uc-pdp-body: clamp(1.05rem, 3.4vw, 1.125rem);
+    --uc-pdp-btn: 1.0625rem;
+  }
+
+  /* Gallery above buy content (reinforces section CSS) */
+  .template-product .pph__col--gallery { order: 1 !important; }
+  .template-product .pph__col--summary { order: 2 !important; }
+
+  .template-product .pph-gallery {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .template-product .pph-gallery__thumbs {
+    display: flex !important;
+    flex-direction: row !important;
+    order: 2 !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+  }
+
+  /* Typography */
+  .template-product .pph__title {
+    font-size: clamp(1.55rem, 5.4vw, 1.95rem) !important;
+    line-height: 1.14 !important;
+  }
+
+  .template-product .pph__subtitle,
+  .template-product .pph__delivery-body,
+  .template-product .pph__trust-desc,
+  .template-product .pph__benefit-desc,
+  .template-product .pba__subtitle,
+  .template-product .pba__quote,
+  .template-product .pb__subtitle,
+  .template-product .pi__subtitle,
+  .template-product .hiw__subtitle,
+  .template-product .hiw__step-desc,
+  .template-product .pct__subtitle,
+  .template-product .pfaq__subtitle,
+  .template-product .upr__subtitle,
+  .template-product .prel__subtitle,
+  .template-product .category-showcase__intro,
+  .template-product .category-showcase__intro p {
+    font-size: var(--uc-pdp-body) !important;
+    line-height: 1.55 !important;
+    color: rgba(var(--color-foreground), 0.68) !important;
+    opacity: 1 !important;
+  }
+
+  .template-product .pph__delivery-heading,
+  .template-product .pph__benefit-title,
+  .template-product .pph__trust-label {
+    font-size: clamp(0.98rem, 3.2vw, 1.05rem) !important;
+    line-height: 1.3 !important;
+  }
+
+  .template-product .pph__delivery {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  .template-product .pph__delivery-card {
+    min-height: 0 !important;
+    padding: 14px 12px !important;
+  }
+
+  .template-product .pph__delivery-body {
+    font-size: clamp(0.9rem, 3vw, 0.98rem) !important;
+    line-height: 1.45 !important;
+  }
+
+  .template-product .pph__atc,
+  .template-product .pph__buy-fast,
+  .template-product .pph__buy-now,
+  .template-product .sma__atc,
+  .template-product .sma__buy,
+  .template-product .pba__cta-btn,
+  .template-product .pba__cta .uc-btn,
+  .template-product .pba__cta .button {
+    font-size: var(--uc-pdp-btn) !important;
+    font-weight: 700 !important;
+    min-height: 50px !important;
+  }
+
+  /* Real Colour Results */
+  .template-product .pba {
+    padding-block: clamp(28px, 5vw, 40px) !important;
+  }
+
+  .template-product .pba__inner {
+    gap: 18px !important;
+    padding-inline: clamp(16px, 4vw, 24px) !important;
+  }
+
+  .template-product .pba__header {
+    align-items: flex-start !important;
+    text-align: left !important;
+    gap: 8px !important;
+  }
+
+  .template-product .pba__eyebrow {
+    font-size: 0.8125rem !important;
+    letter-spacing: 0.12em !important;
+    display: inline-flex !important;
+    width: fit-content !important;
+    padding: 7px 14px !important;
+    border-radius: 999px !important;
+    background: rgba(182, 138, 53, 0.12) !important;
+    border: 1px solid rgba(182, 138, 53, 0.22) !important;
+    color: #b68a35 !important;
+    opacity: 1 !important;
+  }
+
+  .template-product .pba__heading {
+    font-size: clamp(1.45rem, 5vw, 1.85rem) !important;
+    line-height: 1.18 !important;
+    text-align: left !important;
+  }
+
+  .template-product .pba__subtitle {
+    max-width: 100% !important;
+    text-align: left !important;
+    margin-inline: 0 !important;
+  }
+
+  .template-product .pba__slide {
+    flex: 0 0 min(92%, 420px) !important;
+  }
+
+  .template-product .pba__caption,
+  .template-product .pba-slide__caption {
+    padding: 16px 14px !important;
+    border-radius: 16px !important;
+    gap: 10px !important;
+  }
+
+  .template-product .pba__quote {
+    font-style: italic !important;
+    font-size: var(--uc-pdp-body) !important;
+  }
+
+  .template-product .pba__cta-btn,
+  .template-product .pba__cta .uc-btn,
+  .template-product .pba__cta .button {
+    width: 100% !important;
+    justify-content: center !important;
+    border-radius: 999px !important;
+  }
+
+  .template-product .pba__ba,
+  .template-product .pba__ba.ba {
+    border-radius: 16px !important;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .template-product .pba__slide {
+    flex: 0 0 88% !important;
+  }
+
+  .template-product .pph-gallery__thumb {
+    flex: 0 0 60px !important;
+    width: 60px !important;
+    height: 60px !important;
+  }
+}

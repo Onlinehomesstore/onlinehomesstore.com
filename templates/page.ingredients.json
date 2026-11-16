@@ -1,0 +1,83 @@
+/*
+ * ------------------------------------------------------------
+ * Online Homes Store — Materials & Care guide page
+ * (template filename retained for existing page assignments)
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "intro": {
+      "type": "uc-page-intro",
+      "settings": {
+        "use_global_colors": true,
+        "eyebrow": "PRODUCT CARE",
+        "heading": "Materials & Care",
+        "tagline": "Helpful guidance for reading product details, caring for toys and shopping with confidence. Always follow the information on each product page and packaging.",
+        "padding_top": 0,
+        "padding_bottom": 12
+      }
+    },
+    "content": {
+      "type": "uc-narrative",
+      "settings": {
+        "layout_style": "statement",
+        "eyebrow": "HOW TO USE THIS PAGE",
+        "heading": "Look for clear product details",
+        "body": "<p>Where available, product pages may include age guidance, materials, dimensions and care notes. We only show information provided for that product — we do not invent certifications or safety claims.</p><p>If a detail is missing, check the packaging on arrival or contact us for help before purchase when possible.</p>",
+        "button_label": "Shop All Toys",
+        "button_link": "/collections/all",
+        "padding_top": 24,
+        "padding_bottom": 24,
+        "use_global_colors": true
+      }
+    },
+    "tips": {
+      "type": "uc-feature-cards",
+      "blocks": {
+        "t1": {
+          "type": "feature",
+          "settings": {
+            "icon": "eye",
+            "title": "Check age guidance",
+            "description": "Use the age information shown on the product when it is provided."
+          }
+        },
+        "t2": {
+          "type": "feature",
+          "settings": {
+            "icon": "package",
+            "title": "Review materials",
+            "description": "Materials and care notes appear when supplied for that product."
+          }
+        },
+        "t3": {
+          "type": "feature",
+          "settings": {
+            "icon": "heart",
+            "title": "Supervise play",
+            "description": "Follow packaging guidance and supervise little ones during play."
+          }
+        },
+        "t4": {
+          "type": "feature",
+          "settings": {
+            "icon": "message-circle",
+            "title": "Ask for help",
+            "description": "Contact us if you need clarity before choosing a gift or toy."
+          }
+        }
+      },
+      "block_order": ["t1", "t2", "t3", "t4"],
+      "settings": {
+        "eyebrow": "QUICK TIPS",
+        "heading": "Simple habits for confident shopping",
+        "columns": 4,
+        "background_color": "#F8F5EE",
+        "accent_color": "#C98770",
+        "icon_color": "#C98770",
+        "icon_bg": "rgba(201,135,112,0.12)"
+      }
+    }
+  },
+  "order": ["intro", "content", "tips"]
+}

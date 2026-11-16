@@ -1,0 +1,112 @@
+{% comment %}
+ uc-section-colors.liquid
+ ═══════════════════════════════════════════════════════════════════════════════
+ PER-SECTION COLOR INHERITANCE / OVERRIDE SYSTEM
+
+ PURPOSE:
+ Generates a scoped <style> block for the current section that either:
+ MODE A - "Use global brand colors" → all --s-* vars reference --uc-* vars
+ MODE B - "Use custom colors" → all --s-* vars use section-specific
+ color picker values from schema
+
+ USAGE:
+ Add inside any section's {% style %} or immediately after the opening <div>:
+ ───────────────────────────────────────────────────────────────────────────────
+ {% render 'uc-section-colors', section: section %}
+ ───────────────────────────────────────────────────────────────────────────────
+
+ Then inside that section's CSS/inline styles, use --s-* variables:
+ --s-color-primary (accent/highlight)
+ --s-color-bg (section background)
+ --s-color-surface (card/inner-panel bg)
+ --s-color-text (heading color)
+ --s-color-text-body (body text)
+ --s-color-text-muted
+ --s-color-border
+ --s-btn-bg (button background)
+ --s-btn-color (button text)
+ --s-btn-bg-hover (button hover bg)
+ --s-font-heading
+ --s-font-body
+
+ SCHEMA SETTINGS REQUIRED (copy into each section schema):
+ See theme/docs/section-colors-schema-template.json
+ ═══════════════════════════════════════════════════════════════════════════════
+{% endcomment %}
+
+{%- liquid
+ # ── Resolve mode ────────────────────────────────────────────────────────
+ assign use_global = section.settings.use_global_colors
+ if use_global == blank
+ assign use_global = true
+ endif
+
+ # ── Color resolution ─────────────────────────────────────────────────────
+ if use_global
+
+ # MODE A: inherit everything from the global design system
+ assign s_primary = 'var(--uc-color-primary)'
+ assign s_primary_dk = 'var(--uc-color-primary-dark)'
+ assign s_bg = 'var(--uc-color-bg)'
+ assign s_surface = 'var(--uc-color-surface)'
+ assign s_card_bg = 'var(--uc-color-card-bg)'
+ assign s_text = 'var(--uc-color-text)'
+ assign s_text_body = 'var(--uc-color-text-body)'
+ assign s_text_muted = 'var(--uc-color-text-muted)'
+ assign s_border = 'var(--uc-color-border)'
+ assign s_divider = 'var(--uc-color-divider)'
+ assign s_btn_bg = 'var(--uc-btn-bg)'
+ assign s_btn_color = 'var(--uc-btn-color)'
+ assign s_btn_hover = 'var(--uc-btn-bg-hover)'
+
+ else
+
+ # MODE B: use section-specific color settings
+ assign s_primary = section.settings.custom_color_primary | default: 'var(--uc-color-primary)'
+ assign s_primary_dk = section.settings.custom_color_primary_dark | default: 'var(--uc-color-primary-dark)'
+ assign s_bg = section.settings.custom_color_bg | default: 'var(--uc-color-bg)'
+ assign s_surface = section.settings.custom_color_surface | default: 'var(--uc-color-surface)'
+ assign s_card_bg = section.settings.custom_color_card_bg | default: 'var(--uc-color-card-bg)'
+ assign s_text = section.settings.custom_color_text | default: 'var(--uc-color-text)'
+ assign s_text_body = section.settings.custom_color_text_body | default: 'var(--uc-color-text-body)'
+ assign s_text_muted = section.settings.custom_color_text_muted | default: 'var(--uc-color-text-muted)'
+ assign s_border = section.settings.custom_color_border | default: 'var(--uc-color-border)'
+ assign s_divider = section.settings.custom_color_border | default: 'var(--uc-color-divider)'
+
+ # Button colors - use custom accent if provided
+ assign s_btn_bg = section.settings.custom_color_btn_bg | default: s_primary
+ assign s_btn_color = section.settings.custom_color_btn_text | default: '#FFFFFF'
+ assign s_btn_hover = section.settings.custom_color_btn_hover | default: s_primary_dk
+
+ endif
+-%}
+
+<style>
+ #shopify-section-{{ section.id }} {
+ /* Section-scoped tokens - use --s-* inside this section's CSS */
+ --s-color-primary: {{ s_primary }};
+ --s-color-primary-dark: {{ s_primary_dk }};
+ --s-color-bg: {{ s_bg }};
+ --s-color-surface: {{ s_surface }};
+ --s-color-card-bg: {{ s_card_bg }};
+ --s-color-text: {{ s_text }};
+ --s-color-text-body: {{ s_text_body }};
+ --s-color-text-muted: {{ s_text_muted }};
+ --s-color-border: {{ s_border }};
+ --s-color-divider: {{ s_divider }};
+
+ /* Button tokens */
+ --s-btn-bg: {{ s_btn_bg }};
+ --s-btn-color: {{ s_btn_color }};
+ --s-btn-hover: {{ s_btn_hover }};
+
+ /* Typography always inherits global (change via global settings) */
+ --s-font-heading: var(--uc-font-heading);
+ --s-font-body: var(--uc-font-body);
+ --s-fw-heading: var(--uc-fw-heading);
+
+ /* Apply background automatically */
+ background-color: {{ s_bg }};
+ color: {{ s_text_body }};
+ }
+</style>

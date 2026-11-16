@@ -1,0 +1,392 @@
+{% doc %}
+ UC Error Diagnostics - shows WHY a 404 / broken page happened and which files to check.
+ Render from main-404 (always) or theme.liquid when settings.uc_show_error_diagnostics is on.
+
+ @param {boolean} [force] - Always show panel (used on 404 template)
+{% enddoc %}
+
+{%- liquid
+ comment
+  ONLY render on the real 404 template. Never on index/product/collection pages,
+  even if the diagnostics setting is on in the theme editor.
+ endcomment
+ assign show_panel = false
+ if force and template.name == '404'
+ assign show_panel = true
+ endif
+ if settings.uc_show_error_diagnostics and template.name == '404'
+ assign show_panel = true
+ endif
+
+ assign path_now = request.path | default: '/'
+ assign is_home_404 = false
+ assign is_product_404 = false
+ assign is_collection_404 = false
+ assign is_page_404 = false
+ assign is_generic_404_route = false
+ assign every_product_404_hint = false
+
+ if template.name == '404'
+ if path_now == '/404' or path_now == '404' or path_now == '/404/'
+ assign is_generic_404_route = true
+ elsif path_now == '/' or path_now == blank or path_now == ''
+ assign is_home_404 = true
+ elsif path_now contains '/products/'
+ assign is_product_404 = true
+ assign every_product_404_hint = true
+ elsif path_now contains '/collections/'
+ assign is_collection_404 = true
+ elsif path_now contains '/pages/'
+ assign is_page_404 = true
+ else
+ assign is_generic_404_route = true
+ endif
+ endif
+-%}
+
+{%- if show_panel -%}
+ <aside
+ class="uc-errdiag"
+ id="UcErrorDiagnostics"
+ data-uc-error-diagnostics
+ data-page-type="{{ request.page_type | escape }}"
+ data-template="{{ template.name | escape }}"
+ data-path="{{ path_now | escape }}"
+ aria-label="Theme error diagnostics"
+ >
+ <style>
+ .uc-errdiag {
+ --uc-err-bg: #1a1612;
+ --uc-err-fg: #f7f2ea;
+ --uc-err-muted: #c4b8a8;
+ --uc-err-accent: #e8b86d;
+ --uc-err-danger: #ff8f8f;
+ --uc-err-ok: #8fd6a8;
+ margin: 24px auto 0;
+ max-width: 920px;
+ padding: clamp(16px, 3vw, 28px);
+ border-radius: 16px;
+ background: linear-gradient(160deg, #241f1a 0%, #151210 100%);
+ color: var(--uc-err-fg);
+ text-align: left;
+ box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+ font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+ font-size: 13px;
+ line-height: 1.55;
+ }
+ .uc-errdiag__badge {
+ display: inline-flex;
+ align-items: center;
+ gap: 8px;
+ padding: 4px 10px;
+ border-radius: 999px;
+ background: rgba(232, 184, 109, 0.15);
+ color: var(--uc-err-accent);
+ font-size: 11px;
+ font-weight: 700;
+ letter-spacing: 0.08em;
+ text-transform: uppercase;
+ margin-bottom: 12px;
+ }
+ .uc-errdiag h2 {
+ margin: 0 0 8px;
+ font-family: inherit;
+ font-size: clamp(1.1rem, 3vw, 1.35rem);
+ line-height: 1.25;
+ color: #fff;
+ }
+ .uc-errdiag p { margin: 0 0 12px; color: var(--uc-err-muted); }
+ .uc-errdiag__grid {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+ gap: 10px;
+ margin: 16px 0;
+ }
+ .uc-errdiag__card {
+ background: rgba(255, 255, 255, 0.04);
+ border: 1px solid rgba(255, 255, 255, 0.08);
+ border-radius: 12px;
+ padding: 12px;
+ }
+ .uc-errdiag__label {
+ display: block;
+ color: var(--uc-err-muted);
+ font-size: 10px;
+ letter-spacing: 0.1em;
+ text-transform: uppercase;
+ margin-bottom: 4px;
+ }
+ .uc-errdiag__value { color: #fff; word-break: break-all; }
+ .uc-errdiag__danger { color: var(--uc-err-danger); font-weight: 700; }
+ .uc-errdiag__ok { color: var(--uc-err-ok); }
+ .uc-errdiag ol, .uc-errdiag ul { margin: 0; padding-left: 1.2rem; color: var(--uc-err-muted); }
+ .uc-errdiag li { margin: 6px 0; }
+ .uc-errdiag code {
+ background: rgba(255, 255, 255, 0.08);
+ padding: 1px 6px;
+ border-radius: 6px;
+ color: var(--uc-err-accent);
+ }
+ .uc-errdiag__files {
+ margin-top: 14px;
+ display: grid;
+ gap: 6px;
+ }
+ .uc-errdiag__file {
+ display: flex;
+ gap: 10px;
+ align-items: flex-start;
+ padding: 8px 10px;
+ border-radius: 10px;
+ background: rgba(255, 255, 255, 0.03);
+ }
+ .uc-errdiag__file strong { color: #fff; font-weight: 600; }
+ @media (max-width: 749px) {
+ .uc-errdiag { margin-inline: 12px; border-radius: 14px; }
+ }
+ </style>
+
+ <div class="uc-errdiag__badge">UC Error Finder</div>
+
+ {%- if is_home_404 -%}
+ <h2 class="uc-errdiag__danger">Homepage is rendering as 404</h2>
+ <p>
+ Shopify is serving the <code>404</code> template for <code>/</code>.
+ That almost always means <code>templates/index.json</code> is missing on the live theme
+ or failed to upload (store-specific media / missing section files).
+ </p>
+ {%- elsif is_generic_404_route -%}
+ <h2>You are on the store 404 page</h2>
+ <p>
+ Path <code>/404</code> is the theme 404 template itself. This does <strong>not</strong> mean
+ <code>templates/product.json</code> is broken. Open your homepage, a real product URL
+ (<code>/products/your-handle</code>), or Collections to test the live store.
+ </p>
+ {%- elsif is_product_404 -%}
+ <h2>Product page not found</h2>
+ <p>
+ The product URL <code>{{ path_now | escape }}</code> does not match a live product.
+ This is usually a catalog / link issue, or a missing product template on the live theme.
+ </p>
+ {%- elsif is_collection_404 -%}
+ <h2>Collection page not found</h2>
+ <p>The collection handle in <code>{{ path_now | escape }}</code> is missing or unpublished.</p>
+ {%- elsif is_page_404 -%}
+ <h2>Page not found</h2>
+ <p>The page handle in <code>{{ path_now | escape }}</code> is missing or unpublished.</p>
+ {%- else -%}
+ <h2>Page not found. Diagnostic report</h2>
+ <p>The URL below could not be resolved. Check the causes list for the most likely fix.</p>
+ {%- endif -%}
+
+ <div class="uc-errdiag__grid">
+ <div class="uc-errdiag__card">
+ <span class="uc-errdiag__label">Request path</span>
+ <div class="uc-errdiag__value">{{ path_now | default: '/' | escape }}</div>
+ </div>
+ <div class="uc-errdiag__card">
+ <span class="uc-errdiag__label">Page type</span>
+ <div class="uc-errdiag__value">{{ request.page_type | escape }}</div>
+ </div>
+ <div class="uc-errdiag__card">
+ <span class="uc-errdiag__label">Template</span>
+ <div class="uc-errdiag__value">{{ template | escape }}</div>
+ </div>
+ <div class="uc-errdiag__card">
+ <span class="uc-errdiag__label">Theme</span>
+ <div class="uc-errdiag__value">{{ theme.name | default: 'unknown' | escape }} (id {{ theme.id }})</div>
+ </div>
+ <div class="uc-errdiag__card">
+ <span class="uc-errdiag__label">Design mode</span>
+ <div class="uc-errdiag__value">{% if request.design_mode %}yes{% else %}no{% endif %}</div>
+ </div>
+ <div class="uc-errdiag__card">
+ <span class="uc-errdiag__label">Locale / host</span>
+ <div class="uc-errdiag__value">{{ request.locale.iso_code | escape }} · {{ request.host | escape }}</div>
+ </div>
+ </div>
+
+ <h2 style="font-size:1rem;margin-top:8px;">Most likely causes (in order)</h2>
+ <ol>
+ {%- if is_home_404 -%}
+ <li>
+ <strong class="uc-errdiag__danger"><code>templates/index.json</code> missing or rejected on upload.</strong>
+ Shopify falls back to the 404 template for <code>/</code>.
+ Fix: re-upload a clean <code>index.json</code> (no store-only <code>shopify://shop_images/…</code> refs).
+ </li>
+ <li>
+ A homepage section file is missing (e.g. old guide said <code>uc-hero-slider</code> but the theme uses
+ <code>uc-editorial-hero</code>). Upload error: <em>Section type does not refer to an existing section file</em>.
+ </li>
+ <li>Missing required files: <code>layout/theme.liquid</code>, <code>config/settings_data.json</code>, <code>config/settings_schema.json</code>.</li>
+ {%- elsif is_generic_404_route -%}
+ <li>You opened <code>/404</code> directly. That is normal for the not found page.</li>
+ <li>Test a real URL instead: homepage <code>/</code>, a product <code>/products/…</code>, or a collection.</li>
+ <li>If a real product URL also 404s, then check product status and <code>templates/product.json</code>.</li>
+ {%- elsif is_product_404 -%}
+ {%- if every_product_404_hint -%}
+ <li><strong>Product template missing / broken on the live theme</strong>. Products can exist in Admin while HTML returns 404. Re-upload <code>templates/product.json</code> and publish this theme.</li>
+ <li>Products may be assigned a custom theme template (premium / pdp / unik) that was missing. This package includes those aliases.</li>
+ {%- endif -%}
+ <li><strong>Product deleted, draft, or unpublished</strong> in Shopify Admin → Products.</li>
+ <li><strong>Wrong handle in a menu / button / card link</strong> (typo or old URL after rename).</li>
+ <li>Product not available on the Online Store sales channel / market.</li>
+ <li>Custom product template assigned in Admin that no longer exists in the theme.</li>
+ <li>If every product 404s: re-upload <code>templates/product.json</code> + <code>sections/premium-product-hero.liquid</code>, then <strong>Publish</strong> the theme.</li>
+ <li>In Admin → Products → [product] → Theme template, set to <strong>Default product</strong> (or premium / pdp / unik if you use those).</li>
+ {%- elsif is_collection_404 -%}
+ <li>Collection deleted or unpublished in Admin → Collections.</li>
+ <li>Broken menu link to an old collection handle.</li>
+ <li>Missing <code>templates/collection.json</code> on the live theme.</li>
+ {%- else -%}
+ <li>Wrong URL / deleted product, collection, page, or blog article.</li>
+ <li>Broken menu or button link pointing to a removed handle.</li>
+ <li>Custom template assigned in admin that no longer exists in the theme.</li>
+ {%- endif -%}
+ </ol>
+
+ <div class="uc-errdiag__files">
+ {%- if is_home_404 -%}
+ <div class="uc-errdiag__file">
+ <span>1</span>
+ <div>
+ <strong>templates/index.json</strong>
+ <div>Home composition. Must exist. Avoid embedding other-store image GIDs.</div>
+ </div>
+ </div>
+ <div class="uc-errdiag__file">
+ <span>2</span>
+ <div>
+ <strong>sections/uc-editorial-hero.liquid</strong> + <code>assets/uc-editorial-hero.css</code> / <code>.js</code>
+ <div>Current home hero (NOT <code>uc-hero-slider</code> - that file was removed).</div>
+ </div>
+ </div>
+ <div class="uc-errdiag__file">
+ <span>3</span>
+ <div>
+ <strong>Homepage section pack</strong>
+ <div>
+ <code>category-showcase</code>,
+ <code>premium-product-showcase</code>,
+ <code>before-after-comparison</code>,
+ <code>visible-results</code>,
+ <code>premium-video-reels</code>,
+ <code>product-testimonials</code>
+ </div>
+ </div>
+ </div>
+ <div class="uc-errdiag__file">
+ <span>4</span>
+ <div>
+ <strong>sections/header-group.json</strong> + <code>uc-premium-header</code> · <strong>footer-group.json</strong> + <code>uc-footer</code>
+ </div>
+ </div>
+ {%- elsif is_generic_404_route -%}
+ <div class="uc-errdiag__file">
+ <span>1</span>
+ <div>
+ <strong>Open the homepage</strong>
+ <div>Go to <code>/</code> and confirm the storefront loads.</div>
+ </div>
+ </div>
+ <div class="uc-errdiag__file">
+ <span>2</span>
+ <div>
+ <strong>Open a real product</strong>
+ <div>Use Admin → Products → [product] → View, or visit <code>/products/your-handle</code>.</div>
+ </div>
+ </div>
+ <div class="uc-errdiag__file">
+ <span>3</span>
+ <div>
+ <strong>Only if products still 404</strong>
+ <div>Re-upload <code>templates/product.json</code> and <code>sections/premium-product-hero.liquid</code>, then Publish.</div>
+ </div>
+ </div>
+ {%- elsif is_product_404 -%}
+ <div class="uc-errdiag__file">
+ <span>1</span>
+ <div>
+ <strong>Shopify Admin → Products</strong>
+ <div>Confirm the product is Active and available on Online Store.</div>
+ </div>
+ </div>
+ <div class="uc-errdiag__file">
+ <span>2</span>
+ <div>
+ <strong>templates/product.json</strong>
+ <div>Must exist on the live theme. Re-upload if every product 404s.</div>
+ </div>
+ </div>
+ <div class="uc-errdiag__file">
+ <span>3</span>
+ <div>
+ <strong>sections/premium-product-hero.liquid</strong>
+ <div>Primary PDP section. Missing section type means incomplete theme upload.</div>
+ </div>
+ </div>
+ <div class="uc-errdiag__file">
+ <span>4</span>
+ <div>
+ <strong>Menus and product cards</strong>
+ <div>Update any link still pointing at a deleted / renamed product handle.</div>
+ </div>
+ </div>
+ {%- else -%}
+ <div class="uc-errdiag__file">
+ <span>1</span>
+ <div>
+ <strong>Admin content</strong>
+ <div>Confirm the resource still exists and is published to Online Store.</div>
+ </div>
+ </div>
+ <div class="uc-errdiag__file">
+ <span>2</span>
+ <div>
+ <strong>Menus and buttons</strong>
+ <div>Fix links pointing at deleted handles.</div>
+ </div>
+ </div>
+ <div class="uc-errdiag__file">
+ <span>3</span>
+ <div>
+ <strong>Template files</strong>
+ <div>Ensure matching <code>templates/*.json</code> files exist on the live theme.</div>
+ </div>
+ </div>
+ {%- endif -%}
+ </div>
+
+ <p style="margin-top:16px;">
+ Local check: run <code>node _diagnose_theme.js</code> inside the <code>theme/</code> folder before uploading.
+ After fixing, hard-refresh (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd>) or open an incognito window.
+ </p>
+
+ <script>
+ (function () {
+ try {
+ var el = document.getElementById('UcErrorDiagnostics');
+ if (!el) return;
+ var report = {
+ path: el.getAttribute('data-path'),
+ pageType: el.getAttribute('data-page-type'),
+ template: el.getAttribute('data-template'),
+ href: location.href,
+ referrer: document.referrer || null,
+ userAgent: navigator.userAgent,
+ viewport: { w: innerWidth, h: innerHeight },
+ timestamp: new Date().toISOString(),
+ homeRenderedAs404: {{ is_home_404 | json }}
+ };
+ console.group('%cUC Error Finder', 'color:#e8b86d;font-weight:bold');
+ console.table(report);
+ if (report.homeRenderedAs404) {
+ console.error('[UC] Homepage (/) is using the 404 template. Re-upload templates/index.json and all homepage section files listed in the on-page panel.');
+ }
+ console.groupEnd();
+ window.__UC_ERROR_REPORT__ = report;
+ } catch (e) {}
+ })();
+ </script>
+ </aside>
+{%- endif -%}

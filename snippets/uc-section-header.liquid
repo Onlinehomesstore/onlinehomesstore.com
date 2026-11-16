@@ -1,0 +1,51 @@
+{%- comment -%}
+  UC Section Header — canonical rhythm (matches EXPLORE THE RITUAL / category-showcase).
+  Accepts: eyebrow, label, subheading | heading, title | description, description_html
+           button_label, btn_label, view_all_label | button_link, btn_link
+           reveal (bool), actions_html (optional right-slot markup), header_class
+{%- endcomment -%}
+{%- liquid
+  assign uc_hdr_eyebrow = eyebrow | default: label | default: subheading
+  assign uc_hdr_heading = heading | default: title
+  assign uc_hdr_desc = description_html | default: description
+  assign uc_hdr_btn_label = button_label | default: btn_label | default: view_all_label
+  assign uc_hdr_btn_link = button_link | default: btn_link
+  assign uc_hdr_class = header_class | default: ''
+-%}
+
+{%- if uc_hdr_eyebrow != blank or uc_hdr_heading != blank or uc_hdr_desc != blank or uc_hdr_btn_label != blank or actions_html != blank -%}
+<header
+  class="category-showcase__header uc-sec-header {{ uc_hdr_class }}"
+  {% if reveal %}data-cs-reveal{% endif %}
+>
+  <div class="category-showcase__heading-group">
+    {%- if uc_hdr_eyebrow != blank -%}
+      <p class="category-showcase__label uc-sec__eyebrow">{{ uc_hdr_eyebrow | escape }}</p>
+    {%- endif -%}
+    {%- if uc_hdr_heading != blank -%}
+      <h2 class="category-showcase__title uc-sec__heading">{{ uc_hdr_heading }}</h2>
+    {%- endif -%}
+    {%- if uc_hdr_desc != blank -%}
+      <div class="category-showcase__intro uc-sec__desc rte">{{ uc_hdr_desc }}</div>
+    {%- endif -%}
+    {%- if footnote != blank -%}
+      <p class="uc-sec-header__footnote">{{ footnote | escape }}</p>
+    {%- endif -%}
+  </div>
+
+  {%- if uc_hdr_btn_label != blank or actions_html != blank -%}
+  <div class="category-showcase__header-actions">
+    {%- if uc_hdr_btn_label != blank -%}
+      <a
+        class="category-showcase__header-btn uc-btn uc-btn--ghost"
+        {% if uc_hdr_btn_link != blank %}href="{{ uc_hdr_btn_link }}"{% else %}role="link" aria-disabled="true"{% endif %}
+      >
+        <span>{{ uc_hdr_btn_label | escape }}</span>
+        {% render 'uc-icon', icon: 'arrow-right', size: 16, class: 'cs-arrow' %}
+      </a>
+    {%- endif -%}
+    {{ actions_html }}
+  </div>
+  {%- endif -%}
+</header>
+{%- endif -%}

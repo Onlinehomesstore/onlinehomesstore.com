@@ -1,0 +1,294 @@
+{%- comment -%}
+ ============================================================================
+ STICKY ADD TO CART
+ ----
+ Fixed bottom bar that appears when the main ATC button scrolls out of view.
+ Completely independent from the main product form  -  has its own Shopify form.
+
+ Observes: [data-pph-atc] (Premium Hero) -> fallback .product-form__submit (Dawn).
+ AJAX cart: same fetch('/cart/add.js') + PUB_SUB + cart drawer pattern as hero.
+
+ Only activates on product template pages (product object must exist).
+ Reuses: uc-design-tokens.css, uc-components.css.
+ Adds: sticky-atc.css, sticky-atc.js.
+ CSS prefix: satc-
+ ============================================================================
+{%- endcomment -%}
+
+{%- if product != blank -%}
+{{ 'sticky-atc.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+ assign s = section.settings
+ assign uid = section.id
+ assign cv = product.selected_or_first_available_variant
+ assign has_multi = false
+ unless product.has_only_default_variant
+ assign has_multi = true
+ endunless
+ assign satc_form_id = 'satc-form-' | append: uid
+ assign on_sale = false
+ assign save_pct = 0
+ if cv.compare_at_price > cv.price
+ assign on_sale = true
+ assign save_pct = cv.compare_at_price | minus: cv.price | times: 100 | divided_by: cv.compare_at_price | round
+ endif
+-%}
+
+{%- assign uc_sec_scope = '#StickyATC-' | append: uid -%}
+{%- render 'uc-section-vars', section: section, scope: uc_sec_scope -%}
+{%- render 'uc-section-colors', section: section -%}
+
+{%- style -%}
+ #StickyATC-{{ uid }} {
+ --satc-z: {{ s.z_index | default: 200 }};
+ }
+ {%- if s.background_color != blank -%}
+ #StickyATC-{{ uid }} { --satc-bg: {{ s.background_color }}; }
+ {%- endif -%}
+ {%- if s.accent_color != blank -%}
+ #StickyATC-{{ uid }} { --satc-accent: {{ s.accent_color }}; }
+ {%- endif -%}
+{%- endstyle -%}
+
+<div
+ id="StickyATC-{{ uid }}"
+ class="satc{% if s.enable_animation %} satc--animated{% endif %}"
+ data-satc-section
+ data-satc-autoplay="{{ s.enable_autoplay | default: false }}"
+ aria-hidden="true"
+ aria-label="Sticky add to cart"
+ role="region"
+>
+ <div class="satc__inner">
+
+ {%- comment -%} Product thumbnail {%- endcomment -%}
+ {%- if s.show_image -%}
+ <div class="satc__media" aria-hidden="true">
+ {%- assign satc_img_alt = product.title | escape -%}
+ {%- assign satc_img_id = 'satc-img-' | append: uid -%}
+ {%- if cv.image != blank -%}
+ <img class="satc__img" id="{{ satc_img_id }}" src="{{ cv.image | image_url: width: 100 }}" loading="lazy" alt="{{ satc_img_alt }}" data-satc-img width="100" height="100">
+ {%- elsif product.featured_image != blank -%}
+ <img class="satc__img" id="{{ satc_img_id }}" src="{{ product.featured_image | image_url: width: 100 }}" loading="lazy" alt="{{ satc_img_alt }}" data-satc-img width="100" height="100">
+ {%- else -%}
+ {{ 'product-1' | placeholder_svg_tag: 'satc__img satc__img--placeholder' }}
+ {%- endif -%}
+ </div>
+ {%- endif -%}
+
+ {%- comment -%} Product info {%- endcomment -%}
+ <div class="satc__info">
+ {%- if s.show_title -%}
+ <p class="satc__title">{{ product.title | escape }}</p>
+ {%- endif -%}
+ <p class="satc__price" data-satc-price>
+ {%- if cv.compare_at_price > cv.price -%}
+ <s class="satc__price-compare" data-satc-compare>{{ cv.compare_at_price | money }}</s>
+ <span class="satc__save" data-satc-save>-{{ save_pct }}%</span>
+ {%- else -%}
+ <s class="satc__price-compare" data-satc-compare hidden></s>
+ <span class="satc__save" data-satc-save hidden></span>
+ {%- endif -%}
+ <span class="satc__price-current" data-satc-current>{{ cv.price | money }}</span>
+ </p>
+ {%- if cv.compare_at_price > cv.price -%}
+ <p class="satc__save-line" data-satc-save-line>
+ {{ s.save_label | default: 'You save' | escape }}
+ <strong data-satc-save-amt>{{ cv.compare_at_price | minus: cv.price | money }}</strong>
+ </p>
+ {%- else -%}
+ <p class="satc__save-line" data-satc-save-line hidden></p>
+ {%- endif -%}
+ </div>
+
+ {%- comment -%} Compact variant selector {%- endcomment -%}
+ {%- if s.show_variant_selector and has_multi -%}
+ <div class="satc__variant-wrap">
+ <label class="satc__variant-label" for="satc-select-{{ uid }}">
+ <span class="visually-hidden">Variant</span>
+ </label>
+ <select
+ class="satc__select"
+ id="satc-select-{{ uid }}"
+ data-satc-select
+ aria-label="{{ 'accessibility.variant_selector' | t | default: 'Select variant' }}"
+ >
+ {%- for variant in product.variants -%}
+ {%- liquid
+   assign satc_opt_img = blank
+   if variant.image != blank
+     assign satc_opt_img = variant.image
+   elsif product.featured_image != blank
+     assign satc_opt_img = product.featured_image
+   endif
+ -%}
+ <option
+ value="{{ variant.id }}"
+ data-price="{{ variant.price | money_with_currency }}"
+ data-price-raw="{{ variant.price }}"
+ data-compare="{{ variant.compare_at_price | money_with_currency }}"
+ data-available="{{ variant.available }}"
+ data-img="{% if satc_opt_img != blank %}{{ satc_opt_img | image_url: width: 100 }}{% endif %}"
+ {%- if variant.id == cv.id %} selected{%- endif -%}
+ {%- unless variant.available %} class="satc__option--unavailable"{%- endunless -%}
+ >
+ {{ variant.title | escape }}
+ </option>
+ {%- endfor -%}
+ </select>
+ </div>
+ {%- endif -%}
+
+ {%- comment -%} Quantity {%- endcomment -%}
+ {%- if s.show_quantity -%}
+ <div class="satc__qty-wrap">
+ <button class="satc__qty-btn" data-satc-qty-dec aria-label="Decrease quantity" type="button">&minus;</button>
+ <input
+ class="satc__qty-input"
+ type="number"
+ name="quantity"
+ value="1"
+ min="1"
+ max="99"
+ data-satc-qty
+ aria-label="Quantity"
+ form="satc-form-{{ uid }}"
+ >
+ <button class="satc__qty-btn" data-satc-qty-inc aria-label="Increase quantity" type="button">+</button>
+ </div>
+ {%- endif -%}
+
+ {%- comment -%} ATC form button {%- endcomment -%}
+ {%- form 'product', product, id: satc_form_id, class: 'satc__form' -%}
+ <input type="hidden" name="id" value="{{ cv.id }}" data-satc-variant>
+ {%- unless s.show_quantity -%}
+ <input type="hidden" name="quantity" value="1">
+ {%- endunless -%}
+
+ <button
+ type="submit"
+ name="add"
+ class="uc-btn uc-btn--premium uc-btn--ripple satc__atc-btn"
+ data-satc-atc
+ data-label-add="{{ s.atc_label | default: 'Add to Cart' | escape }}"
+ data-label-sold="{{ s.sold_out_label | default: 'Sold Out' | escape }}"
+ {%- unless cv.available %} disabled aria-disabled="true"{%- endunless -%}
+ >
+ <span class="satc__atc-text" data-satc-atc-text>
+ {%- if cv.available -%}
+ {{ s.atc_label | default: 'Add to Cart' | escape }}
+ {%- else -%}
+ {{ s.sold_out_label | default: 'Sold Out' | escape }}
+ {%- endif -%}
+ </span>
+ <span class="satc__atc-spinner" data-satc-spinner hidden aria-hidden="true">
+ <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+ <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+ </svg>
+ </span>
+ </button>
+ {%- endform -%}
+
+ </div>
+</div>
+
+{%- comment -%} JSON variant data island for JS {%- endcomment -%}
+<script type="application/json" id="satc-variants-{{ uid }}">
+ {
+ "moneyFormat": {{ shop.money_format | json }},
+ "saveLabel": {{ s.save_label | default: 'You save' | json }},
+ "variants": [
+ {%- for variant in product.variants -%}
+ {%- liquid
+   assign satc_v_img = blank
+   if variant.image != blank
+     assign satc_v_img = variant.image
+   elsif product.featured_image != blank
+     assign satc_v_img = product.featured_image
+   endif
+ -%}
+ {
+ "id": {{ variant.id }},
+ "title": {{ variant.title | json }},
+ "price": {{ variant.price }},
+ "priceFmt": {{ variant.price | money_with_currency | json }},
+ "compareAt": {{ variant.compare_at_price | default: 0 }},
+ "compareFmt": {{ variant.compare_at_price | money_with_currency | json }},
+ "saveAmountRaw": {% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price | minus: variant.price }}{% else %}0{% endif %},
+ "available": {{ variant.available }},
+ "featuredImg": {% if satc_v_img != blank %}{{ satc_v_img | image_url: width: 100 | json }}{% else %}null{% endif %}
+ }{%- unless forloop.last -%},{%- endunless -%}
+ {%- endfor -%}
+ ]
+ }
+</script>
+
+<script src="{{ 'sticky-atc.js' | asset_url }}" defer="defer"></script>
+
+{%- endif -%}
+
+{% schema %}
+{
+ "name": "Sticky Add to Cart",
+ "tag": "aside",
+ "class": "section section-sticky-atc",
+ "settings": [
+ { "type": "header", "content": "Display" },
+ { "type": "checkbox", "id": "show_image", "label": "Show product image", "default": true },
+ { "type": "checkbox", "id": "show_title", "label": "Show product title", "default": true },
+ { "type": "checkbox", "id": "show_variant_selector", "label": "Show variant selector", "default": true },
+ { "type": "checkbox", "id": "show_quantity", "label": "Show quantity stepper", "default": false },
+
+ { "type": "header", "content": "Labels" },
+ { "type": "text", "id": "atc_label", "label": "Add to Cart label", "default": "Add to Cart" },
+ { "type": "text", "id": "sold_out_label", "label": "Sold Out label", "default": "Sold Out" },
+
+ { "type": "text", "id": "save_label", "label": "Savings label", "default": "You save" },
+
+ { "type": "header", "content": "Behaviour" },
+ { "type": "checkbox", "id": "enable_animation", "label": "Slide-in animation", "default": true },
+ { "type": "range", "id": "z_index", "label": "Z-index", "min": 100, "max": 500, "step": 50, "default": 200 },
+
+ { "type": "header", "content": "UC - Responsive spacing" },
+ { "type": "range", "id": "pad_top_lg", "label": "Top padding - laptop (990px+)", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+ { "type": "range", "id": "pad_top_xxl", "label": "Top padding - large desktop (1440px+)", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 96 },
+ { "type": "range", "id": "container_max_lg", "label": "Container max width - laptop+", "min": 960, "max": 1600, "step": 20, "unit": "px", "default": 1280 },
+ { "type": "select", "id": "container_mode", "label": "Container", "default": "boxed", "options": [{"value":"boxed","label":"Boxed"},{"value":"full","label":"Full width"}] },
+ { "type": "header", "content": "Typography — sizes by device" },
+ { "type": "paragraph", "content": "Set font sizes per breakpoint. Values apply immediately (no override checkbox required)." },
+ { "type": "range", "id": "eyebrow_size_xs", "label": "Eyebrow / pill label — mobile", "min": 9, "max": 18, "step": 1, "unit": "px", "default": 11 },
+ { "type": "range", "id": "eyebrow_size_md", "label": "Eyebrow / pill label — tablet (750px+)", "min": 9, "max": 18, "step": 1, "unit": "px", "default": 11 },
+ { "type": "range", "id": "eyebrow_size_lg", "label": "Eyebrow / pill label — laptop (990px+)", "min": 9, "max": 20, "step": 1, "unit": "px", "default": 12 },
+ { "type": "range", "id": "eyebrow_size_xxl", "label": "Eyebrow / pill label — large desktop", "min": 9, "max": 20, "step": 1, "unit": "px", "default": 12 },
+ { "type": "range", "id": "h_size_xs", "label": "Heading — mobile", "min": 18, "max": 56, "step": 1, "unit": "px", "default": 24 },
+ { "type": "range", "id": "h_size_md", "label": "Heading — tablet (750px+)", "min": 18, "max": 64, "step": 1, "unit": "px", "default": 26 },
+ { "type": "range", "id": "h_size_lg", "label": "Heading — laptop (990px+)", "min": 20, "max": 64, "step": 1, "unit": "px", "default": 30 },
+ { "type": "range", "id": "h_size_xxl", "label": "Heading — large desktop", "min": 20, "max": 72, "step": 1, "unit": "px", "default": 32 },
+ { "type": "range", "id": "sub_size_xs", "label": "Subheading — mobile", "min": 12, "max": 36, "step": 1, "unit": "px", "default": 16 },
+ { "type": "range", "id": "sub_size_md", "label": "Subheading — tablet", "min": 12, "max": 40, "step": 1, "unit": "px", "default": 17 },
+ { "type": "range", "id": "sub_size_lg", "label": "Subheading — laptop+", "min": 12, "max": 40, "step": 1, "unit": "px", "default": 18 },
+ { "type": "range", "id": "sub_size_xxl", "label": "Subheading — large desktop", "min": 12, "max": 44, "step": 1, "unit": "px", "default": 18 },
+ { "type": "range", "id": "desc_size_xs", "label": "Description — mobile", "min": 12, "max": 22, "step": 1, "unit": "px", "default": 14 },
+ { "type": "range", "id": "desc_size_md", "label": "Description — tablet", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 15 },
+ { "type": "range", "id": "desc_size_lg", "label": "Description — laptop+", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 15 },
+ { "type": "range", "id": "desc_size_xxl", "label": "Description — large desktop", "min": 12, "max": 26, "step": 1, "unit": "px", "default": 16 },
+ { "type": "range", "id": "btn_size_xs", "label": "Button / pill text — mobile", "min": 11, "max": 18, "step": 1, "unit": "px", "default": 13 },
+ { "type": "range", "id": "btn_size_md", "label": "Button / pill text — tablet", "min": 11, "max": 18, "step": 1, "unit": "px", "default": 13 },
+ { "type": "range", "id": "btn_size_lg", "label": "Button / pill text — laptop+", "min": 11, "max": 20, "step": 1, "unit": "px", "default": 14 },
+ { "type": "range", "id": "btn_size_xxl", "label": "Button / pill text — large desktop", "min": 11, "max": 20, "step": 1, "unit": "px", "default": 14 },
+ { "type": "header", "content": "UC - Section colors" },
+ { "type": "checkbox", "id": "use_global_colors", "label": "Use global brand colors", "default": true },
+
+ { "type": "header", "content": "Colours" },
+ { "type": "color", "id": "background_color", "label": "Bar background colour override" },
+ { "type": "color", "id": "accent_color", "label": "Button accent colour override" }
+ ],
+ "enabled_on": {
+ "templates": ["product"]
+ },
+ "presets": [
+ { "name": "Sticky Add to Cart" }
+ ]
+}
+{% endschema %}

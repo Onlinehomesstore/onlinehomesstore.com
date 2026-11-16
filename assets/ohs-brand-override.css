@@ -1,0 +1,283 @@
+/* =============================================================================
+   OHS Brand Override — Online Homes Store · Baby Toys
+   Soft pastel palette layered over existing UC component architecture.
+   ============================================================================= */
+
+:root {
+  --ohs-ivory: #fffdf8;
+  --ohs-cream: #f8f5ee;
+  --ohs-sage: #dce8da;
+  --ohs-mint: #e5f0e8;
+  --ohs-peach: #f8ddd0;
+  --ohs-powder: #dfeaf5;
+  --ohs-beige: #ede5d9;
+  --ohs-terracotta: #c98770;
+  --ohs-terracotta-dark: #b0725c;
+  --ohs-text: #292d2b;
+  --ohs-text-secondary: #777d78;
+  --ohs-text-muted: #a0a39f;
+
+  --uc-color-primary: var(--ohs-terracotta);
+  --uc-color-primary-dark: var(--ohs-terracotta-dark);
+  --uc-color-secondary: #d4a08c;
+  --uc-color-accent: var(--ohs-terracotta);
+  --uc-color-bg: var(--ohs-ivory);
+  --uc-color-surface: var(--ohs-cream);
+  --uc-color-card-bg: #ffffff;
+  --uc-color-text: var(--ohs-text);
+  --uc-color-text-body: var(--ohs-text);
+  --uc-color-text-muted: var(--ohs-text-secondary);
+  --uc-color-text-light: var(--ohs-text-muted);
+  --uc-color-border: #e8e2d8;
+  --uc-color-divider: #efe9e0;
+  --uc-color-footer-bg: var(--ohs-cream);
+  --uc-color-footer-text: var(--ohs-text-secondary);
+  --uc-rating-color: var(--ohs-terracotta);
+  --uc-color-sale-bg: #c46b5a;
+}
+
+html {
+  background: var(--ohs-ivory);
+}
+
+body {
+  background-color: var(--ohs-ivory);
+  color: var(--ohs-text);
+}
+
+/* Soft pastel accents for category / age tiles */
+.ohs-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 220px;
+  border-radius: 20px;
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--ohs-text);
+  background: var(--ohs-cream);
+  border: 1px solid rgba(41, 45, 43, 0.06);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.ohs-tile:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(41, 45, 43, 0.08);
+}
+
+.ohs-tile__media {
+  position: absolute;
+  inset: 0;
+}
+
+.ohs-tile__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ohs-tile__shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 35%, rgba(255, 253, 248, 0.92) 100%);
+  pointer-events: none;
+}
+
+.ohs-tile__body {
+  position: relative;
+  z-index: 1;
+  padding: 1.25rem 1.35rem 1.4rem;
+}
+
+.ohs-tile__label {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ohs-text-secondary);
+}
+
+.ohs-tile__title {
+  margin: 0.35rem 0 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.ohs-tile__desc {
+  margin: 0.4rem 0 0;
+  font-size: 0.9rem;
+  color: var(--ohs-text-secondary);
+  line-height: 1.45;
+}
+
+.ohs-section {
+  padding: clamp(3rem, 6vw, 5rem) 0;
+}
+
+.ohs-section__inner {
+  width: min(1280px, calc(100% - 2.5rem));
+  margin-inline: auto;
+}
+
+.ohs-section__head {
+  max-width: 40rem;
+  margin-bottom: 2rem;
+}
+
+.ohs-section__eyebrow {
+  margin: 0 0 0.5rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ohs-terracotta);
+  font-weight: 600;
+}
+
+.ohs-section__heading {
+  margin: 0;
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+  color: var(--ohs-text);
+}
+
+.ohs-section__desc {
+  margin: 0.75rem 0 0;
+  color: var(--ohs-text-secondary);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.ohs-grid {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.ohs-grid--ages {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.ohs-grid--gifts {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.ohs-grid--collections {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (min-width: 750px) {
+  .ohs-grid--ages {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .ohs-grid--gifts,
+  .ohs-grid--collections {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 990px) {
+  .ohs-grid--ages {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+.ohs-tile--sage { background: var(--ohs-sage); }
+.ohs-tile--mint { background: var(--ohs-mint); }
+.ohs-tile--peach { background: var(--ohs-peach); }
+.ohs-tile--powder { background: var(--ohs-powder); }
+.ohs-tile--beige { background: var(--ohs-beige); }
+.ohs-tile--cream { background: var(--ohs-cream); }
+
+.ohs-edu {
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .ohs-edu {
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 3.5rem;
+  }
+}
+
+.ohs-edu__media {
+  border-radius: 24px;
+  overflow: hidden;
+  min-height: 280px;
+  background: var(--ohs-mint);
+  border: 1px solid rgba(41, 45, 43, 0.05);
+}
+
+.ohs-edu__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  min-height: 280px;
+}
+
+.ohs-edu__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.25rem;
+  min-height: 48px;
+  padding: 0 1.5rem;
+  border-radius: 999px;
+  background: var(--ohs-terracotta);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: background 0.25s ease;
+}
+
+.ohs-edu__cta:hover {
+  background: var(--ohs-terracotta-dark);
+  color: #fff;
+}
+
+.ohs-announce {
+  background: var(--ohs-cream);
+  color: var(--ohs-text-secondary);
+  text-align: center;
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+  padding: 0.55rem 1rem;
+  border-bottom: 1px solid rgba(41, 45, 43, 0.05);
+}
+
+.ohs-announce__track {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.ohs-announce a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ohs-announce a:hover {
+  color: var(--ohs-terracotta);
+}
+
+/* Button / accent remaps commonly hardcoded to gold */
+.uc-phdr__cta,
+.button--primary,
+.product-form__submit,
+.ohs-btn-primary {
+  --uc-color-primary: var(--ohs-terracotta);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ohs-tile {
+    transition: none;
+  }
+}

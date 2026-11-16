@@ -1,0 +1,340 @@
+/*
+  uc-home-polish-v2.css — homepage LAYOUT only.
+  Typography lives exclusively in uc-type-system.css (loaded after this file).
+*/
+
+/* ── Desktop: hero flush under floating header pill ─────────────────────── */
+@media screen and (min-width: 990px) {
+  body.template-index #MainContent > .shopify-section:first-child {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  body.template-index .ueh {
+    padding-top: var(--uc-phdr-float-y, 14px) !important;
+    padding-inline: clamp(16px, 2.5vw, 28px) !important;
+  }
+
+  body.template-index .ueh__viewport {
+    height: min(var(--ueh-h, 820px), calc(100svh - var(--uc-phdr-float-y, 14px) - 12px)) !important;
+    min-height: min(520px, calc(100svh - var(--uc-phdr-float-y, 14px) - 12px)) !important;
+  }
+
+  body.template-index .ueh__frame {
+    border-radius: 22px !important;
+  }
+
+  .template-index .category-showcase__grid[data-cs-track] {
+    --cs-cols: 4;
+  }
+}
+
+/* ── Hero copy glass panel ─────────────────────────────────────────────── */
+.ueh__copy {
+  padding: clamp(18px, 2.2vw, 28px) clamp(18px, 2.4vw, 32px) !important;
+  border-radius: 22px !important;
+  background: rgba(18, 14, 10, 0.34) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(1.25) !important;
+  backdrop-filter: blur(18px) saturate(1.25) !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.18) !important;
+  max-width: min(100%, 540px) !important;
+}
+
+.ueh__content--on-cream .ueh__copy {
+  background: rgba(255, 255, 255, 0.72) !important;
+  border-color: rgba(23, 23, 23, 0.08) !important;
+  box-shadow: 0 12px 36px rgba(26, 24, 20, 0.08) !important;
+}
+
+.ueh__heading {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+}
+
+.ueh__desc {
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.12);
+  opacity: 0.95 !important;
+}
+
+@media screen and (max-width: 749px) {
+  .ueh__copy {
+    padding: 18px 16px !important;
+    border-radius: 0 0 14px 14px !important;
+    background: #fff !important;
+    border: 0 !important;
+    border-top: 1px solid rgba(23, 23, 23, 0.06) !important;
+    box-shadow: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    max-width: 100% !important;
+  }
+
+  .ueh__heading,
+  .ueh__desc {
+    text-shadow: none !important;
+    opacity: 1 !important;
+  }
+}
+
+/* ── See the Difference — section rhythm ───────────────────────────────── */
+.template-index .ba {
+  padding-block: var(--uc-space-section-y, clamp(48px, 40px + 2vw, 80px)) !important;
+}
+
+.template-index .ba__shell {
+  width: 100%;
+  max-width: min(var(--uc-page-max, 1280px), 94vw);
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--uc-space-desc-to-content, clamp(24px, 20px + 1vw, 40px));
+}
+
+.template-index .ba__section-header {
+  text-align: center;
+  align-items: center;
+}
+
+.template-index .ba__section-header .category-showcase__heading-group {
+  align-items: center;
+  text-align: center;
+  margin-inline: auto;
+}
+
+.template-index .ba__section-header .category-showcase__intro {
+  margin-inline: auto;
+}
+
+.template-index .ba__card {
+  max-width: min(820px, 100%) !important;
+  margin-inline: auto;
+  padding: clamp(20px, 2.5vw, 28px) !important;
+  gap: clamp(20px, 2.5vw, 28px) !important;
+  background: rgba(255, 255, 255, 0.88) !important;
+  border: 1px solid rgba(23, 23, 23, 0.08) !important;
+  box-shadow: 0 18px 48px rgba(26, 24, 20, 0.06) !important;
+  border-radius: var(--uc-radius-card, 18px) !important;
+}
+
+.template-index .ba__compare {
+  width: 100%;
+  max-width: min(680px, 100%);
+  margin-inline: auto;
+  aspect-ratio: 7 / 8 !important;
+  min-height: 0 !important;
+  border-radius: 18px !important;
+}
+
+.template-index .ba__cta {
+  justify-content: center !important;
+}
+
+/* ── Why It Works — 2×2 feature grid ───────────────────────────────────── */
+.template-index .vr__features {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+.template-index .vr-feature {
+  padding: 20px 18px !important;
+  gap: 10px !important;
+}
+
+/* ── Reels — 9:16; snap/crop rules live in uc-mobile-carousel-lock.css ─── */
+.template-index .pvr__inner {
+  overflow: hidden;
+}
+
+.template-index .pvr-card__media {
+  aspect-ratio: 9 / 16 !important;
+  height: auto !important;
+  max-height: none !important;
+  width: 100%;
+}
+
+.template-index .pvr-card__poster {
+  object-fit: cover !important;
+  object-position: center center !important;
+  width: 100% !important;
+  height: 100% !important;
+  content-visibility: auto;
+}
+
+@media screen and (min-width: 990px) {
+  .template-index .pvr {
+    --pvr-per-desktop: 5 !important;
+    --pvr-per-laptop: 4 !important;
+  }
+}
+
+/* ── Reviews — hide load-more; card shell ──────────────────────────────── */
+.template-index .pt__load-more-wrap,
+.template-index .pt__load-more,
+.template-index .pt__progress,
+.template-index [data-pt-load-more] {
+  display: none !important;
+}
+
+.template-index .pt__card {
+  min-height: 280px !important;
+  padding: 24px 22px !important;
+  gap: 14px !important;
+}
+
+.template-index .ubp__content {
+  padding: 22px 22px 24px !important;
+  gap: 12px !important;
+}
+
+/* ── Footer surface ────────────────────────────────────────────────────── */
+.uc-ft-section {
+  background: #f7f4ef !important;
+}
+
+.uc-ft-grid {
+  gap: clamp(28px, 3.5vw, 48px) !important;
+  padding-block: clamp(36px, 4.5vw, 56px) !important;
+  align-items: start !important;
+}
+
+@media screen and (min-width: 990px) {
+  .uc-ft-grid {
+    grid-template-columns: 1.45fr 0.9fr 0.9fr 1.25fr !important;
+  }
+}
+
+/* ── Homepage: banner sits under floating header pill on every breakpoint ─ */
+body.template-index .ueh {
+  padding-top: var(--uc-phdr-float-y, 12px) !important;
+}
+
+/* ── No card peek — one full card per view on phones ───────────────────── */
+@media screen and (max-width: 749px) {
+  .category-showcase[data-slider='true'] .category-showcase__cell,
+  .pf-showcase .category-showcase__cell,
+  .uc-scroll-track > li,
+  .uc-scroll-track > .grid__item,
+  .uc-scroll-track > .category-showcase__cell,
+  .uc-scroll-track > .pc-card,
+  .uc-scroll-track > article,
+  .pt__card,
+  .pt__track .pt__card {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .template-index .pvr__inner,
+  .template-index .pvr__viewport,
+  .pvr__viewport {
+    overflow: hidden !important;
+  }
+
+  .pvr__track,
+  .category-showcase[data-slider='true'] .category-showcase__grid {
+    overflow-x: auto !important;
+  }
+
+  .pt__card,
+  .pt__track .pt__card {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+  }
+
+  html body .uc-rev-stream .pt__card,
+  html body .pt-marquee .pt__card,
+  html body .pt-marquee .pt__track .pt__card {
+    flex: 0 0 var(--uc-rev-card-w, var(--uc-rev-card)) !important;
+    width: var(--uc-rev-card-w, var(--uc-rev-card)) !important;
+    max-width: var(--uc-rev-card-w, var(--uc-rev-card)) !important;
+    min-width: var(--uc-rev-card-w, var(--uc-rev-card)) !important;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .pvr__cell {
+    flex: 0 0 calc((100% - 12px) / 2) !important;
+    max-width: calc((100% - 12px) / 2) !important;
+  }
+}
+
+/* Carousel dot sizing → uc-a11y-perf.css (44px targets) */
+
+/* ── Centered section headers (SEE THE DIFFERENCE and the same pattern) ─ */
+.ba--align-center .category-showcase__header,
+.template-index .ba .category-showcase__header,
+.ba--align-center .ba__head {
+  grid-template-columns: 1fr !important;
+  justify-items: center !important;
+  text-align: center !important;
+  align-items: center !important;
+}
+
+.ba--align-center .category-showcase__heading-group,
+.template-index .ba .category-showcase__heading-group,
+.template-index .ba__section-header .category-showcase__heading-group {
+  grid-column: 1 !important;
+  align-items: center !important;
+  text-align: center !important;
+  max-width: min(100%, 52rem) !important;
+}
+
+.ba--align-center .category-showcase__label,
+.ba--align-center .uc-sec__eyebrow,
+.template-index .ba .category-showcase__label {
+  margin-inline: auto !important;
+}
+
+.ba--align-center .category-showcase__intro,
+.ba--align-center .uc-sec__desc,
+.ba--align-center .uc-sec-header__footnote,
+.template-index .ba .category-showcase__intro {
+  margin-inline: auto !important;
+  text-align: center !important;
+}
+
+.ba--align-center .category-showcase__header-actions,
+.template-index .ba .category-showcase__header-actions {
+  grid-column: 1 !important;
+  justify-content: center !important;
+  width: 100%;
+}
+
+/* ── Newsletter: inner inset on laptop + desktop, stacked structure ────── */
+.uc-ft-nl-banner {
+  padding-inline: clamp(28px, 4.5vw, 72px) !important;
+}
+
+@media screen and (min-width: 990px) and (max-width: 1439px) {
+  .uc-ft-nl-outer.uc-ft-container {
+    padding-inline: clamp(28px, 5vw, 64px) !important;
+  }
+
+  .uc-ft-nl-banner {
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 380px) !important;
+    gap: clamp(24px, 3.5vw, 40px) !important;
+    padding: clamp(28px, 3.5vw, 40px) clamp(32px, 5vw, 64px) !important;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .uc-ft-nl-banner {
+    padding-inline: clamp(48px, 4vw, 80px) !important;
+  }
+}
+
+/* Showcase / testimonial leftover counts only — product titles stay visible */
+html body .cs-card__count,
+html body .pt__card-variant,
+html body .pt__card-helpful {
+  display: none !important;
+}
+
+@media screen and (max-width: 749px) {
+  .grid--peek.slider .grid__item,
+  .grid--peek.slider--mobile .grid__item,
+  .slider--mobile.grid--peek .grid__item {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+

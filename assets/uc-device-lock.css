@@ -1,0 +1,264 @@
+/* Last-load lock: new layout wins, leftover QV / old story rules cannot override. */
+
+html body.template-page-our-story .ucs__row:not(.ucs__row--statement),
+html body.template-page-about .ucs__row:not(.ucs__row--statement) {
+  grid-template-columns: minmax(0, 540px) minmax(0, 1fr) !important;
+  gap: 28px 40px !important;
+  align-items: center !important;
+}
+
+html body.template-page-our-story .ucs__row--reverse:not(.ucs__row--statement),
+html body.template-page-about .ucs__row--reverse:not(.ucs__row--statement) {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 540px) !important;
+}
+
+html body.template-page-our-story .ucs__media,
+html body.template-page-about .ucs__media,
+html body.template-page-our-story .ucs__media-frame,
+html body.template-page-about .ucs__media-frame,
+html body.template-page-our-story .ucs__row:not(.ucs__row--statement) .ucs__media,
+html body.template-page-about .ucs__row:not(.ucs__row--statement) .ucs__media {
+  width: min(100%, 540px) !important;
+  max-width: 540px !important;
+  max-height: 540px !important;
+  justify-self: stretch !important;
+  margin-inline: 0 !important;
+}
+
+html body.template-page-our-story .ucs__eyebrow,
+html body.template-page-about .ucs__eyebrow {
+  letter-spacing: 0.12em !important;
+  word-spacing: 0.22em !important;
+}
+
+html body.template-page-our-story .ucs__heading,
+html body.template-page-about .ucs__heading,
+html body.template-page-our-story .ucs__body,
+html body.template-page-about .ucs__body,
+html body.template-page-our-story .ucs__body p,
+html body.template-page-about .ucs__body p {
+  word-spacing: 0.08em !important;
+  letter-spacing: -0.01em !important;
+  white-space: normal !important;
+  word-break: normal !important;
+  overflow-wrap: break-word !important;
+}
+
+@media screen and (max-width: 989px) {
+  html body.template-page-our-story .ucs__row:not(.ucs__row--statement),
+  html body.template-page-about .ucs__row:not(.ucs__row--statement),
+  html body.template-page-our-story .ucs__row--reverse:not(.ucs__row--statement),
+  html body.template-page-about .ucs__row--reverse:not(.ucs__row--statement) {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 18px !important;
+  }
+
+  html body.template-page-our-story .ucs__media,
+  html body.template-page-about .ucs__media {
+    max-width: min(100%, 520px) !important;
+  }
+}
+
+
+html body .pc-card__qv,
+html body [data-uc-quickview],
+html body [data-pf-quickview],
+html body .pf-quickview,
+html body #uc-quick-view,
+html body .uc-qv {
+  display: none !important;
+}
+
+html body .ucs__content {
+  max-width: none !important;
+  width: 100% !important;
+}
+
+html body .ucs__row:not(.ucs__row--statement) {
+  gap: 16px !important;
+}
+
+html body .ucs__row:not(.ucs__row--statement) .ucs__heading,
+html body .ucs__row:not(.ucs__row--statement) .ucs__body,
+html body .ucs__row:not(.ucs__row--statement) .ucs__body p {
+  max-width: none !important;
+}
+
+@media screen and (min-width: 990px) {
+  html body .ucs__row:not(.ucs__row--statement) {
+    grid-template-columns: minmax(0, 540px) minmax(0, 1fr) !important;
+    gap: 28px !important;
+  }
+
+  html body .ucs__row--reverse:not(.ucs__row--statement) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 540px) !important;
+  }
+
+  html body .ucs__row:not(.ucs__row--statement) .ucs__media,
+  html body .ucs--split .ucs__media,
+  html body .ucs--split-lock .ucs__media {
+    justify-self: start !important;
+    margin-inline: 0 !important;
+  }
+}
+
+html body .uc-col-seo__inner,
+html body .uc-col-seo__heading,
+html body .uc-col-seo__body {
+  text-align: left !important;
+  margin-left: 0 !important;
+}
+
+@media screen and (min-width: 990px) {
+  html body .uc-col-seo__shell {
+    display: flex !important;
+    gap: clamp(20px, 3vw, 40px) !important;
+  }
+
+  html body .uc-col-seo__gutter {
+    display: block !important;
+    flex: 0 0 var(--uc-filter-col, 22rem) !important;
+    width: var(--uc-filter-col, 22rem) !important;
+  }
+}
+
+@media screen and (max-width: 989px) {
+  html body .uc-col-seo__gutter {
+    display: none !important;
+  }
+
+  html body .uc-col-seo__shell {
+    display: block !important;
+  }
+}
+
+/* Phones */
+@media screen and (max-width: 749px) {
+  html body .pc-card,
+  html body .pf-card {
+    width: 100%;
+  }
+
+  html body .product-grid {
+    gap: 12px !important;
+  }
+
+  html body .ucs__row:not(.ucs__row--statement) .ucs__media {
+    width: min(100%, 440px) !important;
+    max-width: 440px !important;
+  }
+
+  html body .uc-col-seo__gutter {
+    display: none !important;
+  }
+
+  html body .uc-col-seo__shell {
+    display: block !important;
+  }
+
+  html body .pph__purchase-panel,
+  html body .pph__buy-cluster {
+    width: 100%;
+  }
+}
+
+/* Small phones */
+@media screen and (max-width: 429px) {
+  html body .pc-card__title {
+    font-size: 15px !important;
+  }
+
+  html body .ucs__row:not(.ucs__row--statement) .ucs__media {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/* Tablets */
+@media screen and (min-width: 750px) and (max-width: 989px) {
+  html body .ucs__row:not(.ucs__row--statement) {
+    grid-template-columns: minmax(0, 440px) minmax(0, 1fr) !important;
+    gap: 20px !important;
+  }
+
+  html body .ucs__row:not(.ucs__row--statement) .ucs__media {
+    width: min(100%, 440px) !important;
+    max-width: 440px !important;
+  }
+}
+
+/* Laptops */
+@media screen and (min-width: 990px) and (max-width: 1399px) {
+  html body .uc-sec__container {
+    padding-inline: clamp(20px, 3vw, 36px);
+  }
+}
+
+/* Desktops */
+@media screen and (min-width: 1400px) {
+  html body .uc-sec__container {
+    max-width: min(1280px, 100%);
+  }
+}
+
+html body .uc-rev-stream .upr__card,
+html body .uc-rev-stream .pt__card,
+html body .upr-marquee .upr__card,
+html body .pt-marquee .pt__card,
+html body .pt-marquee .pt__track .pt__card {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+@media screen and (max-width: 749px) {
+  html body.template-collection #product-grid.product-grid,
+  html body.template-search #product-grid.product-grid,
+  html body.template-collection ul.product-grid,
+  html body.template-search ul.product-grid,
+  html body.template-page-wishlist ul.product-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px 10px !important;
+  }
+
+  html body.template-collection #product-grid .grid__item,
+  html body.template-search #product-grid .grid__item {
+    width: auto !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+}
+
+html body .ubp .category-showcase__label,
+html body .ubp .uc-sec__eyebrow,
+html body [data-uc-theme-text] .category-showcase__label,
+html body [data-uc-theme-text] .uc-sec__eyebrow {
+  color: #b68a35 !important;
+}
+
+html body.template-page-about .vr__grid,
+html body.template-page-our-story .vr__grid {
+  align-items: start !important;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr) !important;
+}
+
+html body.template-page-about .vr__intro,
+html body.template-page-our-story .vr__intro,
+html body.template-page-about .vr__intro .uc-sp-head,
+html body.template-page-our-story .vr__intro .uc-sp-head {
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+  align-self: start !important;
+  height: auto !important;
+  min-height: 0 !important;
+  position: static !important;
+}
+
+@media screen and (max-width: 989px) {
+  html body.template-page-about .vr__grid,
+  html body.template-page-our-story .vr__grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* PDP micro thumbs — see uc-pdp-micro-media.css */

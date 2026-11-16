@@ -1,0 +1,125 @@
+{%- comment -%}
+ UC Content Split - alternating storytelling blocks for any page template.
+ CSS prefix: ucs-
+{%- endcomment -%}
+{{ 'uc-content-split.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+ assign s = section.settings
+ assign uid = section.id
+ assign rows = section.blocks | where: 'type', 'content_row'
+-%}
+
+{%- assign uc_sec_scope = '#UcContentSplit-' | append: uid -%}
+{%- render 'uc-section-vars', section: section, scope: uc_sec_scope -%}
+{%- render 'uc-section-colors', section: section -%}
+
+{%- style -%}
+ #UcContentSplit-{{ uid }} {
+ --ucs-media-radius: {{ s.media_radius | default: 20 }}px;
+ }
+ {%- if s.background_color != blank -%}
+ #UcContentSplit-{{ uid }} { background: {{ s.background_color }}; }
+ {%- endif -%}
+ {%- if s.accent_color != blank -%}
+ #UcContentSplit-{{ uid }} { --ucs-accent: {{ s.accent_color }}; }
+ {%- endif -%}
+{%- endstyle -%}
+
+<section
+ id="UcContentSplit-{{ uid }}"
+ class="ucs uc-sec color-{{ s.color_scheme }}"
+ data-ucs-section
+>
+ <div class="ucs__inner uc-sec__container">
+ {%- if s.show_section_header -%}
+ <header class="ucs__header uc-sec__stack" style="text-align: {{ s.header_align | default: 'center' }}; max-width: 720px; margin-inline: auto;" data-uc-reveal>
+ {%- if s.eyebrow != blank -%}
+ <p class="uc-sec__eyebrow">{{ s.eyebrow | escape }}</p>
+ {%- endif -%}
+ {%- if s.heading != blank -%}
+ <h2 class="uc-sec__heading">{{ s.heading | escape }}</h2>
+ {%- endif -%}
+ {%- if s.subtitle != blank -%}
+ <p class="uc-sec__desc">{{ s.subtitle | escape }}</p>
+ {%- endif -%}
+ </header>
+ {%- endif -%}
+
+ {%- for block in rows -%}
+ {%- assign delay = forloop.index0 | times: 80 -%}
+ {% render 'uc-narrative-block',
+ block: block,
+ uid: uid,
+ forloop: forloop,
+ delay: delay
+ %}
+ {%- endfor -%}
+ </div>
+</section>
+
+{% schema %}
+{
+ "name": "UC Content split rows",
+ "tag": "section",
+ "class": "section section-uc-content-split",
+ "disabled_on": { "groups": ["header", "footer"] },
+ "max_blocks": 12,
+ "settings": [
+ { "type": "header", "content": "Optional section header" },
+ { "type": "checkbox", "id": "show_section_header", "label": "Show section header", "default": false },
+ { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+ { "type": "text", "id": "heading", "label": "Heading" },
+ { "type": "text", "id": "subtitle", "label": "Subtitle" },
+ { "type": "select", "id": "header_align", "label": "Header alignment", "default": "center", "options": [
+ { "value": "left", "label": "Left" },
+ { "value": "center", "label": "Center" }
+ ]},
+ { "type": "header", "content": "Layout" },
+ { "type": "range", "id": "media_radius", "label": "Image radius", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 20 },
+ { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 64 },
+ { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 64 },
+ { "type": "header", "content": "UC - Responsive spacing" },
+ { "type": "range", "id": "pad_top_lg", "label": "Top padding - laptop+", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+ { "type": "range", "id": "container_max_lg", "label": "Container max width - laptop+", "min": 960, "max": 1600, "step": 20, "unit": "px", "default": 1280 },
+ { "type": "select", "id": "container_mode", "label": "Container", "default": "boxed", "options": [{"value":"boxed","label":"Boxed"},{"value":"full","label":"Full width"}] },
+ { "type": "checkbox", "id": "use_global_colors", "label": "Use global brand colors", "default": true },
+ { "type": "color_scheme", "id": "color_scheme", "label": "Colour scheme", "default": "scheme-1" },
+ { "type": "color", "id": "background_color", "label": "Background override" },
+ { "type": "color", "id": "accent_color", "label": "Accent override" }
+ ],
+ "blocks": [
+ {
+ "type": "content_row",
+ "name": "Content row",
+ "settings": [
+ { "type": "select", "id": "image_position", "label": "Image position (desktop)", "default": "auto", "options": [
+ { "value": "auto", "label": "Alternate left / right" },
+ { "value": "left", "label": "Left" },
+ { "value": "right", "label": "Right" }
+ ]},
+ { "type": "paragraph", "content": "Recommended: 1600 x 2000 px (4:5 portrait). WebP/JPG under 350 KB." },
+ { "type": "image_picker", "id": "image", "label": "Image (1600x2000)" },
+ { "type": "text", "id": "image_alt", "label": "Image alt text" },
+ { "type": "text", "id": "media_badge", "label": "Image badge (optional)" },
+ { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Our story" },
+ { "type": "text", "id": "heading", "label": "Heading", "default": "Crafted for confidence" },
+ { "type": "richtext", "id": "body", "label": "Body", "default": "<p>Share your brand narrative with rich, editorial copy and imagery that feels unmistakably UNIK Care.</p>" },
+ { "type": "text", "id": "button_label", "label": "Primary button label" },
+ { "type": "url", "id": "button_link", "label": "Primary button link" },
+ { "type": "text", "id": "button_secondary_label", "label": "Secondary button label" },
+ { "type": "url", "id": "button_secondary_link", "label": "Secondary button link" }
+ ]
+ }
+ ],
+ "presets": [
+ {
+ "name": "UC Content split",
+ "blocks": [
+ { "type": "content_row", "settings": { "eyebrow": "Brand story", "heading": "Where salon expertise meets everyday care", "body": "<p>UNIK Care began with a simple belief: professional hair colour should feel luxurious, gentle, and effortless at home.</p>" } },
+ { "type": "content_row", "settings": { "eyebrow": "Our mission", "heading": "Elevate every wash day", "body": "<p>We formulate ammonia-free systems that deliver rich, natural-looking colour while nourishing hair from root to tip.</p>" } }
+ ]
+ }
+ ]
+}
+{% endschema %}

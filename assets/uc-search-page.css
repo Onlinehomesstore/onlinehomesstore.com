@@ -1,0 +1,191 @@
+/*
+  uc-search-page.css — Search results layout (structure only; typography locked elsewhere)
+*/
+
+.template-search {
+  background: transparent;
+}
+
+.template-search.section-main-search,
+.template-search .section-main-search-padding {
+  padding-top: 0 !important;
+}
+
+.template-search .template-search__header {
+  margin: 0 0 12px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+.template-search .template-search__header.page-width {
+  max-width: min(100%, var(--page-width));
+  padding-inline: var(--uc-page-pad-x, clamp(16px, 4vw, 48px));
+}
+
+.template-search .template-search__search {
+  margin: 0 0 18px !important;
+  max-width: none !important;
+}
+
+.template-search main-search,
+.template-search .search,
+.template-search .template-search__search,
+.template-search .template-search__header,
+.template-search .template-search__header.page-width {
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  outline: none !important;
+}
+
+.template-search .search,
+.template-search main-search,
+.template-search .field,
+.template-search .field:before,
+.template-search .field:after,
+.template-search .field::before,
+.template-search .field::after {
+  border: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.template-search .search .field::before,
+.template-search .search .field::after,
+.template-search .search .field:after,
+.template-search .search .field:before,
+.template-search .field:after,
+.template-search .field:before {
+  content: none !important;
+  display: none !important;
+  box-shadow: none !important;
+  border: 0 !important;
+  opacity: 0 !important;
+}
+
+.template-search .search .field {
+  display: grid !important;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  max-width: min(100%, 640px);
+  margin: 0 auto !important;
+  padding: 6px 6px 6px 18px !important;
+  border-radius: 999px !important;
+  background: #fff !important;
+  border: 1px solid rgba(182, 138, 53, 0.22) !important;
+  box-shadow: none !important;
+  position: relative !important;
+  overflow: hidden;
+}
+
+.template-search .search .field:focus-within {
+  border-color: rgba(182, 138, 53, 0.45) !important;
+}
+
+.template-search .search__input,
+.template-search .search .field__input {
+  border: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  margin: 0 !important;
+  padding: 10px 0 !important;
+  min-height: 40px !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  position: static !important;
+}
+
+.template-search .search .field__label {
+  display: none !important;
+}
+
+.template-search .search__button,
+.template-search .search .field__button[type='submit'],
+.template-search .reset__button {
+  position: static !important;
+  top: auto !important;
+  right: auto !important;
+  left: auto !important;
+  transform: none !important;
+  margin: 0 !important;
+}
+
+.template-search .search__button,
+.template-search .search .field__button[type='submit'] {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  width: auto !important;
+  min-width: 44px;
+  min-height: 40px;
+  height: 40px;
+  padding: 0 16px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: var(--uc-color-primary, #b68a35) !important;
+  color: #fff !important;
+}
+
+.template-search .search__button .icon,
+.template-search .search__button .svg-wrapper {
+  height: 18px;
+  width: 18px;
+  color: #fff;
+}
+
+.template-search .reset__button:not(:focus-visible)::after,
+.template-search .reset__button:not(:focus)::after {
+  display: none !important;
+}
+
+.template-search .reset__button {
+  min-width: 36px;
+  min-height: 36px;
+  border-radius: 999px !important;
+  background: rgba(26, 24, 20, 0.06) !important;
+}
+
+.template-search .predictive-search {
+  display: none !important;
+}
+
+.template-search .template-search__status {
+  margin: 0 0 14px;
+  color: rgba(23, 23, 23, 0.58);
+}
+
+.template-search .template-search__results {
+  margin-top: 0;
+}
+
+.template-search .facets-vertical.page-width,
+.template-search .uc-collection-layout {
+  padding-inline: var(--uc-page-pad-x, clamp(16px, 4vw, 48px));
+}
+
+.template-search .product-grid-container {
+  width: 100%;
+}
+
+.template-search .pagination-wrapper {
+  margin-top: clamp(24px, 4vw, 36px);
+}
+
+@media screen and (max-width: 989px) {
+  .template-search .template-search__header.page-width,
+  .template-search .facets-vertical.page-width,
+  .template-search .uc-collection-layout {
+    padding-inline: clamp(16px, 4vw, 24px) !important;
+  }
+
+  .template-search .template-search__header {
+    text-align: left !important;
+  }
+
+  .template-search .template-search__search {
+    margin-bottom: 14px !important;
+  }
+}

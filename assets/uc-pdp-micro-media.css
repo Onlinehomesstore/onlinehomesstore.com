@@ -1,0 +1,79 @@
+/*
+  uc-pdp-micro-media.css — single authority for small product images
+  (gallery thumbs, variant swatches, quick-view thumbs, legacy Shopify thumbnails).
+  Loads after uc-device-lock / uc-pdp-surface so nothing re-introduces padding gaps.
+*/
+
+html body .pph-gallery__thumb,
+html body .pf-qv__thumb,
+html body .pph-lightbox__thumb,
+html body .pph__variant-card__swatch,
+html body .thumbnail-list__item,
+html body .thumbnail.global-media-settings {
+  padding: 0 !important;
+  overflow: hidden !important;
+  background: #ffffff !important;
+  box-sizing: border-box !important;
+}
+
+html body .pph-gallery__thumb,
+html body .pf-qv__thumb,
+html body .pph-lightbox__thumb {
+  display: block !important;
+  line-height: 0 !important;
+}
+
+html body .pph-gallery__thumb-img,
+html body .pph-gallery__thumb img,
+html body .pf-qv__thumb-img,
+html body .pf-qv__thumb img,
+html body .pph-lightbox__thumb img,
+html body .pph__variant-card__img,
+html body .pph__variant-card__swatch img,
+html body .thumbnail img,
+html body .thumbnail-list__item img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: inherit;
+  object-fit: cover !important;
+  object-position: center center !important;
+  background: #ffffff !important;
+  display: block !important;
+  box-sizing: border-box !important;
+}
+
+html body .pph__variant-card {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  gap: 6px !important;
+  padding: 6px !important;
+}
+
+html body .pph__variant-card__swatch {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  border-radius: calc(var(--pph-radius, 12px) - 2px) !important;
+  border: 1px solid rgba(26, 24, 20, 0.06);
+  background: #ffffff !important;
+}
+
+html body .pph-lightbox__thumb {
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+
+html body .thumbnail.global-media-settings img {
+  border-radius: 0 !important;
+}
+
+html body .thumbnail-list__item {
+  border-radius: var(--media-radius, 8px);
+}
+
+html body .pph-gallery .pph__badges {
+  display: none !important;
+}

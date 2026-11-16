@@ -1,0 +1,111 @@
+{%- comment -%}
+  Featured collections grid for baby toys brand stories.
+{%- endcomment -%}
+{{ 'ohs-brand-override.css' | asset_url | stylesheet_tag }}
+
+{%- assign s = section.settings -%}
+
+<section class="ohs-section" id="OhsFeat-{{ section.id }}" style="{% if s.background != blank %}background:{{ s.background }};{% endif %}">
+  <div class="ohs-section__inner">
+    <header class="ohs-section__head" data-uc-reveal>
+      {%- if s.eyebrow != blank -%}<p class="ohs-section__eyebrow">{{ s.eyebrow | escape }}</p>{%- endif -%}
+      {%- if s.heading != blank -%}<h2 class="ohs-section__heading">{{ s.heading | escape }}</h2>{%- endif -%}
+      {%- if s.description != blank -%}<p class="ohs-section__desc">{{ s.description | escape }}</p>{%- endif -%}
+    </header>
+
+    <div class="ohs-grid ohs-grid--collections">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign b = block.settings
+          assign href = b.link
+          assign title = b.title
+          assign image = b.image
+          if b.collection != blank
+            if href == blank
+              assign href = b.collection.url
+            endif
+            if title == blank
+              assign title = b.collection.title
+            endif
+            if image == blank and b.collection.featured_image != blank
+              assign image = b.collection.featured_image
+            endif
+          endif
+          if href == blank
+            assign href = routes.all_products_collection_url
+          endif
+          if title == blank
+            assign title = 'Collection'
+          endif
+        -%}
+        <a class="ohs-tile ohs-tile--{{ b.tone | default: 'sage' }}" href="{{ href }}" {{ block.shopify_attributes }} data-uc-reveal style="min-height: 260px;">
+          {%- if image != blank -%}
+            <div class="ohs-tile__media">
+              {{ image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '400,600,900', sizes: '(min-width: 750px) 22vw, 45vw', alt: title }}
+            </div>
+            <span class="ohs-tile__shade" aria-hidden="true"></span>
+          {%- endif -%}
+          <div class="ohs-tile__body">
+            <h3 class="ohs-tile__title">{{ title | escape }}</h3>
+            {%- if b.description != blank -%}<p class="ohs-tile__desc">{{ b.description | escape }}</p>{%- endif -%}
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "OHS Featured Collections",
+  "tag": "section",
+  "class": "ohs-featured-collections",
+  "max_blocks": 8,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "COLLECTIONS" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Featured Collections" },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "Curated edits for explorers, first toys, wooden wonders and soft cuddles." },
+    { "type": "color", "id": "background", "label": "Background", "default": "#FFFDF8" }
+  ],
+  "blocks": [
+    {
+      "type": "collection_card",
+      "name": "Collection",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Little Explorers" },
+        { "type": "textarea", "id": "description", "label": "Description" },
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "url", "id": "link", "label": "Custom link" },
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        {
+          "type": "select",
+          "id": "tone",
+          "label": "Pastel tone",
+          "options": [
+            { "value": "sage", "label": "Sage" },
+            { "value": "mint", "label": "Mint" },
+            { "value": "peach", "label": "Peach" },
+            { "value": "powder", "label": "Powder blue" },
+            { "value": "beige", "label": "Beige" },
+            { "value": "cream", "label": "Cream" }
+          ],
+          "default": "sage"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "OHS Featured Collections",
+      "blocks": [
+        { "type": "collection_card", "settings": { "title": "Little Explorers", "tone": "sage", "link": "/collections/little-explorers" } },
+        { "type": "collection_card", "settings": { "title": "First Toys", "tone": "peach", "link": "/collections/first-toys" } },
+        { "type": "collection_card", "settings": { "title": "Learning Through Play", "tone": "mint", "link": "/collections/learning-through-play" } },
+        { "type": "collection_card", "settings": { "title": "Wooden Wonders", "tone": "beige", "link": "/collections/wooden-wonders" } },
+        { "type": "collection_card", "settings": { "title": "Soft & Cuddly", "tone": "powder", "link": "/collections/soft-and-cuddly" } },
+        { "type": "collection_card", "settings": { "title": "Perfect Little Gifts", "tone": "cream", "link": "/collections/perfect-little-gifts" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,287 @@
+{%- comment -%}
+ UC Feature Cards - fully customizable feature / trust cards with icon library.
+ Matches the UNIK CARE design system (uc-design-tokens.css). Namespace: ufc
+{%- endcomment -%}
+
+{%- liquid
+ assign s = section.settings
+ assign uid = section.id
+-%}
+
+{%- style -%}
+ #Ufc-{{ uid }} {
+ --ufc-max: {% if s.full_width %}none{% else %}var(--page-width){% endif %};
+ --ufc-cols: {{ s.columns | default: 4 }};
+ --ufc-cols-tablet: {{ s.columns_tablet | default: 2 }};
+ --ufc-cols-mobile: {{ s.columns_mobile | default: 1 }};
+ --ufc-gap: {{ s.card_gap | default: 20 }}px;
+ --ufc-radius: {{ s.card_radius | default: 18 }}px;
+ --ufc-pad-y: {{ s.padding_top | default: 40 }}px;
+ --ufc-pad-b: {{ s.padding_bottom | default: 40 }}px;
+ --ufc-icon-size: {{ s.icon_size | default: 26 }}px;
+ --ufc-icon-box: {{ s.icon_box_size | default: 56 }}px;
+ --ufc-icon-radius: {{ s.icon_shape | default: '50%' }};
+ --ufc-accent: {{ s.accent_color | default: '#B68A35' }};
+ --ufc-icon-color: {{ s.icon_color | default: '#B68A35' }};
+ --ufc-icon-bg: {{ s.icon_bg | default: 'rgba(182,138,53,0.10)' }};
+ --ufc-card-bg: {{ s.card_bg | default: '#FFFFFF' }};
+ --ufc-title-color: {{ s.title_color | default: '#171717' }};
+ --ufc-desc-color: {{ s.desc_color | default: '#5A5A5A' }};
+ }
+ {%- if s.background_color != blank -%}
+ #Ufc-{{ uid }} { background: {{ s.background_color }}; }
+ {%- endif -%}
+{%- endstyle -%}
+
+<section id="Ufc-{{ uid }}" class="ufc ufc--card-{{ s.card_style | default: 'soft' }} ufc--{{ s.card_layout | default: 'row' }}">
+ <div class="ufc__inner">
+ {%- if s.eyebrow != blank or s.heading != blank or s.subheading != blank -%}
+ <header class="ufc__head">
+ {%- if s.eyebrow != blank -%}<p class="ufc__eyebrow">{{ s.eyebrow | escape }}</p>{%- endif -%}
+ {%- if s.heading != blank -%}<h2 class="ufc__heading">{{ s.heading | escape }}</h2>{%- endif -%}
+ {%- if s.subheading != blank -%}<p class="ufc__subheading">{{ s.subheading | escape }}</p>{%- endif -%}
+ </header>
+ {%- endif -%}
+
+ <div class="ufc__grid">
+ {%- for block in section.blocks -%}
+ {%- assign b = block.settings -%}
+ {%- capture card_tag -%}{% if b.link != blank %}a{% else %}div{% endif %}{%- endcapture -%}
+ <{{ card_tag }}
+ class="ufc__card"
+ {% if b.link != blank %}href="{{ b.link }}"{% endif %}
+ {{ block.shopify_attributes }}
+ {% if b.animation_delay > 0 %}style="--ufc-delay: {{ b.animation_delay }}ms;"{% endif %}
+ data-uc-reveal
+ >
+ <span class="ufc__icon" aria-hidden="true"{% if b.icon_color != blank %} style="--ufc-icon-color: {{ b.icon_color }};"{% endif %}>
+ {%- if b.custom_svg != blank -%}
+ {{ b.custom_svg }}
+ {%- else -%}
+ {%- assign ufc_icon_size = s.icon_size | default: 26 -%}
+ {% render 'uc-icon', icon: b.icon, size: ufc_icon_size, stroke: 1.8 %}
+ {%- endif -%}
+ </span>
+ <div class="ufc__body">
+ {%- if b.title != blank -%}<h3 class="ufc__title">{{ b.title | escape }}</h3>{%- endif -%}
+ {%- if b.description != blank -%}<p class="ufc__desc">{{ b.description | escape }}</p>{%- endif -%}
+ </div>
+ </{{ card_tag }}>
+ {%- else -%}
+ <div class="ufc__card"><span class="ufc__icon">{% render 'uc-icon', icon: 'truck', size: 26 %}</span><div class="ufc__body"><h3 class="ufc__title">Add a feature</h3><p class="ufc__desc">Use the theme editor to add feature cards.</p></div></div>
+ {%- endfor -%}
+ </div>
+ </div>
+</section>
+
+<style>
+ .ufc { display: block; }
+ .ufc__inner {
+ max-width: var(--ufc-max, 1200px);
+ margin-inline: auto;
+ padding: var(--ufc-pad-y, 40px) clamp(16px, 4vw, 40px) var(--ufc-pad-b, 40px);
+ }
+ .ufc__head { text-align: center; margin-bottom: clamp(24px, 4vw, 40px); }
+ .ufc__eyebrow {
+ font-family: var(--uc-font-body, 'Poppins', sans-serif);
+ font-size: 0.82rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
+ color: var(--ufc-accent, #b68a35); margin: 0 0 10px;
+ }
+ .ufc__heading {
+ font-family: var(--uc-font-heading, 'Poppins', sans-serif);
+ font-size: var(--uc-text-h2, clamp(1.6rem, 1.3rem + 1.6vw, 2.4rem)); font-weight: 700;
+ letter-spacing: -0.02em; line-height: 1.14; margin: 0; color: var(--ufc-title-color, #171717);
+ }
+ .ufc__subheading {
+ font-family: var(--uc-font-body, 'Poppins', sans-serif);
+ font-size: 1rem; color: var(--ufc-desc-color, #5a5a5a); margin: 12px auto 0; max-width: 60ch; line-height: 1.6;
+ }
+ .ufc__grid {
+ display: grid;
+ grid-template-columns: repeat(var(--ufc-cols, 4), minmax(0, 1fr));
+ gap: var(--ufc-gap, 20px);
+ }
+ .ufc__card {
+ display: flex;
+ align-items: center;
+ gap: 16px;
+ text-align: left;
+ padding: clamp(18px, 2vw, 24px);
+ border-radius: var(--ufc-radius, 18px);
+ background: var(--ufc-card-bg, #fff);
+ color: inherit;
+ text-decoration: none;
+ transition: transform 0.4s var(--uc-ease-premium, cubic-bezier(0.22,1,0.36,1)), box-shadow 0.4s ease, border-color 0.3s ease;
+ }
+ .ufc--card-soft .ufc__card { box-shadow: 0 6px 22px rgba(23,23,23,0.05); }
+ .ufc--card-bordered .ufc__card { border: 1px solid var(--uc-color-border, #e6e0d6); }
+ .ufc--card-plain .ufc__card { background: transparent; }
+
+ /* Stacked layout: icon on top, centered text */
+ .ufc--stacked .ufc__card { flex-direction: column; text-align: center; }
+
+ .ufc__icon {
+ flex: 0 0 auto;
+ display: inline-flex;
+ align-items: center;
+ justify-content: center;
+ width: var(--ufc-icon-box, 56px);
+ height: var(--ufc-icon-box, 56px);
+ border-radius: var(--ufc-icon-radius, 50%);
+ background: var(--ufc-icon-bg, rgba(182,138,53,0.1));
+ color: var(--ufc-icon-color, #b68a35);
+ }
+ .ufc__icon svg { width: var(--ufc-icon-size, 26px); height: var(--ufc-icon-size, 26px); }
+ .ufc__title {
+ font-family: var(--uc-font-heading, 'Poppins', sans-serif);
+ font-size: 1.02rem; font-weight: 600; margin: 0 0 3px; color: var(--ufc-title-color, #171717);
+ }
+ .ufc__desc {
+ font-family: var(--uc-font-body, 'Poppins', sans-serif);
+ font-size: 0.88rem; line-height: 1.5; margin: 0; color: var(--ufc-desc-color, #5a5a5a);
+ }
+
+ @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+ a.ufc__card:hover { transform: translate3d(0,-4px,0); box-shadow: 0 16px 38px rgba(23,23,23,0.1); }
+ }
+
+ @media (max-width: 990px) {
+ .ufc__grid { grid-template-columns: repeat(var(--ufc-cols-tablet, 2), minmax(0, 1fr)); }
+ }
+ @media (max-width: 600px) {
+ .ufc__grid { grid-template-columns: repeat(var(--ufc-cols-mobile, 1), minmax(0, 1fr)); }
+ }
+</style>
+
+{% schema %}
+{
+ "name": "Feature cards",
+ "tag": "section",
+ "class": "section section-uc-feature-cards",
+ "max_blocks": 12,
+ "settings": [
+ { "type": "header", "content": "Heading" },
+ { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+ { "type": "text", "id": "heading", "label": "Heading" },
+ { "type": "text", "id": "subheading", "label": "Subheading" },
+
+ { "type": "header", "content": "Layout" },
+ { "type": "checkbox", "id": "full_width", "label": "Full width", "default": false },
+ { "type": "range", "id": "container_width", "min": 900, "max": 1600, "step": 20, "unit": "px", "label": "Max width", "default": 1200 },
+ { "type": "range", "id": "columns", "min": 1, "max": 6, "step": 1, "label": "Columns (desktop)", "default": 4 },
+ { "type": "range", "id": "columns_tablet", "min": 1, "max": 4, "step": 1, "label": "Columns (tablet)", "default": 2 },
+ { "type": "range", "id": "columns_mobile", "min": 1, "max": 2, "step": 1, "label": "Columns (mobile)", "default": 1 },
+ {
+ "type": "select", "id": "card_layout", "label": "Card layout", "default": "row",
+ "options": [
+ { "value": "row", "label": "Icon beside text" },
+ { "value": "stacked", "label": "Icon above text (centered)" }
+ ]
+ },
+ { "type": "range", "id": "card_gap", "min": 8, "max": 40, "step": 2, "unit": "px", "label": "Card gap", "default": 20 },
+ { "type": "range", "id": "card_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Card radius", "default": 18 },
+ { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding top", "default": 40 },
+ { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding bottom", "default": 40 },
+ {
+ "type": "select", "id": "card_style", "label": "Card style", "default": "soft",
+ "options": [
+ { "value": "soft", "label": "Soft shadow" },
+ { "value": "bordered", "label": "Bordered" },
+ { "value": "plain", "label": "Plain" }
+ ]
+ },
+
+ { "type": "header", "content": "Icons" },
+ { "type": "range", "id": "icon_size", "min": 16, "max": 40, "step": 2, "unit": "px", "label": "Icon size", "default": 26 },
+ { "type": "range", "id": "icon_box_size", "min": 36, "max": 88, "step": 2, "unit": "px", "label": "Icon container size", "default": 56 },
+ {
+ "type": "select", "id": "icon_shape", "label": "Icon container shape", "default": "50%",
+ "options": [
+ { "value": "50%", "label": "Circle" },
+ { "value": "16px", "label": "Rounded" },
+ { "value": "0px", "label": "Square" }
+ ]
+ },
+ { "type": "color", "id": "icon_color", "label": "Icon color", "default": "#B68A35" },
+ { "type": "color", "id": "icon_bg", "label": "Icon background", "default": "#F3EBD8" },
+
+ { "type": "header", "content": "Colors" },
+ { "type": "color", "id": "accent_color", "label": "Accent", "default": "#B68A35" },
+ { "type": "color", "id": "card_bg", "label": "Card background", "default": "#FFFFFF" },
+ { "type": "color", "id": "title_color", "label": "Title color", "default": "#171717" },
+ { "type": "color", "id": "desc_color", "label": "Description color", "default": "#5A5A5A" },
+ { "type": "color", "id": "background_color", "label": "Section background" }
+ ],
+ "blocks": [
+ {
+ "type": "feature",
+ "name": "Feature card",
+ "settings": [
+ {
+ "type": "select", "id": "icon", "label": "Icon", "default": "truck",
+ "options": [
+ { "value": "truck", "label": "Truck / Shipping" },
+ { "value": "package", "label": "Package" },
+ { "value": "rotate-ccw", "label": "Returns" },
+ { "value": "lock", "label": "Lock / Secure" },
+ { "value": "shield", "label": "Shield" },
+ { "value": "shield-check", "label": "Shield check" },
+ { "value": "badge-check", "label": "Badge check" },
+ { "value": "credit-card", "label": "Credit card" },
+ { "value": "message-circle", "label": "Support / Chat" },
+ { "value": "phone", "label": "Phone" },
+ { "value": "mail", "label": "Mail" },
+ { "value": "gift", "label": "Gift" },
+ { "value": "award", "label": "Award" },
+ { "value": "star", "label": "Star" },
+ { "value": "heart", "label": "Heart" },
+ { "value": "leaf", "label": "Leaf" },
+ { "value": "droplet", "label": "Droplet" },
+ { "value": "droplets", "label": "Droplets" },
+ { "value": "sparkles", "label": "Sparkles" },
+ { "value": "recycle", "label": "Recycle" },
+ { "value": "clock", "label": "Clock" },
+ { "value": "timer", "label": "Timer" },
+ { "value": "zap", "label": "Zap" },
+ { "value": "thumbs-up", "label": "Thumbs up" },
+ { "value": "check", "label": "Check" },
+ { "value": "check-circle-2", "label": "Check circle" },
+ { "value": "users", "label": "Users" },
+ { "value": "user", "label": "User" },
+ { "value": "trending-up", "label": "Trending up" },
+ { "value": "sun", "label": "Sun" },
+ { "value": "moon", "label": "Moon" },
+ { "value": "eye", "label": "Eye" },
+ { "value": "flask", "label": "Flask" },
+ { "value": "flower", "label": "Flower" },
+ { "value": "feather", "label": "Feather" },
+ { "value": "lightbulb", "label": "Lightbulb" },
+ { "value": "waves", "label": "Waves" },
+ { "value": "hand", "label": "Hand" },
+ { "value": "globe", "label": "Globe" },
+ { "value": "shopping-cart", "label": "Shopping cart" },
+ { "value": "newsletter", "label": "Send / Newsletter" }
+ ]
+ },
+ { "type": "html", "id": "custom_svg", "label": "Custom SVG (overrides icon)" },
+ { "type": "color", "id": "icon_color", "label": "Icon color (optional)" },
+ { "type": "text", "id": "title", "label": "Title", "default": "Free Shipping" },
+ { "type": "text", "id": "description", "label": "Description", "default": "On all orders over 50" },
+ { "type": "url", "id": "link", "label": "Link (optional)" },
+ { "type": "range", "id": "animation_delay", "min": 0, "max": 500, "step": 20, "unit": "ms", "label": "Reveal delay", "default": 0 }
+ ]
+ }
+ ],
+ "presets": [
+ {
+ "name": "Feature cards",
+ "blocks": [
+ { "type": "feature", "settings": { "icon": "truck", "title": "Free Shipping", "description": "On all orders over 50" } },
+ { "type": "feature", "settings": { "icon": "rotate-ccw", "title": "30-Day Returns", "description": "Hassle-free, no questions asked" } },
+ { "type": "feature", "settings": { "icon": "lock", "title": "Secure Payments", "description": "100% encrypted and safe checkout" } },
+ { "type": "feature", "settings": { "icon": "message-circle", "title": "24/7 Support", "description": "Always here to help you" } }
+ ]
+ }
+ ]
+}
+{% endschema %}

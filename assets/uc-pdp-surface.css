@@ -1,0 +1,231 @@
+/*
+  uc-pdp-surface.css — PDP structure/surface only (load after uc-type-lock + uc-radius-lock).
+  Transparent purchase surfaces on cream site bg. Delivery card heading size is the only
+  typography exception requested for the 6 reassurance features.
+*/
+
+html body.template-product .pph__purchase-panel,
+html body.template-product .pph__buy-cluster,
+html body.template-product .pph__post-buy {
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+html body.template-product .pph__variant-card {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  border: 1.5px solid rgba(26, 24, 20, 0.2) !important;
+}
+
+/* Size pills must stay readable on the cream page — selected state is solid, not a faint outline */
+html body.template-product .pph__pill:not(.pph__pill--color) {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  border: 1.5px solid rgba(26, 24, 20, 0.28) !important;
+  color: #1a1814 !important;
+  box-shadow: 0 1px 2px rgba(26, 24, 20, 0.06) !important;
+}
+
+html body.template-product .pph__pill:not(.pph__pill--color):hover:not(.is-active):not(:disabled) {
+  border-color: #1a1814 !important;
+  color: #1a1814 !important;
+}
+
+html body.template-product .pph__pill:not(.pph__pill--color) {
+  min-width: 92px;
+  height: 44px;
+  min-height: 44px;
+  padding: 0 16px !important;
+  box-sizing: border-box;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+html body.template-product .pph__pill.is-active:not(.pph__pill--color) {
+  background: #1a1814 !important;
+  background-color: #1a1814 !important;
+  border-color: #1a1814 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 0 1px #b68a35, 0 8px 18px rgba(26, 24, 20, 0.16) !important;
+}
+
+html body.template-product .pph__pill.is-unavailable,
+html body.template-product .pph__pill:disabled,
+html body.template-product .pph__variant-card.is-unavailable,
+html body.template-product .pph__variant-card:disabled {
+  opacity: 0.38 !important;
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+  filter: grayscale(0.45);
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* Gallery stays fully visible. Hover scale was clipping the right side of the photo. */
+html body .pph-gallery__viewport .pph-gallery__img,
+html body .pph-gallery__viewport:hover .pph-gallery__img,
+html body .pph-gallery__viewport.uc-3d-image:hover .pph-gallery__img,
+html body .pph-gallery__viewport.is-tilting .pph-gallery__img {
+  transform: none !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+}
+
+html body .pph-gallery__viewport.uc-3d-image,
+html body .pph-gallery__viewport.uc-3d-image.is-tilting,
+html body .pph-gallery__viewport.uc-3d-image:hover {
+  transform: none !important;
+}
+
+/* Collection cards: one pill size, one action height */
+html body .pc-badge,
+html body .pc-card__savings,
+html body .pc-card__stock {
+  min-height: 28px !important;
+  height: 28px !important;
+  padding: 0 10px !important;
+  border-radius: 999px !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  box-sizing: border-box !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+html body .pc-card__stock--in {
+  background: rgba(15, 157, 88, 0.1) !important;
+}
+
+html body .pc-badge--sale {
+  display: none !important;
+}
+
+html body .pc-card__savings {
+  background: #dc2626 !important;
+  color: #ffffff !important;
+}
+
+html body .pc-card__btn.pc-card__btn--add,
+html body .pc-card__btn.pc-card__btn--buy {
+  height: 46px !important;
+  min-height: 46px !important;
+  max-height: 46px !important;
+  border-radius: 16px !important;
+}
+
+html body .pc-card__btn.pc-card__btn--add {
+  width: 46px !important;
+  min-width: 46px !important;
+  max-width: 46px !important;
+}
+
+@media screen and (min-width: 750px) {
+  html body .pvr[data-arrows="true"] > .pvr__arrow {
+    display: grid !important;
+    position: absolute !important;
+    top: calc(50% + 24px) !important;
+    z-index: 8 !important;
+  }
+  html body .pvr > .pvr__arrow--prev { left: clamp(8px, 1.6vw, 20px) !important; right: auto !important; }
+  html body .pvr > .pvr__arrow--next { right: clamp(8px, 1.6vw, 20px) !important; left: auto !important; }
+}
+
+html body.template-product .pph__qty {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+html body.template-product .pph__delivery-card {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+html body.template-product .pph__delivery-heading {
+  font-size: 13px !important;
+  line-height: 1.25 !important;
+  font-weight: 650 !important;
+}
+
+/* Variant selector — stop left-edge clipping from overflow:clip on hero shell */
+html body.template-product .pph,
+html body.template-product .pph__inner,
+html body.template-product .pph__col--summary,
+html body.template-product .pph__purchase-panel,
+html body.template-product .pph__variants,
+html body.template-product .pph__variant-cards,
+html body.template-product .pph__option {
+  overflow: visible !important;
+  overflow-x: visible !important;
+}
+
+html body.template-product .pph__variant-card {
+  overflow: visible !important;
+  transform: none !important;
+}
+
+html body.template-product .pph__variant-card:hover:not(:disabled):not(.is-active) {
+  transform: none !important;
+}
+
+html body.template-product .pph__variant-card.is-active {
+  border-color: #b68a35 !important;
+  background: #fffdf8 !important;
+  background-color: #fffdf8 !important;
+  box-shadow: 0 0 0 1px #b68a35, 0 8px 20px rgba(182, 138, 53, 0.2) !important;
+}
+
+html body.template-product .pph__variant-card__label {
+  color: #1a1814 !important;
+}
+
+/* Product pricing scale — refined, competitive (loads after type-lock; price-only) */
+html body .pc-card__price,
+html body .pc-card__price .price,
+html body .pc-card__price .price-item,
+html body .pf-card__price,
+html body .pf-card__price-row .pf-card__price {
+  font-size: 16px !important;
+  line-height: 1.25 !important;
+  font-weight: 700 !important;
+}
+
+html body .pph__price,
+html body .pf-qv__price,
+html body .pf-qv__price--sale {
+  font-size: 18px !important;
+  line-height: 1.2 !important;
+  font-weight: 700 !important;
+}
+
+html body .template-cart .uc-cartx__line-total,
+html body .template-cart .uc-cartx__price .price-item--regular,
+html body .template-cart .uc-cartx__price .price-item--sale {
+  font-size: 18px !important;
+  line-height: 1.2 !important;
+}
+
+/* Micro thumbs + variant swatches → uc-pdp-micro-media.css (loads after device-lock) */
+
+/* Main gallery — full product visible on desktop/laptop (no deep crop) */
+@media screen and (min-width: 990px) {
+  html body.template-product .pph-gallery__viewport .pph-gallery__img,
+  html body.template-product .pph-gallery__viewport--contain .pph-gallery__img {
+    object-fit: contain !important;
+    object-position: center center !important;
+  }
+
+  html body.template-product .pph-gallery__slide {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: visible !important;
+  }
+}

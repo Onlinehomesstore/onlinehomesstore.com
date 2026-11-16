@@ -1,0 +1,41 @@
+{%- comment -%}
+  Wishlist soft-serve when /pages/wishlist has no Shopify page object yet.
+{%- endcomment -%}
+{{ 'uc-page-intro.css' | asset_url | stylesheet_tag }}
+{{ 'uc-product-card.css' | asset_url | stylesheet_tag }}
+{{ 'uc-wishlist-page.css' | asset_url | stylesheet_tag }}
+
+<div class="template-page-wishlist uc-soft-page">
+  <section class="upi uc-sec" data-uc-page-intro>
+    <div class="upi__inner uc-sec__container">
+      <p class="upi__eyebrow">Saved for later</p>
+      <h1 class="upi__title">My Wishlist</h1>
+      <p class="upi__tagline">The pieces you love, all in one place.</p>
+    </div>
+  </section>
+
+  <section
+    id="Ucw-soft"
+    class="ucw"
+    data-uc-wishlist
+    data-wishlist-key="uc:wishlist"
+  >
+    <div class="ucw__inner">
+      <div class="ucw__grid" data-ucw-grid hidden></div>
+      <div class="ucw__empty" data-ucw-empty hidden>
+        <div class="ucw__empty-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="46" height="46" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+        </div>
+        <h2 class="ucw__empty-title">Your wishlist is empty</h2>
+        <p class="ucw__empty-text">Tap the heart on any product to save it here for later.</p>
+        <a class="ucw__empty-cta" href="{{ routes.all_products_collection_url }}">Start shopping</a>
+      </div>
+      <div class="ucw__loading" data-ucw-loading>
+        <span class="ucw__spinner" aria-hidden="true"></span>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script src="{{ 'uc-product-card.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'uc-wishlist-page.js' | asset_url }}" defer="defer"></script>

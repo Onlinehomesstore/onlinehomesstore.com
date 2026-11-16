@@ -1,0 +1,14 @@
+[
+  { "type": "header", "content": "UC — Responsive spacing" },
+  { "type": "range", "id": "pad_top_lg", "label": "Top padding — laptop (990px+)", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+  { "type": "range", "id": "pad_top_xxl", "label": "Top padding — large desktop (1440px+)", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 96 },
+  { "type": "range", "id": "container_max_lg", "label": "Container max width — laptop+", "min": 960, "max": 1600, "step": 20, "unit": "px", "default": 1280 },
+  { "type": "select", "id": "container_mode", "label": "Container", "default": "boxed", "options": [{"value":"boxed","label":"Boxed"},{"value":"full","label":"Full width"}] },
+  { "type": "header", "content": "UC — Typography overrides" },
+  { "type": "checkbox", "id": "use_custom_section_styles", "label": "Override global typography", "default": false },
+  { "type": "range", "id": "h_size_xs", "label": "Heading size — mobile", "min": 20, "max": 72, "step": 2, "unit": "px", "default": 28 },
+  { "type": "range", "id": "h_size_lg", "label": "Heading size — laptop+", "min": 24, "max": 88, "step": 2, "unit": "px", "default": 40 },
+  { "type": "range", "id": "h_size_xxl", "label": "Heading size — large desktop", "min": 28, "max": 96, "step": 2, "unit": "px", "default": 44 },
+  { "type": "header", "content": "UC — Section colors" },
+  { "type": "checkbox", "id": "use_global_colors", "label": "Use global brand colors", "default": true }
+]

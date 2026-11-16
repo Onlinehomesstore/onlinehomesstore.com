@@ -1,0 +1,29 @@
+/* UC Scroll Lock — body fixed while modals/reels/popups are open */
+html.uc-scroll-locked,
+html.ch-scroll-locked {
+  overflow: hidden !important;
+  overscroll-behavior: none;
+}
+
+html.uc-scroll-locked body.uc-scroll-locked,
+html.ch-scroll-locked body.uc-scroll-locked {
+  position: fixed !important;
+  left: 0;
+  right: 0;
+  width: 100%;
+  overflow: hidden !important;
+  overscroll-behavior: none;
+  touch-action: none;
+  padding-right: var(--uc-scroll-lock-pad, 0px);
+}
+
+html.uc-scroll-locked,
+html.ch-scroll-locked {
+  padding-right: var(--uc-scroll-lock-pad, 0px);
+}
+
+html.uc-scroll-restoring,
+html.uc-scroll-locked,
+html.ch-scroll-locked {
+  scroll-behavior: auto !important;
+}

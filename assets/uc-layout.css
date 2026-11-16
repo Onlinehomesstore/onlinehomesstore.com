@@ -1,0 +1,107 @@
+/*
+  UC Global Layout — single architecture for every page template.
+  Loaded after base.css; uses design tokens from uc-design-tokens.css.
+*/
+
+:root {
+  --uc-site-header-offset: var(--uc-phdr-offset, 72px);
+  --uc-page-pad-x: clamp(16px, 4vw, 48px);
+  --uc-page-pad-y: clamp(32px, 5vw, 64px);
+  --uc-section-gap: clamp(48px, 6vw, 96px);
+  --uc-page-max: min(var(--page-width, 120rem), var(--uc-container-max, 1440px));
+}
+
+/* Homepage only: keep a header offset so the hero can sit under the pill.
+   Subpage clearance lives in uc-subpage-top.css (one offset, not two). */
+body.template-index #MainContent.content-for-layout {
+  padding-top: var(--uc-site-header-offset);
+}
+
+body:not(.template-index) #MainContent.content-for-layout {
+  padding-top: 0;
+}
+
+/* Dawn page-width aligned to UC container rhythm */
+.page-width,
+.page-width-desktop {
+  padding-inline: var(--uc-page-pad-x);
+}
+
+@media screen and (min-width: 990px) {
+  .page-width,
+  .page-width-desktop {
+    max-width: var(--uc-page-max);
+  }
+}
+
+/* Section vertical rhythm */
+.shopify-section:not(.uc-phdr-section):not(:first-child) {
+  scroll-margin-top: calc(var(--uc-site-header-offset) + 16px);
+}
+
+/* Reduce Dawn empty-state excessive whitespace */
+.template-search--empty {
+  padding-bottom: clamp(48px, 12vh, 120px) !important;
+}
+
+.template-search__header {
+  margin-bottom: 12px !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.template-search__search {
+  margin-bottom: clamp(24px, 4vw, 40px) !important;
+}
+
+/* Homepage first-section breathing room only */
+body.template-index #MainContent > .shopify-section:first-child:not(.uc-ph-section) .section-padding,
+body.template-index #MainContent > .shopify-section:first-child:not(.uc-ph-section) [class*='-padding'] {
+  padding-top: max(var(--uc-page-pad-y), env(safe-area-inset-top, 0px));
+}
+
+/* Cart / account / collection hero spacing under fixed header */
+.main-page-title,
+.collection-hero,
+.customer {
+  padding-top: 0;
+}
+
+/* Inner-page search alignment — full-width pill below title */
+.template-search .template-search__header {
+  text-align: left;
+}
+
+/* Homepage section alignment — shared container max */
+.template-index .category-showcase__inner,
+.template-index .pf-showcase .category-showcase__inner,
+.template-index .uc-sec__container {
+  max-width: var(--uc-page-max);
+  margin-inline: auto;
+  padding-inline: var(--uc-page-pad-x);
+}
+
+/* Unified homepage background — seamless ivory canvas */
+.template-index .shopify-section:not(.uc-ph-section):not(.uc-phdr-section) {
+  background-color: var(--uc-color-bg) !important;
+}
+
+.template-index .shopify-section:not(.uc-ph-section):not(.uc-phdr-section) .gradient {
+  background: var(--uc-color-bg) !important;
+}
+
+.template-index .category-showcase,
+.template-index .pf-showcase,
+.template-index .vr,
+.template-index .pvr,
+.template-index .ppb,
+.template-index .pt,
+.template-index .ba {
+  background: transparent !important;
+}
+
+.template-index .shopify-section:not(.uc-ph-section) .color-scheme-1,
+.template-index .shopify-section:not(.uc-ph-section) .color-scheme-2 {
+  --color-background: 247, 244, 239;
+  --gradient-background: #F7F4EF;
+}

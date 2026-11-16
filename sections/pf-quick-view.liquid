@@ -1,0 +1,207 @@
+{%- comment -%} Section Rendering API - Premium Quick View {%- endcomment -%}
+{%- layout none -%}
+
+{%- if product == blank -%}
+ <div class="pf-qv" data-pf-qv-root>
+ <p class="pf-qv__empty">Product not found.</p>
+ </div>
+{%- else -%}
+ {%- assign current_variant = product.selected_or_first_available_variant -%}
+ {%- assign compare_at = current_variant.compare_at_price -%}
+ {%- assign price = current_variant.price -%}
+
+ <div class="pf-qv" data-pf-qv-root data-product-id="{{ product.id }}">
+ <button type="button" class="pf-qv__close" data-pf-qv-close aria-label="Close">
+ <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+ </button>
+
+ <div class="pf-qv__layout">
+ <div class="pf-qv__gallery">
+ {%- if product.media.size > 0 -%}
+ {%- assign image_count = product.media | where: 'media_type', 'image' | size -%}
+ <div class="pf-qv__stage" data-pf-qv-stage>
+ {%- assign pf_qv_first_image = true -%}
+ {%- for media in product.media limit: 12 -%}
+ {%- if media.media_type == 'image' -%}
+ <figure class="pf-qv__slide{% if pf_qv_first_image %} is-active{% endif %}" data-pf-qv-slide data-media-id="{{ media.id }}">
+ {%- liquid
+ if pf_qv_first_image
+ assign pf_qv_loading = 'eager'
+ else
+ assign pf_qv_loading = 'lazy'
+ endif
+ assign pf_qv_alt = media.alt | default: product.title | escape
+ -%}
+ {{
+ media
+ | image_url: width: 1200
+ | image_tag:
+ loading: pf_qv_loading,
+ class: 'pf-qv__slide-img',
+ sizes: '(min-width: 750px) 420px, 90vw',
+ widths: '400, 600, 800, 1000, 1200',
+ alt: pf_qv_alt
+ }}
+ </figure>
+ {%- assign pf_qv_first_image = false -%}
+ {%- endif -%}
+ {%- endfor -%}
+ {%- if image_count > 1 -%}
+ <button type="button" class="pf-qv__nav pf-qv__nav--prev" data-pf-qv-prev aria-label="Previous image">
+ <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+ </button>
+ <button type="button" class="pf-qv__nav pf-qv__nav--next" data-pf-qv-next aria-label="Next image">
+ <svg viewBox="0 0 24 24" width="18" height="18" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+ </button>
+ {%- endif -%}
+ </div>
+ {%- if image_count > 1 -%}
+ <div class="pf-qv__thumbs" data-pf-qv-thumbs>
+ {%- assign pf_qv_first_thumb = true -%}
+ {%- for media in product.media limit: 12 -%}
+ {%- if media.media_type == 'image' -%}
+ <button
+ type="button"
+ class="pf-qv__thumb{% if pf_qv_first_thumb %} is-active{% endif %}"
+ data-pf-qv-thumb
+ data-media-id="{{ media.id }}"
+ aria-label="Show image {{ forloop.index }}"
+ >
+ {{ media | image_url: width: 120 | image_tag: loading: 'lazy', alt: '', class: 'pf-qv__thumb-img' }}
+ </button>
+ {%- assign pf_qv_first_thumb = false -%}
+ {%- endif -%}
+ {%- endfor -%}
+ </div>
+ {%- endif -%}
+ {%- else -%}
+ <div class="pf-qv__stage pf-qv__stage--empty">
+ {{ 'product-apparel-1' | placeholder_svg_tag }}
+ </div>
+ {%- endif -%}
+ </div>
+
+ <div class="pf-qv__body">
+ {%- form 'product', product, id: 'pf-qv-form', class: 'pf-qv__form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+ <div class="pf-qv__scroll">
+ <div class="pf-qv__meta">
+ {%- if product.vendor != blank -%}
+ <p class="pf-qv__vendor">{{ product.vendor | escape }}</p>
+ {%- endif -%}
+
+ <h2 class="pf-qv__title">{{ product.title | escape }}</h2>
+
+ <div class="pf-qv__price-block" data-pf-qv-price>
+ {%- if compare_at > price -%}
+ <span class="pf-qv__price pf-qv__price--sale">{{ price | money }}</span>
+ <span class="pf-qv__price pf-qv__price--compare">{{ compare_at | money }}</span>
+ {%- assign save_pct = compare_at | minus: price | times: 100.0 | divided_by: compare_at | round -%}
+ <span class="pf-qv__save">Save {{ save_pct }}%</span>
+ {%- else -%}
+ <span class="pf-qv__price">{{ price | money }}</span>
+ {%- endif -%}
+ </div>
+ </div>
+
+ {%- if product.description != blank -%}
+ <div class="pf-qv__description">{{ product.description | strip_html | truncatewords: 28 }}</div>
+ {%- endif -%}
+
+ {%- unless product.has_only_default_variant -%}
+ <div class="pf-qv__field">
+ <label class="pf-qv__label" for="pf-qv-variant">Select option</label>
+ <select id="pf-qv-variant" name="id" class="pf-select pf-qv__select" data-pf-qv-variant>
+ {%- for variant in product.variants -%}
+ <option
+ value="{{ variant.id }}"
+ data-price="{{ variant.price | money }}"
+ data-compare="{{ variant.compare_at_price | money }}"
+ data-available="{{ variant.available }}"
+ {% if variant == current_variant %}selected{% endif %}
+ {% unless variant.available %}disabled{% endunless %}
+ >
+ {{ variant.title | escape }}{% unless variant.available %} - Sold out{% endunless %}
+ </option>
+ {%- endfor -%}
+ </select>
+ </div>
+ {%- else -%}
+ <input type="hidden" name="id" value="{{ current_variant.id }}">
+ {%- endunless -%}
+
+ <div class="pf-qv__purchase pf-qv__purchase--inline">
+ <div class="pf-qv__row">
+ <div class="pf-qty pf-qv__qty" data-pf-qty>
+ <button type="button" class="pf-qty__btn" data-pf-qty-minus aria-label="Decrease quantity">−</button>
+ <input class="pf-qty__input" type="number" name="quantity" value="1" min="1" aria-label="Quantity">
+ <button type="button" class="pf-qty__btn" data-pf-qty-plus aria-label="Increase quantity">+</button>
+ </div>
+
+ <button type="submit" name="add" class="pf-qv__atc" {% unless current_variant.available %}disabled{% endunless %} data-pf-add>
+ <span class="pf-card__cta-text">Add to cart</span>
+ <span class="pf-card__cta-success" hidden aria-hidden="true">Added</span>
+ <span class="pf-card__cta-loading" hidden aria-hidden="true">
+ <svg class="pf-spinner" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="32" stroke-linecap="round"/></svg>
+ </span>
+ </button>
+ </div>
+ </div>
+
+ {%- if product.metafields.custom.highlights != blank or product.metafields.descriptors.subtitle != blank -%}
+ <ul class="pf-qv__highlights" role="list">
+ {%- if product.metafields.descriptors.subtitle != blank -%}
+ <li>{{ product.metafields.descriptors.subtitle | escape }}</li>
+ {%- endif -%}
+ {%- if product.metafields.custom.highlights.value != blank -%}
+ {%- for h in product.metafields.custom.highlights.value limit: 4 -%}
+ <li>{{ h | escape }}</li>
+ {%- endfor -%}
+ {%- endif -%}
+ </ul>
+ {%- endif -%}
+ </div>
+
+ <div class="pf-qv__footer">
+ <div class="pf-qv__footer-main">
+ <button
+ type="button"
+ class="pf-qv__buy"
+ data-pf-buy-now
+ {% unless current_variant.available %}disabled{% endunless %}
+ >
+ Buy Now
+ </button>
+ <button
+ type="button"
+ class="pf-qv__wish"
+ data-pf-qv-wish
+ data-product-id="{{ product.id }}"
+ aria-label="Add to wishlist"
+ >
+ {% render 'uc-icon', icon: 'heart', size: 18 %}
+ <span>Wishlist</span>
+ </button>
+ </div>
+
+ <p class="pf-qv__stock" data-pf-qv-stock>
+ {%- if current_variant.available -%}
+ <span class="pf-qv__stock-dot"></span> In stock - ready to ship
+ {%- else -%}
+ Currently unavailable
+ {%- endif -%}
+ </p>
+
+ <a href="{{ product.url }}" class="pf-qv__link">View full product details →</a>
+ </div>
+ {%- endform -%}
+ </div>
+ </div>
+ </div>
+{%- endif -%}
+
+{% schema %}
+{
+ "name": "PF Quick View",
+ "settings": []
+}
+{% endschema %}

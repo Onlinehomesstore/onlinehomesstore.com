@@ -1,0 +1,459 @@
+{% comment %}
+ uc-design-system.liquid
+ ═══════════════════════════════════════════════════════════════════════════════
+ GLOBAL DESIGN SYSTEM - CSS Variable Injector
+ Luxury Beauty Brand Edition
+
+ DEFAULT AESTHETIC: Warm Ivory · Luxury Gold · Manrope only
+ The product packaging delivers the vibrant color; the UI stays soft and warm.
+
+ HOW IT WORKS:
+ 1. Reads Theme Editor settings (settings_schema.json) via "uc_" prefix
+ 2. Outputs one {% style %} :root block overriding uc-design-tokens.css defaults
+ 3. All sections, snippets, and components reference var(--uc-*) only
+ 4. Per-section color overrides use snippets/uc-section-colors.liquid
+
+ SETUP - Inside <head> in layout/theme.liquid (AFTER stylesheet links):
+ ───────────────────────────────────────────────────────────────────────────────
+ {{ 'uc-design-tokens.css' | asset_url | stylesheet_tag }}
+ {{ 'uc-components.css' | asset_url | stylesheet_tag }}
+ {% render 'uc-design-system' %}
+ ───────────────────────────────────────────────────────────────────────────────
+ ═══════════════════════════════════════════════════════════════════════════════
+{% endcomment %}
+
+{%- liquid
+ # ── Fonts — Manrope only (ignore Theme Editor font pickers that introduce other families)
+ assign hf_family = 'Manrope'
+ assign hf_fallback = 'system-ui, -apple-system, sans-serif'
+ assign bf_family = 'Manrope'
+ assign bf_fallback = 'system-ui, -apple-system, sans-serif'
+ assign nav_family = 'Manrope'
+ assign nav_fallback = hf_fallback
+ assign pt_family = 'Manrope'
+ assign pt_fallback = hf_fallback
+ assign btn_family = 'Manrope'
+ assign btn_fallback = hf_fallback
+
+ # ── Font Weights ──────────────────────────────────────────────────────────
+ case settings.uc_font_weight_heading
+ when '500'
+ assign fw_heading = 500
+ when '600'
+ assign fw_heading = 600
+ when '800'
+ assign fw_heading = 800
+ when '900'
+ assign fw_heading = 900
+ else
+ assign fw_heading = 700
+ endcase
+
+ case settings.uc_font_weight_body
+ when '300'
+ assign fw_body = 300
+ when '500'
+ assign fw_body = 500
+ else
+ assign fw_body = 400
+ endcase
+
+ case settings.uc_letter_spacing_heading
+ when 'tight'
+ assign ls_heading = '-0.03em'
+ when 'normal'
+ assign ls_heading = '0em'
+ when 'wide'
+ assign ls_heading = '0.05em'
+ else
+ assign ls_heading = '-0.02em'
+ endcase
+
+ case settings.uc_letter_spacing_nav
+ when 'tight'
+ assign ls_nav = '0em'
+ when 'wide'
+ assign ls_nav = '0.12em'
+ else
+ assign ls_nav = '0.06em'
+ endcase
+
+ case settings.uc_line_height_body
+ when 'compact'
+ assign lh_body = '1.5'
+ when 'relaxed'
+ assign lh_body = '1.85'
+ else
+ assign lh_body = '1.7'
+ endcase
+
+ assign font_size_base = settings.uc_font_size_base | default: 16
+
+ assign type_scale = settings.uc_type_scale | default: 100 | divided_by: 100.0
+ assign type_h_min = settings.uc_type_heading_min | default: 24
+ assign type_h_max = settings.uc_type_heading_max | default: 40
+ assign type_b_min = settings.uc_type_body_min | default: 14
+ assign type_b_max = settings.uc_type_body_max | default: 16
+
+ # ── Colors ────────────────────────────────────────────────────────────────
+ assign c_primary = settings.uc_color_primary | default: '#B68A35'
+ assign c_primary_dk = settings.uc_color_primary_dark | default: '#8F6824'
+ assign c_secondary = settings.uc_color_secondary | default: '#C9A55A'
+ assign c_accent = c_primary
+
+ # Backgrounds
+ assign c_bg = settings.uc_color_bg | default: '#F7F4EF'
+ assign c_surface = settings.uc_color_surface | default: '#FCFAF7'
+ assign c_card_bg = settings.uc_color_card_bg | default: '#FFFFFF'
+
+ # Text hierarchy
+ assign c_text = settings.uc_color_text | default: '#2a2a2a'
+ if c_text == '#171717' or c_text == '#555555' or c_text == blank
+   assign c_text = '#2a2a2a'
+ endif
+ assign c_text_body = settings.uc_color_text_body | default: '#2a2a2a'
+ if c_text_body == '#555555' or c_text_body == '#171717' or c_text_body == blank
+   assign c_text_body = '#2a2a2a'
+ endif
+ assign c_text_muted = settings.uc_color_text_muted | default: '#2a2a2a'
+ if c_text_muted == '#7A7A7A' or c_text_muted == '#555555' or c_text_muted == blank
+   assign c_text_muted = '#2a2a2a'
+ endif
+ assign c_text_light = settings.uc_color_text_light | default: '#6b6b6b'
+
+ # Borders and dividers
+ assign c_border = settings.uc_color_border | default: '#E6E0D6'
+ assign c_divider = settings.uc_color_divider | default: '#EFE8DE'
+
+ # Feedback
+ assign c_success = settings.uc_color_success | default: '#4A7A54'
+ assign c_error = settings.uc_color_error | default: '#C24A3A'
+ assign c_warning = settings.uc_color_warning | default: '#C38C2D'
+
+ # Sale badge
+ assign c_sale_bg = settings.uc_color_sale_bg | default: '#B83D3D'
+ assign c_sale_text = settings.uc_color_sale_text | default: '#FFFFFF'
+
+ # Stars
+ assign c_star = settings.uc_rating_color | default: '#B68A35'
+
+ # Footer (cream scheme - matches Luxury Cream pages)
+ assign c_footer_bg = settings.uc_color_footer_bg | default: '#F7F4EF'
+ assign c_footer_text = settings.uc_color_footer_text | default: '#4A4A4A'
+ assign c_footer_border = settings.uc_color_footer_border | default: '#E6E0D6'
+
+ # ── Layout ────────────────────────────────────────────────────────────────
+ assign container_max = settings.uc_container_max | default: 1440
+ assign content_max = settings.uc_content_max | default: 1280
+ assign section_padding = settings.uc_section_padding | default: 120
+ assign card_padding = settings.uc_card_padding | default: 24
+ assign grid_gap = settings.uc_grid_gap | default: 32
+
+ # ── Border Radius ─────────────────────────────────────────────────────────
+ assign r_btn = settings.uc_radius_button | default: 10
+ assign r_card = settings.uc_radius_card | default: 18
+ assign r_input = settings.uc_radius_input | default: 10
+ assign r_badge = settings.uc_radius_badge | default: 100
+ assign r_image = settings.uc_radius_image | default: 20
+ assign r_drawer = settings.uc_radius_drawer | default: 24
+ assign r_popup = settings.uc_radius_popup | default: 24
+
+ # ── Shadows ───────────────────────────────────────────────────────────────
+ assign shadow_sm = settings.uc_shadow_sm | default: '0 4px 12px rgba(0,0,0,0.05)'
+ assign shadow_md = settings.uc_shadow_md | default: '0 10px 30px rgba(0,0,0,0.08)'
+ assign shadow_lg = settings.uc_shadow_lg | default: '0 20px 60px rgba(0,0,0,0.10)'
+
+ # ── Animations ────────────────────────────────────────────────────────────
+ assign anim_enabled = settings.uc_animations_enabled | default: true
+
+ case settings.uc_transition_speed
+ when 'fast'
+ assign t_base = 280
+ when 'slow'
+ assign t_base = 560
+ else
+ assign t_base = 420
+ endcase
+
+ assign t_fast = t_base | divided_by: 2 | at_least: 140
+ assign t_slow = t_base | times: 2 | at_most: 900
+
+ case settings.uc_animation_easing
+ when 'ease'
+ assign ease = 'ease'
+ when 'spring'
+ assign ease = 'cubic-bezier(0.34, 1.56, 0.64, 1)'
+ else
+ assign ease = 'cubic-bezier(0.22, 1, 0.36, 1)'
+ endcase
+
+ # ── Buttons ───────────────────────────────────────────────────────────────
+ assign btn_font_size = settings.uc_btn_font_size | default: 14
+ assign btn_fw = settings.uc_btn_font_weight | default: '600'
+ assign btn_px = settings.uc_btn_padding_x | default: 28
+ assign btn_py = settings.uc_btn_padding_y | default: 13
+
+ # ── Product Cards ─────────────────────────────────────────────────────────
+ case settings.uc_card_image_ratio
+ when 'square'
+ assign card_ratio = '1 / 1'
+ when 'landscape'
+ assign card_ratio = '4 / 3'
+ else
+ assign card_ratio = '4 / 5'
+ endcase
+-%}
+
+{%- style -%}
+ {%- comment -%} Font faces (must stay inside style or they render as visible text) {%- endcomment -%}
+ {%- unless hf == blank -%}{{ hf | font_face: font_display: 'swap' }}{%- endunless -%}
+ {%- unless bf == blank -%}{{ bf | font_face: font_display: 'swap' }}{%- endunless -%}
+ {%- assign hf_bold = hf | font_modify: 'weight', 'bold' -%}
+ {%- unless hf_bold == blank -%}{{ hf_bold | font_face: font_display: 'swap' }}{%- endunless -%}
+ {%- if settings.uc_nav_font_source == 'custom' -%}
+ {%- assign nav_font_obj = settings.uc_font_nav -%}
+ {%- unless nav_font_obj == blank -%}{{ nav_font_obj | font_face: font_display: 'swap' }}{%- endunless -%}
+ {%- endif -%}
+
+ /* =========================================================================
+ UC DESIGN SYSTEM - Luxury Beauty Brand
+ Generated from Theme Editor. Edit via Shopify Customize → Design System.
+ ========================================================================= */
+ :root {
+ /* ── Typography ──────────────────────────────────────────────────────── */
+ --uc-font-heading: {{ hf_family }}, {{ hf_fallback }};
+ --uc-font-body: {{ bf_family }}, {{ bf_fallback }};
+ --uc-font-ui: 'Manrope', system-ui, -apple-system, sans-serif;
+ --uc-font-nav: 'Manrope', system-ui, sans-serif;
+ --uc-font-product-title: 'Manrope', system-ui, sans-serif;
+ --uc-font-btn: 'Manrope', system-ui, sans-serif;
+ --uc-font-mono: 'SF Mono', Consolas, monospace;
+
+ --uc-text-hero: 32px;
+ --uc-text-h1: 32px;
+ --uc-text-h2: 28px;
+ --uc-text-h3: 18px;
+ --uc-text-h4: 16px;
+ --uc-text-h5: 16px;
+ --uc-text-xl: 16px;
+ --uc-text-lg: 16px;
+ --uc-text-base: 16px;
+ --uc-text-sm: 14px;
+ --uc-text-xs: 12px;
+ --uc-text-2xs: 11px;
+ --uc-font-size-base: {{ font_size_base | times: type_scale | round }}px;
+ --uc-fw-heading: {{ fw_heading }};
+ --uc-fw-body: {{ fw_body }};
+ --uc-fw-nav: 500;
+ --uc-fw-btn: {{ btn_fw }};
+ --uc-ls-heading: {{ ls_heading }};
+ --uc-ls-nav: {{ ls_nav }};
+ --uc-lh-body: {{ lh_body }};
+
+ /* ── Color Tokens ────────────────────────────────────────────────────── */
+
+ /* Brand accent - Luxury Gold */
+ --uc-color-primary: {{ c_primary }};
+ --uc-color-primary-dark: {{ c_primary_dk }};
+ --uc-color-secondary: {{ c_secondary }};
+ --uc-color-accent: {{ c_accent }};
+
+ /* Backgrounds - warm ivory palette */
+ --uc-color-bg: {{ c_bg }};
+ --uc-color-surface: {{ c_surface }};
+ --uc-color-card-bg: {{ c_card_bg }};
+
+ /* Text hierarchy */
+ --uc-color-text: {{ c_text }};
+ --uc-color-text-body: {{ c_text_body }};
+ --uc-color-text-muted: {{ c_text_muted }};
+ --uc-color-text-light: {{ c_text_light }};
+
+ /* Borders */
+ --uc-color-border: {{ c_border }};
+ --uc-color-divider: {{ c_divider }};
+
+ /* Feedback */
+ --uc-color-success: {{ c_success }};
+ --uc-color-error: {{ c_error }};
+ --uc-color-warning: {{ c_warning }};
+
+ /* Sale badge */
+ --uc-color-sale-bg: {{ c_sale_bg }};
+ --uc-color-sale-text: {{ c_sale_text }};
+
+ /* Stars */
+ --uc-color-star: {{ c_star }};
+
+ /* Footer - dark charcoal scheme */
+ --uc-color-footer-bg: {{ c_footer_bg }};
+ --uc-color-footer-text: {{ c_footer_text }};
+ --uc-color-footer-border: {{ c_footer_border }};
+
+ /* Primary color tints */
+ --uc-color-primary-5: rgba(182, 138, 53, 0.05);
+ --uc-color-primary-10: rgba(182, 138, 53, 0.10);
+ --uc-color-primary-20: rgba(182, 138, 53, 0.20);
+
+ /* ── Layout ──────────────────────────────────────────────────────────── */
+ --uc-container-max: {{ container_max }}px;
+ --uc-content-max: {{ content_max }}px;
+ --uc-section-padding: clamp(56px, 8vw, {{ section_padding }}px);
+ --uc-card-padding: {{ card_padding }}px;
+ --uc-grid-gap: {{ grid_gap }}px;
+
+ /* Spacing scale */
+ --uc-space-1: 4px; --uc-space-2: 8px; --uc-space-3: 12px;
+ --uc-space-4: 16px; --uc-space-5: 20px; --uc-space-6: 24px;
+ --uc-space-8: 32px; --uc-space-10: 40px; --uc-space-12: 48px;
+ --uc-space-16: 64px; --uc-space-20: 80px; --uc-space-24: 96px;
+
+ /* ── Border Radius ───────────────────────────────────────────────────── */
+ --uc-radius-btn: {{ r_btn }}px;
+ --uc-radius-card: {{ r_card }}px;
+ --uc-radius-input: {{ r_input }}px;
+ --uc-radius-badge: {{ r_badge }}px;
+ --uc-radius-image: {{ r_image }}px;
+ --uc-radius-drawer: {{ r_drawer }}px;
+ --uc-radius-popup: {{ r_popup }}px;
+ --uc-radius-sm: {{ r_input | divided_by: 2 | at_least: 4 }}px;
+ --uc-radius-md: {{ r_input }}px;
+ --uc-radius-lg: {{ r_card }}px;
+ --uc-radius-pill: 9999px;
+
+ /* ── Shadows ─────────────────────────────────────────────────────────── */
+ --uc-shadow-sm: {{ shadow_sm }};
+ --uc-shadow-card: {{ shadow_md }};
+ --uc-shadow-hover: {{ shadow_lg }};
+ --uc-shadow-modal: 0 32px 80px rgba(0,0,0,0.14);
+ --uc-shadow-none: none;
+
+ /* ── Animations ──────────────────────────────────────────────────────── */
+ --uc-transition-fast: {{ t_fast }}ms;
+ --uc-transition-base: {{ t_base }}ms;
+ --uc-transition-slow: {{ t_slow }}ms;
+ --uc-ease-premium: {{ ease }};
+ --uc-ease-out: ease-out;
+ --uc-ease-in-out: ease-in-out;
+ {%- if settings.uc_animations_enabled == false %}
+ --uc-transition-fast: 0ms;
+ --uc-transition-base: 0ms;
+ --uc-transition-slow: 0ms;
+ {%- endif %}
+
+ /* ── Buttons ─────────────────────────────────────────────────────────── */
+ --uc-btn-bg: {{ c_primary }};
+ --uc-btn-color: #ffffff;
+ --uc-btn-bg-hover: {{ c_primary_dk }};
+ --uc-btn-radius: {{ r_btn }}px;
+ --uc-btn-font-size: {{ btn_font_size }}px;
+ --uc-btn-fw: {{ btn_fw }};
+ --uc-btn-px: {{ btn_px }}px;
+ --uc-btn-py: {{ btn_py }}px;
+ --uc-btn-border: 1.5px solid transparent;
+ --uc-btn-letter-spacing: 0.03em;
+
+ /* ── Product Cards ───────────────────────────────────────────────────── */
+ --uc-card-ratio: {{ card_ratio }};
+ --uc-card-radius: {{ r_card }}px;
+ --uc-card-shadow: {{ shadow_md }};
+ --uc-card-bg: {{ c_card_bg }};
+ --uc-product-image-fit: {{ settings.uc_product_image_fit | default: 'cover' }};
+ --uc-img-fit: {{ settings.uc_category_image_fit | default: 'cover' }};
+
+ /* ── Z-Index ─────────────────────────────────────────────────────────── */
+ --uc-z-base: 1;
+ --uc-z-above: 10;
+ --uc-z-sticky: 50;
+ --uc-z-header: 100;
+ --uc-z-drawer: 200;
+ --uc-z-modal: 300;
+ --uc-z-toast: 400;
+ --uc-z-tooltip: 500;
+
+ /* ── Overlays ────────────────────────────────────────────────────────── */
+ --uc-overlay-bg: rgba(23, 23, 23, 0.55);
+ --uc-overlay-light: rgba(23, 23, 23, 0.18);
+
+ /* ── Forms ───────────────────────────────────────────────────────────── */
+ --uc-input-bg: {{ c_card_bg }};
+ --uc-input-border: {{ c_border }};
+ --uc-input-focus: {{ c_primary }};
+ --uc-input-radius: {{ r_input }}px;
+ --uc-input-color: {{ c_text }};
+ --uc-input-placeholder: {{ c_text_light }};
+
+ /* ── Dawn typography bridge (Poppins site-wide) ──────────────────────── */
+ --font-body-family: var(--uc-font-body);
+ --font-heading-family: var(--uc-font-heading);
+ --font-heading-weight: var(--uc-fw-heading);
+
+ /* ── Legacy module aliases ───────────────────────────────────────────── */
+ --heading-font: var(--uc-font-heading);
+ --font-weight-bold: 700;
+ --font-weight-semibold: 600;
+ --font-weight-medium: 500;
+ --text-primary: var(--uc-color-text);
+ --text-secondary: var(--uc-color-text-muted);
+ --accent-color: var(--uc-color-primary);
+ --border-color: var(--uc-color-border);
+ --space-1: var(--uc-space-1);
+ --space-2: var(--uc-space-2);
+ --space-3: var(--uc-space-3);
+ --space-4: var(--uc-space-4);
+ --space-5: var(--uc-space-5);
+ --space-6: var(--uc-space-6);
+ --space-7: var(--uc-space-8);
+ --space-8: var(--uc-space-10);
+ --space-9: var(--uc-space-12);
+ --space-10: var(--uc-space-16);
+ --container-width: var(--uc-content-max);
+ --container-width-wide: var(--uc-container-max);
+ --container-max: var(--uc-content-max);
+ --container-padding: clamp(16px, 4vw, 48px);
+ --container-pad: var(--uc-space-6);
+ --card-radius: var(--uc-radius-card);
+ --card-padding: var(--uc-card-padding);
+ --button-radius: var(--uc-radius-btn);
+ --grid-gap: var(--uc-grid-gap);
+ --shadow-small: var(--uc-shadow-sm);
+ --shadow-medium: var(--uc-shadow-card);
+ --shadow-large: var(--uc-shadow-hover);
+ --shadow-hover: var(--uc-shadow-hover);
+ --ease-premium: var(--uc-ease-premium);
+ --ease-standard: var(--uc-ease-out);
+ --transition-normal: var(--uc-transition-base) var(--uc-ease-premium);
+ --font-heading-family: 'Manrope', system-ui, sans-serif;
+ --heading-font: 'Manrope', system-ui, sans-serif;
+ --type-heading-size: 28px;
+ --type-title-line: 1.18;
+ --type-subtitle-size: 16px;
+ --type-body-line: var(--uc-lh-body);
+ --type-label-size: var(--uc-text-xs);
+ --type-label-spacing: 0.12em;
+ --icon-size: 20px;
+ --icon-stroke: 1.5;
+ }
+
+ @media screen and (max-width: 749px) {
+ :root {
+ --uc-text-hero: 26px;
+ --uc-text-h1: 26px;
+ --uc-text-h2: 26px;
+ --uc-text-lead: 15px;
+ --uc-text-base: 15px;
+ --uc-text-lg: 15px;
+ --type-heading-size: 26px;
+ --type-subtitle-size: 15px;
+ }
+ }
+
+ /* ── Reduced Motion ──────────────────────────────────────────────────────── */
+ @media (prefers-reduced-motion: reduce) {
+ :root {
+ --uc-transition-fast: 0ms !important;
+ --uc-transition-base: 0ms !important;
+ --uc-transition-slow: 0ms !important;
+ }
+ }
+{% endstyle %}

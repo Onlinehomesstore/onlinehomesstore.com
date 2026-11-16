@@ -1,0 +1,8 @@
+{%- comment -%}
+  Canonical Online Homes Store contact details for display site-wide.
+  Prefer Theme settings; never invent a contact if blank.
+{%- endcomment -%}
+{%- liquid
+  assign uc_site_email = settings.uc_contact_email_default | default: ''
+  assign uc_site_email_gb = settings.uc_contact_email_gb | default: uc_site_email
+-%}

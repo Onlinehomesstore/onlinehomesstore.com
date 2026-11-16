@@ -1,0 +1,59 @@
+{%- comment -%}
+ UC Page Breadcrumb - reusable breadcrumb bar for informational pages.
+ Prefix: (uses uc-breadcrumb snippet + uc-components.css)
+{%- endcomment -%}
+
+{%- liquid
+ assign s = section.settings
+ assign uid = section.id
+ assign title = s.custom_title | default: page.title
+-%}
+
+{%- assign uc_sec_scope = '#UcBreadcrumb-' | append: uid -%}
+{%- render 'uc-section-vars', section: section, scope: uc_sec_scope -%}
+{%- render 'uc-section-colors', section: section -%}
+
+{%- style -%}
+ #UcBreadcrumb-{{ uid }} {
+ --sec-pad-top: {{ s.padding_top | default: 12 }}px;
+ --sec-pad-bottom: {{ s.padding_bottom | default: 12 }}px;
+ }
+{%- endstyle -%}
+
+{%- if s.show_organization_schema -%}
+ {% render 'uc-org-schema' %}
+{%- endif -%}
+
+{%- if s.show_breadcrumb -%}
+<section
+ id="UcBreadcrumb-{{ uid }}"
+ class="uc-sec color-{{ s.color_scheme }}"
+ aria-label="Page navigation"
+>
+ <div class="uc-sec__container">
+ {% render 'uc-breadcrumb', show_home: s.show_home, current_title: title %}
+ </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+ "name": "UC Page breadcrumb",
+ "tag": "section",
+ "class": "section section-uc-page-breadcrumb",
+ "disabled_on": { "groups": ["header", "footer"] },
+ "settings": [
+ { "type": "checkbox", "id": "show_breadcrumb", "label": "Show breadcrumb", "default": true },
+ { "type": "checkbox", "id": "show_home", "label": "Show home link", "default": true },
+ { "type": "text", "id": "custom_title", "label": "Current page title override" },
+ { "type": "header", "content": "Structured data" },
+ { "type": "checkbox", "id": "show_organization_schema", "label": "Output Organization schema (JSON-LD)", "default": true },
+ { "type": "color_scheme", "id": "color_scheme", "label": "Colour scheme", "default": "scheme-1" },
+ { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 48, "step": 4, "unit": "px", "default": 12 },
+ { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 48, "step": 4, "unit": "px", "default": 12 },
+ { "type": "header", "content": "UC - Responsive spacing" },
+ { "type": "checkbox", "id": "use_global_colors", "label": "Use global brand colors", "default": true }
+ ],
+ "presets": [{ "name": "UC Page breadcrumb" }]
+}
+{% endschema %}

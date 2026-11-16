@@ -1,0 +1,50 @@
+/* Mobile-first performance + interaction polish */
+@media (max-width: 989px) {
+  /* Prefer compositor-friendly transforms; kill heavy shadows during scroll */
+  .pc-card,
+  .cs-card,
+  .category-showcase__card,
+  .pf-card {
+    box-shadow: 0 4px 14px rgba(26, 22, 18, 0.05) !important;
+  }
+
+  /* Instant reveals on touch devices (pairs with uc-motion coarse skip) */
+  [data-uc-reveal],
+  .uc-reveal,
+  .pc-card,
+  .pb__card,
+  .upr__card {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+
+  /* Tappable targets */
+  .uc-btn,
+  .button,
+  .pc-card__btn,
+  .uc-phdr__icon-btn,
+  .upr__submit,
+  .uwa__submit {
+    min-height: 48px;
+  }
+
+  /* Reduce paint cost of animated hero on small screens */
+  .ueh--kenburns .ueh__img {
+    animation: none !important;
+  }
+
+  /* Skip heavy sparkle gif hover effect on touch */
+  .animate--hover-vertical-lift .button:not(.button--tertiary)::after,
+  .animate--hover-vertical-lift .button:not(.button--tertiary)::before {
+    content: none !important;
+    background-image: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ueh--kenburns .ueh__img,
+  .pc-card__btn--add:hover:not(:disabled) .pc-card__btn-icon--cart {
+    animation: none !important;
+  }
+}

@@ -1,0 +1,80 @@
+{%- comment -%}
+  Vertical collection sort bar + product count.
+  Requires: section, results (collection or search)
+{%- endcomment -%}
+{%- liquid
+  assign sort_by = results.sort_by | default: results.default_sort_by
+  assign sort_label_current = ''
+-%}
+{%- for option in results.sort_options -%}
+  {%- if option.value == sort_by -%}
+    {%- capture sort_label_current -%}{%- render 'uc-sort-option-label', option: option -%}{%- endcapture -%}
+  {%- endif -%}
+{%- endfor -%}
+<facet-filters-form class="facets facets-vertical-sort small-hide">
+  <form class="facets-vertical-form" id="FacetSortForm">
+    <div class="uc-sort" data-uc-sort>
+      <span class="uc-sort__label">{{ 'products.facets.sort_by_label' | t }}</span>
+      <div class="uc-sort__wrap">
+        <button
+          type="button"
+          class="uc-sort__trigger"
+          data-uc-sort-trigger
+          aria-haspopup="listbox"
+          aria-expanded="false"
+          aria-controls="UcSortList-{{ section.id }}"
+        >
+          <span data-uc-sort-current>{{ sort_label_current | strip | default: 'Featured' }}</span>
+          <span class="uc-sort__caret" aria-hidden="true"></span>
+        </button>
+        <ul
+          id="UcSortList-{{ section.id }}"
+          class="uc-sort__list"
+          data-uc-sort-list
+          role="listbox"
+          hidden
+        >
+          {%- for option in results.sort_options -%}
+            <li role="presentation">
+              <button
+                type="button"
+                class="uc-sort__option{% if option.value == sort_by %} is-active{% endif %}"
+                data-uc-sort-option
+                data-value="{{ option.value | escape }}"
+                role="option"
+                {% if option.value == sort_by %}aria-selected="true"{% else %}aria-selected="false"{% endif %}
+              >
+                {%- render 'uc-sort-option-label', option: option -%}
+              </button>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+      <select name="sort_by" id="SortBy" tabindex="-1" aria-hidden="true">
+        {%- for option in results.sort_options -%}
+          <option value="{{ option.value | escape }}" {% if option.value == sort_by %}selected{% endif %}>
+            {%- render 'uc-sort-option-label', option: option -%}
+          </option>
+        {%- endfor -%}
+      </select>
+    </div>
+
+    <div class="product-count-vertical light" role="status">
+      <h2 class="product-count__text text-body">
+        <span id="ProductCountDesktop">
+          {%- if results.results_count -%}
+            {{ 'templates.search.results_with_count' | t: terms: results.terms, count: results.results_count }}
+          {%- elsif results.products_count == results.all_products_count -%}
+            {{ 'products.facets.product_count_simple' | t: count: results.products_count }}
+          {%- else -%}
+            {{
+              'products.facets.product_count'
+              | t: product_count: results.products_count, count: results.all_products_count
+            }}
+          {%- endif -%}
+        </span>
+      </h2>
+      {%- render 'loading-spinner' -%}
+    </div>
+  </form>
+</facet-filters-form>

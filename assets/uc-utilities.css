@@ -1,0 +1,221 @@
+/* =============================================================================
+   UC UTILITIES — uc-utilities.css
+   Shared layout, spacing, motion, icon, and scroll utilities.
+   Depends on: uc-design-tokens.css (loaded before this file)
+   ============================================================================= */
+
+/* ── Smooth scroll (respect reduced motion) ────────────────────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* GPU-friendly motion base — transform + opacity only */
+.uc-motion {
+  transition:
+    transform var(--uc-transition-base, 280ms) var(--uc-ease-premium),
+    opacity   var(--uc-transition-base, 280ms) var(--uc-ease-premium);
+  will-change: transform, opacity;
+}
+
+.uc-motion--fast {
+  transition-duration: var(--uc-transition-fast, 140ms);
+}
+
+.uc-motion--slow {
+  transition-duration: var(--uc-transition-slow, 560ms);
+}
+
+/* Hover — stable (shadow only, no layout shift) */
+.uc-hover-lift,
+.uc-card--lift {
+  position: relative;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  transition:
+    box-shadow var(--uc-transition-slow, 560ms) var(--uc-ease-premium),
+    border-color var(--uc-transition-base, 420ms) ease;
+  will-change: box-shadow;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .uc-hover-lift:hover,
+  .uc-card--lift:hover {
+    transform: translateZ(0);
+    box-shadow: var(--uc-shadow-hover, 0 20px 60px rgba(0, 0, 0, 0.1));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .uc-motion,
+  .uc-hover-lift,
+  .uc-card--lift {
+    transition: none !important;
+    will-change: auto;
+  }
+}
+.uc-container {
+  width: 100%;
+  max-width: var(--uc-container-max, 1440px);
+  margin-inline: auto;
+  padding-inline: var(--container-padding, clamp(16px, 4vw, 48px));
+}
+
+.uc-content {
+  width: 100%;
+  max-width: var(--uc-content-max, 1280px);
+  margin-inline: auto;
+  padding-inline: var(--container-padding, clamp(16px, 4vw, 48px));
+}
+
+.uc-container--narrow {
+  max-width: var(--uc-content-max, 1280px);
+}
+
+.uc-container--wide {
+  max-width: var(--uc-container-max, 1440px);
+}
+
+.uc-container--full {
+  max-width: none;
+}
+
+/* Section wrapper — consistent vertical rhythm */
+.uc-section-wrap {
+  padding-block: var(--uc-section-padding, clamp(56px, 8vw, 120px));
+}
+
+.uc-section-wrap--compact {
+  padding-block: clamp(40px, 6vw, 80px);
+}
+
+.uc-section-wrap--tight {
+  padding-block: clamp(32px, 5vw, 56px);
+}
+
+/* Alternate ivory / cream backgrounds */
+.uc-bg-default {
+  background-color: var(--uc-color-bg);
+}
+
+.uc-bg-surface {
+  background-color: var(--uc-color-surface);
+}
+
+.uc-bg-card {
+  background-color: var(--uc-color-card-bg);
+}
+
+/* ── Grid helpers ─────────────────────────────────────────────────────────── */
+.uc-grid {
+  display: grid;
+  gap: var(--uc-grid-gap, 32px);
+}
+
+.uc-grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.uc-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.uc-grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+@media (max-width: 989px) {
+  .uc-grid--3,
+  .uc-grid--4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 749px) {
+  .uc-grid--2,
+  .uc-grid--3,
+  .uc-grid--4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Lucide icon standardization ──────────────────────────────────────────── */
+.uc-icon {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+  stroke-width: var(--icon-stroke, 1.5);
+}
+
+.uc-icon--sm { width: 16px; height: 16px; }
+.uc-icon--md { width: 20px; height: 20px; }
+.uc-icon--lg { width: 24px; height: 24px; }
+.uc-icon--xl { width: 32px; height: 32px; }
+
+/* ── Unified card shell (product, category, review, blog) ─────────────────── */
+.uc-card-shell {
+  background: var(--uc-color-card-bg);
+  border: 1px solid var(--uc-color-border);
+  border-radius: var(--uc-radius-card);
+  box-shadow: var(--uc-shadow-card);
+  padding: var(--uc-card-padding);
+  overflow: hidden;
+  transition:
+    transform var(--uc-transition-slow, 560ms) var(--uc-ease-premium),
+    box-shadow var(--uc-transition-slow, 560ms) var(--uc-ease-premium),
+    border-color var(--uc-transition-base, 420ms) ease;
+}
+
+.uc-card-shell:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--uc-shadow-hover);
+}
+
+/* ── Section header pattern ───────────────────────────────────────────────── */
+.uc-section-head {
+  margin-bottom: clamp(var(--uc-space-8), 4vw, var(--uc-space-12));
+}
+
+.uc-section-head--center {
+  text-align: center;
+}
+
+.uc-section-head--center .uc-subtitle {
+  margin-inline: auto;
+}
+
+/* ── Scroll reveal (shared class — sections opt in) ───────────────────────── */
+.uc-reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease;
+  transition-delay: var(--uc-reveal-delay, var(--reveal-delay, var(--ppb-delay, 0ms)));
+}
+
+.uc-reveal.is-visible,
+.uc-reveal.is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .uc-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ── Focus ring (gold, consistent) ────────────────────────────────────────── */
+.uc-focus-ring:focus-visible {
+  outline: 2px solid var(--uc-color-primary);
+  outline-offset: 3px;
+}
+
+/* ── Prevent horizontal overflow globally on UC sections ──────────────────── */
+[class*='category-showcase'],
+[class*='pf-showcase'],
+[class*='uc-hero'],
+[class*='vr'],
+[class*='pt'],
+[class*='ppb-'],
+[class*='pvr-'],
+[class*='ch-header'] {
+  max-width: 100%;
+  overflow-x: clip;
+}

@@ -1,0 +1,178 @@
+{% comment %}
+ uc-section-vars.liquid
+ Responsive typography, spacing, and container CSS variables.
+
+ Typography sizes (eyebrow / heading / sub / desc / pill-btn) ALWAYS apply when set —
+ they are not gated behind use_custom_section_styles.
+ Spacing / container extras remain behind the custom flag where noted.
+
+ USAGE:
+ {% assign scope = '#MySection-' | append: section.id %}
+ {% render 'uc-section-vars', section: section, scope: scope %}
+{% endcomment %}
+
+{%- liquid
+  assign s = section.settings
+  assign sel = scope
+  assign bp_sm = 550
+  assign bp_md = 750
+  assign bp_lg = 990
+  assign bp_xl = 1200
+  assign bp_xxl = 1440
+
+  assign pad_top_xs = s.pad_top_xs | default: s.padding_top | default: ''
+  assign pad_bottom_xs = s.pad_bottom_xs | default: s.padding_bottom | default: ''
+  assign pad_left_xs = s.pad_left_xs | default: ''
+  assign pad_right_xs = s.pad_right_xs | default: ''
+  assign gap_xs = s.gap_xs | default: s.element_gap | default: ''
+
+  assign container_mode = s.container_mode | default: 'boxed'
+  assign container_max_xs = s.container_max_xs | default: s.container_max | default: s.max_width | default: ''
+  assign container_pad_xs = s.container_pad_xs | default: ''
+-%}
+
+<style>
+{{ sel }} {
+{%- if pad_top_xs != blank -%}--sec-pad-top: {{ pad_top_xs }}px;{%- endif -%}
+{%- if pad_bottom_xs != blank -%}--sec-pad-bottom: {{ pad_bottom_xs }}px;{%- endif -%}
+{%- if pad_left_xs != blank -%}--sec-pad-left: {{ pad_left_xs }}px;{%- endif -%}
+{%- if pad_right_xs != blank -%}--sec-pad-right: {{ pad_right_xs }}px;{%- endif -%}
+{%- if gap_xs != blank -%}--sec-gap: {{ gap_xs }}px;{%- endif -%}
+{%- if container_max_xs != blank -%}--sec-container-max: {{ container_max_xs }}px;{%- endif -%}
+{%- if container_pad_xs != blank -%}--sec-container-pad: {{ container_pad_xs }}px;{%- endif -%}
+{%- if container_mode == 'full' -%}--sec-container-max: none;{%- endif -%}
+
+{%- comment -%} Heading {%- endcomment -%}
+{%- if s.h_size_xs != blank -%}--sec-h-size: {{ s.h_size_xs }}px;{%- endif -%}
+{%- if s.h_weight_xs != blank -%}--sec-h-weight: {{ s.h_weight_xs }};{%- endif -%}
+{%- if s.h_ls_xs != blank -%}--sec-h-ls: {{ s.h_ls_xs }}em;{%- endif -%}
+{%- if s.h_lh_xs != blank -%}--sec-h-lh: {{ s.h_lh_xs }};{%- endif -%}
+{%- if s.h_transform_xs != blank -%}--sec-h-transform: {{ s.h_transform_xs }};{%- endif -%}
+{%- if s.h_align_xs != blank -%}--sec-h-align: {{ s.h_align_xs }};{%- endif -%}
+
+{%- comment -%} Eyebrow (pill label) {%- endcomment -%}
+{%- if s.eyebrow_size_xs != blank -%}
+--sec-eyebrow-size: {{ s.eyebrow_size_xs }}px;
+--sec-sh-size: {{ s.eyebrow_size_xs }}px;
+{%- endif -%}
+
+{%- comment -%} Subheading {%- endcomment -%}
+{%- if s.sub_size_xs != blank -%}--sec-sub-size: {{ s.sub_size_xs }}px;{%- endif -%}
+{%- if s.sub_weight_xs != blank -%}--sec-sub-weight: {{ s.sub_weight_xs }};{%- endif -%}
+{%- if s.sub_ls_xs != blank -%}--sec-sub-ls: {{ s.sub_ls_xs }}em;{%- endif -%}
+{%- if s.sub_lh_xs != blank -%}--sec-sub-lh: {{ s.sub_lh_xs }};{%- endif -%}
+{%- if s.sub_align_xs != blank -%}--sec-sub-align: {{ s.sub_align_xs }};{%- endif -%}
+
+{%- comment -%} Description {%- endcomment -%}
+{%- if s.desc_size_xs != blank -%}--sec-desc-size: {{ s.desc_size_xs }}px;{%- endif -%}
+{%- if s.desc_weight_xs != blank -%}--sec-desc-weight: {{ s.desc_weight_xs }};{%- endif -%}
+{%- if s.desc_lh_xs != blank -%}--sec-desc-lh: {{ s.desc_lh_xs }};{%- endif -%}
+{%- if s.desc_max_width_xs != blank -%}--sec-desc-max-width: {{ s.desc_max_width_xs }}px;{%- endif -%}
+{%- if s.desc_align_xs != blank -%}--sec-desc-align: {{ s.desc_align_xs }};{%- endif -%}
+
+{%- comment -%} Pill / button text {%- endcomment -%}
+{%- if s.btn_size_xs != blank -%}--sec-btn-size: {{ s.btn_size_xs }}px;{%- endif -%}
+{%- if s.btn_weight_xs != blank -%}--sec-btn-weight: {{ s.btn_weight_xs }};{%- endif -%}
+{%- if s.btn_py_xs != blank -%}--sec-btn-py: {{ s.btn_py_xs }}px;{%- endif -%}
+{%- if s.btn_px_xs != blank -%}--sec-btn-px: {{ s.btn_px_xs }}px;{%- endif -%}
+{%- if s.btn_radius_xs != blank -%}--sec-btn-radius: {{ s.btn_radius_xs }}px;{%- endif -%}
+{%- if s.btn_height_xs != blank -%}--sec-btn-height: {{ s.btn_height_xs }}px;{%- endif -%}
+{%- if s.btn_min_width_xs != blank -%}--sec-btn-min-width: {{ s.btn_min_width_xs }}px;{%- endif -%}
+}
+
+@media screen and (min-width: {{ bp_sm }}px) {
+{{ sel }} {
+{%- if s.h_size_sm != blank -%}--sec-h-size: {{ s.h_size_sm }}px;{%- endif -%}
+{%- if s.h_weight_sm != blank -%}--sec-h-weight: {{ s.h_weight_sm }};{%- endif -%}
+{%- if s.h_ls_sm != blank -%}--sec-h-ls: {{ s.h_ls_sm }}em;{%- endif -%}
+{%- if s.h_lh_sm != blank -%}--sec-h-lh: {{ s.h_lh_sm }};{%- endif -%}
+{%- if s.h_transform_sm != blank -%}--sec-h-transform: {{ s.h_transform_sm }};{%- endif -%}
+{%- if s.h_align_sm != blank -%}--sec-h-align: {{ s.h_align_sm }};{%- endif -%}
+{%- if s.eyebrow_size_sm != blank -%}--sec-eyebrow-size: {{ s.eyebrow_size_sm }}px; --sec-sh-size: {{ s.eyebrow_size_sm }}px;{%- endif -%}
+{%- if s.sub_size_sm != blank -%}--sec-sub-size: {{ s.sub_size_sm }}px;{%- endif -%}
+{%- if s.desc_size_sm != blank -%}--sec-desc-size: {{ s.desc_size_sm }}px;{%- endif -%}
+{%- if s.btn_size_sm != blank -%}--sec-btn-size: {{ s.btn_size_sm }}px;{%- endif -%}
+{%- if s.pad_top_sm != blank -%}--sec-pad-top: {{ s.pad_top_sm }}px;{%- endif -%}
+{%- if s.pad_bottom_sm != blank -%}--sec-pad-bottom: {{ s.pad_bottom_sm }}px;{%- endif -%}
+{%- if s.pad_left_sm != blank -%}--sec-pad-left: {{ s.pad_left_sm }}px;{%- endif -%}
+{%- if s.pad_right_sm != blank -%}--sec-pad-right: {{ s.pad_right_sm }}px;{%- endif -%}
+{%- if s.gap_sm != blank -%}--sec-gap: {{ s.gap_sm }}px;{%- endif -%}
+{%- if s.container_max_sm != blank -%}--sec-container-max: {{ s.container_max_sm }}px;{%- endif -%}
+{%- if s.container_pad_sm != blank -%}--sec-container-pad: {{ s.container_pad_sm }}px;{%- endif -%}
+}
+}
+
+@media screen and (min-width: {{ bp_md }}px) {
+{{ sel }} {
+{%- if s.h_size_md != blank -%}--sec-h-size: {{ s.h_size_md }}px;{%- endif -%}
+{%- if s.h_weight_md != blank -%}--sec-h-weight: {{ s.h_weight_md }};{%- endif -%}
+{%- if s.h_ls_md != blank -%}--sec-h-ls: {{ s.h_ls_md }}em;{%- endif -%}
+{%- if s.h_lh_md != blank -%}--sec-h-lh: {{ s.h_lh_md }};{%- endif -%}
+{%- if s.h_align_md != blank -%}--sec-h-align: {{ s.h_align_md }};{%- endif -%}
+{%- if s.eyebrow_size_md != blank -%}--sec-eyebrow-size: {{ s.eyebrow_size_md }}px; --sec-sh-size: {{ s.eyebrow_size_md }}px;{%- endif -%}
+{%- if s.sub_size_md != blank -%}--sec-sub-size: {{ s.sub_size_md }}px;{%- endif -%}
+{%- if s.desc_size_md != blank -%}--sec-desc-size: {{ s.desc_size_md }}px;{%- endif -%}
+{%- if s.btn_size_md != blank -%}--sec-btn-size: {{ s.btn_size_md }}px;{%- endif -%}
+{%- if s.pad_top_md != blank -%}--sec-pad-top: {{ s.pad_top_md }}px;{%- endif -%}
+{%- if s.pad_bottom_md != blank -%}--sec-pad-bottom: {{ s.pad_bottom_md }}px;{%- endif -%}
+{%- if s.pad_left_md != blank -%}--sec-pad-left: {{ s.pad_left_md }}px;{%- endif -%}
+{%- if s.pad_right_md != blank -%}--sec-pad-right: {{ s.pad_right_md }}px;{%- endif -%}
+{%- if s.gap_md != blank -%}--sec-gap: {{ s.gap_md }}px;{%- endif -%}
+{%- if s.container_max_md != blank -%}--sec-container-max: {{ s.container_max_md }}px;{%- endif -%}
+{%- if s.container_pad_md != blank -%}--sec-container-pad: {{ s.container_pad_md }}px;{%- endif -%}
+}
+}
+
+@media screen and (min-width: {{ bp_lg }}px) {
+{{ sel }} {
+{%- if s.container_max_lg != blank -%}--sec-container-max: {{ s.container_max_lg }}px;{%- endif -%}
+{%- if s.h_size_lg != blank -%}--sec-h-size: {{ s.h_size_lg }}px;{%- endif -%}
+{%- if s.h_weight_lg != blank -%}--sec-h-weight: {{ s.h_weight_lg }};{%- endif -%}
+{%- if s.h_ls_lg != blank -%}--sec-h-ls: {{ s.h_ls_lg }}em;{%- endif -%}
+{%- if s.h_lh_lg != blank -%}--sec-h-lh: {{ s.h_lh_lg }};{%- endif -%}
+{%- if s.h_align_lg != blank -%}--sec-h-align: {{ s.h_align_lg }};{%- endif -%}
+{%- if s.eyebrow_size_lg != blank -%}--sec-eyebrow-size: {{ s.eyebrow_size_lg }}px; --sec-sh-size: {{ s.eyebrow_size_lg }}px;{%- endif -%}
+{%- if s.sub_size_lg != blank -%}--sec-sub-size: {{ s.sub_size_lg }}px;{%- endif -%}
+{%- if s.desc_size_lg != blank -%}--sec-desc-size: {{ s.desc_size_lg }}px;{%- endif -%}
+{%- if s.btn_size_lg != blank -%}--sec-btn-size: {{ s.btn_size_lg }}px;{%- endif -%}
+{%- if s.pad_top_lg != blank -%}--sec-pad-top: {{ s.pad_top_lg }}px;{%- endif -%}
+{%- if s.pad_bottom_lg != blank -%}--sec-pad-bottom: {{ s.pad_bottom_lg }}px;{%- endif -%}
+{%- if s.pad_left_lg != blank -%}--sec-pad-left: {{ s.pad_left_lg }}px;{%- endif -%}
+{%- if s.pad_right_lg != blank -%}--sec-pad-right: {{ s.pad_right_lg }}px;{%- endif -%}
+{%- if s.gap_lg != blank -%}--sec-gap: {{ s.gap_lg }}px;{%- endif -%}
+{%- if s.container_pad_lg != blank -%}--sec-container-pad: {{ s.container_pad_lg }}px;{%- endif -%}
+}
+}
+
+@media screen and (min-width: {{ bp_xl }}px) {
+{{ sel }} {
+{%- if s.h_size_xl != blank -%}--sec-h-size: {{ s.h_size_xl }}px;{%- endif -%}
+{%- if s.h_weight_xl != blank -%}--sec-h-weight: {{ s.h_weight_xl }};{%- endif -%}
+{%- if s.eyebrow_size_xl != blank -%}--sec-eyebrow-size: {{ s.eyebrow_size_xl }}px; --sec-sh-size: {{ s.eyebrow_size_xl }}px;{%- endif -%}
+{%- if s.sub_size_xl != blank -%}--sec-sub-size: {{ s.sub_size_xl }}px;{%- endif -%}
+{%- if s.desc_size_xl != blank -%}--sec-desc-size: {{ s.desc_size_xl }}px;{%- endif -%}
+{%- if s.btn_size_xl != blank -%}--sec-btn-size: {{ s.btn_size_xl }}px;{%- endif -%}
+{%- if s.pad_top_xl != blank -%}--sec-pad-top: {{ s.pad_top_xl }}px;{%- endif -%}
+{%- if s.pad_bottom_xl != blank -%}--sec-pad-bottom: {{ s.pad_bottom_xl }}px;{%- endif -%}
+{%- if s.gap_xl != blank -%}--sec-gap: {{ s.gap_xl }}px;{%- endif -%}
+{%- if s.container_max_xl != blank -%}--sec-container-max: {{ s.container_max_xl }}px;{%- endif -%}
+{%- if s.container_pad_xl != blank -%}--sec-container-pad: {{ s.container_pad_xl }}px;{%- endif -%}
+}
+}
+
+@media screen and (min-width: {{ bp_xxl }}px) {
+{{ sel }} {
+{%- if s.h_size_xxl != blank -%}--sec-h-size: {{ s.h_size_xxl }}px;{%- endif -%}
+{%- if s.h_weight_xxl != blank -%}--sec-h-weight: {{ s.h_weight_xxl }};{%- endif -%}
+{%- if s.eyebrow_size_xxl != blank -%}--sec-eyebrow-size: {{ s.eyebrow_size_xxl }}px; --sec-sh-size: {{ s.eyebrow_size_xxl }}px;{%- endif -%}
+{%- if s.sub_size_xxl != blank -%}--sec-sub-size: {{ s.sub_size_xxl }}px;{%- endif -%}
+{%- if s.desc_size_xxl != blank -%}--sec-desc-size: {{ s.desc_size_xxl }}px;{%- endif -%}
+{%- if s.btn_size_xxl != blank -%}--sec-btn-size: {{ s.btn_size_xxl }}px;{%- endif -%}
+{%- if s.pad_top_xxl != blank -%}--sec-pad-top: {{ s.pad_top_xxl }}px;{%- endif -%}
+{%- if s.pad_bottom_xxl != blank -%}--sec-pad-bottom: {{ s.pad_bottom_xxl }}px;{%- endif -%}
+{%- if s.gap_xxl != blank -%}--sec-gap: {{ s.gap_xxl }}px;{%- endif -%}
+{%- if s.container_max_xxl != blank -%}--sec-container-max: {{ s.container_max_xxl }}px;{%- endif -%}
+{%- if s.container_pad_xxl != blank -%}--sec-container-pad: {{ s.container_pad_xxl }}px;{%- endif -%}
+}
+}
+</style>

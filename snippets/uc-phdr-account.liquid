@@ -1,0 +1,68 @@
+{%- comment -%}
+  Premium header account — new Customer Accounts (account.unikcare.eu).
+  Logged out: routes.storefront_login_url → account subdomain, then back to storefront.
+  Logged in: routes.account_url → customer account portal.
+{%- endcomment -%}
+
+{%- liquid
+  unless shop.customer_accounts_enabled
+    break
+  endunless
+
+  assign uc_acc_mode = account_mode | default: 'classic'
+  assign uc_acc_login = routes.account_login_url
+  if uc_acc_login == blank or uc_acc_mode == 'new'
+    assign uc_acc_login = routes.storefront_login_url
+  endif
+  if uc_acc_login == blank
+    assign uc_acc_login = routes.account_login_url
+  endif
+
+  if customer
+    assign uc_acc_href = routes.account_url
+    assign uc_acc_label = 'customer.account.title' | t | default: 'My account'
+    assign uc_acc_state = 'in'
+  else
+    assign uc_acc_href = uc_acc_login
+    assign uc_acc_label = 'customer.log_in' | t | default: 'Sign in'
+    assign uc_acc_state = 'out'
+  endif
+
+  assign uc_acc_register = routes.account_register_url
+  if uc_acc_register == blank
+    assign uc_acc_register = uc_acc_login
+  endif
+-%}
+
+{%- if mode == 'icon' -%}
+  <a
+    href="{{ uc_acc_href }}"
+    class="uc-phdr__tool uc-phdr__tool--account{% if customer %} is-logged-in{% endif %}"
+    data-uc-phdr-account
+    data-account-state="{{ uc_acc_state }}"
+    data-account-login-url="{{ uc_acc_login | escape }}"
+    data-account-portal-url="{{ routes.account_url | escape }}"
+    aria-label="{{ uc_acc_label }}"
+  >
+    {% render 'uc-phdr-icon', icon: 'account', size: icon_size %}
+  </a>
+{%- elsif mode == 'drawer' -%}
+  <div class="uc-phdr-drawer__account" data-uc-phdr-account-drawer>
+  {%- if customer -%}
+    <p class="uc-phdr-drawer__account-greet">
+      {{ 'customer.account.title' | t | default: 'Hello' }},
+      <strong>{{ customer.first_name | default: customer.email }}</strong>
+    </p>
+    <div class="uc-phdr-drawer__account-actions">
+      <a href="{{ routes.account_url }}" class="uc-phdr-drawer__account-btn">{{ 'customer.account.title' | t | default: 'My account' }}</a>
+      <a href="{{ routes.account_logout_url }}" class="uc-phdr-drawer__account-link">{{ 'customer.log_out' | t | default: 'Log out' }}</a>
+    </div>
+  {%- else -%}
+    <p class="uc-phdr-drawer__account-kicker">Customer account</p>
+    <div class="uc-phdr-drawer__account-actions">
+      <a href="{{ uc_acc_login }}" class="uc-phdr-drawer__account-btn">{{ 'customer.log_in' | t | default: 'Sign in' }}</a>
+      <a href="{{ uc_acc_register }}" class="uc-phdr-drawer__account-link">{{ 'customer.register.title' | t | default: 'Create account' }}</a>
+    </div>
+  {%- endif -%}
+  </div>
+{%- endif -%}

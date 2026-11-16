@@ -1,0 +1,321 @@
+/* UC Legal pages — homepage type rhythm (pill 10px heading 10px body) */
+
+.uc-legal {
+  font-family: var(--uc-font-body, 'Manrope', system-ui, sans-serif);
+  color: #2a2a2a;
+  background: var(--uc-color-bg, #f7f4ef);
+}
+
+.uc-legal__inner {
+  width: 100%;
+  max-width: min(100%, var(--uc-legal-max, var(--uc-content-max, 1280px)));
+  margin-inline: auto;
+}
+
+.uc-legal__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--uc-space-heading-to-desc, 10px);
+  width: 100%;
+  max-width: 100%;
+  margin: 0 0 28px;
+  padding: 0;
+  border: 0;
+  border-bottom: 0 !important;
+  box-shadow: none;
+}
+
+.uc-legal hr,
+.uc-legal__header::after,
+.uc-legal__header::before {
+  display: none !important;
+  border: 0 !important;
+}
+
+.uc-legal__header > .uc-legal__eyebrow,
+.uc-legal__header > .uc-sec__eyebrow,
+.uc-legal__header > .uc-legal__title,
+.uc-legal__header > .uc-legal__meta,
+.uc-legal__header > .uc-legal__note {
+  margin: 0 !important;
+  max-width: 100% !important;
+}
+
+.uc-legal__eyebrow,
+.uc-legal__section-eyebrow,
+.uc-legal__contact-eyebrow {
+  white-space: normal !important;
+  text-align: left;
+}
+
+.uc-legal__header > .uc-legal__eyebrow,
+.uc-legal__header > .uc-sec__eyebrow {
+  text-align: center;
+}
+
+.uc-legal__title {
+  font-family: var(--uc-font-heading, 'Manrope', system-ui, sans-serif);
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.16;
+  color: #2a2a2a;
+  width: 100%;
+  max-width: 100%;
+}
+
+.uc-legal__meta,
+.uc-legal__note {
+  width: 100%;
+  max-width: 100%;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #2a2a2a;
+}
+
+.uc-legal__content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.uc-legal__intro {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 100%;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #2a2a2a;
+  padding: 20px 22px;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid rgba(42, 42, 42, 0.07);
+  box-shadow: 0 6px 24px rgba(23, 20, 16, 0.04);
+}
+
+.uc-legal__intro p,
+.uc-legal__intro ul,
+.uc-legal__intro ol {
+  margin: 0;
+  max-width: 100%;
+}
+
+.uc-legal__body {
+  width: 100%;
+  max-width: 100%;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #2a2a2a;
+}
+
+.uc-legal__sections {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.uc-legal__section,
+.uc-legal__contact {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--uc-space-heading-to-desc, 10px);
+  width: 100%;
+  max-width: 100%;
+  padding: 20px 22px;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid rgba(42, 42, 42, 0.07);
+  box-shadow: 0 4px 18px rgba(23, 20, 16, 0.04);
+}
+
+.uc-legal__section > *,
+.uc-legal__contact > * {
+  margin: 0 !important;
+  max-width: 100% !important;
+}
+
+.uc-legal__section-title,
+.uc-legal__contact-title {
+  font-family: var(--uc-font-heading, 'Manrope', system-ui, sans-serif);
+  font-size: 18px;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+  color: #2a2a2a;
+  width: 100%;
+}
+
+.uc-legal__section-body,
+.uc-legal__prose {
+  width: 100%;
+  max-width: 100%;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #2a2a2a;
+}
+
+.uc-legal__section-body p,
+.uc-legal__section-body ul,
+.uc-legal__section-body ol,
+.uc-legal__prose p,
+.uc-legal__prose ul,
+.uc-legal__prose ol,
+.uc-legal__body p,
+.uc-legal__body ul,
+.uc-legal__body ol {
+  margin: 0 0 10px;
+  max-width: 100%;
+}
+
+.uc-legal__section-body > :last-child,
+.uc-legal__prose > :last-child,
+.uc-legal__intro > :last-child {
+  margin-bottom: 0;
+}
+
+.uc-legal__prose.rte h2,
+.uc-legal__prose.rte h3,
+.uc-legal__body .rte h2,
+.uc-legal__body .rte h3 {
+  font-family: var(--uc-font-heading, 'Manrope', system-ui, sans-serif);
+  font-size: 18px;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+  color: #2a2a2a;
+  margin: 0 0 10px;
+  max-width: 100%;
+}
+
+.uc-legal__prose.rte h2:first-child,
+.uc-legal__prose.rte h3:first-child {
+  margin-top: 0;
+}
+
+.uc-legal__body ul,
+.uc-legal__body ol,
+.uc-legal__prose ul,
+.uc-legal__prose ol,
+.uc-legal__section-body ul,
+.uc-legal__section-body ol {
+  padding-left: 1.25em;
+}
+
+.uc-legal__body li,
+.uc-legal__prose li,
+.uc-legal__section-body li {
+  margin: 0 0 6px;
+}
+
+.uc-legal__body li:last-child,
+.uc-legal__prose li:last-child,
+.uc-legal__section-body li:last-child {
+  margin-bottom: 0;
+}
+
+.uc-legal__body a,
+.uc-legal__prose a,
+.uc-legal__section-body a {
+  color: var(--uc-legal-accent, #b68a35);
+  text-underline-offset: 3px;
+}
+
+.uc-legal__contact-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+  width: 100%;
+}
+
+.uc-legal__contact-list li {
+  display: grid;
+  gap: 2px;
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.uc-legal__contact-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #2a2a2a;
+}
+
+.uc-legal__contact-list a {
+  color: var(--uc-legal-accent, #b68a35);
+  text-underline-offset: 3px;
+}
+
+.uc-legal__cta {
+  margin: 0;
+  padding: 20px 22px;
+  border-radius: 18px;
+  background: #fff;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  box-shadow: 0 8px 28px rgba(23, 20, 16, 0.06);
+  border: 1px solid rgba(42, 42, 42, 0.07);
+}
+
+.uc-legal__cta p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #2a2a2a;
+}
+
+.uc-legal__cta .uc-btn {
+  border: none;
+  flex-shrink: 0;
+}
+
+@media screen and (max-width: 749px) {
+  .uc-legal__title {
+    font-size: 26px;
+    line-height: 1.2;
+  }
+
+  .uc-legal__meta,
+  .uc-legal__note,
+  .uc-legal__intro,
+  .uc-legal__body,
+  .uc-legal__section-body,
+  .uc-legal__prose,
+  .uc-legal__cta p,
+  .uc-legal__contact-list li {
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  .uc-legal__section,
+  .uc-legal__contact,
+  .uc-legal__intro,
+  .uc-legal__cta {
+    padding: 16px 18px;
+  }
+
+  .uc-legal__cta {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+
+  .uc-legal__cta .uc-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

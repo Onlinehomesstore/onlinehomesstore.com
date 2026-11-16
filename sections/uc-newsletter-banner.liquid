@@ -1,0 +1,106 @@
+{%- comment -%}
+ UC Newsletter Banner - standalone newsletter for informational pages.
+ Reuses premium-footer .pf-nl-* styles.
+{%- endcomment -%}
+{{ 'premium-footer.css' | asset_url | stylesheet_tag }}
+{{ 'uc-newsletter-banner.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+ assign s = section.settings
+ assign uid = section.id
+ assign form_id = 'uc-nl-' | append: uid
+-%}
+
+{%- assign uc_sec_scope = '#UcNewsletter-' | append: uid -%}
+{%- render 'uc-section-vars', section: section, scope: uc_sec_scope -%}
+{%- render 'uc-section-colors', section: section -%}
+
+{%- style -%}
+ #UcNewsletter-{{ uid }} {
+ --pf-nl-bg: {{ s.banner_bg | default: '#3a5730' }};
+ --pf-nl-radius: {{ s.banner_radius | default: 16 }}px;
+ --pf-nl-text: {{ s.text_color | default: '#ffffff' }};
+ }
+{%- endstyle -%}
+
+<section id="UcNewsletter-{{ uid }}" class="uc-nl uc-sec color-{{ s.color_scheme }}" data-uc-nl-section>
+ <div class="uc-sec__container">
+ <div class="pf-nl-outer">
+ <div class="pf-nl-banner" data-uc-reveal>
+ <div class="pf-nl-content">
+ {%- if s.show_icon -%}
+ <span class="pf-nl-icon" aria-hidden="true">
+ {%- render 'uc-icon', icon: 'mail', size: 22 -%}
+ </span>
+ {%- endif -%}
+ <div class="pf-nl-text">
+ {%- if s.heading != blank -%}
+ <h2 class="pf-nl-heading">{{ s.heading | escape }}</h2>
+ {%- endif -%}
+ {%- if s.description != blank -%}
+ <p class="pf-nl-desc">{{ s.description | escape }}</p>
+ {%- endif -%}
+ </div>
+ </div>
+ <div class="pf-nl-form-wrap">
+ {%- form 'customer', id: form_id, class: 'pf-nl-form' -%}
+ <input type="hidden" name="contact[tags]" value="newsletter,page">
+ <input type="hidden" name="contact[accepts_marketing]" value="true">
+
+ <label for="{{ form_id }}-email" class="visually-hidden">{{ s.placeholder | default: 'Your email address' | escape }}</label>
+ <input
+ id="{{ form_id }}-email"
+ type="email"
+ name="contact[email]"
+ class="pf-nl-input"
+ placeholder="{{ s.placeholder | default: 'Your email address' | escape }}"
+ autocomplete="email"
+ required
+ aria-required="true"
+ >
+ <button type="submit" class="pf-nl-btn" aria-label="{{ s.button_label | default: 'Subscribe' | escape }}">
+ <span class="pf-nl-btn__label">{{ s.button_label | default: 'Subscribe' | escape }}</span>
+ <span class="pf-nl-btn__spinner" aria-hidden="true"></span>
+ </button>
+ {%- endform -%}
+
+ <div class="pf-nl-feedback" role="status" aria-live="polite">
+ {%- if form.posted_successfully? -%}
+ {{ s.success_message | default: 'Thank you for subscribing!' | escape }}
+ {%- endif -%}
+ </div>
+
+ {%- if s.privacy_note != blank -%}
+ <p class="pf-nl-note">{{ s.privacy_note | escape }}</p>
+ {%- endif -%}
+ </div>
+ </div>
+ </div>
+ </div>
+</section>
+
+{% schema %}
+{
+ "name": "UC Newsletter banner",
+ "tag": "section",
+ "class": "section section-uc-newsletter-banner",
+ "disabled_on": { "groups": ["header", "footer"] },
+ "settings": [
+ { "type": "text", "id": "heading", "label": "Heading", "default": "A Little More Joy in Your Inbox" },
+ { "type": "textarea", "id": "description", "label": "Description", "default": "Discover new arrivals, thoughtful gift ideas and playful inspiration." },
+ { "type": "checkbox", "id": "show_icon", "label": "Show mail icon", "default": true },
+ { "type": "text", "id": "placeholder", "label": "Email placeholder", "default": "Your email address" },
+ { "type": "text", "id": "button_label", "label": "Button label", "default": "Subscribe" },
+ { "type": "text", "id": "success_message", "label": "Success message", "default": "Thanks for subscribing." },
+ { "type": "text", "id": "privacy_note", "label": "Privacy note", "default": "Unsubscribe anytime." },
+ { "type": "color", "id": "banner_bg", "label": "Banner background", "default": "#C98770" },
+ { "type": "color", "id": "text_color", "label": "Text colour", "default": "#FFFDF8" },
+ { "type": "range", "id": "banner_radius", "label": "Banner radius", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 16 },
+ { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 48 },
+ { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 64 },
+ { "type": "color_scheme", "id": "color_scheme", "label": "Colour scheme", "default": "scheme-1" },
+ { "type": "checkbox", "id": "use_global_colors", "label": "Use global brand colors", "default": true }
+ ],
+ "presets": [{ "name": "UC Newsletter banner" }, { "name": "About - Newsletter", "settings": { "heading": "Join the UNIK Care circle" } }]
+}
+{% endschema %}

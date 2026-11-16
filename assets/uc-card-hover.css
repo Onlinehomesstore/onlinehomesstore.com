@@ -1,0 +1,136 @@
+/* =============================================================================
+   UC Global Card Hover — lift without cropping OR rectangular shadow bases
+   ============================================================================= */
+
+/* Soft vertical room for lift — keep horizontal scroll intact, no overflow glitch */
+.pvr__viewport {
+  overflow: hidden;
+}
+
+.pvr__track {
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  padding-top: 4px !important;
+  padding-bottom: 12px !important;
+  margin-top: 0;
+  /* Kill fake “ledge” from scrollport / shadow stacking */
+  background: transparent !important;
+  box-shadow: none !important;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+.category-showcase__grid,
+.product-grid,
+.grid.product-grid,
+.prel__grid,
+.product-grid-container,
+#product-grid,
+.pps__grid,
+.csc__grid,
+.pf-showcase__grid {
+  overflow: visible;
+}
+
+.uc-3d-scene,
+.product-card-wrapper,
+.grid__item,
+.pvr__cell,
+.pvr-card {
+  overflow: visible;
+}
+
+/* Reels: filter shadow only. Product/editorial cards use soft blog-style box-shadow. */
+.pvr-card__media {
+  box-shadow: none !important;
+}
+
+.pf-card,
+.cs-card,
+.pc-card,
+.vr-card,
+.pt-card,
+.uc-blog-card__link {
+  box-shadow: 0 4px 20px rgba(26, 24, 20, 0.04) !important;
+}
+
+.pvr-card__media {
+  overflow: hidden;
+  background: transparent;
+  border: 0;
+  box-shadow: 0 4px 20px rgba(26, 24, 20, 0.06);
+  transition: transform 300ms ease, box-shadow 300ms ease;
+}
+
+.pvr-card:hover .pvr-card__media {
+  transform: translate3d(0, -3px, 0);
+  box-shadow: 0 12px 32px rgba(26, 24, 20, 0.1);
+  filter: none;
+}
+
+/* Section shells: neutralize unintended base panels */
+.pvr,
+.pvr__inner,
+.pf-showcase,
+.category-showcase,
+.shopify-section .uc-sec__container {
+  box-shadow: none;
+}
+
+.pvr::before,
+.pvr::after,
+.pvr__viewport::before,
+.pvr__viewport::after,
+.pvr__track::before,
+.pvr__track::after {
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .pc-card:not(.uc-3d-card):not(:has(.pc-card__img--hover)),
+  .cs-card:not(.uc-3d-card),
+  .card-wrapper .card,
+  .article-card-wrapper,
+  .ubp__card,
+  .vr-card,
+  .pt-card,
+  .uc-feature-card,
+  .ufc-card,
+  .collection-card,
+  .uc-blog-card {
+    transition: transform 300ms ease, border-color 300ms ease;
+  }
+
+  .pc-card:not(.uc-3d-card):not(:has(.pc-card__img--hover)):hover,
+  .cs-card:not(.uc-3d-card):hover,
+  .card-wrapper:hover .card,
+  .article-card-wrapper:hover,
+  .ubp__card:hover,
+  .vr-card:hover,
+  .pt-card:hover,
+  .uc-feature-card:hover,
+  .ufc-card:hover,
+  .collection-card:hover,
+  .uc-blog-card:hover,
+  .pf-showcase[data-hover='true'] .pf-card:hover {
+    transform: translate3d(0, -3px, 0);
+    box-shadow: 0 12px 32px rgba(26, 24, 20, 0.08) !important;
+    border-color: rgba(182, 138, 53, 0.28);
+  }
+
+  /* Cards with second-image swap: no lift (prevents jerk) */
+  .pc-card:has(.pc-card__img--hover):hover,
+  .pf-showcase[data-secondary='true'] .pf-card:hover {
+    transform: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pvr-card__media,
+  .pc-card,
+  .cs-card {
+    transition: none !important;
+    filter: none !important;
+  }
+}

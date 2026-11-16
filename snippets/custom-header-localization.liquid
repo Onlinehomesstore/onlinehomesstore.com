@@ -1,0 +1,44 @@
+{% comment %}
+  Compact language / country selector for the premium header.
+
+  Accepts:
+  - enable_language:  {Boolean}
+  - enable_country:   {Boolean}
+  - form_id_prefix:   {String}  Unique prefix for form ids
+{% endcomment %}
+
+{%- liquid
+  assign lang_on = enable_language | default: false
+  assign country_on = enable_country | default: false
+  assign prefix = form_id_prefix | default: 'Header'
+  assign country_form_id = prefix | append: 'CountryForm'
+  assign language_form_id = prefix | append: 'LanguageForm'
+  assign country_pos = prefix | append: 'Country'
+  assign language_pos = prefix | append: 'Language'
+-%}
+
+{%- if lang_on or country_on -%}
+  <div class="ch-localization">
+    {%- if country_on and localization.available_countries.size > 1 -%}
+      <localization-form class="ch-localization__form-wrap">
+        {%- form 'localization', id: country_form_id, class: 'ch-localization__form' -%}
+          <div class="ch-localization__field">
+            <span class="ch-visually-hidden" id="{{ prefix }}CountryLabel">{{ 'localization.country_label' | t }}</span>
+            {%- render 'country-localization', localPosition: country_pos -%}
+          </div>
+        {%- endform -%}
+      </localization-form>
+    {%- endif -%}
+
+    {%- if lang_on and localization.available_languages.size > 1 -%}
+      <localization-form class="ch-localization__form-wrap">
+        {%- form 'localization', id: language_form_id, class: 'ch-localization__form' -%}
+          <div class="ch-localization__field">
+            <span class="ch-visually-hidden" id="{{ prefix }}LanguageLabel">{{ 'localization.language_label' | t }}</span>
+            {%- render 'language-localization', localPosition: language_pos -%}
+          </div>
+        {%- endform -%}
+      </localization-form>
+    {%- endif -%}
+  </div>
+{%- endif -%}

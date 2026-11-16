@@ -1,0 +1,126 @@
+/*
+ * ------------------------------------------------------------
+ * Online Homes Store — Header group
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.header.name",
+  "type": "header",
+  "sections": {
+    "ohs_announcement": {
+      "type": "ohs-announcement-bar",
+      "blocks": {
+        "a1": {
+          "type": "announcement",
+          "settings": {
+            "text": "Discover something special for little ones."
+          }
+        },
+        "a2": {
+          "type": "announcement",
+          "settings": {
+            "text": "Thoughtful toys for growing minds."
+          }
+        },
+        "a3": {
+          "type": "announcement",
+          "settings": {
+            "text": "Explore our latest arrivals.",
+            "link": "/collections/new-arrivals"
+          }
+        }
+      },
+      "block_order": ["a1", "a2", "a3"],
+      "settings": {
+        "background": "#F8F5EE",
+        "text_color": "#777D78"
+      }
+    },
+    "header": {
+      "type": "header",
+      "disabled": true,
+      "settings": {
+        "logo_position": "middle-left",
+        "mobile_logo_position": "center",
+        "menu": "main-menu",
+        "menu_type_desktop": "dropdown",
+        "sticky_header_type": "on-scroll-up",
+        "show_line_separator": true,
+        "color_scheme": "scheme-1",
+        "menu_color_scheme": "scheme-1",
+        "enable_country_selector": true,
+        "enable_language_selector": true,
+        "enable_customer_avatar": true,
+        "margin_bottom": 0,
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "uc_premium_header": {
+      "type": "uc-premium-header",
+      "name": "OHS Premium Header",
+      "settings": {
+        "logo_invert_on_transparent": false,
+        "logo_width": 100,
+        "logo_width_mobile": 90,
+        "menu": "main-menu",
+        "nav_font_size": 14,
+        "nav_font_weight": "500",
+        "nav_gap": 4,
+        "nav_shape": "pill",
+        "max_width": 1320,
+        "bar_height": 58,
+        "bar_height_mobile": 54,
+        "enable_sticky": true,
+        "enable_scroll_hide": true,
+        "enable_transparent": false,
+        "enable_glass_scroll": true,
+        "glass_blur": 16,
+        "solid_bg": "#FFFDF8",
+        "glass_bg": "rgba(255,253,248,0.94)",
+        "glass_border": "rgba(41,45,43,0.06)",
+        "text_color": "#292D2B",
+        "text_color_transparent": "#ffffff",
+        "text_color_scroll": "#292D2B",
+        "accent_color": "#C98770",
+        "nav_active_bg": "#F8DDD0",
+        "nav_active_text": "#B0725C",
+        "enable_search": true,
+        "search_placeholder": "Search baby toys, gifts...",
+        "enable_wishlist": true,
+        "wishlist_label": "Wishlist",
+        "wishlist_url": "/pages/wishlist",
+        "wishlist_storage_key": "ohs:wishlist",
+        "enable_cart_drawer": false,
+        "cart_badge_bg": "#C98770",
+        "cart_badge_text": "#ffffff",
+        "enable_account": true,
+        "enable_cta": false,
+        "cta_label": "Shop Now",
+        "cta_url": "/collections/all",
+        "cta_bg": "#C98770",
+        "cta_text": "#ffffff",
+        "enable_language": false,
+        "enable_country": false,
+        "account_link_mode": "classic",
+        "icon_size": 20,
+        "icon_gap": 6,
+        "transition_duration": 450,
+        "drawer_width": 360,
+        "enable_float_capsule": true,
+        "float_margin_top": 20,
+        "float_margin_x": 16,
+        "capsule_radius": "16",
+        "glass_opacity": 90,
+        "shadow_opacity": 8,
+        "shadow_spread": 22,
+        "enable_shrink_scroll": true
+      }
+    }
+  },
+  "order": [
+    "ohs_announcement",
+    "header",
+    "uc_premium_header"
+  ]
+}

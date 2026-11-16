@@ -1,0 +1,31 @@
+{%- comment -%}
+  Dual-lane infinite review stream.
+  family: uc-review-cards family key
+  row_a / row_b: which card rows feed each lane (default 1 and 2)
+{%- endcomment -%}
+{%- liquid
+  assign lane_a_row = row_a | default: 1
+  assign lane_b_row = row_b | default: 2
+-%}
+{%- capture lane_a_cards -%}
+  {%- render 'uc-review-cards', family: family, row: lane_a_row -%}
+{%- endcapture -%}
+{%- capture lane_b_cards -%}
+  {%- render 'uc-review-cards', family: family, row: lane_b_row -%}
+{%- endcapture -%}
+<div class="uc-rev-stream" data-uc-reviews-stream data-upr-grid>
+  <div class="uc-rev-stream__mask">
+    <div class="uc-rev-stream__lane">
+      <div class="uc-rev-stream__track">
+        <div class="uc-rev-stream__half">{{ lane_a_cards }}</div>
+        <div class="uc-rev-stream__half" aria-hidden="true">{{ lane_a_cards }}</div>
+      </div>
+    </div>
+    <div class="uc-rev-stream__lane uc-rev-stream__lane--alt">
+      <div class="uc-rev-stream__track">
+        <div class="uc-rev-stream__half">{{ lane_b_cards }}</div>
+        <div class="uc-rev-stream__half" aria-hidden="true">{{ lane_b_cards }}</div>
+      </div>
+    </div>
+  </div>
+</div>

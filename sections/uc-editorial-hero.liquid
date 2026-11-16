@@ -1,0 +1,319 @@
+{%- comment -%}
+ UC Editorial Hero - full-bleed overlay banner slideshow. Namespace: ueh.
+ Each block = one slide with its own image, copy, buttons and text position.
+{%- endcomment -%}
+{{ 'uc-editorial-hero.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'uc-editorial-hero.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+ assign s = section.settings
+ assign uid = section.id
+ assign slide_count = section.blocks.size
+ assign is_slider = false
+ if slide_count > 1
+ assign is_slider = true
+ endif
+
+ assign overlay_dir = 'to right'
+ case s.overlay_direction
+ when 'left'
+ assign overlay_dir = 'to left'
+ when 'top'
+ assign overlay_dir = 'to top'
+ when 'bottom'
+ assign overlay_dir = 'to bottom'
+ when 'full'
+ assign overlay_dir = 'full'
+ endcase
+
+ assign lcp_img = blank
+ if section.blocks.size > 0
+   assign lcp_img = section.blocks.first.settings.image
+ endif
+-%}
+
+{%- if lcp_img != blank and request.page_type == 'index' -%}
+  <link rel="preload" as="image" href="{{ lcp_img | image_url: width: 1800 }}" imagesrcset="{{ lcp_img | image_url: width: 800 }} 800w, {{ lcp_img | image_url: width: 1200 }} 1200w, {{ lcp_img | image_url: width: 1800 }} 1800w" imagesizes="100vw" fetchpriority="high">
+{%- endif -%}
+
+{%- style -%}
+ #Ueh-{{ uid }} {
+ --ueh-max: {{ s.container_width | default: 1920 }}px;
+ --ueh-radius: {{ s.corner_radius | default: 24 }}px;
+ --ueh-h: {{ s.height_desktop | default: 900 }}px;
+ --ueh-h-t: {{ s.height_tablet | default: 700 }}px;
+ --ueh-h-m: {{ s.height_mobile | default: 620 }}px;
+ --ueh-pad-x: {{ s.gutter | default: 8 }}px;
+ --ueh-header-gap: {{ s.header_gap | default: 0 }}px;
+ --ueh-copy-max: {{ s.content_width | default: 520 }}px;
+ --ueh-accent: {{ s.accent_color | default: '#B68A35' }};
+ --ueh-overlay-opacity: {{ s.overlay_opacity | default: 35 | divided_by: 100.0 }};
+ --ueh-h-size: {{ s.heading_size | default: 32 }}px;
+ --ueh-desc-size: 15px;
+ --ueh-slide-dur: {{ s.transition_speed | default: 700 }}ms;
+ }
+ @media screen and (max-width: 749px) {
+   #Ueh-{{ uid }} { --ueh-h-size: {{ s.heading_size_mobile | default: 26 }}px; }
+ }
+ {%- if overlay_dir == 'full' -%}
+ #Ueh-{{ uid }} .ueh__overlay { --ueh-overlay-bg: linear-gradient(180deg, rgba(0,0,0,0.15), rgba(0,0,0,0.55)); }
+ {%- else -%}
+ #Ueh-{{ uid }} .ueh__overlay { --ueh-overlay-bg: linear-gradient({{ overlay_dir }}, rgba(0,0,0,0.6), rgba(0,0,0,0) 62%); }
+ {%- endif -%}
+{%- endstyle -%}
+
+<uc-editorial-hero
+ id="Ueh-{{ uid }}"
+ class="ueh{% if is_slider %} ueh--slider{% else %} ueh--single{% endif %}{% if s.ken_burns %} ueh--kenburns{% endif %}"
+ data-autoplay="{{ s.autoplay }}"
+ data-interval="{{ s.autoplay_speed | default: 6 | times: 1000 }}"
+>
+ <div class="ueh__frame">
+ <div class="ueh__viewport" data-ueh-viewport>
+ <div class="ueh__track" data-ueh-track>
+ {%- for block in section.blocks -%}
+ {%- liquid
+ assign b = block.settings
+ assign pos = b.text_position | default: 'bl'
+ assign img_d = b.image
+ -%}
+ <div class="ueh__slide" data-ueh-slide {{ block.shopify_attributes }} style="--ueh-focal: {{ b.focal_point | default: 'center center' }};">
+ <div class="ueh__media">
+ {%- if img_d != blank -%}
+ {%- liquid
+ assign ueh_alt = img_d.alt | default: shop.name | escape
+ -%}
+ <picture>
+ {%- if b.image_mobile != blank -%}
+ <source
+ media="(max-width: 749px)"
+ srcset="{{ b.image_mobile | image_url: width: 600 }} 600w, {{ b.image_mobile | image_url: width: 900 }} 900w, {{ b.image_mobile | image_url: width: 1200 }} 1200w"
+ sizes="100vw"
+ >
+ {%- endif -%}
+ {%- if b.image_tablet != blank -%}
+ <source
+ media="(min-width: 750px) and (max-width: 1199px)"
+ srcset="{{ b.image_tablet | image_url: width: 1000 }} 1000w, {{ b.image_tablet | image_url: width: 1400 }} 1400w, {{ b.image_tablet | image_url: width: 1800 }} 1800w"
+ sizes="100vw"
+ >
+ {%- endif -%}
+ <img
+ class="ueh__img"
+ src="{{ img_d | image_url: width: 1800 }}"
+ srcset="{{ img_d | image_url: width: 800 }} 800w, {{ img_d | image_url: width: 1200 }} 1200w, {{ img_d | image_url: width: 1800 }} 1800w, {{ img_d | image_url: width: 2400 }} 2400w"
+ sizes="100vw"
+ width="{{ img_d.width }}"
+ height="{{ img_d.height }}"
+ alt="{{ ueh_alt }}"
+ style="object-position: {{ b.focal_point | default: 'center center' }};"
+ {% if forloop.first %}fetchpriority="high" decoding="sync"{% else %}loading="lazy" decoding="async"{% endif %}
+ >
+ </picture>
+ {%- else -%}
+ <div class="ueh__img ueh__img--placeholder" aria-hidden="true"></div>
+ {%- endif -%}
+ </div>
+
+ {%- if s.enable_overlay and img_d != blank -%}
+ <div class="ueh__overlay" aria-hidden="true"></div>
+ {%- endif -%}
+
+ {%- liquid
+ assign ueh_text_d = b.text_color | default: '#ffffff'
+ assign ueh_text_m = b.text_color_mobile | default: '#171717'
+ -%}
+ <div class="ueh__content ueh__content--{{ pos }}{% if img_d == blank %} ueh__content--on-cream{% endif %}"{% if img_d != blank %} data-uc-theme-text style="{% render 'uc-theme-text-vars', text: ueh_text_d, text_mobile: ueh_text_m %}--ueh-text: var(--uc-theme-text);"{% else %} style="--ueh-text: #171717;"{% endif %}>
+ <div class="ueh__copy">
+ {%- if b.subheading != blank -%}
+ <p class="ueh__eyebrow">{{ b.subheading | escape }}</p>
+ {%- endif -%}
+ {%- if b.heading != blank -%}
+ <h2 class="ueh__heading{% if b.heading_mobile != blank %} ueh__heading--has-mobile{% endif %}">{{ b.heading }}</h2>
+ {%- endif -%}
+ {%- if b.heading_mobile != blank -%}
+ <h2 class="ueh__heading ueh__heading--mobile">{{ b.heading_mobile }}</h2>
+ {%- endif -%}
+ {%- if b.description != blank -%}
+ <p class="ueh__desc">{{ b.description | escape }}</p>
+ {%- endif -%}
+ {%- if b.button_label != blank or b.button2_label != blank -%}
+ <div class="ueh__actions">
+ {%- if b.button_label != blank -%}
+ <a class="ueh__btn ueh__btn--primary" href="{{ b.button_link | default: '#' }}">{{ b.button_label | escape }}</a>
+ {%- endif -%}
+ {%- if b.button2_label != blank -%}
+ <a class="ueh__btn ueh__btn--glass" href="{{ b.button2_link | default: '#' }}">{{ b.button2_label | escape }}</a>
+ {%- endif -%}
+ </div>
+ {%- endif -%}
+ </div>
+ </div>
+ </div>
+ {%- else -%}
+ <div class="ueh__slide is-active" data-ueh-slide>
+ <div class="ueh__media"><div class="ueh__img ueh__img--placeholder" aria-hidden="true"></div></div>
+ <div class="ueh__content ueh__content--bl ueh__content--on-cream" style="--ueh-text: #171717;">
+ <div class="ueh__copy">
+ <h2 class="ueh__heading">Add a slide to begin</h2>
+ <p class="ueh__desc">Use the theme editor to add hero slides with images, headings and buttons.</p>
+ </div>
+ </div>
+ </div>
+ {%- endfor -%}
+ </div>
+
+ {%- if is_slider and s.show_arrows -%}
+ <button type="button" class="ueh__arrow ueh__arrow--prev" data-ueh-prev aria-label="Previous slide">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+ </button>
+ <button type="button" class="ueh__arrow ueh__arrow--next" data-ueh-next aria-label="Next slide">
+ <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+ </button>
+ {%- endif -%}
+
+ {%- if is_slider and s.show_dots -%}
+ <div class="ueh__dots" role="group" aria-label="Hero slides">
+ {%- for block in section.blocks -%}
+ <button type="button" class="ueh__dot{% if forloop.first %} is-active{% endif %}" data-ueh-dot aria-label="Go to slide {{ forloop.index }}" aria-current="{% if forloop.first %}true{% else %}false{% endif %}"></button>
+ {%- endfor -%}
+ </div>
+ {%- endif -%}
+ </div>
+ </div>
+</uc-editorial-hero>
+
+{% schema %}
+{
+ "name": "Editorial Hero",
+ "tag": "section",
+ "class": "section section-uc-editorial-hero",
+ "max_blocks": 8,
+ "settings": [
+ { "type": "header", "content": "Layout" },
+ { "type": "range", "id": "container_width", "label": "Max width", "min": 1000, "max": 1920, "step": 20, "unit": "px", "default": 1920 },
+ { "type": "range", "id": "gutter", "label": "Side gutter", "min": 0, "max": 64, "step": 2, "unit": "px", "default": 8 },
+ { "type": "range", "id": "header_gap", "label": "Gap under header", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 0, "info": "Extra space between the floating header and the banner. Keep at 0 for the tightest look." },
+ { "type": "range", "id": "corner_radius", "label": "Corner radius", "min": 0, "max": 48, "step": 2, "unit": "px", "default": 24 },
+ { "type": "range", "id": "height_desktop", "label": "Height - desktop", "min": 320, "max": 1000, "step": 10, "unit": "px", "default": 720 },
+ { "type": "range", "id": "height_tablet", "label": "Height - laptop / tablet", "min": 280, "max": 900, "step": 10, "unit": "px", "default": 560 },
+ { "type": "range", "id": "height_mobile", "label": "Height - mobile", "min": 260, "max": 820, "step": 10, "unit": "px", "default": 480 },
+ { "type": "range", "id": "content_width", "label": "Content max width", "min": 320, "max": 720, "step": 20, "unit": "px", "default": 560 },
+ {
+ "type": "paragraph",
+ "content": "Recommended banner image sizes (upload at 2× for retina): Desktop 1920×820px · Laptop 1440×720px · Mobile 750×1120px. Images use cover crop - keep the focal subject centered or set Focal point below."
+ },
+
+ { "type": "header", "content": "Overlay" },
+ { "type": "checkbox", "id": "enable_overlay", "label": "Enable overlay", "default": true },
+ { "type": "range", "id": "overlay_opacity", "label": "Overlay opacity", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 35 },
+ {
+ "type": "select", "id": "overlay_direction", "label": "Overlay direction", "default": "right",
+ "options": [
+ { "value": "right", "label": "From left edge" },
+ { "value": "left", "label": "From right edge" },
+ { "value": "bottom", "label": "From top" },
+ { "value": "top", "label": "From bottom" },
+ { "value": "full", "label": "Full darken" }
+ ]
+ },
+
+ { "type": "header", "content": "Typography" },
+ { "type": "range", "id": "heading_size", "label": "Heading size - desktop", "min": 32, "max": 88, "step": 2, "unit": "px", "default": 58 },
+ { "type": "range", "id": "heading_size_mobile", "label": "Heading size - mobile", "min": 24, "max": 56, "step": 2, "unit": "px", "default": 34 },
+ { "type": "color", "id": "accent_color", "label": "Primary button color", "default": "#B68A35" },
+
+ { "type": "header", "content": "Slideshow" },
+ { "type": "checkbox", "id": "autoplay", "label": "Auto-rotate slides", "default": true },
+ { "type": "range", "id": "autoplay_speed", "label": "Seconds per slide", "min": 3, "max": 12, "step": 1, "unit": "s", "default": 6 },
+ { "type": "range", "id": "transition_speed", "label": "Transition speed", "min": 300, "max": 1200, "step": 50, "unit": "ms", "default": 700 },
+ { "type": "checkbox", "id": "show_arrows", "label": "Show arrows", "default": true },
+ { "type": "checkbox", "id": "show_dots", "label": "Show dots", "default": true },
+ { "type": "checkbox", "id": "ken_burns", "label": "Slow zoom (Ken Burns)", "default": false }
+ ],
+ "blocks": [
+ {
+ "type": "slide",
+ "name": "Slide",
+ "settings": [
+ { "type": "header", "content": "Media" },
+ {
+ "type": "paragraph",
+ "content": "DESKTOP image - recommended: 1920 × 820 px (or 2400 × 1024). Used from 1200px width up."
+ },
+ {
+ "type": "image_picker",
+ "id": "image",
+ "label": "Image - desktop (1920×820)"
+ },
+ {
+ "type": "paragraph",
+ "content": "LAPTOP / TABLET image - recommended: 1400 × 780 px. Used between 750px and 1199px. Falls back to desktop if empty."
+ },
+ {
+ "type": "image_picker",
+ "id": "image_tablet",
+ "label": "Image - laptop / tablet (1400×780)"
+ },
+ {
+ "type": "paragraph",
+ "content": "MOBILE image - recommended: 750 × 1120 px (portrait). Falls back to desktop if empty."
+ },
+ {
+ "type": "image_picker",
+ "id": "image_mobile",
+ "label": "Image - mobile (750×1120)"
+ },
+ {
+ "type": "select", "id": "focal_point", "label": "Image focal point", "default": "center center",
+ "options": [
+ { "value": "center center", "label": "Center" },
+ { "value": "center top", "label": "Top" },
+ { "value": "center bottom", "label": "Bottom" },
+ { "value": "left center", "label": "Left" },
+ { "value": "right center", "label": "Right" }
+ ]
+ },
+
+ { "type": "header", "content": "Content" },
+ { "type": "text", "id": "subheading", "label": "Subheading / eyebrow" },
+ { "type": "richtext", "id": "heading", "label": "Heading", "default": "<p>Beautiful colour. Made beautifully simple.</p>" },
+ { "type": "text", "id": "heading_mobile", "label": "Mobile heading override", "info": "Optional shorter heading for small screens." },
+ { "type": "textarea", "id": "description", "label": "Description" },
+ { "type": "header", "content": "Text colours by device" },
+ { "type": "color", "id": "text_color", "label": "Text colour (desktop)", "default": "#FFFFFF" },
+ { "type": "color", "id": "text_color_mobile", "label": "Text colour (mobile)", "default": "#171717", "info": "Mobile shows copy below the image on a white panel. Use a dark colour for readability." },
+ {
+ "type": "select", "id": "text_position", "label": "Text position", "default": "bl",
+ "options": [
+ { "value": "tl", "label": "Top left" },
+ { "value": "tc", "label": "Top center" },
+ { "value": "tr", "label": "Top right" },
+ { "value": "cl", "label": "Middle left" },
+ { "value": "cc", "label": "Middle center" },
+ { "value": "cr", "label": "Middle right" },
+ { "value": "bl", "label": "Bottom left" },
+ { "value": "bc", "label": "Bottom center" },
+ { "value": "br", "label": "Bottom right" }
+ ]
+ },
+
+ { "type": "header", "content": "Buttons" },
+ { "type": "text", "id": "button_label", "label": "Primary button", "default": "Shop Now" },
+ { "type": "url", "id": "button_link", "label": "Primary button link" },
+ { "type": "text", "id": "button2_label", "label": "Secondary button" },
+ { "type": "url", "id": "button2_link", "label": "Secondary button link" }
+ ]
+ }
+ ],
+ "presets": [
+ {
+ "name": "Editorial Hero",
+ "blocks": [
+ { "type": "slide" },
+ { "type": "slide" }
+ ]
+ }
+ ]
+}
+{% endschema %}

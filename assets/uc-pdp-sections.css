@@ -1,0 +1,645 @@
+/*
+  uc-pdp-sections.css — Product page section polish (desktop/laptop + mobile)
+*/
+
+/* PDP pills inherit site-wide uc-type-system rules */
+
+/* ── Hero typography consistency ───────────────────────────────────────── */
+.template-product .pph__col--summary {
+  gap: clamp(10px, 1.2vw, 16px) !important;
+}
+
+.template-product .pph__post-buy {
+  gap: clamp(12px, 1.4vw, 16px) !important;
+  margin-top: clamp(6px, 0.8vw, 12px) !important;
+}
+
+.template-product .pph__price-block {
+  margin-bottom: 0 !important;
+}
+
+.template-product .pph__tax-info,
+.template-product .pph__installment {
+  margin-top: 2px !important;
+}
+
+.template-product .pph__title {
+  max-width: none !important;
+}
+
+.template-product .pph__subtitle {
+  max-width: none !important;
+}
+
+.template-product .pph__price {
+  font-size: 22px !important;
+}
+
+.template-product .pph__tax-info,
+.template-product .pph__installment,
+.template-product .pph__stock {
+  font-size: 16px !important;
+  line-height: 1.5 !important;
+}
+
+/* ── Desktop / laptop hero — 50 / 50 balance ───────────────────────────── */
+@media screen and (min-width: 990px) {
+  .template-product .pph__inner {
+    grid-template-columns: minmax(0, var(--pph-gallery-col, 50%)) minmax(0, var(--pph-info-col, 50%)) !important;
+    gap: clamp(28px, 3.5vw, 48px) !important;
+    align-items: start !important;
+  }
+
+  .template-product .pph__col--gallery {
+    position: relative !important;
+    top: auto !important;
+    width: 100%;
+    min-width: 0;
+    z-index: 1;
+  }
+
+  .template-product .pph-gallery__shell[data-pph-gallery-parallax] {
+    transform: none !important;
+  }
+
+  .template-product .pph-gallery__viewport {
+    max-height: calc(100svh - var(--uc-phdr-offset, 80px) - 72px);
+    will-change: auto;
+  }
+
+  .template-product .pph__col--summary {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .template-product .pph__delivery-card {
+    min-height: 104px;
+  }
+}
+
+/* ── Centered section headers on PDP ───────────────────────────────────── */
+.template-product .hiw .category-showcase__header,
+.template-product .upr .category-showcase__header,
+.template-product .pct .category-showcase__header {
+  grid-template-columns: 1fr !important;
+  justify-items: center !important;
+  text-align: center !important;
+  max-width: 100%;
+  margin-inline: auto !important;
+}
+
+.template-product .hiw .category-showcase__heading-group,
+.template-product .upr .category-showcase__heading-group,
+.template-product .pct .category-showcase__heading-group {
+  max-width: 100% !important;
+  align-items: center !important;
+  text-align: center !important;
+}
+
+.template-product .hiw .category-showcase__intro,
+.template-product .upr .category-showcase__intro {
+  margin-inline: auto !important;
+  text-align: center !important;
+}
+
+/* ── WHAT IS INSIDE (pi) — split layout + 2×2 ingredient grid ───────────── */
+.template-product .pi__inner {
+  align-items: start !important;
+}
+
+.template-product .pi .category-showcase__header,
+.template-product .pi__header {
+  text-align: left !important;
+  margin-bottom: var(--uc-space-desc-to-content, 28px) !important;
+}
+
+.template-product .pi .category-showcase__label {
+  display: inline-flex !important;
+  width: fit-content !important;
+  margin: 0 !important;
+}
+
+.template-product .pi .category-showcase__intro,
+.template-product .pi__subtitle {
+  max-width: 100% !important;
+}
+
+.template-product .pi__grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 12px !important;
+  margin-top: 0 !important;
+}
+
+.template-product .pi__card {
+  background: #fff !important;
+  border: 1px solid rgba(42, 42, 42, 0.08) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 8px 22px rgba(26, 22, 18, 0.04) !important;
+}
+
+.template-product .pi__card-trigger {
+  padding: 14px 12px !important;
+  gap: 10px !important;
+}
+
+.template-product .pi__card-img-wrap {
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 12px !important;
+  background: rgba(182, 138, 53, 0.08) !important;
+}
+
+.template-product .pi__card-name {
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: unset !important;
+  color: #2a2a2a !important;
+}
+
+.template-product .pi__card-sci {
+  white-space: normal !important;
+}
+
+.template-product .pi__media {
+  overflow: hidden !important;
+  isolation: isolate;
+  border-radius: 22px !important;
+  box-shadow: 0 16px 44px rgba(26, 22, 18, 0.1) !important;
+  background: linear-gradient(145deg, #f7f2e9 0%, #efe6d8 100%);
+}
+
+/* ── HOW IT WORKS (hiw) — clear step cards, no duplicate focus panel ─────── */
+.template-product .hiw {
+  background: transparent !important;
+}
+
+.template-product .hiw .category-showcase__header,
+.template-product .hiw__header {
+  margin-bottom: var(--uc-space-desc-to-content, 28px) !important;
+}
+
+.template-product .hiw__timeline {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  gap: clamp(10px, 1.4vw, 14px) !important;
+  grid-template-columns: repeat(var(--hiw-step-count, 5), minmax(0, 1fr)) !important;
+}
+
+.template-product .hiw__line-track {
+  display: none !important;
+}
+
+.template-product .hiw__step {
+  padding: clamp(16px, 2vw, 20px) clamp(12px, 1.5vw, 16px) !important;
+  gap: 10px !important;
+  background: #fff !important;
+  border: 1px solid rgba(42, 42, 42, 0.08) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 8px 24px rgba(26, 22, 18, 0.04) !important;
+  align-items: center !important;
+  text-align: center !important;
+  cursor: default !important;
+}
+
+.template-product .hiw__step-head {
+  display: none !important;
+}
+
+.template-product .hiw__step-icon {
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 50% !important;
+  border: 1px solid rgba(182, 138, 53, 0.22) !important;
+  background: rgba(182, 138, 53, 0.1) !important;
+  color: #b68a35 !important;
+  margin-bottom: 4px !important;
+}
+
+.template-product .hiw__step-desc {
+  display: block !important;
+  color: rgba(42, 42, 42, 0.72) !important;
+  max-width: none !important;
+  margin: 0 !important;
+}
+
+.template-product .hiw__step-duration {
+  margin-top: 2px !important;
+}
+
+.template-product .hiw__step-tip {
+  display: none !important;
+}
+
+.template-product .hiw__focus {
+  display: none !important;
+  margin: 0 !important;
+  min-height: 0 !important;
+}
+
+/* ── FIND YOUR FIT (pct) — centered header + readable table ─────────────── */
+.template-product .pct .category-showcase__header,
+.template-product .pct__header {
+  text-align: center !important;
+  justify-items: center !important;
+  max-width: 100% !important;
+  margin-inline: auto !important;
+  margin-bottom: var(--uc-space-desc-to-content, 28px) !important;
+}
+
+.template-product .pct .category-showcase__label {
+  display: inline-flex !important;
+  width: fit-content !important;
+  margin: 0 !important;
+}
+
+.template-product .pct .category-showcase__intro,
+.template-product .pct__subtitle {
+  max-width: 100% !important;
+  margin-inline: auto !important;
+  display: block !important;
+  -webkit-line-clamp: unset !important;
+  overflow: visible !important;
+}
+
+.template-product .pct__table-wrap {
+  max-width: min(100%, 920px) !important;
+  margin-inline: auto !important;
+  border-radius: 20px !important;
+  border: 1px solid rgba(42, 42, 42, 0.08) !important;
+  box-shadow: 0 12px 36px rgba(26, 22, 18, 0.06) !important;
+  background: #fff !important;
+}
+
+.template-product .pct__tr {
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr) !important;
+}
+
+.template-product .pct__th,
+.template-product .pct__td {
+  padding: 14px 18px !important;
+  color: #2a2a2a !important;
+}
+
+.template-product .pct__th--feature {
+  color: rgba(42, 42, 42, 0.55) !important;
+}
+
+.template-product .pct__td--feature {
+  color: #2a2a2a !important;
+}
+
+.template-product .pct__th--ours {
+  padding-block: 16px !important;
+  background: linear-gradient(180deg, rgba(182, 138, 53, 0.08) 0%, rgba(182, 138, 53, 0.02) 100%) !important;
+}
+
+.template-product .pct__td--ours {
+  background: rgba(182, 138, 53, 0.04) !important;
+  font-weight: 600 !important;
+}
+
+.template-product .pct__val--text {
+  color: #2a2a2a !important;
+  text-align: center;
+}
+
+.template-product .pct__val--muted {
+  color: rgba(42, 42, 42, 0.55) !important;
+}
+
+@media screen and (min-width: 990px) {
+  .template-product .hiw__timeline {
+    display: grid !important;
+  }
+}
+
+@media screen and (max-width: 989px) {
+  .template-product .hiw__timeline {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+    padding-left: 0 !important;
+    border-left: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .template-product .hiw__timeline::before {
+    display: none !important;
+  }
+
+  .template-product .hiw__step {
+    display: grid !important;
+    grid-template-columns: 52px minmax(0, 1fr) !important;
+    align-items: center !important;
+    text-align: left !important;
+    gap: 12px 14px !important;
+    padding: 14px 16px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    min-height: 72px !important;
+  }
+
+  .template-product .hiw__step-icon {
+    width: 48px !important;
+    height: 48px !important;
+    margin: 0 !important;
+    grid-row: 1 / span 2 !important;
+  }
+
+  .template-product .hiw__step-body {
+    align-items: flex-start !important;
+    text-align: left !important;
+    gap: 4px !important;
+    min-width: 0 !important;
+  }
+
+  .template-product .hiw__step-title {
+    margin: 0 !important;
+    text-align: left !important;
+  }
+
+  .template-product .hiw__step-duration {
+    justify-self: start !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .template-product .hiw__step-desc {
+    display: none !important;
+  }
+
+  .template-product .hiw__focus {
+    display: none !important;
+  }
+
+  .template-product .pi__grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ── Gallery — no aggressive crop, parallax on viewport ────────────────── */
+.template-product .pph-gallery__viewport {
+  transition: transform 0.12s linear;
+  will-change: transform;
+}
+
+@media screen and (min-width: 990px) {
+  .template-product .pph-gallery__slide {
+    min-height: 0 !important;
+    aspect-ratio: var(--pph-gallery-aspect, 1 / 1);
+  }
+
+  .template-product .pph__col--gallery {
+    align-self: start;
+  }
+
+  .template-product .pph-gallery__viewport {
+    max-height: none !important;
+  }
+}
+
+@media screen and (max-width: 989px) {
+  .template-product .pph__inner {
+    gap: 16px;
+  }
+
+  .template-product .pph-gallery__viewport {
+    max-height: none !important;
+  }
+
+  .template-product .pi__heading {
+    max-width: 100% !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  .template-product .pi__subtitle {
+    max-width: 100% !important;
+  }
+
+  .template-product .pi__grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    overflow: visible !important;
+  }
+
+  .template-product .pi__grid > * {
+    flex: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .template-product .pi__card {
+    padding: 0 !important;
+  }
+}
+
+/* ── Quantity number — readable, not tiny ────────────────────────────────── */
+.template-product .pph__qty-input {
+  width: 52px !important;
+  min-width: 52px !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+}
+
+/* ── HOW IT WORKS — clean single-marker cards (legacy block removed) ───── */
+
+/* ── Reviews — centered head ───────────────────────────────────────────── */
+.template-product .upr__head {
+  margin-bottom: var(--uc-space-desc-to-content, 28px) !important;
+}
+
+@media screen and (max-width: 749px) {
+  .template-product .hiw__timeline {
+    padding: 16px 12px;
+    border-radius: 18px;
+  }
+
+  .template-product .pct__heading {
+    white-space: normal;
+  }
+
+  .template-product .pct__th,
+  .template-product .pct__td {
+    padding: 10px 12px !important;
+  }
+
+  .template-product .pct__tr {
+    grid-template-columns: 1.2fr 1fr 0.9fr !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   MOBILE / TABLET PDP ONLY (≤989) — gallery-first, type, cards, BA
+   Desktop ≥990 untouched.
+   ═══════════════════════════════════════════════════════════════════════ */
+@media screen and (max-width: 989px) {
+  .template-product {
+    --uc-pdp-body: 15px;
+    --uc-pdp-btn: 16px;
+  }
+
+  /* Gallery above buy content (reinforces section CSS) */
+  .template-product .pph__col--gallery { order: 1 !important; }
+  .template-product .pph__col--summary { order: 2 !important; }
+
+  .template-product .pph-gallery {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .template-product .pph-gallery__thumbs {
+    display: flex !important;
+    flex-direction: row !important;
+    order: 2 !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+  }
+
+  /* Typography — sizes live in uc-type-lock.css */
+  .template-product .pph__delivery {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  .template-product .pph__delivery-card {
+    min-height: 0 !important;
+    padding: 14px 12px !important;
+  }
+
+  .template-product .pph__atc,
+  .template-product .pph__buy-fast,
+  .template-product .pph__buy-now,
+  .template-product .sma__atc,
+  .template-product .sma__buy,
+  .template-product .pba__cta-btn,
+  .template-product .pba__cta .uc-btn,
+  .template-product .pba__cta .button {
+    font-size: var(--uc-pdp-btn) !important;
+    font-weight: 700 !important;
+    min-height: 50px !important;
+  }
+
+  /* Real Colour Results */
+  .template-product .pba {
+    padding-block: clamp(28px, 5vw, 40px) !important;
+  }
+
+  .template-product .pba__inner {
+    gap: 18px !important;
+    padding-inline: clamp(16px, 4vw, 24px) !important;
+  }
+
+  .template-product .pba__header {
+    align-items: flex-start !important;
+    text-align: left !important;
+    gap: 10px !important;
+  }
+
+  .template-product .pba__eyebrow {
+    font-size: 11px !important;
+    letter-spacing: 0.12em !important;
+    display: inline-flex !important;
+    width: fit-content !important;
+    margin: 0 !important;
+    color: #b68a35 !important;
+    opacity: 1 !important;
+  }
+
+  .template-product .pba__heading {
+    font-size: 26px !important;
+    line-height: 1.2 !important;
+    text-align: left !important;
+    margin: 0 !important;
+  }
+
+  .template-product .pba__subtitle {
+    max-width: 100% !important;
+    text-align: left !important;
+    margin-inline: 0 !important;
+  }
+
+  .template-product .pba__slide {
+    flex: 0 0 min(92%, 420px) !important;
+  }
+
+  .template-product .pba__caption,
+  .template-product .pba-slide__caption {
+    padding: 16px 14px !important;
+    border-radius: 16px !important;
+    gap: 10px !important;
+  }
+
+  .template-product .pba__quote {
+    font-style: italic !important;
+    font-size: var(--uc-pdp-body) !important;
+  }
+
+  .template-product .pba__cta-btn,
+  .template-product .pba__cta .uc-btn,
+  .template-product .pba__cta .button {
+    width: 100% !important;
+    justify-content: center !important;
+    border-radius: 999px !important;
+  }
+
+  .template-product .pba__ba,
+  .template-product .pba__ba.ba {
+    border-radius: 16px !important;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .template-product .pba__slide {
+    flex: 0 0 88% !important;
+  }
+
+  .template-product .pph-gallery__thumb {
+    flex: 0 0 60px !important;
+    width: 60px !important;
+    height: 60px !important;
+  }
+}
+
+/* ── Unified PDP section rhythm (desktop + laptop) ───────────────────────── */
+@media screen and (min-width: 990px) {
+  .template-product .category-showcase__header,
+  .template-product .uc-sec-header,
+  .template-product .pi .category-showcase__header,
+  .template-product .hiw .category-showcase__header,
+  .template-product .pct .category-showcase__header,
+  .template-product .upr .category-showcase__header,
+  .template-product .prel .category-showcase__header,
+  .template-product .pb .category-showcase__header {
+    margin-bottom: var(--uc-space-desc-to-content, 28px) !important;
+  }
+
+  .template-product .category-showcase__heading-group {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    max-width: 100% !important;
+  }
+
+  .template-product .hiw .category-showcase__header,
+  .template-product .pct .category-showcase__header,
+  .template-product .upr .category-showcase__header {
+    max-width: 100% !important;
+  }
+
+  .template-product .hiw__grid {
+    gap: clamp(12px, 1.2vw, 18px) !important;
+  }
+
+  .template-product .hiw__card,
+  .template-product .hiw__step {
+    padding: clamp(16px, 1.5vw, 22px) !important;
+  }
+
+  .template-product .hiw__step-desc {
+    max-width: none !important;
+  }
+}

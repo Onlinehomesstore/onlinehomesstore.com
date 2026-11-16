@@ -1,0 +1,59 @@
+{%- comment -%}
+  Our Story fallback — when default page template is used instead of our-story.
+{%- endcomment -%}
+{{ 'uc-page-intro.css' | asset_url | stylesheet_tag }}
+{{ 'uc-content-split.css' | asset_url | stylesheet_tag }}
+
+<div class="template-page-our-story uc-os-fallback">
+  <section class="upi uc-sec" data-uc-page-intro>
+    <div class="upi__inner uc-sec__container">
+      <h1 class="upi__title">Our Story</h1>
+      <p class="upi__tagline">Every great colour story begins with confidence. At UNIK CARE, we believe beautiful hair should be simple to achieve. Our products are created to bring professional quality hair colour into everyday life through thoughtful formulas, trusted ingredients and effortless application.</p>
+    </div>
+  </section>
+
+  <section class="ucs ucs--split ucs--split-lock uc-sec">
+    <div class="ucs__inner uc-sec__container">
+      <article class="ucs__row">
+        <div class="ucs__media">{{ 'lifestyle-1' | placeholder_svg_tag: 'ucs__img ucs__img--placeholder' }}</div>
+        <div class="ucs__content">
+          <p class="ucs__eyebrow">OUR BEGINNING</p>
+          <h2 class="ucs__heading">Born from real salon expertise</h2>
+          <div class="ucs__body rte">
+            <p>UNIK CARE began with one clear vision: to make professional hair colour easier to enjoy at home without unnecessary complexity.</p>
+            <p>Every formula is developed with care, tested with purpose and created to help people feel confident every time they colour their hair.</p>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="ucs ucs--statement uc-sec">
+    <div class="ucs__inner uc-sec__container">
+      <article class="ucs__row ucs__row--statement">
+        <div class="ucs__content">
+          <p class="ucs__eyebrow">OUR PHILOSOPHY</p>
+          <h2 class="ucs__heading">Luxury should feel effortless</h2>
+          <div class="ucs__body rte">
+            <p>We believe premium hair care should never feel complicated. Every UNIK CARE product is designed to make colouring your hair a simple part of everyday life.</p>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="ucs ucs--split ucs--split-lock uc-sec">
+    <div class="ucs__inner uc-sec__container">
+      <article class="ucs__row ucs__row--reverse">
+        <div class="ucs__media">{{ 'lifestyle-2' | placeholder_svg_tag: 'ucs__img ucs__img--placeholder' }}</div>
+        <div class="ucs__content">
+          <p class="ucs__eyebrow">OUR MISSION</p>
+          <h2 class="ucs__heading">Making beautiful hair colour easier every day</h2>
+          <div class="ucs__body rte">
+            <p>Our mission is simple: to help more people enjoy beautiful hair colour without depending on expensive salon appointments or complicated routines.</p>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+</div>

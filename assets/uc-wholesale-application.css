@@ -1,0 +1,115 @@
+/*
+  UC Wholesale Application — B2B form (uwa- prefix)
+*/
+
+.uwa__grid {
+  display: grid;
+  gap: clamp(32px, 5vw, 48px);
+}
+
+@media (min-width: 990px) {
+  .uwa__grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    align-items: start;
+  }
+}
+
+.uwa__aside {
+  padding: clamp(24px, 3vw, 32px);
+  border-radius: var(--radius-lg, 20px);
+  background: rgba(var(--color-foreground), 0.03);
+  border: 1px solid rgba(var(--color-foreground), 0.08);
+}
+
+.uwa__list {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.uwa__list-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: var(--uc-text-base);
+  line-height: 1.5;
+  color: rgba(var(--color-foreground), 0.78);
+}
+
+.uwa__list-icon {
+  flex-shrink: 0;
+  color: var(--uwa-accent, var(--uc-color-primary));
+  margin-top: 2px;
+}
+
+.uwa__form-card {
+  padding: clamp(24px, 4vw, 36px);
+  border-radius: var(--radius-lg, 20px);
+  background: rgb(var(--color-background));
+  border: 1px solid rgba(var(--color-foreground), 0.08);
+  box-shadow: var(--shadow-md, 0 12px 32px rgba(0, 0, 0, 0.06));
+}
+
+.uwa__fields {
+  display: grid;
+  gap: 16px;
+}
+
+@media (min-width: 750px) {
+  .uwa__fields--2 {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.uwa__field label {
+  display: block;
+  font-size: var(--uc-text-sm);
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: rgb(var(--color-foreground));
+}
+
+.uwa__field input,
+.uwa__field select,
+.uwa__field textarea {
+  width: 100%;
+  font: inherit;
+  padding: 12px 14px;
+  border-radius: var(--radius-md, 12px);
+  border: 1px solid rgba(var(--color-foreground), 0.15);
+  background: rgb(var(--color-background));
+  color: rgb(var(--color-foreground));
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.uwa__field input:focus,
+.uwa__field select:focus,
+.uwa__field textarea:focus {
+  outline: none;
+  border-color: var(--uwa-accent, var(--uc-color-primary));
+  box-shadow: 0 0 0 3px rgba(var(--color-foreground), 0.06);
+}
+
+.uwa__field textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.uwa__submit {
+  margin-top: 8px;
+  width: 100%;
+}
+
+@media (min-width: 550px) {
+  .uwa__submit { width: auto; }
+}
+
+.uwa__privacy {
+  margin: 12px 0 0;
+  font-size: var(--uc-text-xs);
+  color: rgba(var(--color-foreground), 0.55);
+  line-height: 1.5;
+}

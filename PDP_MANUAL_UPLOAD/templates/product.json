@@ -1,0 +1,663 @@
+{
+  "sections": {
+    "premium_product_hero": {
+      "type": "premium-product-hero",
+      "blocks": {
+        "delivery_1": {
+          "type": "delivery_card",
+          "settings": {
+            "icon": "shield",
+            "heading": "Secure checkout",
+            "description": "Your payment details are protected at checkout."
+          }
+        },
+        "delivery_2": {
+          "type": "delivery_card",
+          "settings": {
+            "icon": "truck",
+            "heading": "Fast delivery",
+            "description": "Shipping options are shown at checkout."
+          }
+        },
+        "delivery_3": {
+          "type": "delivery_card",
+          "settings": {
+            "icon": "shield",
+            "heading": "Easy product information",
+            "description": "Clear details to help you choose with confidence."
+          }
+        }
+      },
+      "block_order": [
+        "delivery_1",
+        "delivery_2",
+        "delivery_3"
+      ],
+      "settings": {
+        "subtitle": "Beautiful colour without the complicated routine. Designed to make at home hair colouring feel simple, convenient and easy to fit into everyday life.",
+        "show_vendor": true,
+        "show_rating": true,
+        "rating_value": "",
+        "review_count": "",
+        "tax_info": "Taxes and shipping calculated at checkout.",
+        "enable_thumbnails": true,
+        "show_image_counter": true,
+        "enable_hover_zoom": true,
+        "show_badge_bestseller": true,
+        "badge_bestseller": "Best Seller",
+        "show_badge_new": false,
+        "badge_new": "New",
+        "show_badge_lowstock": true,
+        "badge_lowstock": "Only a few left",
+        "lowstock_threshold": 5,
+        "atc_text": "Add to Cart",
+        "soldout_text": "Sold out",
+        "atc_radius": 100,
+        "show_buy_now": true,
+        "benefits_heading": "",
+        "max_width": 1280,
+        "col_gap": 48,
+        "border_radius": 18,
+        "padding_top": 24,
+        "padding_bottom": 40,
+        "color_scheme": "scheme-1",
+        "gallery_image_fit": "contain",
+        "show_verified_badge": false,
+        "verified_label": "Verified buyers",
+        "reviews_link": "#ProductReviewForm",
+        "star_color": "#f5a623",
+        "installment_text": "",
+        "show_money_saved": true,
+        "money_saved_label": "You save",
+        "show_stock_line": true,
+        "in_stock_line": "In stock and ready to ship",
+        "low_stock_line": "Only a few left in stock",
+        "out_of_stock_line": "Currently out of stock",
+        "use_benefits_as_highlights": false,
+        "show_benefits_grid": false,
+        "variant_style": "cards",
+        "gallery_col_width": 50,
+        "gallery_aspect_ratio": "1 / 1",
+        "stack_gap": 24,
+        "pad_top_lg": 0,
+        "pad_top_xxl": 0,
+        "container_max_lg": 1280,
+        "container_mode": "boxed",
+        "use_custom_section_styles": false,
+        "h_size_xs": 28,
+        "h_size_lg": 40,
+        "h_size_xxl": 44,
+        "use_global_colors": true,
+        "accent_color": "#b68a35",
+        "eyebrow": "UNIK CARE HAIR COLOUR",
+        "buy_now_text": "Buy Now"
+      }
+    },
+    "product_video_reviews": {
+      "type": "premium-video-reels",
+      "settings": {
+        "label": "WATCH AND SHOP",
+        "heading": "See it in action.",
+        "subtitle": "Watch real colour routines, then shop the shades you love.",
+        "show_divider": false,
+        "heading_alignment": "center",
+        "container_width": "medium",
+        "card_gap": 14,
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "cards_desktop": 4,
+        "cards_laptop": 4,
+        "cards_tablet": 3,
+        "cards_mobile": 2,
+        "cards_small": "1.15",
+        "card_radius": 18,
+        "card_shadow": 16,
+        "glass_effect": true,
+        "enable_hover": false,
+        "autoplay": true,
+        "loop": true,
+        "start_muted": false,
+        "show_arrows": true,
+        "enable_popup": true,
+        "enable_overlay": true,
+        "pagination_style": "dots",
+        "animation_speed": 360,
+        "color_scheme": "scheme-2",
+        "pad_top_lg": 48,
+        "pad_top_xxl": 56,
+        "container_max_lg": 1280,
+        "container_mode": "boxed",
+        "use_custom_section_styles": false,
+        "use_global_colors": true
+      },
+      "blocks": {
+        "reel_1": {
+          "type": "reel",
+          "settings": {
+            "video_url": "https://www.tiktok.com/@unikpromo/video/7541676266819226902?is_from_webapp=1&sender_device=pc&web_id=7667282674911020552",
+            "thumbnail_mode": "auto",
+            "thumbnail_crop": "contain",
+            "thumbnail_position": "center center",
+            "thumbnail_radius": 16,
+            "overlay_gradient_strength": 60,
+            "play_button_style": "glass",
+            "video_height": 420,
+            "button_text": "Add to cart",
+            "badge": "none",
+            "overlay_position": "bottom",
+            "gradient": true,
+            "autoplay": true,
+            "mute": false
+          }
+        },
+        "reel_2": {
+          "type": "reel",
+          "settings": {
+            "video_url": "https://www.tiktok.com/@unikpromo/video/7507391833979260182?is_from_webapp=1&sender_device=pc&web_id=7667282674911020552",
+            "thumbnail_mode": "auto",
+            "thumbnail_crop": "contain",
+            "thumbnail_position": "center center",
+            "thumbnail_radius": 16,
+            "overlay_gradient_strength": 60,
+            "play_button_style": "glass",
+            "video_height": 420,
+            "button_text": "Add to cart",
+            "badge": "none",
+            "overlay_position": "bottom",
+            "gradient": true,
+            "autoplay": true,
+            "mute": false
+          }
+        },
+        "reel_3": {
+          "type": "reel",
+          "settings": {
+            "video_url": "https://www.tiktok.com/@unikpromo/video/7542041614491847958?is_from_webapp=1&sender_device=pc&web_id=7667282674911020552",
+            "thumbnail_mode": "auto",
+            "thumbnail_crop": "contain",
+            "thumbnail_position": "center center",
+            "thumbnail_radius": 16,
+            "overlay_gradient_strength": 60,
+            "play_button_style": "glass",
+            "video_height": 420,
+            "button_text": "Add to cart",
+            "badge": "none",
+            "overlay_position": "bottom",
+            "gradient": true,
+            "autoplay": true,
+            "mute": false
+          }
+        },
+        "reel_4": {
+          "type": "reel",
+          "settings": {
+            "video_url": "https://www.tiktok.com/@unikpromo/video/7488125209917050134?is_from_webapp=1&sender_device=pc&web_id=7667282674911020552",
+            "thumbnail_mode": "auto",
+            "thumbnail_crop": "contain",
+            "thumbnail_position": "center center",
+            "thumbnail_radius": 16,
+            "overlay_gradient_strength": 60,
+            "play_button_style": "glass",
+            "video_height": 420,
+            "button_text": "Add to cart",
+            "badge": "none",
+            "overlay_position": "bottom",
+            "gradient": true,
+            "autoplay": true,
+            "mute": false
+          }
+        }
+      },
+      "block_order": [
+        "reel_1",
+        "reel_2",
+        "reel_3",
+        "reel_4"
+      ]
+    },
+    "product_ba_slider": {
+      "type": "product-ba-slider",
+      "settings": {
+        "heading": "See the transformation.",
+        "subtitle": "Explore real colour results and see how this product can refresh the look of your hair.",
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "color_scheme": "scheme-1",
+        "eyebrow": "REAL COLOUR RESULTS",
+        "image_aspect": "1-1"
+      },
+      "blocks": {
+        "ba_1": {
+          "type": "comparison",
+          "settings": {
+            "customer_name": "",
+            "duration": "",
+            "quote": "Colour results can vary depending on your starting hair colour, previous colour treatments, hair condition and application.",
+            "before_text": "Before",
+            "after_text": "After",
+            "button_label": "Shop this shade"
+          }
+        },
+        "ba_2": {
+          "type": "comparison",
+          "settings": {
+            "customer_name": "",
+            "duration": "",
+            "quote": "Colour results can vary depending on your starting hair colour, previous colour treatments, hair condition and application.",
+            "before_text": "Before",
+            "after_text": "After",
+            "button_label": "Shop this shade"
+          }
+        }
+      },
+      "block_order": [
+        "ba_1",
+        "ba_2"
+      ]
+    },
+    "product_benefits": {
+      "type": "product-benefits",
+      "disabled": true,
+      "settings": {
+        "heading": "Everything you need for a simpler colour routine.",
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "color_scheme": "scheme-2",
+        "eyebrow": "DESIGNED AROUND YOUR ROUTINE",
+        "subtitle": "UNIK CARE products are designed to bring colour, convenience and confidence together in one straightforward experience."
+      },
+      "blocks": {
+        "ben_1": {
+          "type": "benefit_card",
+          "settings": {
+            "icon": "check",
+            "title": "Easy at home application",
+            "description": "Designed to make your colour routine feel simple and approachable.",
+            "badge": ""
+          }
+        },
+        "ben_2": {
+          "type": "benefit_card",
+          "settings": {
+            "icon": "sparkle",
+            "title": "Beautiful colour",
+            "description": "Created to help you achieve a rich, polished colour result.",
+            "badge": ""
+          }
+        },
+        "ben_3": {
+          "type": "benefit_card",
+          "settings": {
+            "icon": "zap",
+            "title": "Convenient format",
+            "description": "Thoughtfully packaged for easy handling and everyday use.",
+            "badge": ""
+          }
+        },
+        "ben_4": {
+          "type": "benefit_card",
+          "settings": {
+            "icon": "heart",
+            "title": "Made for real routines",
+            "description": "Designed to fit naturally into busy everyday life.",
+            "badge": ""
+          }
+        },
+        "ben_5": {
+          "type": "benefit_card",
+          "settings": {
+            "icon": "star",
+            "title": "Clear instructions",
+            "description": "Straightforward product guidance helps you feel more confident from start to finish.",
+            "badge": ""
+          }
+        },
+        "ben_6": {
+          "type": "benefit_card",
+          "settings": {
+            "icon": "shield",
+            "title": "Colour with confidence",
+            "description": "A simple experience for people who want to feel good about their hair colour at home.",
+            "badge": ""
+          }
+        }
+      },
+      "block_order": [
+        "ben_1",
+        "ben_2",
+        "ben_3",
+        "ben_4",
+        "ben_5",
+        "ben_6"
+      ]
+    },
+    "product_ingredients": {
+      "type": "product-ingredients",
+      "settings": {
+        "heading": "Ingredients chosen with purpose.",
+        "subtitle": "Every formula has a reason behind it. Update each card with verified ingredient details from your packaging. Please check the product packaging for the latest ingredient information.",
+        "accent_color": "#B68A35",
+        "padding_top": 56,
+        "padding_bottom": 48,
+        "color_scheme": "scheme-1",
+        "eyebrow": "WHAT IS INSIDE"
+      },
+      "blocks": {
+        "ing_1": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Ingredient 1",
+            "scientific_name": "",
+            "purpose": "Add the verified role from your packaging",
+            "key_benefit": "Update from product documentation",
+            "is_natural": false,
+            "details": "<p>Replace this text with the approved explanation for this ingredient from your product documentation.</p>",
+            "certification": ""
+          }
+        },
+        "ing_2": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Ingredient 2",
+            "scientific_name": "",
+            "purpose": "Add the verified role from your packaging",
+            "key_benefit": "Update from product documentation",
+            "is_natural": false,
+            "details": "<p>Replace this text with the approved explanation for this ingredient from your product documentation.</p>",
+            "certification": ""
+          }
+        },
+        "ing_3": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Ingredient 3",
+            "scientific_name": "",
+            "purpose": "Add the verified role from your packaging",
+            "key_benefit": "Update from product documentation",
+            "is_natural": false,
+            "certification": "",
+            "details": "<p>Replace this text with the approved explanation for this ingredient from your product documentation.</p>"
+          }
+        },
+        "ing_4": {
+          "type": "ingredient",
+          "settings": {
+            "name": "Ingredient 4",
+            "scientific_name": "",
+            "purpose": "Add the verified role from your packaging",
+            "key_benefit": "Update from product documentation",
+            "is_natural": false,
+            "details": "<p>Replace this text with the approved explanation for this ingredient from your product documentation.</p>",
+            "certification": ""
+          }
+        }
+      },
+      "block_order": [
+        "ing_1",
+        "ing_2",
+        "ing_3",
+        "ing_4"
+      ]
+    },
+    "product_how_it_works": {
+      "type": "product-how-it-works",
+      "settings": {
+        "heading": "Your colour routine, made simple.",
+        "subtitle": "A clear process designed to make at home hair colouring feel easier from beginning to end.",
+        "accent_color": "#B68A35",
+        "padding_top": 56,
+        "padding_bottom": 56,
+        "color_scheme": "scheme-1",
+        "eyebrow": "HOW IT WORKS"
+      },
+      "blocks": {
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "icon": "droplets",
+            "title": "Prepare",
+            "description": "Read the product instructions and prepare your hair and workspace before you begin.",
+            "duration": "",
+            "tip": ""
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "icon": "hand",
+            "title": "Apply",
+            "description": "Apply this product according to the instructions supplied with your product.",
+            "duration": "",
+            "tip": ""
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "icon": "timer",
+            "title": "Develop",
+            "description": "Leave the product on the hair for the recommended development time.",
+            "duration": "See packaging",
+            "tip": ""
+          }
+        },
+        "step_4": {
+          "type": "step",
+          "settings": {
+            "icon": "waves",
+            "title": "Rinse",
+            "description": "Rinse thoroughly according to the product instructions.",
+            "duration": "",
+            "tip": ""
+          }
+        },
+        "step_5": {
+          "type": "step",
+          "settings": {
+            "icon": "sparkles",
+            "title": "Finish",
+            "description": "Dry and style your hair as you normally would.",
+            "tip": "",
+            "duration": ""
+          }
+        }
+      },
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3",
+        "step_4",
+        "step_5"
+      ]
+    },
+    "product_comparison_table": {
+      "type": "product-comparison-table",
+      "settings": {
+        "heading": "Why choose this format?",
+        "our_brand_name": "This product",
+        "accent_color": "#B68A35",
+        "padding_top": 56,
+        "padding_bottom": 56,
+        "color_scheme": "scheme-1",
+        "eyebrow": "FIND YOUR FIT",
+        "subtitle": "Different people prefer different ways to colour their hair. Here is a simple look at what makes this product suitable for its intended routine.",
+        "others_name": "Other formats"
+      },
+      "blocks": {
+        "cmp_1": {
+          "type": "comparison_row",
+          "settings": {
+            "feature": "Colour format",
+            "our_value": "Update from product data",
+            "our_check": true,
+            "others_value": "Varies by format",
+            "others_check": true
+          }
+        },
+        "cmp_2": {
+          "type": "comparison_row",
+          "settings": {
+            "feature": "Shade",
+            "our_value": "Update from product data",
+            "our_check": true,
+            "others_value": "Varies by shade",
+            "others_check": true
+          }
+        },
+        "cmp_3": {
+          "type": "comparison_row",
+          "settings": {
+            "feature": "Application",
+            "our_check": true,
+            "others_check": true,
+            "our_value": "At home colour routine",
+            "others_value": "Depends on format"
+          }
+        },
+        "cmp_4": {
+          "type": "comparison_row",
+          "settings": {
+            "feature": "Quantity",
+            "our_check": true,
+            "others_check": true,
+            "our_value": "Update from product data",
+            "others_value": "Varies"
+          }
+        },
+        "cmp_5": {
+          "type": "comparison_row",
+          "settings": {
+            "feature": "Recommended use",
+            "our_check": true,
+            "others_check": true,
+            "our_value": "Update from product data",
+            "others_value": "Varies"
+          }
+        },
+        "cmp_6": {
+          "type": "comparison_row",
+          "settings": {
+            "feature": "Application time",
+            "our_check": true,
+            "others_check": true,
+            "our_value": "See product instructions",
+            "others_value": "See packaging"
+          }
+        },
+        "cmp_7": {
+          "type": "comparison_row",
+          "settings": {
+            "feature": "Format",
+            "our_value": "Update from product data",
+            "our_check": true,
+            "others_check": true,
+            "others_value": "Shampoo, gel or sachets"
+          }
+        }
+      },
+      "block_order": [
+        "cmp_1",
+        "cmp_2",
+        "cmp_3",
+        "cmp_4",
+        "cmp_5",
+        "cmp_6",
+        "cmp_7"
+      ]
+    },
+    "product_reviews": {
+      "type": "uc-product-reviews",
+      "settings": {
+        "eyebrow": "REAL CUSTOMER REVIEWS",
+        "heading": "What our customers say.",
+        "empty_text": "No reviews yet. Be the first to share your experience.",
+        "form_always_open": false,
+        "form_toggle_label": "Write a Review",
+        "form_heading": "Tell us about your experience.",
+        "form_lead": "Your experience can help another customer make a more confident choice.",
+        "submit_label": "Submit Review",
+        "form_note": "Your review may be published after approval.",
+        "success_text": "Thank you. Your review has been submitted for approval.",
+        "container_width": 1100,
+        "card_radius": 18,
+        "padding_top": 56,
+        "padding_bottom": 56,
+        "accent_color": "#B68A35"
+      },
+      "block_order": []
+    },
+    "product_related": {
+      "type": "product-related",
+      "settings": {
+        "heading": "Find your next colour.",
+        "products_to_show": 4,
+        "image_ratio": "square",
+        "show_rating": true,
+        "show_quick_add": true,
+        "show_savings": true,
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "color_scheme": "scheme-1",
+        "eyebrow": "EXPLORE MORE",
+        "subtitle": "Explore more UNIK CARE shades, formats and hair colour essentials created to make at home colouring easier.",
+        "recommendation_intent": "related",
+        "show_vendor": false,
+        "card_radius": 18,
+        "pad_top_lg": 80,
+        "pad_top_xxl": 96,
+        "container_max_lg": 1280,
+        "container_mode": "boxed",
+        "use_custom_section_styles": false,
+        "h_size_xs": 28,
+        "h_size_lg": 40,
+        "h_size_xxl": 44,
+        "use_global_colors": true
+      },
+      "block_order": []
+    },
+    "sticky_mobile_atc": {
+      "type": "sticky-mobile-atc",
+      "settings": {
+        "show_info_bar": true,
+        "show_variant_selector": true,
+        "show_quantity": false,
+        "show_buy_now": true,
+        "atc_label": "Add to Cart",
+        "sold_out_label": "Sold Out",
+        "buy_now_label": "Buy Now",
+        "shipping_text": "Shipping options are shown at checkout.",
+        "low_stock_threshold": 5,
+        "show_on_desktop": false,
+        "z_index": 300
+      },
+      "block_order": []
+    },
+    "sticky_atc": {
+      "type": "sticky-atc",
+      "settings": {
+        "show_image": true,
+        "show_title": true,
+        "show_variant_selector": true,
+        "show_quantity": true,
+        "atc_label": "Add to Cart",
+        "sold_out_label": "Sold Out",
+        "enable_animation": true,
+        "z_index": 200
+      },
+      "block_order": []
+    }
+  },
+  "order": [
+    "premium_product_hero",
+    "product_video_reviews",
+    "product_ba_slider",
+    "product_benefits",
+    "product_ingredients",
+    "product_how_it_works",
+    "product_comparison_table",
+    "product_reviews",
+    "product_related",
+    "sticky_atc",
+    "sticky_mobile_atc"
+  ]
+}

@@ -1,0 +1,93 @@
+{%- comment -%}
+  UC Article extras  -  related, prev/next (custom, not Dawn)
+{%- endcomment -%}
+
+{{ 'uc-article-page.css' | asset_url | stylesheet_tag }}
+
+{%- assign s = section.settings -%}
+
+<section class="uc-article-extras" id="UcArticleExtras-{{ section.id }}" aria-label="Article extras">
+  <div class="uc-article-extras__inner">
+    {%- if s.show_nav -%}
+      <nav class="uc-article-extras__nav" aria-label="Article navigation">
+        {%- if blog.previous_article -%}
+          <a class="uc-article-extras__nav-link" href="{{ blog.previous_article.url }}">
+            <span class="uc-article-extras__nav-dir">Previous</span>
+            <span class="uc-article-extras__nav-title">{{ blog.previous_article.title | escape }}</span>
+          </a>
+        {%- else -%}
+          <span class="uc-article-extras__nav-link is-empty" aria-hidden="true"></span>
+        {%- endif -%}
+        {%- if blog.next_article -%}
+          <a class="uc-article-extras__nav-link uc-article-extras__nav-link--next" href="{{ blog.next_article.url }}">
+            <span class="uc-article-extras__nav-dir">Next</span>
+            <span class="uc-article-extras__nav-title">{{ blog.next_article.title | escape }}</span>
+          </a>
+        {%- endif -%}
+      </nav>
+    {%- endif -%}
+
+    {%- if s.show_related -%}
+      {%- assign related_count = 0 -%}
+      <div class="uc-article-extras__related">
+        <header class="uc-article-extras__head">
+          <span class="uc-article-extras__pill">Continue reading</span>
+          <h2 class="uc-article-extras__title">{{ s.related_heading | default: 'Related articles' }}</h2>
+        </header>
+        <ul class="uc-blog-grid uc-blog-grid--related" role="list">
+          {%- for related in blog.articles -%}
+            {%- if related.id == article.id -%}{%- continue -%}{%- endif -%}
+            {%- if related_count >= 3 -%}{%- break -%}{%- endif -%}
+            {%- assign related_count = related_count | plus: 1 -%}
+            <li class="uc-blog-grid__item">
+              {% render 'uc-blog-card', article: related, show_date: true, show_excerpt: true, lazy_load: true %}
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
+
+    {%- if s.show_newsletter -%}
+      <div class="uc-article-extras__nl">
+        <div class="uc-article-extras__nl-copy">
+          <span class="uc-article-extras__pill">Newsletter</span>
+          <h2 class="uc-article-extras__nl-title">{{ s.newsletter_heading | default: 'Stay in the glow' }}</h2>
+          <p class="uc-article-extras__nl-desc">{{ s.newsletter_text | default: 'Hair rituals, launches, and care tips  -  delivered softly.' }}</p>
+        </div>
+        {% form 'customer', class: 'uc-article-extras__nl-form' %}
+          <input type="hidden" name="contact[tags]" value="newsletter, blog">
+          <label class="visually-hidden" for="UcArticleNl-{{ section.id }}">Email</label>
+          <input
+            id="UcArticleNl-{{ section.id }}"
+            type="email"
+            name="contact[email]"
+            class="uc-article-extras__nl-input"
+            placeholder="{{ s.newsletter_placeholder | default: 'Your email' }}"
+            required
+            autocomplete="email"
+          >
+          <button type="submit" class="uc-article-extras__nl-btn">{{ s.newsletter_button | default: 'Subscribe' }}</button>
+        {% endform %}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Article extras",
+  "tag": "section",
+  "class": "section-uc-article-extras",
+  "settings": [
+    { "type": "checkbox", "id": "show_nav", "label": "Show previous / next", "default": true },
+    { "type": "checkbox", "id": "show_related", "label": "Show related articles", "default": true },
+    { "type": "text", "id": "related_heading", "label": "Related heading", "default": "Related articles" },
+    { "type": "checkbox", "id": "show_newsletter", "label": "Show newsletter CTA", "default": false },
+    { "type": "text", "id": "newsletter_heading", "label": "Newsletter heading", "default": "Stay in the glow" },
+    { "type": "textarea", "id": "newsletter_text", "label": "Newsletter text", "default": "Hair rituals, launches, and care tips  -  delivered softly." },
+    { "type": "text", "id": "newsletter_placeholder", "label": "Email placeholder", "default": "Your email" },
+    { "type": "text", "id": "newsletter_button", "label": "Button label", "default": "Subscribe" }
+  ],
+  "presets": [{ "name": "Article extras" }]
+}
+{% endschema %}

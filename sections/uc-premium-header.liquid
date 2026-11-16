@@ -1,0 +1,403 @@
+{% comment %}
+ UC Premium Header - floating glass header for premium landing hero.
+ Namespace: uc-phdr
+ Compatible with Dawn OS 2.0. Does not modify Dawn header.liquid.
+{% endcomment %}
+
+{{ 'uc-premium-header.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'uc-premium-header.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+ assign st = section.settings
+ assign menu = st.menu
+ assign root_class = 'uc-phdr'
+ if st.enable_sticky
+ assign root_class = root_class | append: ' uc-phdr--sticky'
+ endif
+ if st.enable_transparent and template.name == 'index'
+ assign root_class = root_class | append: ' uc-phdr--transparent'
+ else
+ assign root_class = root_class | append: ' uc-phdr--solid'
+ endif
+ if st.enable_glass_scroll
+ assign root_class = root_class | append: ' uc-phdr--glass-scroll'
+ endif
+ if st.enable_float_capsule
+ assign root_class = root_class | append: ' uc-phdr--floating'
+ endif
+
+ case st.nav_shape
+ when 'soft'
+ assign nav_pill_radius = 12
+ when 'medium'
+ assign nav_pill_radius = 24
+ else
+ assign nav_pill_radius = 999
+ endcase
+
+ case st.capsule_radius
+ when '16'
+ assign capsule_radius_px = 16
+ when '32'
+ assign capsule_radius_px = 32
+ when '48'
+ assign capsule_radius_px = 48
+ when '80'
+ assign capsule_radius_px = 80
+ when '120'
+ assign capsule_radius_px = 120
+ else
+ assign capsule_radius_px = 999
+ endcase
+-%}
+
+{%- style -%}
+ #shopify-section-{{ section.id }} {
+ --uc-phdr-max: {{ st.max_width }}px;
+ --uc-phdr-height: {{ st.bar_height }}px;
+ --uc-phdr-height-m: {{ st.bar_height_mobile | default: st.bar_height }}px;
+ --uc-phdr-logo-w: {{ st.logo_width }}px;
+ --uc-phdr-logo-w-m: {{ st.logo_width_mobile }}px;
+ --uc-phdr-nav-size: {{ st.nav_font_size }}px;
+ --uc-phdr-nav-weight: {{ st.nav_font_weight }};
+ --uc-phdr-nav-gap: {{ st.nav_gap }}px;
+ --uc-phdr-pill-radius: {{ nav_pill_radius }}px;
+ --uc-phdr-icon-size: {{ st.icon_size }}px;
+ --uc-phdr-icon-gap: {{ st.icon_gap | default: 6 }}px;
+ --uc-phdr-blur: {{ st.glass_blur }}px;
+ --uc-phdr-solid-bg: {{ st.solid_bg }};
+ --uc-phdr-glass-bg: {{ st.glass_bg }};
+ --uc-phdr-glass-border: {{ st.glass_border }};
+ --uc-phdr-text: {{ st.text_color }};
+ --uc-phdr-text-scroll: {{ st.text_color_scroll }};
+ --uc-phdr-text-transparent: {{ st.text_color_transparent }};
+ --uc-phdr-accent: {{ st.accent_color }};
+ --uc-phdr-nav-active-bg: {{ st.nav_active_bg }};
+ --uc-phdr-nav-active-text: {{ st.nav_active_text }};
+ --uc-phdr-cta-bg: {{ st.cta_bg }};
+ --uc-phdr-cta-text: {{ st.cta_text }};
+ --uc-phdr-badge-bg: {{ st.cart_badge_bg }};
+ --uc-phdr-badge-text: {{ st.cart_badge_text }};
+ --uc-phdr-drawer-w: {{ st.drawer_width }}px;
+ --uc-phdr-transition: {{ st.transition_duration | default: 450 }}ms;
+ --uc-phdr-float-y: {{ st.float_margin_top | default: 16 }}px;
+ --uc-phdr-float-x: {{ st.float_margin_x | default: 20 }}px;
+ --uc-phdr-capsule-radius: {{ capsule_radius_px }}px;
+ --uc-phdr-shadow: 0 {{ st.shadow_spread | default: 24 }}px {{ st.shadow_spread | default: 24 | times: 2 }}px rgba(23, 23, 23, {{ st.shadow_opacity | default: 8 | divided_by: 100.0 }});
+ --uc-phdr-glass-opacity: {{ st.glass_opacity | default: 70 | divided_by: 100.0 }};
+ }
+{%- endstyle -%}
+
+<uc-premium-header
+ id="UcPhdr-{{ section.id }}"
+ class="{{ root_class }}"
+ data-uc-phdr
+ data-section-id="{{ section.id }}"
+ data-sticky="{{ st.enable_sticky }}"
+ data-transparent="{{ st.enable_transparent }}"
+ data-cart-drawer="{{ st.enable_cart_drawer }}"
+ data-wishlist-key="{{ st.wishlist_storage_key | escape }}"
+ data-shrink="{{ st.enable_shrink_scroll }}"
+ data-scroll-hide="{{ st.enable_scroll_hide }}"
+>
+ <div class="uc-phdr__shell">
+ <div class="uc-phdr__float{% if st.enable_float_capsule %} uc-phdr__float--capsule{% endif %}">
+ <div class="uc-phdr__bar">
+ <div class="uc-phdr__zone uc-phdr__zone--logo">
+ <button type="button" class="uc-phdr__menu-btn" data-uc-phdr-drawer-open aria-label="{{ 'sections.header.menu' | t | default: 'Menu' }}" aria-expanded="false" aria-controls="UcPhdrDrawer-{{ section.id }}">
+ {% render 'uc-phdr-icon', icon: 'menu', size: 24 %}
+ </button>
+ <a href="{{ routes.root_url }}" class="uc-phdr__logo" aria-label="{{ shop.name | escape }}">
+ {%- if st.logo != blank -%}
+ {%- assign uc_phdr_logo_alt = st.logo.alt | default: shop.name -%}
+ {{ st.logo | image_url: width: 400 | image_tag: class: 'uc-phdr__logo-img uc-phdr__logo-img--default', widths: '120, 200, 300, 400', loading: 'eager', fetchpriority: 'high', alt: uc_phdr_logo_alt }}
+ {%- endif -%}
+ {%- if st.logo_transparent != blank -%}
+ {%- assign uc_phdr_logo_t_alt = st.logo_transparent.alt | default: shop.name -%}
+ {{ st.logo_transparent | image_url: width: 400 | image_tag: class: 'uc-phdr__logo-img uc-phdr__logo-img--transparent', widths: '120, 200, 300, 400', loading: 'eager', fetchpriority: 'high', alt: uc_phdr_logo_t_alt }}
+ {%- elsif st.logo_invert_on_transparent and st.logo != blank -%}
+ {%- assign uc_phdr_logo_i_alt = st.logo.alt | default: shop.name -%}
+ {{ st.logo | image_url: width: 400 | image_tag: class: 'uc-phdr__logo-img uc-phdr__logo-img--transparent uc-phdr__logo-img--invert', widths: '120, 200, 300, 400', loading: 'eager', fetchpriority: 'high', alt: uc_phdr_logo_i_alt }}
+ {%- endif -%}
+ {%- if st.logo == blank and st.logo_transparent == blank -%}
+ <span class="uc-phdr__logo-text">{{ shop.name }}</span>
+ {%- endif -%}
+ </a>
+ </div>
+
+ <div class="uc-phdr__zone uc-phdr__zone--nav">
+ {%- if menu != blank and menu.links.size > 0 -%}
+ <nav class="uc-phdr__nav" aria-label="{{ menu.title | default: 'Main' | escape }}">
+ <div class="uc-phdr__nav-pill">
+ {%- for link in menu.links -%}
+ {%- unless link.url contains '/pages/legal' or link.handle == 'legal' -%}
+ {%- if link.links.size > 0 -%}
+ <div class="uc-phdr__drop" data-uc-phdr-drop>
+ <button type="button" class="uc-phdr__nav-link uc-phdr__nav-link--toggle{% if link.active or link.child_active %} is-active{% endif %}" aria-expanded="false" data-uc-phdr-drop-toggle>
+ <span>{{ link.title }}</span>
+ {% render 'uc-phdr-icon', icon: 'chevron', size: 14 %}
+ </button>
+ <div class="uc-phdr__drop-panel" data-uc-phdr-drop-panel hidden>
+ <ul class="uc-phdr__drop-list" role="list">
+ {%- for child in link.links -%}
+ {%- unless child.url contains '/pages/legal' or child.handle == 'legal' -%}
+ <li><a href="{{ child.url }}" class="uc-phdr__drop-link{% if child.active %} is-active{% endif %}">{{ child.title }}</a></li>
+ {%- endunless -%}
+ {%- endfor -%}
+ </ul>
+ </div>
+ </div>
+ {%- else -%}
+ <a href="{{ link.url }}" class="uc-phdr__nav-link{% if link.active %} is-active{% endif %}"{% if link.active %} aria-current="page"{% endif %}>{{ link.title }}</a>
+ {%- endif -%}
+ {%- endunless -%}
+ {%- endfor -%}
+ </div>
+ </nav>
+ {%- endif -%}
+ </div>
+
+ <div class="uc-phdr__zone uc-phdr__zone--tools">
+ {%- if st.enable_language and localization.available_languages.size > 1 -%}
+ {%- capture phdr_lang_form -%}UcPhdrLang-{{ section.id }}{%- endcapture -%}
+ <localization-form class="uc-phdr__locale">
+ {%- form 'localization', id: phdr_lang_form, class: 'uc-phdr__locale-form' -%}
+ {%- render 'language-localization', localPosition: 'UcPhdrLang' -%}
+ {%- endform -%}
+ </localization-form>
+ {%- endif -%}
+
+ {%- if st.enable_country and localization.available_countries.size > 1 -%}
+ {%- capture phdr_country_form -%}UcPhdrCountry-{{ section.id }}{%- endcapture -%}
+ <localization-form class="uc-phdr__locale">
+ {%- form 'localization', id: phdr_country_form, class: 'uc-phdr__locale-form' -%}
+ {%- render 'country-localization', localPosition: 'UcPhdrCountry' -%}
+ {%- endform -%}
+ </localization-form>
+ {%- endif -%}
+
+ {%- if st.enable_search -%}
+ <button type="button" class="uc-phdr__tool" data-uc-phdr-search-open aria-label="{{ 'general.search.search' | t | default: 'Search' }}" aria-expanded="false" aria-controls="UcPhdrSearch-{{ section.id }}">
+ {% render 'uc-phdr-icon', icon: 'search', size: st.icon_size %}
+ </button>
+ {%- endif -%}
+
+ {%- if st.enable_wishlist -%}
+ <a href="{{ st.wishlist_url | default: '/pages/wishlist' }}" class="uc-phdr__tool uc-phdr__tool--wish" data-uc-phdr-wishlist aria-label="{{ st.wishlist_label | escape }}">
+ {% render 'uc-phdr-icon', icon: 'heart', size: st.icon_size %}
+ <span class="uc-phdr__badge uc-phdr__badge--empty" data-uc-phdr-wish-count>0</span>
+ </a>
+ {%- endif -%}
+
+ <a href="{{ routes.cart_url }}" id="cart-icon-bubble" class="uc-phdr__tool uc-phdr__tool--cart" data-uc-phdr-cart-open aria-label="{{ 'sections.header.cart' | t | default: 'Cart' }}">
+ {% render 'uc-phdr-icon', icon: 'cart', size: st.icon_size %}
+ <span class="uc-phdr__badge{% if cart.item_count == 0 %} uc-phdr__badge--empty{% endif %}" data-uc-phdr-cart-count>{{ cart.item_count }}</span>
+ </a>
+
+ {%- if st.enable_account and shop.customer_accounts_enabled -%}
+ {% render 'uc-phdr-account', mode: 'icon', icon_size: st.icon_size, account_mode: st.account_link_mode %}
+ {%- endif -%}
+
+ {%- if st.enable_cta and st.cta_label != blank -%}
+ <a href="{{ st.cta_url | default: routes.all_products_collection_url }}" class="uc-phdr__cta">{{ st.cta_label | escape }}</a>
+ {%- endif -%}
+ </div>
+ </div>
+ </div>
+ </div>
+
+ {%- if st.enable_search -%}
+ <div class="uc-phdr__search" id="UcPhdrSearch-{{ section.id }}" data-uc-phdr-search hidden>
+ <div class="uc-phdr__search-backdrop" data-uc-phdr-search-close aria-hidden="true"></div>
+ <div class="uc-phdr__search-inner" role="dialog" aria-modal="true" aria-label="{{ 'general.search.search' | t | default: 'Search' }}">
+ <div class="uc-phdr__search-top">
+ <p class="uc-phdr__search-kicker">Search Online Homes Store</p>
+ <button type="button" class="uc-phdr__search-close" data-uc-phdr-search-close aria-label="{{ 'accessibility.close' | t | default: 'Close' }}">
+ {% render 'uc-phdr-icon', icon: 'close', size: 18 %}
+ </button>
+ </div>
+ <form action="{{ routes.search_url }}" method="get" role="search" class="uc-phdr__search-form" data-uc-phdr-search-form>
+ <input type="hidden" name="type" value="product">
+ <input type="hidden" name="options[prefix]" value="last">
+ <span class="uc-phdr__search-ico" aria-hidden="true">{% render 'uc-phdr-icon', icon: 'search', size: 20 %}</span>
+ <label class="uc-phdr__sr-only" for="UcPhdrSearchInput-{{ section.id }}">{{ 'general.search.search' | t | default: 'Search' }}</label>
+ <input id="UcPhdrSearchInput-{{ section.id }}" class="uc-phdr__search-input" type="text" name="q" placeholder="{{ st.search_placeholder | default: 'Search baby toys, gifts...' | escape }}" autocomplete="off" inputmode="search" enterkeyhint="search" spellcheck="false">
+ <button type="submit" class="uc-phdr__search-submit">Search</button>
+ </form>
+ <div class="uc-phdr__search-meta">
+ <p class="uc-phdr__search-hint">Try “wooden toys”, “rattles”, or “plush”. Esc to close.</p>
+ </div>
+ <div class="uc-phdr__search-quick" data-uc-phdr-search-quick>
+ <button type="button" class="uc-phdr__search-chip" data-uc-phdr-chip="baby toys">Baby toys</button>
+ <button type="button" class="uc-phdr__search-chip" data-uc-phdr-chip="wooden toys">Wooden toys</button>
+ <button type="button" class="uc-phdr__search-chip" data-uc-phdr-chip="educational">Educational</button>
+ <button type="button" class="uc-phdr__search-chip" data-uc-phdr-chip="plush">Plush</button>
+ </div>
+ </div>
+ </div>
+ {%- endif -%}
+</uc-premium-header>
+
+<div class="uc-phdr-drawer" id="UcPhdrDrawer-{{ section.id }}" data-uc-phdr-drawer aria-hidden="true">
+ <div class="uc-phdr-drawer__overlay" data-uc-phdr-drawer-overlay></div>
+ <div class="uc-phdr-drawer__panel" role="dialog" aria-modal="true" aria-label="{{ 'sections.header.menu' | t | default: 'Menu' }}">
+ <div class="uc-phdr-drawer__head">
+ <span class="uc-phdr-drawer__title">{{ shop.name }}</span>
+ <button type="button" class="uc-phdr-drawer__close" data-uc-phdr-drawer-close aria-label="{{ 'accessibility.close' | t | default: 'Close' }}">
+ {% render 'uc-phdr-icon', icon: 'close', size: 22 %}
+ </button>
+ </div>
+ <nav class="uc-phdr-drawer__nav" aria-label="{{ 'sections.header.menu' | t | default: 'Menu' }}">
+ <ul class="uc-phdr-drawer__list" role="list">
+ {%- if menu != blank -%}
+ {%- for link in menu.links -%}
+ {%- unless link.url contains '/pages/legal' or link.handle == 'legal' -%}
+ <li class="uc-phdr-drawer__item">
+ {%- if link.links.size > 0 -%}
+ <details class="uc-phdr-drawer__details">
+ <summary class="uc-phdr-drawer__summary">{{ link.title }} {% render 'uc-phdr-icon', icon: 'chevron', size: 16 %}</summary>
+ <ul class="uc-phdr-drawer__sublist" role="list">
+ {%- for child in link.links -%}
+ {%- unless child.url contains '/pages/legal' or child.handle == 'legal' -%}
+ <li><a href="{{ child.url }}" class="uc-phdr-drawer__sublink">{{ child.title }}</a></li>
+ {%- endunless -%}
+ {%- endfor -%}
+ </ul>
+ </details>
+ {%- else -%}
+ <a href="{{ link.url }}" class="uc-phdr-drawer__link">{{ link.title }}</a>
+ {%- endif -%}
+ </li>
+ {%- endunless -%}
+ {%- endfor -%}
+ {%- endif -%}
+ </ul>
+ </nav>
+ {%- if st.enable_account and shop.customer_accounts_enabled -%}
+ {% render 'uc-phdr-account', mode: 'drawer', icon_size: st.icon_size, account_mode: st.account_link_mode %}
+ {%- endif -%}
+ <div class="uc-phdr-drawer__foot">
+ {% render 'custom-header-localization',
+ enable_language: st.enable_language,
+ enable_country: st.enable_country,
+ form_id_prefix: 'UcPhdrDrawer'
+ %}
+ </div>
+ </div>
+</div>
+
+{% schema %}
+{
+ "name": "UC Premium Header",
+ "tag": "header",
+ "class": "uc-phdr-section",
+ "settings": [
+ { "type": "header", "content": "Logo" },
+ { "type": "image_picker", "id": "logo", "label": "Logo (default / scrolled)", "info": "Recommended: 320 × 80 px (SVG or PNG)" },
+ { "type": "image_picker", "id": "logo_transparent", "label": "Logo (transparent header)", "info": "Recommended: 320 × 80 px. Light logo for hero overlay." },
+ { "type": "checkbox", "id": "logo_invert_on_transparent", "label": "Invert default logo on transparent header", "default": false, "info": "Use only if you do not upload a separate transparent logo." },
+ { "type": "range", "id": "logo_width", "min": 60, "max": 280, "step": 5, "unit": "px", "label": "Logo width (desktop)", "default": 120 },
+ { "type": "range", "id": "logo_width_mobile", "min": 60, "max": 200, "step": 5, "unit": "px", "label": "Logo width (mobile)", "default": 90 },
+
+ { "type": "header", "content": "Navigation" },
+ { "type": "link_list", "id": "menu", "label": "Main menu" },
+ { "type": "range", "id": "nav_font_size", "min": 12, "max": 18, "step": 1, "unit": "px", "label": "Nav font size", "default": 14 },
+ { "type": "select", "id": "nav_font_weight", "label": "Nav font weight", "default": "500", "options": [
+ { "value": "400", "label": "Regular" }, { "value": "500", "label": "Medium" }, { "value": "600", "label": "Semibold" }
+ ]},
+ { "type": "range", "id": "nav_gap", "min": 2, "max": 16, "step": 1, "unit": "px", "label": "Nav link gap", "default": 4 },
+ { "type": "select", "id": "nav_shape", "label": "Nav link shape", "default": "pill", "options": [
+ { "value": "pill", "label": "Full pill (capsule)" },
+ { "value": "medium", "label": "Medium rounded" },
+ { "value": "soft", "label": "Soft rounded" }
+ ]},
+
+ { "type": "header", "content": "Layout and behavior" },
+ { "type": "range", "id": "max_width", "min": 1100, "max": 1600, "step": 20, "unit": "px", "label": "Max content width", "default": 1440 },
+ { "type": "range", "id": "bar_height", "min": 52, "max": 100, "step": 2, "unit": "px", "label": "Header bar height (desktop)", "default": 58 },
+ { "type": "range", "id": "bar_height_mobile", "min": 48, "max": 88, "step": 2, "unit": "px", "label": "Header bar height (mobile)", "default": 54 },
+ { "type": "checkbox", "id": "enable_sticky", "label": "Sticky header", "default": true },
+ { "type": "checkbox", "id": "enable_scroll_hide", "label": "Hide on scroll down, reveal on scroll up", "default": true },
+ { "type": "checkbox", "id": "enable_transparent", "label": "Transparent over hero", "default": true },
+ { "type": "checkbox", "id": "enable_glass_scroll", "label": "Glass blur when scrolled", "default": true },
+ { "type": "range", "id": "glass_blur", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Glass blur amount", "default": 18 },
+
+ { "type": "header", "content": "Colors" },
+ { "type": "color", "id": "solid_bg", "label": "Solid background (scrolled)", "default": "#F7F4EF" },
+ { "type": "text", "id": "glass_bg", "label": "Glass background (CSS)", "default": "rgba(247,244,239,0.72)" },
+ { "type": "text", "id": "glass_border", "label": "Glass border (CSS)", "default": "rgba(255,255,255,0.35)" },
+ { "type": "color", "id": "text_color", "label": "Text (scrolled)", "default": "#171717" },
+ { "type": "color", "id": "text_color_transparent", "label": "Text (transparent)", "default": "#FFFFFF" },
+ { "type": "color", "id": "text_color_scroll", "label": "Text (glass scroll)", "default": "#171717" },
+ { "type": "color", "id": "accent_color", "label": "Accent", "default": "#B68A35" },
+ { "type": "color", "id": "nav_active_bg", "label": "Active nav background", "default": "#FFFFFF" },
+ { "type": "color", "id": "nav_active_text", "label": "Active nav text", "default": "#171717" },
+
+ { "type": "header", "content": "Search" },
+ { "type": "checkbox", "id": "enable_search", "label": "Enable search", "default": true },
+ { "type": "text", "id": "search_placeholder", "label": "Search placeholder", "default": "Search baby toys, gifts..." },
+
+ { "type": "header", "content": "Wishlist" },
+ { "type": "checkbox", "id": "enable_wishlist", "label": "Show wishlist", "default": true },
+ { "type": "text", "id": "wishlist_label", "label": "Wishlist label", "default": "Wishlist" },
+ { "type": "url", "id": "wishlist_url", "label": "Wishlist page" },
+ { "type": "text", "id": "wishlist_storage_key", "label": "Storage key", "default": "uc:wishlist" },
+
+ { "type": "header", "content": "Cart" },
+ { "type": "checkbox", "id": "enable_cart_drawer", "label": "AJAX cart drawer", "default": true },
+ { "type": "color", "id": "cart_badge_bg", "label": "Cart badge background", "default": "#B68A35" },
+ { "type": "color", "id": "cart_badge_text", "label": "Cart badge text", "default": "#FFFFFF" },
+
+ { "type": "header", "content": "Account and CTA" },
+ { "type": "checkbox", "id": "enable_account", "label": "Show account", "default": true },
+ { "type": "checkbox", "id": "enable_cta", "label": "Show CTA button", "default": false },
+ { "type": "text", "id": "cta_label", "label": "CTA label", "default": "Shop Now" },
+ { "type": "url", "id": "cta_url", "label": "CTA link" },
+ { "type": "color", "id": "cta_bg", "label": "CTA background", "default": "#171717" },
+ { "type": "color", "id": "cta_text", "label": "CTA text", "default": "#FFFFFF" },
+
+ { "type": "header", "content": "Localization" },
+ { "type": "checkbox", "id": "enable_language", "label": "Language selector", "default": true },
+ { "type": "checkbox", "id": "enable_country", "label": "Country selector", "default": false },
+
+ { "type": "header", "content": "Icons and mobile" },
+ { "type": "header", "content": "Customer account" },
+ { "type": "select", "id": "account_link_mode", "label": "Sign-in link style", "default": "classic", "options": [
+   { "value": "classic", "label": "Classic login form (/account/login)" },
+   { "value": "new", "label": "New customer accounts (Shopify hosted)" }
+ ], "info": "Use Classic for an on-store login page. New accounts open shopify.com authentication (passwordless)." },
+ { "type": "range", "id": "icon_size", "min": 18, "max": 28, "step": 1, "unit": "px", "label": "Icon size", "default": 22 },
+ { "type": "range", "id": "icon_gap", "min": 2, "max": 16, "step": 1, "unit": "px", "label": "Icon spacing", "default": 6 },
+ { "type": "range", "id": "transition_duration", "min": 250, "max": 700, "step": 50, "unit": "ms", "label": "Transition duration", "default": 450 },
+ { "type": "range", "id": "drawer_width", "min": 280, "max": 420, "step": 10, "unit": "px", "label": "Mobile drawer width", "default": 360 },
+
+ { "type": "header", "content": "Floating capsule" },
+ { "type": "checkbox", "id": "enable_float_capsule", "label": "Floating glass capsule header", "default": true },
+ { "type": "range", "id": "float_margin_top", "label": "Float offset from top", "min": 0, "max": 48, "step": 2, "unit": "px", "default": 16 },
+ { "type": "range", "id": "float_margin_x", "label": "Float side inset", "min": 8, "max": 48, "step": 2, "unit": "px", "default": 20 },
+ {
+ "type": "select",
+ "id": "capsule_radius",
+ "label": "Capsule corner radius",
+ "default": "full",
+ "options": [
+ { "value": "full", "label": "Full pill (999px)" },
+ { "value": "120", "label": "Extra rounded (120px)" },
+ { "value": "80", "label": "Large (80px)" },
+ { "value": "48", "label": "Medium (48px)" },
+ { "value": "32", "label": "Soft (32px)" },
+ { "value": "16", "label": "Subtle (16px)" }
+ ]
+ },
+ { "type": "range", "id": "glass_opacity", "label": "Glass background opacity", "min": 40, "max": 100, "step": 5, "unit": "%", "default": 70 },
+ { "type": "range", "id": "shadow_opacity", "label": "Shadow intensity", "min": 0, "max": 24, "step": 2, "unit": "%", "default": 8 },
+ { "type": "range", "id": "shadow_spread", "label": "Shadow spread", "min": 8, "max": 40, "step": 2, "unit": "px", "default": 24 },
+ { "type": "checkbox", "id": "enable_shrink_scroll", "label": "Shrink header on scroll", "default": true }
+ ],
+ "presets": [
+ {
+ "name": "UC Premium Header"
+ }
+ ]
+}
+{% endschema %}

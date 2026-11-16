@@ -1,0 +1,22 @@
+.uc-atc-fly {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 9999;
+  box-shadow: 0 14px 30px rgba(23, 20, 16, 0.16);
+  transform: translate3d(0, 0, 0) scale(1);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.uc-atc-fly img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}

@@ -1,0 +1,56 @@
+{%- comment -%}
+  UC card adapter — all grids render the same uc-product-card.
+{%- endcomment -%}
+
+{%- unless skip_styles -%}
+  {{ 'uc-product-card.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'uc-product-card.js' | asset_url }}" defer="defer"></script>
+{%- endunless -%}
+
+{%- if card_product != blank -%}
+  {%- liquid
+    assign uc_ratio = 'square'
+    case media_aspect_ratio
+      when 'landscape'
+        assign uc_ratio = 'landscape'
+      when 'portrait'
+        assign uc_ratio = 'portrait'
+      when 'square'
+        assign uc_ratio = 'square'
+      when 'adapt'
+        assign uc_ratio = 'square'
+    endcase
+
+    assign uc_show_qa = true
+    if quick_add == 'none'
+      assign uc_show_qa = false
+    endif
+    if show_quick_add == false
+      assign uc_show_qa = false
+    endif
+
+    assign uc_lazy = lazy_load
+    if uc_lazy == nil
+      assign uc_lazy = true
+    endif
+
+    assign uc_card_idx = card_index
+    if uc_card_idx == blank
+      assign uc_card_idx = card_product.id
+    endif
+  -%}
+
+  <div class="product-card-wrapper">
+    {%- render 'uc-product-card',
+      product: card_product,
+      image_ratio: uc_ratio,
+      show_rating: show_rating,
+      show_quick_add: uc_show_qa,
+      show_vendor: show_vendor,
+      show_swatches: false,
+      lazy: uc_lazy,
+      section_id: section_id,
+      card_index: uc_card_idx
+    -%}
+  </div>
+{%- endif -%}

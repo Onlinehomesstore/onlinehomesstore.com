@@ -1,0 +1,86 @@
+/* =============================================================================
+   UC Image Hover Swap — zero-jerk second image (sitewide)
+   Opacity-only crossfade. No scale, no fade-out of primary, no competing transforms.
+   ============================================================================= */
+
+.pc-card__media-wrap,
+.pc-card__media,
+.pf-card__media,
+.card__media,
+.card__inner .media {
+  position: relative;
+  overflow: hidden;
+  transform: translateZ(0);
+  isolation: isolate;
+}
+
+/* Primary always stays put — secondary covers it */
+.pc-card__img--primary,
+.pf-card__img--primary,
+.card__media .media img:first-child,
+.media > img:first-of-type {
+  position: relative;
+  z-index: 1;
+  transform: none !important;
+  transition: none !important;
+  backface-visibility: hidden;
+}
+
+.pc-card__img--hover,
+.pf-card__img--secondary,
+.card__media img.motion-reduce,
+.media img + img,
+.card__media .media img:nth-child(2) {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  z-index: 2;
+  opacity: 0;
+  transform: none !important;
+  transition: opacity 0.32s ease !important;
+  pointer-events: none;
+  backface-visibility: hidden;
+  will-change: opacity;
+}
+
+.pc-card:hover .pc-card__img--hover,
+.pc-card:focus-within .pc-card__img--hover,
+.pf-card:hover .pf-card__img--secondary,
+.pf-showcase[data-secondary='true'] .pf-card:hover .pf-card__img--secondary,
+.card-wrapper:hover .card__media .media img:nth-child(2),
+.card-wrapper:hover .media > img + img,
+.product-card-wrapper:hover .pc-card__img--hover {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+/* Kill zoom-on-hover when a second image exists */
+.pc-card:has(.pc-card__img--hover):hover .pc-card__img--primary,
+.pf-showcase[data-secondary='true'] .pf-card:hover .pf-card__img--primary,
+.uc-card-stable:has(.pc-card__img--hover):hover .uc-card-stable__media img,
+.uc-card-stable:has(.pc-card__img--hover):hover .pc-card__img--primary,
+.pf-showcase[data-secondary='true'][data-zoom='true'] .pf-card:hover .pf-card__img--primary,
+.pf-showcase[data-secondary='true'][data-zoom='true'] .pf-card:hover .pf-card__img--secondary {
+  transform: none !important;
+  opacity: 1 !important; /* keep primary under secondary — never flash empty */
+}
+
+.pf-showcase[data-secondary='true'] .pf-card:hover .pf-card__img--primary {
+  opacity: 1 !important; /* secondary sits on top; no primary fade = no jerk */
+}
+
+/* Soften 3D child translateZ on product cards so image layers stay locked */
+.pc-card.uc-3d-card.is-tilting .pc-card__media-wrap,
+.pc-card.uc-3d-card.is-tilting .pc-card__img--primary,
+.pc-card.uc-3d-card.is-tilting .pc-card__img--hover {
+  transform: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pc-card__img--hover,
+  .pf-card__img--secondary {
+    transition: none !important;
+  }
+}

@@ -1,0 +1,837 @@
+{% comment %}
+ uc-footer.liquid
+ ═══════════════════════════════════════════════════════════════════════════════
+ UC Footer Section - Shopify Online Store 2.0 / Dawn Compatible
+ Structure:
+ Part 1 - Newsletter Banner (dark rounded card, left content + right form)
+ Part 2 - Main Footer Grid (brand · 3 nav columns · contact)
+ Part 3 - Bottom Bar (copyright · payment icons · policy links)
+
+ Assets: uc-footer.css · uc-footer.js
+ All styles scoped to .uc-ft-section - zero global side effects.
+ ═══════════════════════════════════════════════════════════════════════════════
+{% endcomment %}
+
+{% render 'uc-site-email' %}
+{% render 'uc-site-contact' %}
+
+{%- liquid
+ assign s = section.settings
+
+ # Navigation menus — Theme Editor menus first, never hardcode links
+ assign nav_shop = linklists[s.nav_shop]
+ assign nav_company = linklists[s.nav_company]
+ assign nav_support = linklists[s.nav_support]
+
+ # Accent color for CSS vars
+ assign accent = s.accent_color | default: settings.uc_color_primary | default: '#B68A35'
+
+ assign uc_ft_email = s.contact_email | default: uc_site_email
+ assign uc_ft_phone = blank
+ assign uc_ft_hours = s.contact_hours | default: uc_site_hours
+ assign uc_ft_address = s.contact_address | default: uc_site_address
+ assign uc_ft_whatsapp = blank
+ assign uc_ft_map_url = s.contact_map_url | default: uc_site_map_url
+ assign uc_ft_phone_href = uc_ft_phone | remove: ' ' | remove: '-' | remove: '(' | remove: ')'
+ assign uc_ft_whatsapp_href = uc_ft_whatsapp | remove: ' ' | remove: '-' | remove: '+' | remove: '(' | remove: ')'
+
+ assign uc_ft_ig = s.social_instagram | default: settings.social_instagram_link
+ assign uc_ft_fb = s.social_facebook | default: settings.social_facebook_link
+ assign uc_ft_tt = s.social_tiktok | default: settings.social_tiktok_link
+ assign uc_ft_pin = s.social_pinterest | default: settings.social_pinterest_link
+ assign uc_ft_yt = s.social_youtube | default: settings.social_youtube_link
+ assign uc_ft_x = s.social_twitter | default: settings.social_twitter_link
+
+ assign uc_ft_nl_form_id = 'uc-ft-nl-form-' | append: section.id
+ assign uc_ft_nl_success = s.nl_success | default: 'You are in! Thank you for subscribing.'
+
+ # Policy links (use Shopify policies if available)
+ assign has_privacy = false
+ assign has_refund = false
+ assign has_shipping = false
+ assign has_terms = false
+ if shop.privacy_policy != blank
+ assign has_privacy = true
+ endif
+ if shop.refund_policy != blank
+ assign has_refund = true
+ endif
+ if shop.shipping_policy != blank
+ assign has_shipping = true
+ endif
+ if shop.terms_of_service != blank
+ assign has_terms = true
+ endif
+-%}
+
+{%- assign uc_sec_scope = '#uc-ft-' | append: section.id -%}
+{%- render 'uc-section-vars', section: section, scope: uc_sec_scope -%}
+{%- render 'uc-section-colors', section: section -%}
+
+{%- style -%}
+ #uc-ft-{{ section.id }} {
+ --uc-ft-max: var(--page-width);
+ --uc-ft-pt: {{ s.padding_top | default: 0 }}px;
+ --uc-ft-bg: {{ s.bg_color | default: '#ffffff' }};
+ --uc-ft-color: {{ s.text_color | default: '#2a2a2a' }};
+ --uc-ft-heading-color: {{ s.heading_color | default: '#1a1a1a' }};
+ --uc-ft-link-color: {{ s.link_color | default: '#5a5a5a' }};
+ --uc-ft-muted: {{ s.muted_color | default: '#9ca3af' }};
+ --uc-ft-accent: {{ accent }};
+ --uc-ft-divider: 1px solid {{ s.divider_color | default: 'rgba(0,0,0,0.07)' }};
+ --uc-ft-divider-color: {{ s.divider_color | default: 'rgba(0,0,0,0.07)' }};
+ --uc-ft-logo-w: {{ s.logo_width | default: 140 }}px;
+ --uc-ft-social-size: {{ s.social_size | default: 36 }}px;
+ --uc-ft-social-bg: {{ s.social_bg | default: 'rgba(0,0,0,0.05)' }};
+ --uc-ft-social-color: {{ s.social_color | default: '#5a5a5a' }};
+ --uc-ft-social-hover-bg: {{ accent }};
+ --uc-ft-icon-bg: {{ s.icon_bg | default: 'rgba(58,87,48,0.08)' }};
+ --uc-ft-nl-bg: {{ s.nl_bg | default: '#3a5730' }};
+ --uc-ft-nl-text: {{ s.nl_text_color | default: '#ffffff' }};
+ --uc-ft-nl-radius: {{ s.nl_radius | default: 16 }}px;
+ --uc-ft-nl-btn-bg: {{ s.nl_btn_bg | default: accent }};
+ --uc-ft-nl-btn-color: {{ s.nl_btn_color | default: '#ffffff' }};
+ --uc-ft-bottom-bg: {{ s.bottom_bg | default: 'transparent' }};
+ --uc-ft-grid-cols: {{ s.grid_cols | default: '1.8fr 1fr 1fr 1fr 1.4fr' }};
+ --uc-ft-nl-input-radius: {{ s.nl_input_radius | default: 10 }}px;
+ --uc-ft-nl-glass-blur: {{ s.nl_glass_blur | default: 18 }}px;
+ --uc-ft-nl-shadow: {{ s.nl_shadow_opacity | default: 12 | divided_by: 100.0 }};
+ --uc-ft-pad-nl-d: {{ s.nl_pad_desktop | default: 40 }}px;
+ --uc-ft-pad-nl-t: {{ s.nl_pad_tablet | default: 32 }}px;
+ --uc-ft-pad-nl-m: {{ s.nl_pad_mobile | default: 24 }}px;
+ --uc-ft-nl-radius-m: {{ s.nl_radius_mobile | default: s.nl_radius | default: 16 }}px;
+ --uc-ft-nl-radius-t: {{ s.nl_radius_tablet | default: s.nl_radius | default: 20 }}px;
+ }
+{%- endstyle -%}
+
+{{ 'uc-footer.css' | asset_url | stylesheet_tag }}
+
+<footer
+ class="uc-ft-section"
+ id="uc-ft-{{ section.id }}"
+ role="contentinfo"
+ aria-label="{{ shop.name }} footer"
+>
+
+ {%- comment -%}═══════════════════════════════════════════════
+ PART 1 - NEWSLETTER BANNER
+ ═══════════════════════════════════════════════{%- endcomment -%}
+
+ {%- if s.show_newsletter -%}
+ <div class="uc-ft-nl-outer uc-ft-container">
+ <div class="uc-ft-nl-banner{% if s.nl_glass %} uc-ft-nl-banner--glass{% endif %}{% if s.nl_elevated %} uc-ft-nl-banner--elevated{% endif %}" data-uc-theme-text style="--uc-theme-heading: var(--uc-ft-nl-text); --uc-theme-body: var(--uc-ft-nl-text);{% if s.nl_text_color_mobile != blank %}--uc-theme-heading-mobile: {{ s.nl_text_color_mobile }};--uc-theme-body-mobile: {{ s.nl_text_color_mobile }};--uc-theme-text-mobile: {{ s.nl_text_color_mobile }};{% endif %} color: var(--uc-ft-nl-text);">
+
+ {%- comment -%} Left: Icon + Heading + Description {%- endcomment -%}
+ <div class="uc-ft-nl-content">
+ {%- if s.nl_show_icon -%}
+ <div class="uc-ft-nl-icon" aria-hidden="true">
+ {%- if s.nl_icon != blank -%}
+ {{
+ s.nl_icon
+ | image_url: width: 60
+ | image_tag: loading: 'lazy', alt: '', width: 22, height: 22
+ }}
+ {%- else -%}
+ <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+ {%- endif -%}
+ </div>
+ {%- endif -%}
+
+ <div class="uc-ft-nl-text">
+ {%- if s.nl_eyebrow != blank -%}
+ <p class="uc-ft-nl-eyebrow">{{ s.nl_eyebrow | escape }}</p>
+ {%- endif -%}
+ {%- if s.nl_heading != blank -%}
+ <h2 class="uc-ft-nl-heading">{{ s.nl_heading | escape }}</h2>
+ {%- endif -%}
+ {%- if s.nl_desc != blank -%}
+ <p class="uc-ft-nl-desc">{{ s.nl_desc | escape }}</p>
+ {%- endif -%}
+ </div>
+ </div>
+
+ {%- comment -%} Right: Newsletter Form {%- endcomment -%}
+ <div class="uc-ft-nl-form-wrap">
+ {%- form 'customer', id: uc_ft_nl_form_id, class: 'uc-ft-nl-form', data-uc-ft-nl: '', data-msg-required: 'Please enter your email address.', data-msg-invalid: 'Please enter a valid email address.', data-msg-success: uc_ft_nl_success, data-msg-error: 'Something went wrong. Please try again.' -%}
+ <input type="hidden" name="contact[tags]" value="newsletter">
+ <input type="hidden" name="contact[accepts_marketing]" value="true">
+
+ <label
+ for="uc-ft-nl-email-{{ section.id }}"
+ class="uc-ft-sr-only"
+ >{{ s.nl_placeholder | default: 'Enter your email' | escape }}</label>
+
+ <input
+ id="uc-ft-nl-email-{{ section.id }}"
+ type="email"
+ name="contact[email]"
+ class="uc-ft-nl-input"
+ placeholder="{{ s.nl_placeholder | default: 'Enter your email' | escape }}"
+ autocomplete="email"
+ required
+ aria-required="true"
+ >
+
+ <button
+ type="submit"
+ class="uc-ft-nl-btn"
+ aria-label="{{ s.nl_btn | default: 'Subscribe' | escape }}"
+ >
+ <span class="uc-ft-nl-btn__label">{{ s.nl_btn | default: 'Subscribe' | escape }}</span>
+ <span class="uc-ft-nl-btn__spinner" aria-hidden="true"></span>
+ <svg class="uc-ft-nl-btn__arrow" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+ </button>
+ {%- endform -%}
+
+ <div class="uc-ft-nl-feedback" role="alert" aria-live="polite">
+ {%- if form.posted_successfully? -%}
+ {{ s.nl_success | default: 'You are in! Thank you for subscribing.' | escape }}
+ {%- endif -%}
+ </div>
+
+ {%- if s.nl_note != blank -%}
+ <p class="uc-ft-nl-note">{{ s.nl_note | escape }}</p>
+ {%- endif -%}
+ </div>
+
+ </div>
+ </div>
+ {%- endif -%}
+
+ {%- comment -%}═══════════════════════════════════════════════
+ PART 2 - MAIN FOOTER GRID
+ ═══════════════════════════════════════════════{%- endcomment -%}
+
+ <div class="uc-ft-main">
+ <div class="uc-ft-container uc-sec__container">
+ <div class="uc-ft-grid">
+
+ {%- comment -%} ── Column 1: Brand ── {%- endcomment -%}
+ <div class="uc-ft-brand">
+ <div class="uc-ft-brand__logo-wrap">
+ <a href="{{ routes.root_url }}" class="uc-ft-brand__logo-link" aria-label="{{ shop.name | escape }} - Home">
+ {%- if s.logo != blank -%}
+ {%- assign logo_alt = s.logo.alt | default: shop.name | escape -%}
+ {{
+ s.logo
+ | image_url: width: 280
+ | image_tag:
+ class: 'uc-ft-brand__logo',
+ loading: 'lazy',
+ alt: logo_alt,
+ widths: '140, 210, 280'
+ }}
+ {%- else -%}
+ <span class="uc-ft-brand__text-logo">{{ shop.name | escape }}</span>
+ {%- if s.brand_tagline != blank -%}
+ <span class="uc-ft-brand__tagline">{{ s.brand_tagline | escape }}</span>
+ {%- endif -%}
+ {%- endif -%}
+ </a>
+ </div>
+
+ {%- if s.brand_desc != blank -%}
+ <p class="uc-ft-brand__desc">{{ s.brand_desc | escape }}</p>
+ {%- endif -%}
+
+ {%- if s.trust_badge_1 != blank or s.trust_badge_2 != blank or s.trust_badge_3 != blank -%}
+ <ul class="uc-ft-trust" role="list">
+ {%- if s.trust_badge_1 != blank -%}<li class="uc-ft-trust__item">{{ s.trust_badge_1 | escape }}</li>{%- endif -%}
+ {%- if s.trust_badge_2 != blank -%}<li class="uc-ft-trust__item">{{ s.trust_badge_2 | escape }}</li>{%- endif -%}
+ {%- if s.trust_badge_3 != blank -%}<li class="uc-ft-trust__item">{{ s.trust_badge_3 | escape }}</li>{%- endif -%}
+ </ul>
+ {%- endif -%}
+
+ {%- if uc_ft_whatsapp != blank -%}
+ <a
+ href="https://wa.me/{{ uc_ft_whatsapp_href }}"
+ class="uc-ft-wa-cta"
+ target="_blank"
+ rel="noopener noreferrer"
+ >
+ <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+ <span>{{ s.mobile_whatsapp_label | default: 'Chat on WhatsApp' | escape }}</span>
+ </a>
+ {%- endif -%}
+
+ {%- comment -%} Social Icons {%- endcomment -%}
+ {%- if s.show_social -%}
+ {%- liquid
+ assign social_links = ''
+ if uc_ft_ig != blank
+ assign social_links = social_links | append: 'instagram'
+ endif
+ if uc_ft_fb != blank
+ assign social_links = social_links | append: 'facebook'
+ endif
+ if uc_ft_tt != blank
+ assign social_links = social_links | append: 'tiktok'
+ endif
+ if uc_ft_pin != blank
+ assign social_links = social_links | append: 'pinterest'
+ endif
+ if uc_ft_yt != blank
+ assign social_links = social_links | append: 'youtube'
+ endif
+ if uc_ft_x != blank
+ assign social_links = social_links | append: 'twitter'
+ endif
+ if s.social_threads != blank
+ assign social_links = social_links | append: 'threads'
+ endif
+ if s.social_linkedin != blank
+ assign social_links = social_links | append: 'linkedin'
+ endif
+ if s.social_whatsapp != blank or uc_ft_whatsapp != blank
+ assign social_links = social_links | append: 'whatsapp'
+ endif
+ if s.social_snapchat != blank
+ assign social_links = social_links | append: 'snapchat'
+ endif
+ -%}
+ {%- unless social_links == blank -%}
+ <div class="uc-ft-follow">
+ <h3 class="uc-ft-follow__title">{{ s.mobile_follow_label | default: 'Follow on' | escape }}</h3>
+ <nav class="uc-ft-social" aria-label="Follow us on social media">
+ {%- if uc_ft_ig != blank -%}
+ <a href="{{ uc_ft_ig }}" class="uc-ft-social__link" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+ <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+ </a>
+ {%- endif -%}
+ {%- if uc_ft_fb != blank -%}
+ <a href="{{ uc_ft_fb }}" class="uc-ft-social__link" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+ <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+ </a>
+ {%- endif -%}
+ {%- if uc_ft_tt != blank -%}
+ <a href="{{ uc_ft_tt }}" class="uc-ft-social__link" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+ <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V9.22a8.19 8.19 0 0 0 4.78 1.52V7.29a4.85 4.85 0 0 1-1.01-.6z"/></svg>
+ </a>
+ {%- endif -%}
+ {%- if uc_ft_pin != blank -%}
+ <a href="{{ uc_ft_pin }}" class="uc-ft-social__link" target="_blank" rel="noopener noreferrer" aria-label="Pinterest">
+ <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+ </a>
+ {%- endif -%}
+ {%- if uc_ft_yt != blank -%}
+ <a href="{{ uc_ft_yt }}" class="uc-ft-social__link" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+ <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.97C18.88 4 12 4 12 4s-6.88 0-8.59.45A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.97C5.12 20 12 20 12 20s6.88 0 8.59-.45a2.78 2.78 0 0 0 1.95-1.97A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#fff"/></svg>
+ </a>
+ {%- endif -%}
+ {%- if uc_ft_x != blank -%}
+ <a href="{{ uc_ft_x }}" class="uc-ft-social__link" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+ <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+ </a>
+ {%- endif -%}
+ {%- if s.social_threads != blank -%}
+ <a href="{{ s.social_threads }}" class="uc-ft-social__link" target="_blank" rel="noopener noreferrer" aria-label="Threads">
+ <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.5 12.068c0-3.516.85-6.371 2.495-8.42C5.845 1.237 8.598.057 12.18.033c3.58-.024 6.361 1.187 8.26 3.26 1.47 1.598 2.228 3.769 2.254 6.452l-.009.005c-.001 2.576-.686 4.624-2.038 6.088-1.227 1.33-2.942 2.085-4.867 2.085-2.104 0-3.775-.88-4.64-2.368-.41.74-.997 1.335-1.75 1.777-.866.504-1.879.756-3.021.756a5.95 5.95 0 0 1-2.388-.478l-.001.001-.024-.012c-1.616-.736-2.586-2.218-2.586-3.91 0-2.26 1.642-4.082 4.093-4.506.903-.158 1.84-.21 2.8-.148.072.005.144.011.216.018-.015-.36-.037-.72-.055-1.078-.088-1.817-.18-3.693.284-5.22.53-1.748 1.647-2.813 3.224-3.084a5.356 5.356 0 0 1 .89-.073c1.294 0 2.41.465 3.14 1.31.738.855 1.07 2.045.987 3.537-.1 1.774-.748 3.18-1.926 4.183a5.87 5.87 0 0 1-1.052.704c.177.553.42 1.04.732 1.455.624.827 1.504 1.247 2.618 1.247 1.39 0 2.526-.569 3.38-1.693.898-1.18 1.348-2.828 1.348-4.902-.023-2.275-.663-4.054-1.903-5.29-1.393-1.387-3.514-2.091-6.303-2.091h-.006c-2.793-.002-4.918.7-6.318 2.088-1.24 1.228-1.88 2.999-1.9 5.268.022 2.267.66 4.037 1.898 5.265 1.395 1.384 3.514 2.086 6.303 2.086h.006c2.056 0 3.682-.534 4.834-1.587.97-.884 1.506-2.14 1.542-3.704l.01.001c.015-1.668-.386-3.019-1.196-4.018-.78-.961-1.89-1.463-3.248-1.49l.003-.035c-.094.015-.186.03-.277.048-1.118.213-1.7.896-1.746 2.025-.02.496.101.955.36 1.366.337.535.865.83 1.522.85l.005-.003c.025-.001.05-.002.076-.002.71 0 1.3.37 1.658.936.365.578.46 1.325.264 2.082-.425 1.638-1.714 2.676-3.408 2.738a3.8 3.8 0 0 1-.14.003c-1.54 0-2.71-.623-3.395-1.755-.34-.561-.524-1.19-.549-1.871a5.918 5.918 0 0 1 .14-1.46c.375-1.597 1.348-2.546 2.9-2.823.563-.101 1.154-.144 1.76-.124l.023.001c.107.005.214.011.321.02-.025-.556-.062-1.108-.097-1.657-.086-1.374-.174-2.793.177-3.916.365-1.187 1.135-1.872 2.25-2.062.23-.04.47-.06.71-.06 1.05 0 1.916.381 2.508 1.073.544.636.815 1.512.807 2.606-.013 1.456-.486 2.577-1.405 3.332a3.64 3.64 0 0 1-.8.482c.22.712.522 1.35.9 1.896.84 1.207 2.06 1.853 3.622 1.853 1.768 0 3.19-.726 4.226-2.158 1.107-1.53 1.624-3.61 1.535-6.182v-.005c-.025-2.283-.65-4.06-1.86-5.279-1.527-1.535-3.955-2.313-7.213-2.313h-.006z"/></svg>
+ </a>
+ {%- endif -%}
+ {%- if s.social_linkedin != blank -%}
+ <a href="{{ s.social_linkedin }}" class="uc-ft-social__link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+ <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+ </a>
+ {%- endif -%}
+ {%- if s.social_whatsapp != blank -%}
+ <a href="{{ s.social_whatsapp }}" class="uc-ft-social__link" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+ <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+ </a>
+ {%- endif -%}
+ {%- if s.social_snapchat != blank -%}
+ <a href="{{ s.social_snapchat }}" class="uc-ft-social__link" target="_blank" rel="noopener noreferrer" aria-label="Snapchat">
+ <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.166 2c2.82 0 5.16 1.59 6.14 4.13.31.8.28 1.64.25 2.42l-.02.47c.25-.08.49-.13.73-.13.42 0 .79.17 1.03.46.21.26.27.6.16.91-.2.58-.87.93-2.09 1.11-.18.03-.34.07-.5.12.37.76.86 1.39 1.46 1.87.37.3.76.53 1.19.66.13.04.22.16.22.3s-.09.28-.22.31c-.63.19-1.2.3-1.72.32-.06.26-.1.46-.1.52-.02.14-.13.24-.27.26-1.13.17-2.06.78-3.15 1.46-.58.36-1.17.73-1.85 1.05-.85.39-1.66.59-2.41.59s-1.56-.2-2.41-.59c-.68-.32-1.27-.69-1.85-1.05-1.09-.68-2.02-1.29-3.15-1.46a.277.277 0 0 1-.27-.26c0-.06-.04-.26-.1-.52-.52-.02-1.09-.13-1.72-.32a.305.305 0 0 1-.22-.31c0-.14.09-.26.22-.3.43-.13.82-.36 1.19-.66.6-.48 1.09-1.11 1.46-1.87-.16-.05-.32-.09-.5-.12-1.22-.18-1.89-.53-2.09-1.11-.11-.31-.05-.65.16-.91.24-.29.61-.46 1.03-.46.24 0 .48.05.73.13l-.02-.47c-.03-.78-.06-1.62.25-2.42.98-2.54 3.32-4.13 6.14-4.13z"/></svg>
+ </a>
+ {%- endif -%}
+ </nav>
+ </div>
+ {%- endunless -%}
+ {%- endif -%}
+ </div>
+
+ <div class="uc-ft-nav-row">
+ {%- comment -%} ── Column 2: Shop Navigation ── {%- endcomment -%}
+ {%- if s.nav_shop != blank and nav_shop != blank -%}
+ <div class="uc-ft-nav-col" data-accordion>
+ <div class="uc-ft-nav-col__head">
+ <h3 class="uc-ft-nav-col__heading" id="uc-ft-heading-shop-{{ section.id }}">
+ {{ s.nav_shop_label | default: nav_shop.title | default: 'Shop' | escape }}
+ </h3>
+ <button
+ class="uc-ft-nav-col__toggle"
+ aria-expanded="false"
+ aria-controls="uc-ft-nav-shop-{{ section.id }}"
+ aria-labelledby="uc-ft-heading-shop-{{ section.id }}"
+ data-label-open="Expand {{ s.nav_shop_label | default: 'Shop' | escape }} navigation"
+ data-label-close="Collapse {{ s.nav_shop_label | default: 'Shop' | escape }} navigation"
+ >
+ <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+ </button>
+ </div>
+ <ul class="uc-ft-nav-col__list" id="uc-ft-nav-shop-{{ section.id }}" role="list">
+ {%- for link in nav_shop.links -%}
+ {%- unless link.url contains '/pages/legal' or link.handle == 'legal' -%}
+ <li>
+ <a
+ href="{{ link.url }}"
+ class="uc-ft-nav-col__link"
+ {% if link.active %}aria-current="page"{% endif %}
+ >{{ link.title | escape }}</a>
+ </li>
+ {%- endunless -%}
+ {%- endfor -%}
+ {%- for block in section.blocks -%}
+ {%- if block.type == 'link' and block.settings.column == 'shop' and block.settings.url != blank -%}
+ <li {{ block.shopify_attributes }}><a href="{{ block.settings.url }}" class="uc-ft-nav-col__link">{{ block.settings.title | default: block.settings.url | escape }}</a></li>
+ {%- endif -%}
+ {%- endfor -%}
+ </ul>
+ </div>
+ {%- endif -%}
+ {%- if s.nav_company != blank and nav_company != blank -%}
+ <div class="uc-ft-nav-col" data-accordion>
+ <div class="uc-ft-nav-col__head">
+ <h3 class="uc-ft-nav-col__heading" id="uc-ft-heading-company-{{ section.id }}">
+ {{ s.nav_company_label | default: nav_company.title | default: 'Company' | escape }}
+ </h3>
+ <button
+ class="uc-ft-nav-col__toggle"
+ aria-expanded="false"
+ aria-controls="uc-ft-nav-company-{{ section.id }}"
+ aria-labelledby="uc-ft-heading-company-{{ section.id }}"
+ data-label-open="Expand {{ s.nav_company_label | default: 'Company' | escape }} navigation"
+ data-label-close="Collapse {{ s.nav_company_label | default: 'Company' | escape }} navigation"
+ >
+ <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+ </button>
+ </div>
+ <ul class="uc-ft-nav-col__list" id="uc-ft-nav-company-{{ section.id }}" role="list">
+ {%- for link in nav_company.links -%}
+ {%- unless link.url contains '/pages/legal' or link.handle == 'legal' -%}
+ <li>
+ <a
+ href="{{ link.url }}"
+ class="uc-ft-nav-col__link"
+ {% if link.active %}aria-current="page"{% endif %}
+ >{{ link.title | escape }}</a>
+ </li>
+ {%- endunless -%}
+ {%- endfor -%}
+ {%- for block in section.blocks -%}
+ {%- if block.type == 'link' and block.settings.column == 'company' and block.settings.url != blank -%}
+ <li {{ block.shopify_attributes }}><a href="{{ block.settings.url }}" class="uc-ft-nav-col__link">{{ block.settings.title | default: block.settings.url | escape }}</a></li>
+ {%- endif -%}
+ {%- endfor -%}
+ </ul>
+ </div>
+ {%- endif -%}
+ {%- if s.nav_support != blank and nav_support != blank -%}
+ <div class="uc-ft-nav-col uc-ft-nav-col--support" data-accordion>
+ <div class="uc-ft-nav-col__head">
+ <h3 class="uc-ft-nav-col__heading" id="uc-ft-heading-support-{{ section.id }}">
+ {{ s.nav_support_label | default: nav_support.title | default: 'Customer Service' | escape }}
+ </h3>
+ <button
+ class="uc-ft-nav-col__toggle"
+ aria-expanded="false"
+ aria-controls="uc-ft-nav-support-{{ section.id }}"
+ aria-labelledby="uc-ft-heading-support-{{ section.id }}"
+ data-label-open="Expand {{ s.nav_support_label | default: 'Customer Service' | escape }} navigation"
+ data-label-close="Collapse {{ s.nav_support_label | default: 'Customer Service' | escape }} navigation"
+ >
+ <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+ </button>
+ </div>
+ <ul class="uc-ft-nav-col__list" id="uc-ft-nav-support-{{ section.id }}" role="list">
+ {%- for link in nav_support.links -%}
+ {%- unless link.url contains '/pages/legal' or link.handle == 'legal' -%}
+ <li>
+ <a
+ href="{{ link.url }}"
+ class="uc-ft-nav-col__link"
+ {% if link.active %}aria-current="page"{% endif %}
+ >{{ link.title | escape }}</a>
+ </li>
+ {%- endunless -%}
+ {%- endfor -%}
+ {%- for block in section.blocks -%}
+ {%- if block.type == 'link' and block.settings.column == 'support' and block.settings.url != blank -%}
+ <li {{ block.shopify_attributes }}><a href="{{ block.settings.url }}" class="uc-ft-nav-col__link">{{ block.settings.title | default: block.settings.url | escape }}</a></li>
+ {%- endif -%}
+ {%- endfor -%}
+ </ul>
+ </div>
+ {%- endif -%}
+ <div class="uc-ft-contact" data-accordion>
+ <div class="uc-ft-nav-col__head">
+ <h3 class="uc-ft-nav-col__heading uc-ft-contact__heading-desktop" id="uc-ft-heading-contact-{{ section.id }}">
+ {{ s.contact_heading | default: 'Need Help?' | escape }}
+ </h3>
+ <h3 class="uc-ft-nav-col__heading uc-ft-contact__heading-mobile">
+ {{ s.mobile_contact_heading | default: 'Contact us' | escape }}
+ </h3>
+ <button
+ class="uc-ft-nav-col__toggle"
+ aria-expanded="false"
+ aria-controls="uc-ft-contact-body-{{ section.id }}"
+ aria-labelledby="uc-ft-heading-contact-{{ section.id }}"
+ data-label-open="Expand contact information"
+ data-label-close="Collapse contact information"
+ >
+ <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+ </button>
+ </div>
+
+ <div class="uc-ft-contact__body" id="uc-ft-contact-body-{{ section.id }}">
+ {%- if uc_ft_email != blank -%}
+ <a href="mailto:{{ uc_ft_email | escape }}" class="uc-ft-contact__item">
+ <span class="uc-ft-contact__item-icon" aria-hidden="true">
+ <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+ </span>
+ <span class="uc-ft-contact__item-text">
+ <span class="uc-ft-contact__item-label">Email us</span>
+ <span class="uc-ft-contact__item-value">{{ uc_ft_email | escape }}</span>
+ </span>
+ </a>
+ {%- endif -%}
+
+ {%- if uc_ft_hours != blank -%}
+ <div class="uc-ft-contact__item">
+ <span class="uc-ft-contact__item-icon" aria-hidden="true">
+ <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+ </span>
+ <span class="uc-ft-contact__item-text">
+ <span class="uc-ft-contact__item-label">Hours</span>
+ <span class="uc-ft-contact__item-value">{{ uc_ft_hours | escape }}</span>
+ </span>
+ </div>
+ {%- endif -%}
+
+ {%- if uc_ft_phone != blank -%}
+ <a href="tel:{{ uc_ft_phone_href }}" class="uc-ft-contact__item">
+ <span class="uc-ft-contact__item-icon" aria-hidden="true">
+ <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+ </span>
+ <span class="uc-ft-contact__item-text">
+ <span class="uc-ft-contact__item-label">Phone</span>
+ <span class="uc-ft-contact__item-value">{{ uc_ft_phone | escape }}</span>
+ </span>
+ </a>
+ {%- endif -%}
+
+ {%- if uc_ft_address != blank -%}
+ <a href="{{ uc_ft_map_url }}" class="uc-ft-contact__item uc-ft-contact__item--address" target="_blank" rel="noopener noreferrer">
+ <span class="uc-ft-contact__item-icon" aria-hidden="true">
+ <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
+ </span>
+ <span class="uc-ft-contact__item-text">
+ <span class="uc-ft-contact__item-label">Address</span>
+ <span class="uc-ft-contact__item-value">{{ uc_ft_address | escape }}</span>
+ </span>
+ </a>
+ {%- endif -%}
+
+ {%- if uc_ft_whatsapp != blank -%}
+ <a
+ href="https://wa.me/{{ uc_ft_whatsapp_href }}"
+ class="uc-ft-contact__item uc-ft-contact__item--whatsapp"
+ target="_blank"
+ rel="noopener noreferrer"
+ >
+ <span class="uc-ft-contact__item-icon" aria-hidden="true">
+ <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+ </span>
+ <span class="uc-ft-contact__item-text">
+ <span class="uc-ft-contact__item-label">WhatsApp</span>
+ <span class="uc-ft-contact__item-value">{{ uc_ft_whatsapp | escape }}</span>
+ </span>
+ </a>
+ {%- endif -%}
+ {%- for block in section.blocks -%}
+ {%- if block.type == 'link' and block.settings.column == 'contact' and block.settings.url != blank -%}
+ <a href="{{ block.settings.url }}" class="uc-ft-contact__item" {{ block.shopify_attributes }}>
+ <span class="uc-ft-contact__item-text">
+ <span class="uc-ft-contact__item-value">{{ block.settings.title | default: block.settings.url | escape }}</span>
+ </span>
+ </a>
+ {%- endif -%}
+ {%- endfor -%}
+ </div>
+ </div>
+ {%- for block in section.blocks -%}
+ {%- if block.type == 'menu' -%}
+ {%- assign extra_menu = linklists[block.settings.menu] -%}
+ {%- if extra_menu != blank -%}
+ <div class="uc-ft-nav-col" data-accordion {{ block.shopify_attributes }}>
+ <div class="uc-ft-nav-col__head">
+ <h3 class="uc-ft-nav-col__heading">{{ block.settings.heading | default: extra_menu.title | escape }}</h3>
+ <button class="uc-ft-nav-col__toggle" aria-expanded="false" type="button">
+ <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+ </button>
+ </div>
+ <ul class="uc-ft-nav-col__list" role="list">
+ {%- for link in extra_menu.links -%}
+ <li><a href="{{ link.url }}" class="uc-ft-nav-col__link">{{ link.title | escape }}</a></li>
+ {%- endfor -%}
+ </ul>
+ </div>
+ {%- endif -%}
+ {%- endif -%}
+ {%- endfor -%}
+ </div>
+
+ </div>
+ </div>
+ </div>
+
+ {%- comment -%}═══════════════════════════════════════════════
+ PART 3 - BOTTOM BAR
+ ═══════════════════════════════════════════════{%- endcomment -%}
+
+ <div class="uc-ft-bottom">
+ <div class="uc-ft-container uc-sec__container">
+ <div class="uc-ft-bottom__inner">
+
+ {%- comment -%} Copyright {%- endcomment -%}
+ <p class="uc-ft-bottom__copy">
+ &copy; {{ 'now' | date: '%Y' }} {{ shop.name | escape }}.
+ {%- if s.copyright_suffix != blank %} {{ s.copyright_suffix | escape }}{%- else %} All Rights Reserved.{%- endif %}
+ </p>
+
+ {%- comment -%} Payment Icons {%- endcomment -%}
+ {%- if s.show_payments -%}
+ <div class="uc-ft-payments" aria-label="Accepted payment methods" role="group">
+ {%- for type in shop.enabled_payment_types -%}
+ <span class="uc-ft-payment-item">
+ {{ type | payment_type_svg_tag: class: 'uc-ft-payment-icon', width: 38, height: 24 }}
+ </span>
+ {%- endfor -%}
+ </div>
+ {%- endif -%}
+
+ {%- if s.show_localization -%}
+ <div class="uc-ft-localization">
+ {%- if s.show_country_selector and localization.available_countries.size > 1 -%}
+ {%- assign uc_ft_country_form_id = 'UcFtCountry-' | append: section.id -%}
+ {%- form 'localization', id: uc_ft_country_form_id, class: 'uc-ft-localization__form' -%}
+ <label class="uc-ft-sr-only" for="UcFtCountrySelect-{{ section.id }}">{{ 'localization.country_label' | t }}</label>
+ <select id="UcFtCountrySelect-{{ section.id }}" name="country_code" class="uc-ft-localization__select" onchange="this.form.submit()">
+ {%- for country in localization.available_countries -%}
+ <option value="{{ country.iso_code }}" {% if country.iso_code == localization.country.iso_code %}selected{% endif %}>{{ country.name }} ({{ country.currency.iso_code }})</option>
+ {%- endfor -%}
+ </select>
+ {%- endform -%}
+ {%- endif -%}
+ {%- if s.show_language_selector and localization.available_languages.size > 1 -%}
+ {%- assign uc_ft_lang_form_id = 'UcFtLang-' | append: section.id -%}
+ {%- form 'localization', id: uc_ft_lang_form_id, class: 'uc-ft-localization__form' -%}
+ <label class="uc-ft-sr-only" for="UcFtLangSelect-{{ section.id }}">{{ 'localization.language_label' | t }}</label>
+ <select id="UcFtLangSelect-{{ section.id }}" name="locale_code" class="uc-ft-localization__select" onchange="this.form.submit()">
+ {%- for language in localization.available_languages -%}
+ <option value="{{ language.iso_code }}" {% if language.iso_code == localization.language.iso_code %}selected{% endif %}>{{ language.endonym_name }}</option>
+ {%- endfor -%}
+ </select>
+ {%- endform -%}
+ {%- endif -%}
+ </div>
+ {%- endif -%}
+
+ {%- comment -%} Policy Links {%- endcomment -%}
+ {%- if has_privacy or has_refund or has_shipping or has_terms or s.policy_menu != blank -%}
+ {%- comment -%} Policy links live in the Company column — avoid duplicate footer links overlapping scroll-to-top {%- endcomment -%}
+ {%- endif -%}
+
+ </div>
+ </div>
+ </div>
+
+</footer>
+
+<script src="{{ 'uc-footer.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+ "name": "UC Footer",
+ "settings": [
+ { "type": "header", "content": "Section" },
+ { "type": "range", "id": "container_max", "label": "Max container width", "min": 960, "max": 1600, "step": 40, "default": 1280, "unit": "px" },
+ { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 80, "step": 4, "default": 0, "unit": "px" },
+ { "type": "color", "id": "bg_color", "label": "Background colour", "default": "#ffffff" },
+ { "type": "color", "id": "text_color", "label": "Body text colour", "default": "#2a2a2a" },
+ { "type": "color", "id": "heading_color", "label": "Heading colour", "default": "#1a1a1a" },
+ { "type": "color", "id": "link_color", "label": "Link colour", "default": "#5a5a5a" },
+ { "type": "color", "id": "muted_color", "label": "Muted / meta text colour", "default": "#9ca3af" },
+ { "type": "color", "id": "accent_color", "label": "Accent colour (hover, icons, buttons)", "default": "#3a5730" },
+ { "type": "color", "id": "divider_color", "label": "Divider line colour" },
+ { "type": "color", "id": "bottom_bg", "label": "Bottom bar background" },
+
+ { "type": "header", "content": "Grid Layout" },
+ { "type": "select", "id": "grid_cols", "label": "Desktop grid layout", "options": [{ "value": "1.8fr 1fr 1fr 1fr 1.4fr", "label": "Balanced (default)" }, { "value": "2fr 1fr 1fr 1fr 1fr", "label": "Wide brand column" }, { "value": "1.5fr 1fr 1fr 1fr 2fr", "label": "Wide contact column" }], "default": "1.8fr 1fr 1fr 1fr 1.4fr" },
+
+ { "type": "header", "content": "━━ Newsletter Banner ━━" },
+ { "type": "checkbox", "id": "show_newsletter", "label": "Show newsletter banner", "default": true },
+ { "type": "color", "id": "nl_bg", "label": "Banner background colour", "default": "#3a5730" },
+ { "type": "color", "id": "nl_text_color", "label": "Banner text colour (desktop)", "default": "#ffffff" },
+ { "type": "color", "id": "nl_text_color_mobile", "label": "Banner text colour (mobile)" },
+ { "type": "range", "id": "nl_radius", "label": "Banner corner radius - desktop", "min": 0, "max": 40, "step": 2, "default": 24, "unit": "px" },
+ { "type": "range", "id": "nl_radius_tablet", "label": "Banner corner radius - tablet", "min": 0, "max": 32, "step": 2, "default": 20, "unit": "px" },
+ { "type": "range", "id": "nl_radius_mobile", "label": "Banner corner radius - mobile", "min": 0, "max": 28, "step": 2, "default": 16, "unit": "px" },
+ { "type": "range", "id": "nl_pad_desktop", "label": "Banner padding - desktop", "min": 16, "max": 72, "step": 4, "default": 40, "unit": "px" },
+ { "type": "range", "id": "nl_pad_tablet", "label": "Banner padding - tablet", "min": 16, "max": 56, "step": 4, "default": 32, "unit": "px" },
+ { "type": "range", "id": "nl_pad_mobile", "label": "Banner padding - mobile", "min": 12, "max": 40, "step": 4, "default": 24, "unit": "px" },
+ { "type": "checkbox", "id": "nl_glass", "label": "Glassmorphism banner", "default": true },
+ { "type": "range", "id": "nl_glass_blur", "label": "Glass blur", "min": 0, "max": 32, "step": 2, "default": 18, "unit": "px" },
+ { "type": "checkbox", "id": "nl_elevated", "label": "Premium shadow", "default": true },
+ { "type": "range", "id": "nl_shadow_opacity", "label": "Shadow strength", "min": 0, "max": 40, "step": 2, "default": 12, "unit": "%" },
+ { "type": "range", "id": "nl_input_radius", "label": "Form input corner radius", "min": 0, "max": 20, "step": 2, "default": 10, "unit": "px" },
+ { "type": "color", "id": "nl_btn_bg", "label": "Subscribe button background" },
+ { "type": "color", "id": "nl_btn_color", "label": "Subscribe button text colour", "default": "#ffffff" },
+ { "type": "checkbox", "id": "nl_show_icon", "label": "Show icon", "default": true },
+ { "type": "image_picker", "id": "nl_icon", "label": "Custom icon image (optional)" },
+ { "type": "text", "id": "nl_eyebrow", "label": "Eyebrow above heading", "default": "STAY INSPIRED" },
+ { "type": "text", "id": "nl_heading", "label": "Heading", "default": "A Little More Joy in Your Inbox" },
+ { "type": "text", "id": "nl_desc", "label": "Description", "default": "Discover new arrivals, thoughtful gift ideas and playful inspiration." },
+ { "type": "text", "id": "nl_placeholder", "label": "Email placeholder", "default": "Your email address" },
+ { "type": "text", "id": "nl_btn", "label": "Button label", "default": "Join Us" },
+ { "type": "text", "id": "nl_success", "label": "Success message", "default": "Welcome. You are on the list." },
+ { "type": "text", "id": "nl_note", "label": "Privacy note below form", "default": "By subscribing, you agree to receive emails from Online Homes Store. You can unsubscribe at any time." },
+
+ { "type": "header", "content": "━━ Brand Column ━━" },
+ { "type": "paragraph", "content": "Recommended: 360 x 120 px PNG. Under 80 KB." },
+ { "type": "image_picker", "id": "logo", "label": "Logo (360x120)" },
+ { "type": "range", "id": "logo_width", "label": "Logo max width", "min": 60, "max": 260, "step": 10, "default": 140, "unit": "px" },
+ { "type": "text", "id": "brand_tagline", "label": "Tagline below text logo" },
+ { "type": "text", "id": "brand_desc", "label": "Brand description", "default": "Online Homes Store is a calm, curated destination for baby toys, educational play and meaningful gifts for young children." },
+ { "type": "text", "id": "trust_badge_1", "label": "Trust badge 1", "default": "Cruelty-free" },
+ { "type": "text", "id": "trust_badge_2", "label": "Trust badge 2", "default": "Salon-grade formulas" },
+ { "type": "text", "id": "trust_badge_3", "label": "Trust badge 3", "default": "Secure checkout" },
+
+ { "type": "header", "content": "Navigation Columns" },
+ { "type": "paragraph", "content": "Pick a Shopify navigation menu for each column. Then add extra links with Add block. Footer text, hours, email, and social links use these settings first." },
+ { "type": "link_list", "id": "nav_shop", "label": "Shop navigation menu" },
+ { "type": "text", "id": "nav_shop_label", "label": "Shop column heading", "default": "Shop" },
+ { "type": "link_list", "id": "nav_company", "label": "Company navigation menu" },
+ { "type": "text", "id": "nav_company_label", "label": "Company column heading", "default": "Company" },
+ { "type": "link_list", "id": "nav_support", "label": "Customer service navigation menu" },
+ { "type": "text", "id": "nav_support_label", "label": "Customer service column heading", "default": "Customer Service" },
+
+ { "type": "header", "content": "━━ Contact Column ━━" },
+ { "type": "text", "id": "contact_heading", "label": "Contact column heading", "default": "Need Help?" },
+ { "type": "header", "content": "Mobile footer layout" },
+ { "type": "text", "id": "mobile_whatsapp_label", "label": "WhatsApp button text (mobile)", "default": "Chat on WhatsApp" },
+ { "type": "text", "id": "mobile_follow_label", "label": "Social heading (mobile)", "default": "Follow on" },
+ { "type": "text", "id": "mobile_contact_heading", "label": "Contact heading (mobile)", "default": "Contact us" },
+ { "type": "text", "id": "contact_email", "label": "Email address", "default": "" },
+ { "type": "text", "id": "contact_phone", "label": "Phone number" },
+ { "type": "text", "id": "contact_hours", "label": "Business hours", "default": "Mon - Fri: 9am - 6pm" },
+ { "type": "text", "id": "contact_address", "label": "Address (optional)" },
+ { "type": "text", "id": "contact_whatsapp", "label": "WhatsApp number (with country code, e.g. +923001234567)" },
+ { "type": "url", "id": "contact_map_url", "label": "Map / directions link (optional)" },
+ { "type": "text", "id": "contact_map_label", "label": "Map button label", "default": "Get directions" },
+ { "type": "color", "id": "icon_bg", "label": "Contact icon background" },
+
+ { "type": "header", "content": "━━ Social Media ━━" },
+ { "type": "checkbox", "id": "show_social", "label": "Show social icons", "default": true },
+ { "type": "range", "id": "social_size", "label": "Icon container size", "min": 28, "max": 56, "step": 4, "default": 36, "unit": "px" },
+ { "type": "select", "id": "social_shape", "label": "Icon shape", "options": [{ "value": "50%", "label": "Circle" }, { "value": "8px", "label": "Rounded square" }, { "value": "0", "label": "Square" }], "default": "50%" },
+ { "type": "color", "id": "social_bg", "label": "Icon background" },
+ { "type": "color", "id": "social_color", "label": "Icon colour", "default": "#5a5a5a" },
+ { "type": "url", "id": "social_instagram", "label": "Instagram URL" },
+ { "type": "url", "id": "social_facebook", "label": "Facebook URL" },
+ { "type": "url", "id": "social_tiktok", "label": "TikTok URL" },
+ { "type": "url", "id": "social_pinterest", "label": "Pinterest URL" },
+ { "type": "url", "id": "social_youtube", "label": "YouTube URL" },
+ { "type": "url", "id": "social_twitter", "label": "X (Twitter) URL" },
+ { "type": "url", "id": "social_threads", "label": "Threads URL" },
+ { "type": "url", "id": "social_linkedin", "label": "LinkedIn URL" },
+ { "type": "url", "id": "social_whatsapp", "label": "WhatsApp URL" },
+ { "type": "url", "id": "social_snapchat", "label": "Snapchat URL" },
+
+ { "type": "header", "content": "━━ Bottom Bar ━━" },
+ { "type": "text", "id": "copyright_suffix", "label": "Copyright suffix text", "default": "All Rights Reserved." },
+ { "type": "checkbox", "id": "show_payments", "label": "Show payment icons (auto-detected from store)", "default": true },
+ { "type": "checkbox", "id": "show_localization", "label": "Show country and language selectors", "default": true },
+ { "type": "checkbox", "id": "show_country_selector", "label": "Country selector", "default": true },
+ { "type": "checkbox", "id": "show_language_selector", "label": "Language selector", "default": true },
+ { "type": "link_list", "id": "policy_menu", "label": "Extra policy links menu (optional)" },
+
+ { "type": "header", "content": "UC - Responsive spacing" },
+ { "type": "range", "id": "pad_top_lg", "label": "Top padding - laptop (990px+)", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+ { "type": "range", "id": "pad_top_xxl", "label": "Top padding - large desktop (1440px+)", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 96 },
+ { "type": "range", "id": "container_max_lg", "label": "Container max width - laptop+", "min": 960, "max": 1600, "step": 20, "unit": "px", "default": 1280 },
+ { "type": "select", "id": "container_mode", "label": "Container", "default": "boxed", "options": [{"value":"boxed","label":"Boxed"},{"value":"full","label":"Full width"}] },
+ { "type": "header", "content": "Typography — sizes by device" },
+ { "type": "paragraph", "content": "Set font sizes per breakpoint. Values apply immediately (no override checkbox required)." },
+ { "type": "range", "id": "eyebrow_size_xs", "label": "Eyebrow / pill label — mobile", "min": 9, "max": 18, "step": 1, "unit": "px", "default": 11 },
+ { "type": "range", "id": "eyebrow_size_md", "label": "Eyebrow / pill label — tablet (750px+)", "min": 9, "max": 18, "step": 1, "unit": "px", "default": 11 },
+ { "type": "range", "id": "eyebrow_size_lg", "label": "Eyebrow / pill label — laptop (990px+)", "min": 9, "max": 20, "step": 1, "unit": "px", "default": 12 },
+ { "type": "range", "id": "eyebrow_size_xxl", "label": "Eyebrow / pill label — large desktop", "min": 9, "max": 20, "step": 1, "unit": "px", "default": 12 },
+ { "type": "range", "id": "h_size_xs", "label": "Heading — mobile", "min": 18, "max": 56, "step": 1, "unit": "px", "default": 24 },
+ { "type": "range", "id": "h_size_md", "label": "Heading — tablet (750px+)", "min": 18, "max": 64, "step": 1, "unit": "px", "default": 26 },
+ { "type": "range", "id": "h_size_lg", "label": "Heading — laptop (990px+)", "min": 20, "max": 64, "step": 1, "unit": "px", "default": 30 },
+ { "type": "range", "id": "h_size_xxl", "label": "Heading — large desktop", "min": 20, "max": 72, "step": 1, "unit": "px", "default": 32 },
+ { "type": "range", "id": "sub_size_xs", "label": "Subheading — mobile", "min": 12, "max": 36, "step": 1, "unit": "px", "default": 16 },
+ { "type": "range", "id": "sub_size_md", "label": "Subheading — tablet", "min": 12, "max": 40, "step": 1, "unit": "px", "default": 17 },
+ { "type": "range", "id": "sub_size_lg", "label": "Subheading — laptop+", "min": 12, "max": 40, "step": 1, "unit": "px", "default": 18 },
+ { "type": "range", "id": "sub_size_xxl", "label": "Subheading — large desktop", "min": 12, "max": 44, "step": 1, "unit": "px", "default": 18 },
+ { "type": "range", "id": "desc_size_xs", "label": "Description — mobile", "min": 12, "max": 22, "step": 1, "unit": "px", "default": 14 },
+ { "type": "range", "id": "desc_size_md", "label": "Description — tablet", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 15 },
+ { "type": "range", "id": "desc_size_lg", "label": "Description — laptop+", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 15 },
+ { "type": "range", "id": "desc_size_xxl", "label": "Description — large desktop", "min": 12, "max": 26, "step": 1, "unit": "px", "default": 16 },
+ { "type": "range", "id": "btn_size_xs", "label": "Button / pill text — mobile", "min": 11, "max": 18, "step": 1, "unit": "px", "default": 13 },
+ { "type": "range", "id": "btn_size_md", "label": "Button / pill text — tablet", "min": 11, "max": 18, "step": 1, "unit": "px", "default": 13 },
+ { "type": "range", "id": "btn_size_lg", "label": "Button / pill text — laptop+", "min": 11, "max": 20, "step": 1, "unit": "px", "default": 14 },
+ { "type": "range", "id": "btn_size_xxl", "label": "Button / pill text — large desktop", "min": 11, "max": 20, "step": 1, "unit": "px", "default": 14 },
+ { "type": "header", "content": "UC - Section colors" },
+ { "type": "checkbox", "id": "use_global_colors", "label": "Use global brand colors", "default": true }
+ ],
+ "max_blocks": 50,
+ "blocks": [
+ {
+ "type": "link",
+ "name": "Extra footer link",
+ "settings": [
+ {
+ "type": "select",
+ "id": "column",
+ "label": "Show in column",
+ "default": "shop",
+ "options": [
+ { "value": "shop", "label": "Shop" },
+ { "value": "company", "label": "Company" },
+ { "value": "support", "label": "Customer service" },
+ { "value": "contact", "label": "Contact" }
+ ]
+ },
+ { "type": "text", "id": "title", "label": "Link label" },
+ { "type": "url", "id": "url", "label": "Link URL" }
+ ]
+ },
+ {
+ "type": "menu",
+ "name": "Extra menu column",
+ "settings": [
+ { "type": "text", "id": "heading", "label": "Column heading" },
+ { "type": "link_list", "id": "menu", "label": "Menu" }
+ ]
+ }
+ ],
+ "presets": [
+ {
+ "name": "UC Footer",
+ "settings": {
+ "show_newsletter": true,
+ "nl_heading": "Stay Inspired",
+ "nl_desc": "Join our newsletter for exclusive offers, tips and launches.",
+ "nl_btn": "Subscribe",
+ "brand_desc": "Premium quality products, crafted with care.",
+ "nav_shop_label": "Shop",
+ "nav_company_label": "Company",
+ "nav_support_label": "Customer Service",
+ "contact_heading": "Need Help?",
+ "contact_hours": "Mon - Fri: 9am - 6pm EST"
+ }
+ }
+ ]
+}
+{% endschema %}

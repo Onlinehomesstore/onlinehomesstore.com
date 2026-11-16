@@ -1,0 +1,158 @@
+@media screen and (max-width: 749px) {
+  .collection .grid__item:only-child {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+@media screen and (max-width: 989px) {
+  .collection .slider.slider--tablet {
+    margin-bottom: 1.5rem;
+  }
+}
+
+.collection .loading-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  display: none;
+  width: 100%;
+  padding: 0;
+  opacity: 1;
+  background: rgba(247, 244, 239, 0.18);
+  pointer-events: none;
+}
+
+.collection.loading .loading-overlay {
+  display: block;
+}
+
+/* Smooth filter transitions — never blank the grid */
+.product-grid-container {
+  transition: opacity 0.2s ease;
+  min-height: 120px;
+}
+
+.product-grid-container.is-filtering {
+  opacity: 1;
+  pointer-events: none;
+}
+
+.product-grid-container.is-filtering .loading-overlay {
+  display: block;
+}
+
+/* After AJAX filters: cards must stay visible (uc-motion must not hide them) */
+#ProductGridContainer .pc-card,
+#ProductGridContainer .grid__item,
+#ProductGridContainer [data-uc-reveal] {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+}
+
+#ProductGridContainer .collection,
+#ProductGridContainer #product-grid {
+  display: block;
+  visibility: visible;
+  opacity: 1;
+}
+
+#ProductGridContainer #product-grid.product-grid,
+#ProductGridContainer ul.product-grid {
+  display: grid;
+}
+
+@media screen and (min-width: 990px) {
+  .template-collection #ProductGridContainer #product-grid.product-grid,
+  .template-collection #ProductGridContainer ul.product-grid,
+  .template-search #ProductGridContainer #product-grid.product-grid,
+  .template-search #ProductGridContainer ul.product-grid {
+    display: grid !important;
+    gap: clamp(16px, 2vw, 24px) !important;
+    width: 100%;
+  }
+
+  .template-collection #ProductGridContainer #product-grid.grid--2-col-desktop,
+  .template-search #ProductGridContainer #product-grid.grid--2-col-desktop {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .template-collection #ProductGridContainer #product-grid.grid--3-col-desktop,
+  .template-search #ProductGridContainer #product-grid.grid--3-col-desktop {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  .template-collection #ProductGridContainer #product-grid.grid--4-col-desktop,
+  .template-search #ProductGridContainer #product-grid.grid--4-col-desktop {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+
+  .template-collection #ProductGridContainer #product-grid.grid--5-col-desktop,
+  .template-search #ProductGridContainer #product-grid.grid--5-col-desktop {
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  }
+
+  .facets-vertical .template-collection #ProductGridContainer #product-grid.grid--4-col-desktop,
+  .facets-vertical .template-collection #ProductGridContainer #product-grid.grid--5-col-desktop,
+  .facets-vertical .template-search #ProductGridContainer #product-grid.grid--4-col-desktop,
+  .facets-vertical .template-search #ProductGridContainer #product-grid.grid--5-col-desktop {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  .template-collection #ProductGridContainer #product-grid .grid__item,
+  .template-search #ProductGridContainer #product-grid .grid__item {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex: none !important;
+  }
+}
+
+.collection--empty .title-wrapper {
+  margin-top: 10rem;
+  margin-bottom: 15rem;
+}
+
+@media screen and (max-width: 989px) {
+  .collection .slider--tablet.product-grid {
+    scroll-padding-left: 1.5rem;
+  }
+}
+
+.collection__description > * {
+  margin: 0;
+}
+
+.collection__title.title-wrapper {
+  margin-bottom: 2.5rem;
+}
+
+.collection__title .title:not(:only-child) {
+  margin-bottom: 1rem;
+}
+
+@media screen and (min-width: 990px) {
+  .collection__title--desktop-slider .title {
+    margin-bottom: 2.5rem;
+  }
+
+  .collection__title.title-wrapper--self-padded-tablet-down {
+    padding: 0 5rem;
+  }
+
+  .collection slider-component:not(.page-width-desktop) {
+    padding: 0;
+  }
+
+  .collection--full-width slider-component:not(.slider-component-desktop) {
+    padding: 0 1.5rem;
+    max-width: none;
+  }
+}
+
+.collection__view-all a:not(.link) {
+  margin-top: 1rem;
+}

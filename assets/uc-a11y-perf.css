@@ -1,0 +1,149 @@
+/*
+  Late-loaded a11y + light perf helpers (after device-lock).
+  Targets Lighthouse accessibility without changing layout structure.
+*/
+
+/* Visible focus for keyboard users sitewide */
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #b68a35;
+  outline-offset: 2px;
+}
+
+.skip-to-content-link:focus-visible {
+  outline: 2px solid #1a1814;
+  outline-offset: 3px;
+}
+
+/* Motion: drop will-change after reveal completes */
+[data-uc-reveal].is-visible,
+[data-uc-reveal].is-revealed {
+  will-change: auto !important;
+}
+
+/* Review stream off-screen = no compositor work */
+.uc-rev-stream:not(.is-in-view) .uc-rev-stream__track {
+  animation-play-state: paused !important;
+  will-change: auto !important;
+}
+
+/* ── Contrast: eyebrows + nav active (WCAG AA on cream) ─────────────────── */
+html body .category-showcase__label,
+html body .uc-sec__eyebrow,
+html body .vr__intro .category-showcase__label,
+html body .vr__eyebrow {
+  color: #5c4518 !important;
+}
+
+html body .uc-phdr__nav-link.is-active {
+  color: #5c4518 !important;
+}
+
+html body .ueh__btn--primary {
+  background: #765a24 !important;
+  color: #ffffff !important;
+}
+
+/* ── Carousel dots: 44px touch targets, visual pill via ::before ─────────── */
+html body .ueh__dot,
+html body .category-showcase__dot,
+html body .pvr__dot,
+html body .pvr__dots button {
+  position: relative !important;
+  min-width: 44px !important;
+  min-height: 44px !important;
+  width: 44px !important;
+  height: 44px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+html body .ueh__dot::before,
+html body .category-showcase__dot::before,
+html body .pvr__dot::before,
+html body .pvr__dots button::before {
+  content: "";
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(26, 24, 20, 0.28);
+  transition: width 0.2s ease, background 0.2s ease;
+}
+
+html body .ueh__dots .ueh__dot::before {
+  background: rgba(255, 255, 255, 0.55);
+}
+
+html body .ueh__dots .ueh__dot.is-active::before {
+  width: 22px;
+  background: #ffffff;
+}
+
+html body .category-showcase__dot.is-active::before {
+  width: 22px;
+  background: #1a1814;
+}
+
+/* Reels dots: tiny gold pill, 44px invisible hit (overrides redesign gold blob) */
+html body .pvr__dots {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 2px !important;
+}
+
+html body .pvr__dots .pvr__dot,
+html body .pvr__dots button {
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px !important;
+  min-height: 44px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+  opacity: 1 !important;
+}
+
+html body .pvr__dots .pvr__dot::before,
+html body .pvr__dots button::before {
+  width: 7px !important;
+  height: 7px !important;
+  background: rgba(26, 24, 20, 0.22) !important;
+}
+
+html body .pvr__dots .pvr__dot.is-active::before,
+html body .pvr__dots button.is-active::before {
+  width: 22px !important;
+  height: 7px !important;
+  background: #b68a35 !important;
+}
+
+html body .uc-ft-payment-item {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .uc-viewing__pulse {
+    display: none;
+  }
+
+  html body .ueh__dot::before,
+  html body .category-showcase__dot::before,
+  html body .pvr__dot::before {
+    transition: none;
+  }
+}

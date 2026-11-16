@@ -1,0 +1,277 @@
+{%- comment -%}
+ ============================================================================
+ WHY CHOOSE US  -  PRODUCT COMPARISON + TRUST STATS
+ ----
+ Original section showing a modern comparison between our brand and generic
+ alternatives. Two elegant cards side-by-side + animated stat counters.
+
+ Reuses: uc-design-tokens.css, uc-components.css, uc-icon.liquid.
+ New: product-why-us.css, product-why-us.js (count-up + reveal, ~75 lines).
+
+ Two block types:
+ comparison_row  -  rendered in BOTH the "ours" and "others" card
+ stat  -  rendered in the stats strip below
+ ============================================================================
+{%- endcomment -%}
+{{ 'product-why-us.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+ assign s = section.settings
+ assign uid = section.id
+ assign comparison_blocks = section.blocks | where: 'type', 'comparison_row'
+ assign stat_blocks = section.blocks | where: 'type', 'stat'
+-%}
+
+{%- assign uc_sec_scope = '#WhyChooseUs-' | append: uid -%}
+{%- render 'uc-section-vars', section: section, scope: uc_sec_scope -%}
+{%- render 'uc-section-colors', section: section -%}
+
+{%- style -%}
+ #WhyChooseUs-{{ uid }} {
+ --pwu-pad-top: {{ s.padding_top | default: 64 }}px;
+ --pwu-pad-bottom: {{ s.padding_bottom | default: 64 }}px;
+ --pwu-card-radius: {{ s.card_radius | default: 24 }}px;
+ }
+ {%- if s.background_color != blank -%}
+ #WhyChooseUs-{{ uid }} { background: {{ s.background_color }}; }
+ {%- endif -%}
+ {%- if s.accent_color != blank -%}
+ #WhyChooseUs-{{ uid }} { --pwu-accent: {{ s.accent_color }}; }
+ {%- endif -%}
+{%- endstyle -%}
+
+<section
+ id="WhyChooseUs-{{ uid }}"
+ class="pwu uc-sec color-{{ s.color_scheme }}"
+ data-pwu-section
+>
+ <div class="pwu__inner uc-sec__container">
+
+ {%- comment -%} Section header {%- endcomment -%}
+ <header class="pwu__header pwu__header--{{ s.heading_alignment | default: 'center' }}">
+ {%- if s.eyebrow != blank -%}
+ <p class="pwu__eyebrow">{{ s.eyebrow | escape }}</p>
+ {%- endif -%}
+ {%- if s.heading != blank -%}
+ <h2 class="pwu__heading uc-sec__heading">{{ s.heading | escape }}</h2>
+ {%- endif -%}
+ {%- if s.subtitle != blank -%}
+ <p class="pwu__subtitle">{{ s.subtitle | escape }}</p>
+ {%- endif -%}
+ </header>
+
+ {%- comment -%} Comparison cards {%- endcomment -%}
+ {%- if comparison_blocks.size > 0 -%}
+ <div class="pwu__comparison" role="group" aria-label="Brand comparison">
+
+ {%- comment -%} Our Brand card (left, premium styled) {%- endcomment -%}
+ <div class="pwu__card pwu__card--ours">
+ <div class="pwu__card-header">
+ {%- if s.our_logo != blank -%}
+ {%- assign pwu_logo_alt = s.our_brand_name | default: 'Our Brand' | escape -%}
+ {{
+ s.our_logo
+ | image_url: width: 120
+ | image_tag: class: 'pwu__brand-logo', loading: 'lazy', alt: pwu_logo_alt
+ }}
+ {%- endif -%}
+ <h3 class="pwu__brand-name pwu__brand-name--ours">{{ s.our_brand_name | default: 'Our Brand' | escape }}</h3>
+ <span class="pwu__brand-badge">{%- render 'uc-icon', icon: 'check', size: 12 -%} Recommended</span>
+ </div>
+
+ <div class="pwu__rows" role="list" aria-label="{{ s.our_brand_name | default: 'Our brand' | escape }} features">
+ {%- for block in comparison_blocks -%}
+ <div class="pwu__row pwu__row--ours" role="listitem" {{ block.shopify_attributes }}>
+ <span class="pwu__feature">{{ block.settings.feature | escape }}</span>
+ <div class="pwu__row-right">
+ {%- if block.settings.our_check -%}
+ <span class="pwu__icon pwu__icon--check" aria-label="Yes">
+ {%- render 'uc-icon', icon: 'check', size: 16 -%}
+ </span>
+ {%- else -%}
+ <span class="pwu__icon pwu__icon--cross" aria-label="No">
+ {%- render 'uc-icon', icon: 'x', size: 16 -%}
+ </span>
+ {%- endif -%}
+ {%- if block.settings.our_detail != blank -%}
+ <span class="pwu__detail">{{ block.settings.our_detail | escape }}</span>
+ {%- endif -%}
+ </div>
+ </div>
+ {%- endfor -%}
+ </div>
+ </div>
+
+ {%- comment -%} Others card (right, neutral/muted) {%- endcomment -%}
+ <div class="pwu__card pwu__card--others">
+ <div class="pwu__card-header">
+ <h3 class="pwu__brand-name pwu__brand-name--others">{{ s.others_name | default: 'Other Brands' | escape }}</h3>
+ </div>
+
+ <div class="pwu__rows" role="list" aria-label="{{ s.others_name | default: 'Other brands' | escape }} features">
+ {%- for block in comparison_blocks -%}
+ <div class="pwu__row pwu__row--others" role="listitem">
+ <span class="pwu__feature">{{ block.settings.feature | escape }}</span>
+ <div class="pwu__row-right">
+ {%- if block.settings.others_check -%}
+ <span class="pwu__icon pwu__icon--check pwu__icon--muted" aria-label="Yes">
+ {%- render 'uc-icon', icon: 'check', size: 16 -%}
+ </span>
+ {%- else -%}
+ <span class="pwu__icon pwu__icon--cross" aria-label="No">
+ {%- render 'uc-icon', icon: 'x', size: 16 -%}
+ </span>
+ {%- endif -%}
+ {%- if block.settings.other_detail != blank -%}
+ <span class="pwu__detail">{{ block.settings.other_detail | escape }}</span>
+ {%- endif -%}
+ </div>
+ </div>
+ {%- endfor -%}
+ </div>
+ </div>
+ </div>
+ {%- endif -%}
+
+ {%- comment -%} Trust statistics strip {%- endcomment -%}
+ {%- if stat_blocks.size > 0 -%}
+ {%- if s.stats_heading != blank -%}
+ <p class="pwu__stats-label">{{ s.stats_heading | escape }}</p>
+ {%- endif -%}
+ <div class="pwu__stats" data-pwu-stats role="list" aria-label="Trust statistics">
+ {%- for block in stat_blocks -%}
+ <div class="pwu__stat" role="listitem" {{ block.shopify_attributes }}>
+ <span
+ class="pwu__stat-number"
+ data-count="{{ block.settings.number }}"
+ data-prefix="{{ block.settings.prefix | escape }}"
+ data-suffix="{{ block.settings.suffix | escape }}"
+ >{{ block.settings.prefix | escape }}{{ block.settings.number | escape }}{{ block.settings.suffix | escape }}</span>
+ <span class="pwu__stat-label">{{ block.settings.label | escape }}</span>
+ </div>
+ {%- endfor -%}
+ </div>
+ {%- endif -%}
+
+ </div>
+</section>
+
+<script src="{{ 'product-why-us.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+ "name": "UC Why choose us",
+ "tag": "section",
+ "class": "section section-why-choose-us",
+ "max_blocks": 20,
+ "settings": [
+ { "type": "header", "content": "Section header" },
+ { "type": "text", "id": "eyebrow", "label": "Eyebrow label", "default": "Why choose us" },
+ { "type": "text", "id": "heading", "label": "Heading", "default": "The clear difference" },
+ { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Not all colour shampoos are equal. See what sets us apart." },
+ {
+ "type": "select", "id": "heading_alignment", "label": "Header alignment", "default": "center",
+ "options": [
+ { "value": "left", "label": "Left" },
+ { "value": "center", "label": "Center" },
+ { "value": "right", "label": "Right" }
+ ]
+ },
+
+ { "type": "header", "content": "Our brand card" },
+ { "type": "text", "id": "our_brand_name", "label": "Brand name", "default": "Polar Hair Care" },
+ { "type": "paragraph", "content": "Recommended: 240 x 80 px PNG/SVG under 50 KB." },
+ { "type": "image_picker", "id": "our_logo", "label": "Our brand logo (240x80)" },
+
+ { "type": "header", "content": "Others card" },
+ { "type": "text", "id": "others_name", "label": "Others label", "default": "Other Brands" },
+
+ { "type": "header", "content": "Stats strip" },
+ { "type": "text", "id": "stats_heading", "label": "Stats eyebrow label", "default": "Trusted by thousands" },
+
+ { "type": "header", "content": "Layout and spacing" },
+ { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 64 },
+ { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 64 },
+ { "type": "range", "id": "card_radius", "label": "Card radius", "min": 0, "max": 40, "step": 4, "unit": "px", "default": 24 },
+
+ { "type": "header", "content": "UC - Responsive spacing" },
+ { "type": "range", "id": "pad_top_lg", "label": "Top padding - laptop (990px+)", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+ { "type": "range", "id": "pad_top_xxl", "label": "Top padding - large desktop (1440px+)", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 96 },
+ { "type": "range", "id": "container_max_lg", "label": "Container max width - laptop+", "min": 960, "max": 1600, "step": 20, "unit": "px", "default": 1280 },
+ { "type": "select", "id": "container_mode", "label": "Container", "default": "boxed", "options": [{"value":"boxed","label":"Boxed"},{"value":"full","label":"Full width"}] },
+ { "type": "header", "content": "Typography — sizes by device" },
+ { "type": "paragraph", "content": "Set font sizes per breakpoint. Values apply immediately (no override checkbox required)." },
+ { "type": "range", "id": "eyebrow_size_xs", "label": "Eyebrow / pill label — mobile", "min": 9, "max": 18, "step": 1, "unit": "px", "default": 11 },
+ { "type": "range", "id": "eyebrow_size_md", "label": "Eyebrow / pill label — tablet (750px+)", "min": 9, "max": 18, "step": 1, "unit": "px", "default": 11 },
+ { "type": "range", "id": "eyebrow_size_lg", "label": "Eyebrow / pill label — laptop (990px+)", "min": 9, "max": 20, "step": 1, "unit": "px", "default": 12 },
+ { "type": "range", "id": "eyebrow_size_xxl", "label": "Eyebrow / pill label — large desktop", "min": 9, "max": 20, "step": 1, "unit": "px", "default": 12 },
+ { "type": "range", "id": "h_size_xs", "label": "Heading — mobile", "min": 18, "max": 56, "step": 1, "unit": "px", "default": 24 },
+ { "type": "range", "id": "h_size_md", "label": "Heading — tablet (750px+)", "min": 18, "max": 64, "step": 1, "unit": "px", "default": 26 },
+ { "type": "range", "id": "h_size_lg", "label": "Heading — laptop (990px+)", "min": 20, "max": 64, "step": 1, "unit": "px", "default": 30 },
+ { "type": "range", "id": "h_size_xxl", "label": "Heading — large desktop", "min": 20, "max": 72, "step": 1, "unit": "px", "default": 32 },
+ { "type": "range", "id": "sub_size_xs", "label": "Subheading — mobile", "min": 12, "max": 36, "step": 1, "unit": "px", "default": 16 },
+ { "type": "range", "id": "sub_size_md", "label": "Subheading — tablet", "min": 12, "max": 40, "step": 1, "unit": "px", "default": 17 },
+ { "type": "range", "id": "sub_size_lg", "label": "Subheading — laptop+", "min": 12, "max": 40, "step": 1, "unit": "px", "default": 18 },
+ { "type": "range", "id": "sub_size_xxl", "label": "Subheading — large desktop", "min": 12, "max": 44, "step": 1, "unit": "px", "default": 18 },
+ { "type": "range", "id": "desc_size_xs", "label": "Description — mobile", "min": 12, "max": 22, "step": 1, "unit": "px", "default": 14 },
+ { "type": "range", "id": "desc_size_md", "label": "Description — tablet", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 15 },
+ { "type": "range", "id": "desc_size_lg", "label": "Description — laptop+", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 15 },
+ { "type": "range", "id": "desc_size_xxl", "label": "Description — large desktop", "min": 12, "max": 26, "step": 1, "unit": "px", "default": 16 },
+ { "type": "range", "id": "btn_size_xs", "label": "Button / pill text — mobile", "min": 11, "max": 18, "step": 1, "unit": "px", "default": 13 },
+ { "type": "range", "id": "btn_size_md", "label": "Button / pill text — tablet", "min": 11, "max": 18, "step": 1, "unit": "px", "default": 13 },
+ { "type": "range", "id": "btn_size_lg", "label": "Button / pill text — laptop+", "min": 11, "max": 20, "step": 1, "unit": "px", "default": 14 },
+ { "type": "range", "id": "btn_size_xxl", "label": "Button / pill text — large desktop", "min": 11, "max": 20, "step": 1, "unit": "px", "default": 14 },
+ { "type": "color_scheme", "id": "color_scheme", "label": "Colour scheme", "default": "scheme-1" },
+ { "type": "color", "id": "background_color", "label": "Background override" },
+ { "type": "color", "id": "accent_color", "label": "Accent colour (our brand highlight)", "default": "#B68A35" }
+ ],
+ "blocks": [
+ {
+ "type": "comparison_row",
+ "name": "Comparison row",
+ "settings": [
+ { "type": "text", "id": "feature", "label": "Feature name", "default": "Ammonia-free formula" },
+ { "type": "checkbox", "id": "our_check", "label": "Our brand: Yes", "default": true },
+ { "type": "text", "id": "our_detail", "label": "Our brand: detail (optional)" },
+ { "type": "checkbox", "id": "others_check", "label": "Others: Yes", "default": false },
+ { "type": "text", "id": "other_detail", "label": "Others: detail (optional)" }
+ ]
+ },
+ {
+ "type": "stat",
+ "name": "Trust stat",
+ "settings": [
+ { "type": "text", "id": "prefix", "label": "Prefix (e.g. â˜…, $)" },
+ { "type": "text", "id": "number", "label": "Number (animates up to this)", "default": "50000" },
+ { "type": "text", "id": "suffix", "label": "Suffix (e.g. +, %, K+)", "default": "+" },
+ { "type": "text", "id": "label", "label": "Label", "default": "Happy Customers" }
+ ]
+ }
+ ],
+ "presets": [
+ {
+ "name": "Why Choose Us",
+ "blocks": [
+ { "type": "comparison_row", "settings": { "feature": "Ammonia-free formula", "our_check": true, "others_check": false } },
+ { "type": "comparison_row", "settings": { "feature": "Covers grey hair 100%", "our_check": true, "our_detail": "From first use", "others_check": true, "other_detail": "Partial coverage" } },
+ { "type": "comparison_row", "settings": { "feature": "No harsh chemicals", "our_check": true, "others_check": false } },
+ { "type": "comparison_row", "settings": { "feature": "Long-lasting colour", "our_check": true, "our_detail": "Up to 6 weeks", "others_check": true, "other_detail": "2 - 3 weeks" } },
+ { "type": "comparison_row", "settings": { "feature": "Dermatologically tested", "our_check": true, "others_check": false } },
+ { "type": "comparison_row", "settings": { "feature": "Natural ingredients", "our_check": true, "others_check": false } },
+ { "type": "comparison_row", "settings": { "feature": "30-day guarantee", "our_check": true, "others_check": false } },
+ { "type": "stat", "settings": { "number": "50000", "suffix": "+", "label": "Happy Customers" } },
+ { "type": "stat", "settings": { "prefix": "", "number": "98", "suffix": "%", "label": "Positive Reviews" } },
+ { "type": "stat", "settings": { "number": "10", "suffix": "+", "label": "Years of Experience" } },
+ { "type": "stat", "settings": { "prefix": "", "number": "100", "suffix": "%", "label": "Secure Checkout" } }
+ ]
+ },
+ {
+ "name": "Content - Why choose UNIK Care",
+ "settings": {
+ "eyebrow": "The UNIK difference",
+ "heading": "Why choose UNIK Care"
+ }
+ }
+ ]
+}
+{% endschema %}

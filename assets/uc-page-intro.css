@@ -1,0 +1,112 @@
+/* UC Page intro — uses shared --uc-subpage-top */
+
+.upi {
+  --upi-pad-top: 0px;
+  --upi-pad-bottom: 24px;
+  padding-top: 8px;
+  padding-bottom: var(--upi-pad-bottom);
+  background: transparent;
+}
+
+.upi__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: min(100%, 90rem);
+  margin-inline: auto;
+  padding-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px));
+  box-sizing: border-box;
+  gap: var(--uc-space-heading-to-desc, 10px);
+  border: 0;
+  box-shadow: none;
+}
+
+.template-search .upi,
+.template-search .upi.uc-sec,
+.template-search .upi__inner,
+.template-search .upi__title {
+  border: 0 !important;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.template-search .upi::after,
+.template-search .upi::before,
+.template-search .upi__inner::after,
+.template-search .upi__inner::before,
+.template-search .upi__title::after {
+  content: none !important;
+  display: none !important;
+  border: 0 !important;
+}
+
+.upi__eyebrow {
+  margin: 0 !important;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--uc-color-primary, #b68a35);
+  line-height: 1.3;
+}
+
+.template-search .shopify-section.section-uc-page-intro,
+.template-search #MainContent > .shopify-section:first-child {
+  border: 0 !important;
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+}
+
+.upi__title {
+  margin: 0 !important;
+  font-family: var(--uc-font-heading, 'Manrope', sans-serif);
+  font-size: var(--uc-text-h1);
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: -0.025em;
+  color: #2a2a2a;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: none;
+  padding-inline: 0;
+}
+
+.upi__tagline {
+  margin: 0 !important;
+  font-size: var(--uc-text-lead);
+  font-weight: 400;
+  line-height: 1.58;
+  color: #2a2a2a;
+  max-width: min(100%, 72ch);
+}
+
+@media screen and (max-width: 749px) {
+  .upi {
+    padding-bottom: 20px;
+  }
+
+  .upi__inner {
+    gap: var(--uc-space-heading-to-desc, 10px);
+    padding-inline: max(18px, env(safe-area-inset-left, 0px)) max(18px, env(safe-area-inset-right, 0px));
+  }
+
+  .upi__title {
+    font-size: var(--uc-text-h1);
+    line-height: 1.22;
+    letter-spacing: -0.02em;
+  }
+
+  .upi__tagline {
+    font-size: var(--uc-text-lead);
+    line-height: 1.55;
+  }
+}
+
+@media screen and (max-width: 389px) {
+  .upi__title {
+    font-size: 24px;
+  }
+}

@@ -1,0 +1,255 @@
+{%- comment -%}
+ ============================================================================
+ STICKY MOBILE ATC  -  Section 13
+ ----
+ Feature-rich bottom bar for mobile/tablet. Hidden on desktop by default.
+ Distinct from sticky-atc.liquid (desktop bar, simpler features).
+
+ Features:
+  Appears when main ATC button scrolls out of view (IntersectionObserver)
+  Compact variant <select>
+  Quantity stepper
+  Add to Cart (AJAX + cart drawer)
+  Buy Now (direct form to /cart/buy  -  bypasses cart)
+  Inventory warning badge
+  Shipping reminder text
+  Trust icons (secure + free shipping)
+  Discount badge
+  iPhone safe-area inset support
+  Hides when footer enters viewport
+
+ Reuses: uc-design-tokens.css, uc-components.css.
+ Adds: sticky-mobile-atc.css, sticky-mobile-atc.js.
+ CSS prefix: sma-
+ ============================================================================
+{%- endcomment -%}
+
+{%- if product != blank -%}
+{{ 'sticky-mobile-atc.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+ assign s = section.settings
+ assign uid = section.id
+ assign cv = product.selected_or_first_available_variant
+ assign has_multi = false
+ unless product.has_only_default_variant
+ assign has_multi = true
+ endunless
+
+ assign savings_pct = 0
+ if cv.compare_at_price > cv.price and cv.compare_at_price > 0
+ assign savings_pct = cv.compare_at_price | minus: cv.price | times: 100 | divided_by: cv.compare_at_price | round
+ endif
+
+ assign low_stock = false
+ if cv.inventory_management == 'shopify' and cv.inventory_quantity > 0 and cv.inventory_quantity <= s.low_stock_threshold
+ assign low_stock = true
+ endif
+
+ assign sma_form_id = 'sma-form-' | append: uid
+-%}
+
+{%- assign uc_sec_scope = '#StickyMobileATC-' | append: uid -%}
+{%- render 'uc-section-vars', section: section, scope: uc_sec_scope -%}
+{%- render 'uc-section-colors', section: section -%}
+
+{%- style -%}
+ #StickyMobileATC-{{ uid }} {
+ --sma-z: {{ s.z_index | default: 300 }};
+ }
+ {%- if s.show_on_desktop -%}
+ #StickyMobileATC-{{ uid }} { display: block; }
+ {%- endif -%}
+ {%- if s.background_color != blank -%}
+ #StickyMobileATC-{{ uid }} { --sma-bg: {{ s.background_color }}; }
+ {%- endif -%}
+ {%- if s.accent_color != blank -%}
+ #StickyMobileATC-{{ uid }} { --sma-accent: {{ s.accent_color }}; }
+ {%- endif -%}
+{%- endstyle -%}
+
+<div
+ id="StickyMobileATC-{{ uid }}"
+ class="sma"
+ data-sma-section
+ role="region"
+ aria-label="Quick purchase"
+ aria-hidden="true"
+>
+ {%- comment -%} Trust / info bar above main bar {%- endcomment -%}
+ {%- if s.show_info_bar -%}
+ <div class="sma__infobar">
+ {%- if low_stock -%}
+ <span class="sma__infobar-badge sma__infobar-badge--warn">
+ Only {{ cv.inventory_quantity }} left!
+ </span>
+ {%- elsif cv.available -%}
+ <span class="sma__infobar-badge sma__infobar-badge--ok">In Stock</span>
+ {%- endif -%}
+
+ {%- if s.shipping_text != blank -%}
+ <span class="sma__infobar-ship">{{ s.shipping_text | escape }}</span>
+ {%- endif -%}
+
+ <span class="sma__infobar-trust">
+ <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+ Secure
+ </span>
+ </div>
+ {%- endif -%}
+
+ {%- comment -%} Main bar {%- endcomment -%}
+ <div class="sma__bar">
+
+ {%- comment -%} Product thumbnail {%- endcomment -%}
+ <div class="sma__media" aria-hidden="true">
+ {%- assign sma_img_alt = product.title | escape -%}
+ {%- if cv.image != blank -%}
+ <img class="sma__img" src="{{ cv.image | image_url: width: 100 }}" loading="lazy" alt="{{ sma_img_alt }}" data-sma-img width="100" height="100">
+ {%- elsif product.featured_image != blank -%}
+ <img class="sma__img" src="{{ product.featured_image | image_url: width: 100 }}" loading="lazy" alt="{{ sma_img_alt }}" data-sma-img width="100" height="100">
+ {%- else -%}
+ {{ 'product-1' | placeholder_svg_tag: 'sma__img sma__img--placeholder' }}
+ {%- endif -%}
+ </div>
+
+ {%- comment -%} Info: title + price + discount {%- endcomment -%}
+ <div class="sma__info">
+ <span class="sma__title">{{ product.title | escape }}</span>
+ <div class="sma__price-row">
+ <span class="sma__price" data-sma-price>{{ cv.price | money }}</span>
+ {%- if cv.compare_at_price > cv.price -%}
+ <s class="sma__price-compare" data-sma-compare>{{ cv.compare_at_price | money }}</s>
+ {%- endif -%}
+ {%- if savings_pct > 0 -%}
+ <span class="sma__discount" data-sma-discount>-{{ savings_pct }}%</span>
+ {%- endif -%}
+ </div>
+ </div>
+
+ {%- comment -%} Right side: variant + quantity + buttons {%- endcomment -%}
+ <div class="sma__actions">
+ {%- if has_multi and s.show_variant_selector -%}
+ <select
+ class="sma__select"
+ data-sma-select
+ aria-label="Select variant"
+ >
+ {%- for variant in product.variants -%}
+ <option
+ value="{{ variant.id }}"
+ data-price="{{ variant.price | money }}"
+ data-price-raw="{{ variant.price }}"
+ data-compare="{{ variant.compare_at_price | money }}"
+ data-available="{{ variant.available }}"
+ data-img="{{ variant.image.src | image_url: width: 100 }}"
+ data-inventory="{{ variant.inventory_quantity }}"
+ data-inv-management="{{ variant.inventory_management }}"
+ {%- if variant.id == cv.id %} selected{%- endif -%}
+ {%- unless variant.available %} disabled{%- endunless -%}
+ >
+ {{ variant.title | escape }}
+ </option>
+ {%- endfor -%}
+ </select>
+ {%- endif -%}
+
+ {%- if s.show_quantity -%}
+ <div class="sma__qty">
+ <button type="button" class="sma__qty-btn" data-sma-qty-dec aria-label="Decrease quantity">âˆ’</button>
+ <input class="sma__qty-input" type="number" value="1" min="1" max="99" data-sma-qty aria-label="Quantity" form="sma-form-{{ uid }}">
+ <button type="button" class="sma__qty-btn" data-sma-qty-inc aria-label="Increase quantity">+</button>
+ </div>
+ {%- endif -%}
+
+ {%- comment -%} ATC form {%- endcomment -%}
+ {%- form 'product', product, id: sma_form_id, class: 'sma__form' -%}
+ <input type="hidden" name="id" value="{{ cv.id }}" data-sma-variant>
+ {%- unless s.show_quantity -%}
+ <input type="hidden" name="quantity" value="1">
+ {%- endunless -%}
+ <button
+ type="submit"
+ name="add"
+ class="sma__atc"
+ data-sma-atc
+ {%- unless cv.available %} disabled aria-disabled="true"{%- endunless -%}
+ >
+ <span class="sma__atc-text" data-sma-atc-text>
+ {%- if cv.available -%}{{ s.atc_label | default: 'Add to Cart' | escape }}{%- else -%}{{ s.sold_out_label | default: 'Sold Out' | escape }}{%- endif -%}
+ </span>
+ <span class="sma__atc-spin" data-sma-spin hidden aria-hidden="true">
+ <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10" stroke-dasharray="32" stroke-linecap="round"/></svg>
+ </span>
+ </button>
+ {%- endform -%}
+
+ {%- comment -%} Buy Now - AJAX via UCCart (checkout redirect) {%- endcomment -%}
+ {%- if s.show_buy_now and cv.available -%}
+ <button type="button" class="sma__buy" data-sma-buy {% unless cv.available %}disabled{%- endunless -%}>
+ {{ s.buy_now_label | default: 'Buy Now' | escape }}
+ </button>
+ {%- endif -%}
+ </div>
+ </div>
+</div>
+
+{%- comment -%} Variant data for JS {%- endcomment -%}
+<script type="application/json" id="sma-variants-{{ uid }}">
+ { "variants": [
+ {%- for v in product.variants -%}
+ {"id":{{ v.id }},"title":{{ v.title | json }},"price":{{ v.price }},"priceFmt":{{ v.price | money | json }},"compareAt":{{ v.compare_at_price | json }},"compareFmt":{{ v.compare_at_price | money | json }},"available":{{ v.available }},"invQty":{{ v.inventory_quantity | default: 0 }},"invMgmt":{{ v.inventory_management | json }},"img":{{ v.image.src | image_url: width: 100 | json }}}{%- unless forloop.last -%},{%- endunless -%}
+ {%- endfor -%}
+ ]}
+</script>
+
+<script src="{{ 'sticky-mobile-atc.js' | asset_url }}" defer="defer"></script>
+
+{%- endif -%}
+
+{% schema %}
+{
+ "name": "Sticky Mobile ATC",
+ "tag": "aside",
+ "class": "section section-sticky-mobile-atc",
+ "settings": [
+ { "type": "header", "content": "Display" },
+ { "type": "checkbox", "id": "show_info_bar", "label": "Show info bar (trust + shipping)", "default": true },
+ { "type": "checkbox", "id": "show_variant_selector", "label": "Show variant selector", "default": true },
+ { "type": "checkbox", "id": "show_quantity", "label": "Show quantity stepper", "default": false },
+ { "type": "checkbox", "id": "show_buy_now", "label": "Show Buy Now button", "default": true },
+ { "type": "checkbox", "id": "show_on_desktop", "label": "Also show on desktop", "default": false },
+
+ { "type": "header", "content": "Labels" },
+ { "type": "text", "id": "atc_label", "label": "Add to Cart label", "default": "Add to Cart" },
+ { "type": "text", "id": "sold_out_label", "label": "Sold Out label", "default": "Sold Out" },
+ { "type": "text", "id": "buy_now_label", "label": "Buy Now label", "default": "Buy Now" },
+ { "type": "text", "id": "shipping_text", "label": "Shipping reminder text", "default": "Free delivery on orders over Rs. 2,000" },
+
+ { "type": "header", "content": "Inventory" },
+ { "type": "range", "id": "low_stock_threshold", "label": "Low stock warning threshold", "min": 1, "max": 15, "step": 1, "default": 5 },
+
+ { "type": "header", "content": "Behaviour" },
+ { "type": "range", "id": "z_index", "label": "Z-index", "min": 100, "max": 600, "step": 50, "default": 300 },
+
+ { "type": "header", "content": "UC - Responsive spacing" },
+ { "type": "range", "id": "pad_top_lg", "label": "Top padding - laptop (990px+)", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+ { "type": "range", "id": "pad_top_xxl", "label": "Top padding - large desktop (1440px+)", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 96 },
+ { "type": "range", "id": "container_max_lg", "label": "Container max width - laptop+", "min": 960, "max": 1600, "step": 20, "unit": "px", "default": 1280 },
+ { "type": "select", "id": "container_mode", "label": "Container", "default": "boxed", "options": [{"value":"boxed","label":"Boxed"},{"value":"full","label":"Full width"}] },
+ { "type": "header", "content": "UC - Typography overrides" },
+ { "type": "checkbox", "id": "use_custom_section_styles", "label": "Override global typography", "default": false },
+ { "type": "range", "id": "h_size_xs", "label": "Heading size - mobile", "min": 20, "max": 72, "step": 2, "unit": "px", "default": 28 },
+ { "type": "range", "id": "h_size_lg", "label": "Heading size - laptop+", "min": 24, "max": 88, "step": 2, "unit": "px", "default": 40 },
+ { "type": "range", "id": "h_size_xxl", "label": "Heading size - large desktop", "min": 28, "max": 96, "step": 2, "unit": "px", "default": 44 },
+ { "type": "header", "content": "UC - Section colors" },
+ { "type": "checkbox", "id": "use_global_colors", "label": "Use global brand colors", "default": true },
+
+ { "type": "header", "content": "Colours" },
+ { "type": "color", "id": "background_color", "label": "Background colour override" },
+ { "type": "color", "id": "accent_color", "label": "Button accent colour override" }
+ ],
+ "enabled_on": { "templates": ["product"] },
+ "presets": [{ "name": "Sticky Mobile ATC" }]
+}
+{% endschema %}

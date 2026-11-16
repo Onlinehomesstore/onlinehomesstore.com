@@ -1,0 +1,168 @@
+/*
+ * ------------------------------------------------------------
+ * Online Homes Store — Contact page
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "form_legacy": {
+      "type": "contact-form",
+      "disabled": true,
+      "settings": {
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "hero": {
+      "type": "uc-page-intro",
+      "settings": {
+        "use_global_colors": true,
+        "eyebrow": "CONTACT",
+        "heading": "Contact us",
+        "tagline": "Orders, product questions, gifts and partnerships — send a message and we will help as soon as we can.",
+        "padding_top": 0,
+        "padding_bottom": 4
+      }
+    },
+    "channels": {
+      "type": "uc-contact-channels",
+      "blocks": {
+        "ch_support": {
+          "type": "channel",
+          "settings": {
+            "icon": "headphones",
+            "title": "Customer support",
+            "description": "Orders, delivery and product questions.",
+            "button_label": "Message support",
+            "button_link": "#contact-form"
+          }
+        },
+        "ch_sales": {
+          "type": "channel",
+          "settings": {
+            "icon": "shopping-bag",
+            "title": "Shopping help",
+            "description": "Help choosing toys, ages and gift ideas.",
+            "button_label": "Ask a question",
+            "button_link": "#contact-form"
+          }
+        },
+        "ch_wholesale": {
+          "type": "channel",
+          "settings": {
+            "icon": "building-2",
+            "title": "Wholesale",
+            "description": "Retail partner pricing and onboarding enquiries.",
+            "button_label": "Wholesale enquiry",
+            "button_link": "#contact-form"
+          }
+        },
+        "ch_business": {
+          "type": "channel",
+          "settings": {
+            "icon": "briefcase",
+            "title": "Press and partnerships",
+            "description": "Media, collaborations and corporate requests.",
+            "button_label": "Business team",
+            "button_link": "#contact-form"
+          }
+        }
+      },
+      "block_order": ["ch_support", "ch_sales", "ch_wholesale", "ch_business"],
+      "settings": {
+        "use_global_colors": true,
+        "card_radius": 20,
+        "padding_top": 8,
+        "padding_bottom": 16
+      }
+    },
+    "inquiry": {
+      "type": "uc-contact-inquiry",
+      "settings": {
+        "use_global_colors": true,
+        "heading": "Write to us",
+        "subtitle": "Include your order number if you have one — we typically reply within one business day.",
+        "form_heading": "Send a message",
+        "show_order_number": true,
+        "submit_label": "Send message",
+        "success_message": "Thank you. Our team will reply within one business day.",
+        "privacy_note": "We use your details only to respond to this enquiry.",
+        "show_market_note": true,
+        "market_note": "Shopping in",
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "faq_preview": {
+      "type": "product-faq",
+      "blocks": {
+        "fq1": {
+          "type": "faq_item",
+          "settings": {
+            "category": "General",
+            "question": "How quickly will you reply?",
+            "answer": "<p>We aim to respond within one business day. Order issues are prioritised.</p>"
+          }
+        },
+        "fq2": {
+          "type": "faq_item",
+          "settings": {
+            "category": "General",
+            "question": "Where can I find shipping and returns information?",
+            "answer": "<p>Visit our Shipping Information and Returns & Refunds pages for the latest policy details.</p>"
+          }
+        },
+        "fq3": {
+          "type": "faq_item",
+          "settings": {
+            "category": "General",
+            "question": "Can you help me choose a gift?",
+            "answer": "<p>Yes. Tell us the child’s age range and the occasion, and we can point you toward relevant collections.</p>"
+          }
+        }
+      },
+      "block_order": ["fq1", "fq2", "fq3"],
+      "settings": {
+        "use_global_colors": true,
+        "heading": "Common questions",
+        "subtitle": "Quick answers before you send a message.",
+        "show_search": false,
+        "show_support_card": false,
+        "show_view_all": true,
+        "view_all_label": "View all FAQs",
+        "padding_top": 20,
+        "padding_bottom": 20,
+        "container_max_lg": 960
+      }
+    },
+    "cta": {
+      "type": "uc-cta-banner",
+      "settings": {
+        "use_global_colors": true,
+        "card_style": "glass",
+        "eyebrow": "KEEP EXPLORING",
+        "heading": "Find something special for your little one",
+        "description": "Browse baby toys, educational play and gift-ready collections.",
+        "button_label": "Shop All",
+        "button_link": "/collections/all",
+        "button_secondary_label": "New Arrivals",
+        "button_secondary_link": "/collections/new-arrivals",
+        "background_color": "#F8DDD0",
+        "text_color": "#292D2B",
+        "button_bg": "#C98770",
+        "button_text_color": "#ffffff",
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    }
+  },
+  "order": ["hero", "channels", "inquiry", "faq_preview", "cta", "main", "form_legacy"]
+}

@@ -1,0 +1,260 @@
+{% comment %}
+ UC Newsletter Popup - Theme Editor configurable, lazy-friendly markup.
+ Add to overlay-group.json. Does not block first paint (hidden until triggered).
+{% endcomment %}
+
+{%- if section.settings.enabled -%}
+
+{{ 'uc-newsletter-popup.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'uc-newsletter-popup.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+ assign s = section.settings
+ assign layout_class = 'uc-nlp uc-nlp--full'
+ if s.image != blank or s.video != blank
+ assign layout_class = 'uc-nlp uc-nlp--has-media'
+ endif
+ assign form_id = 'uc-nlp-form-' | append: section.id
+-%}
+
+{%- style -%}
+ #shopify-section-{{ section.id }} {
+ --uc-nlp-w-d: {{ s.width_desktop | default: 640 }}px;
+ --uc-nlp-w-t: {{ s.width_tablet | default: 560 }}px;
+ --uc-nlp-w-m: {{ s.width_mobile | default: 100 }}%;
+ --uc-nlp-max-h: {{ s.max_height | default: 640 }}px;
+ --uc-nlp-overlay: {{ s.overlay_opacity | default: 45 | divided_by: 100.0 }};
+ --uc-nlp-blur: {{ s.overlay_blur | default: 8 }}px;
+ --uc-nlp-dur: {{ s.anim_duration | default: 420 }}ms;
+ --uc-nlp-radius-d: {{ s.radius_desktop | default: 28 }}px;
+ --uc-nlp-radius-t: {{ s.radius_tablet | default: 24 }}px;
+ --uc-nlp-radius-m: {{ s.radius_mobile | default: 20 }}px;
+ --uc-nlp-bg: {{ s.bg_color | default: '#FFFFFF' }};
+ --uc-nlp-heading: {{ s.heading_color | default: '#2a2a2a' }};
+ --uc-nlp-text: {{ s.text_color | default: '#2a2a2a' }};
+ {%- if s.heading_color_mobile != blank -%}
+ --uc-nlp-heading-mobile: {{ s.heading_color_mobile }};
+ {%- endif -%}
+ {%- if s.text_color_mobile != blank -%}
+ --uc-nlp-text-mobile: {{ s.text_color_mobile }};
+ {%- endif -%}
+ --uc-nlp-accent: {{ s.accent_color | default: '#B68A35' }};
+ --uc-nlp-btn-bg: {{ s.button_bg | default: '#171717' }};
+ --uc-nlp-btn-text: {{ s.button_text_color | default: '#FFFFFF' }};
+ --uc-nlp-h-d: {{ s.heading_size_desktop | default: 28 }}px;
+ --uc-nlp-h-t: {{ s.heading_size_tablet | default: 24 }}px;
+ --uc-nlp-h-m: {{ s.heading_size_mobile | default: 22 }}px;
+ --uc-nlp-body-d: {{ s.body_size_desktop | default: 16 }}px;
+ --uc-nlp-body-t: {{ s.body_size_tablet | default: 15 }}px;
+ --uc-nlp-body-m: {{ s.body_size_mobile | default: 15 }}px;
+ --uc-nlp-badge: {{ s.badge_size | default: 11 }}px;
+ --uc-nlp-btn-size: {{ s.button_size | default: 15 }}px;
+ }
+{%- endstyle -%}
+
+<div
+ class="{{ layout_class }}"
+ data-uc-nlp
+ data-popup-id="{{ section.id }}"
+ data-trigger="{{ s.trigger_type | default: 'delay' }}"
+ data-delay="{{ s.trigger_delay | default: 5 }}"
+ data-scroll="{{ s.trigger_scroll | default: 50 }}"
+ data-min-time="{{ s.trigger_min_time | default: 0 }}"
+ data-inactivity="{{ s.trigger_inactivity | default: 0 }}"
+ data-page-views="{{ s.trigger_page_views | default: 0 }}"
+ data-scope="{{ s.page_scope | default: 'all' }}"
+ data-cookie-days="{{ s.cookie_days | default: 7 }}"
+ data-logged-out-only="{% if s.logged_out_only %}true{% else %}false{% endif %}"
+ data-returning-only="{% if s.returning_visitors_only %}true{% else %}false{% endif %}"
+ data-first-visit-only="{% if s.first_visit_only %}true{% else %}false{% endif %}"
+ data-anim="{{ s.animation | default: 'scale' }}"
+ hidden
+ aria-hidden="true"
+ role="presentation"
+ {{ section.shopify_attributes }}
+>
+ <div
+ class="uc-nlp__dialog"
+ role="dialog"
+ aria-modal="true"
+ aria-labelledby="UcNlpHeading-{{ section.id }}"
+ >
+ <button type="button" class="uc-nlp__close" data-uc-nlp-close aria-label="{{ 'accessibility.close' | t | default: 'Close' }}">
+ {% render 'uc-icon', icon: 'x', size: 18 %}
+ </button>
+
+ <div class="uc-nlp__grid">
+ {%- if s.image != blank or s.video != blank -%}
+ <div class="uc-nlp__media" aria-hidden="{% if s.media_decorative %}true{% else %}false{% endif %}">
+ {%- if s.video != blank -%}
+ {{ s.video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, controls: false, class: 'uc-nlp__video' }}
+ {%- else -%}
+ {%- assign nlp_img_alt = s.heading | default: shop.name | escape -%}
+ <img
+ class="uc-nlp__img"
+ src="{{ s.image | image_url: width: 900 }}"
+ srcset="
+ {{ s.image | image_url: width: 400 }} 400w,
+ {{ s.image | image_url: width: 600 }} 600w,
+ {{ s.image | image_url: width: 900 }} 900w
+ "
+ sizes="(min-width: 750px) 320px, 50vw"
+ alt="{{ nlp_img_alt }}"
+ loading="lazy"
+ width="{{ s.image.width }}"
+ height="{{ s.image.height }}"
+ >
+ {%- endif -%}
+ </div>
+ {%- endif -%}
+
+ <div class="uc-nlp__body" data-uc-theme-text style="--uc-theme-heading: var(--uc-nlp-heading); --uc-theme-body: var(--uc-nlp-text);--uc-theme-heading-mobile: var(--uc-nlp-heading-mobile, var(--uc-nlp-heading));--uc-theme-body-mobile: var(--uc-nlp-text-mobile, var(--uc-nlp-text));">
+ {%- if s.badge != blank -%}
+ <p class="uc-nlp__badge">{{ s.badge | escape }}</p>
+ {%- endif -%}
+ {%- if s.heading != blank -%}
+ <h2 class="uc-nlp__heading" id="UcNlpHeading-{{ section.id }}">{{ s.heading | escape }}</h2>
+ {%- endif -%}
+ {%- if s.description != blank -%}
+ <p class="uc-nlp__desc">{{ s.description | escape }}</p>
+ {%- endif -%}
+ {%- if s.offer_text != blank -%}
+ <p class="uc-nlp__desc"><strong>{{ s.offer_text | escape }}</strong></p>
+ {%- endif -%}
+ {%- if s.coupon_code != blank -%}
+ <div class="uc-nlp__coupon">{{ s.coupon_code | escape }}</div>
+ {%- endif -%}
+ {%- if s.show_countdown and s.countdown_minutes > 0 -%}
+ <p class="uc-nlp__countdown" data-uc-nlp-countdown data-minutes="{{ s.countdown_minutes }}"></p>
+ {%- endif -%}
+
+ {%- if s.show_newsletter -%}
+ {%- form 'customer', id: form_id, class: 'uc-nlp__form', data-uc-nlp-form: '', data-msg-success: s.success_message, data-msg-error: s.error_message, data-msg-invalid: s.invalid_message -%}
+ <input type="hidden" name="contact[tags]" value="newsletter">
+ <input type="hidden" name="contact[accepts_marketing]" value="true">
+ <div class="uc-nlp__field">
+ <label class="visually-hidden" for="UcNlpEmail-{{ section.id }}">{{ s.email_label | escape }}</label>
+ <input
+ id="UcNlpEmail-{{ section.id }}"
+ class="uc-nlp__input"
+ type="email"
+ name="contact[email]"
+ placeholder="{{ s.email_placeholder | escape }}"
+ autocomplete="email"
+ required
+ >
+ <button type="submit" class="uc-nlp__submit" data-uc-nlp-submit>
+ <span class="uc-nlp__submit-spinner" aria-hidden="true"></span>
+ <span>{{ s.button_label | escape }}</span>
+ </button>
+ </div>
+ {%- endform -%}
+ <p class="uc-nlp__feedback" data-uc-nlp-feedback role="status" aria-live="polite"></p>
+ {%- elsif s.button_label != blank -%}
+ <a href="{{ s.button_url | default: routes.root_url }}" class="uc-nlp__submit">{{ s.button_label | escape }}</a>
+ {%- endif -%}
+
+ {%- if s.trust_text != blank -%}
+ <p class="uc-nlp__trust">{{ s.trust_text | escape }}</p>
+ {%- endif -%}
+ </div>
+ </div>
+ </div>
+</div>
+
+{%- endif -%}
+
+{% schema %}
+{
+ "name": "UC Newsletter popup",
+ "tag": "section",
+ "class": "uc-nlp-section",
+ "settings": [
+ { "type": "checkbox", "id": "enabled", "label": "Enable popup", "default": true },
+ { "type": "header", "content": "Content" },
+ { "type": "select", "id": "layout", "label": "Layout", "default": "split", "options": [
+ { "value": "stacked", "label": "Stacked" },
+ { "value": "split", "label": "Split (image + copy)" }
+ ]},
+ { "type": "image_picker", "id": "image", "label": "Image" },
+ { "type": "video", "id": "video", "label": "Video (overrides image)" },
+ { "type": "checkbox", "id": "media_decorative", "label": "Media is decorative", "default": true },
+ { "type": "text", "id": "badge", "label": "Badge", "default": "ONLINE HOMES STORE" },
+ { "type": "text", "id": "heading", "label": "Heading", "default": "Unlock 15% off your first order" },
+ { "type": "textarea", "id": "description", "label": "Description", "default": "Join our list for new arrivals, gift ideas and playful inspiration." },
+ { "type": "text", "id": "offer_text", "label": "Offer highlight", "default": "15% off your first order" },
+ { "type": "text", "id": "coupon_code", "label": "Coupon code display" },
+ { "type": "checkbox", "id": "show_countdown", "label": "Show countdown", "default": false },
+ { "type": "range", "id": "countdown_minutes", "label": "Countdown minutes", "min": 5, "max": 120, "step": 5, "default": 30 },
+ { "type": "header", "content": "Newsletter" },
+ { "type": "checkbox", "id": "show_newsletter", "label": "Show email form", "default": true },
+ { "type": "text", "id": "email_label", "label": "Email label", "default": "Email" },
+ { "type": "text", "id": "email_placeholder", "label": "Email placeholder", "default": "you@example.com" },
+ { "type": "text", "id": "button_label", "label": "Button label", "default": "Get my offer" },
+ { "type": "url", "id": "button_url", "label": "Button link (if form hidden)" },
+ { "type": "text", "id": "success_message", "label": "Success message", "default": "You're in. Check your inbox." },
+ { "type": "text", "id": "error_message", "label": "Error message", "default": "Something went wrong. Try again." },
+ { "type": "text", "id": "invalid_message", "label": "Invalid email message", "default": "Enter a valid email." },
+ { "type": "text", "id": "trust_text", "label": "Trust line", "default": "No spam. Unsubscribe anytime." },
+ { "type": "header", "content": "Typography" },
+ { "type": "range", "id": "heading_size_desktop", "label": "Heading size — desktop", "min": 18, "max": 40, "step": 1, "default": 28, "unit": "px" },
+ { "type": "range", "id": "heading_size_tablet", "label": "Heading size — tablet", "min": 16, "max": 36, "step": 1, "default": 24, "unit": "px" },
+ { "type": "range", "id": "heading_size_mobile", "label": "Heading size — mobile", "min": 16, "max": 32, "step": 1, "default": 22, "unit": "px" },
+ { "type": "range", "id": "body_size_desktop", "label": "Body size — desktop", "min": 13, "max": 20, "step": 1, "default": 16, "unit": "px" },
+ { "type": "range", "id": "body_size_tablet", "label": "Body size — tablet", "min": 13, "max": 20, "step": 1, "default": 15, "unit": "px" },
+ { "type": "range", "id": "body_size_mobile", "label": "Body size — mobile", "min": 13, "max": 20, "step": 1, "default": 15, "unit": "px" },
+ { "type": "range", "id": "badge_size", "label": "Badge size", "min": 9, "max": 14, "step": 1, "default": 11, "unit": "px" },
+ { "type": "range", "id": "button_size", "label": "Button text size", "min": 13, "max": 18, "step": 1, "default": 15, "unit": "px" },
+ { "type": "header", "content": "Triggers" },
+ { "type": "select", "id": "trigger_type", "label": "Trigger", "default": "delay", "options": [
+ { "value": "delay", "label": "After delay" },
+ { "value": "scroll", "label": "After scroll %" },
+ { "value": "exit", "label": "Exit intent" },
+ { "value": "inactivity", "label": "After inactivity" }
+ ]},
+ { "type": "range", "id": "trigger_delay", "label": "Delay (seconds)", "min": 0, "max": 60, "step": 1, "default": 6 },
+ { "type": "range", "id": "trigger_scroll", "label": "Scroll %", "min": 10, "max": 90, "step": 5, "default": 45 },
+ { "type": "range", "id": "trigger_min_time", "label": "Minimum time on page (s)", "min": 0, "max": 60, "step": 1, "default": 2 },
+ { "type": "range", "id": "trigger_inactivity", "label": "Inactivity (s)", "min": 0, "max": 120, "step": 5, "default": 0 },
+ { "type": "range", "id": "trigger_page_views", "label": "Show after N page views (session)", "min": 0, "max": 10, "step": 1, "default": 0 },
+ { "type": "range", "id": "cookie_days", "label": "Don't show again for (days)", "min": 0, "max": 30, "step": 1, "default": 7 },
+ { "type": "select", "id": "page_scope", "label": "Pages", "default": "all", "options": [
+ { "value": "all", "label": "Entire store" },
+ { "value": "index", "label": "Homepage only" },
+ { "value": "collection", "label": "Collection pages" },
+ { "value": "product", "label": "Product pages" },
+ { "value": "blog", "label": "Blog / articles" },
+ { "value": "page", "label": "Pages" }
+ ]},
+ { "type": "checkbox", "id": "logged_out_only", "label": "Logged-out customers only", "default": false },
+ { "type": "checkbox", "id": "returning_visitors_only", "label": "Returning visitors only", "default": false },
+ { "type": "checkbox", "id": "first_visit_only", "label": "First-time visitors only", "default": false },
+ { "type": "header", "content": "Design" },
+ { "type": "range", "id": "width_desktop", "label": "Width - desktop", "min": 480, "max": 900, "step": 20, "default": 640, "unit": "px" },
+ { "type": "range", "id": "width_tablet", "label": "Width - tablet", "min": 400, "max": 720, "step": 20, "default": 560, "unit": "px" },
+ { "type": "range", "id": "width_mobile", "label": "Width - mobile (%)", "min": 92, "max": 100, "step": 1, "default": 100, "unit": "%" },
+ { "type": "range", "id": "max_height", "label": "Max height", "min": 400, "max": 900, "step": 20, "default": 640, "unit": "px" },
+ { "type": "range", "id": "overlay_opacity", "label": "Overlay opacity", "min": 0, "max": 90, "step": 5, "default": 45, "unit": "%" },
+ { "type": "range", "id": "overlay_blur", "label": "Overlay blur", "min": 0, "max": 24, "step": 2, "default": 8, "unit": "px" },
+ { "type": "range", "id": "radius_desktop", "label": "Radius - desktop", "min": 8, "max": 40, "step": 2, "default": 28, "unit": "px" },
+ { "type": "range", "id": "radius_tablet", "label": "Radius - tablet", "min": 8, "max": 32, "step": 2, "default": 24, "unit": "px" },
+ { "type": "range", "id": "radius_mobile", "label": "Radius - mobile", "min": 8, "max": 28, "step": 2, "default": 20, "unit": "px" },
+ { "type": "select", "id": "animation", "label": "Open animation", "default": "scale", "options": [
+ { "value": "scale", "label": "Scale" },
+ { "value": "fade", "label": "Fade" },
+ { "value": "slide-up", "label": "Slide up" },
+ { "value": "bounce", "label": "Bounce" }
+ ]},
+ { "type": "range", "id": "anim_duration", "label": "Animation duration", "min": 200, "max": 800, "step": 20, "default": 420, "unit": "ms" },
+ { "type": "color", "id": "bg_color", "label": "Panel background", "default": "#FFFFFF" },
+ { "type": "color", "id": "heading_color", "label": "Heading colour (desktop)", "default": "#2a2a2a" },
+ { "type": "color", "id": "text_color", "label": "Body colour (desktop)", "default": "#2a2a2a" },
+ { "type": "color", "id": "heading_color_mobile", "label": "Heading colour (mobile)" },
+ { "type": "color", "id": "text_color_mobile", "label": "Body colour (mobile)" },
+ { "type": "color", "id": "accent_color", "label": "Accent", "default": "#B68A35" },
+ { "type": "color", "id": "button_bg", "label": "Button background", "default": "#171717" },
+ { "type": "color", "id": "button_text_color", "label": "Button text", "default": "#FFFFFF" }
+ ],
+ "presets": [{ "name": "UC Newsletter popup" }]
+}
+{% endschema %}

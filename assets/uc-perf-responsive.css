@@ -1,0 +1,488 @@
+/*
+  UC Perf + Responsive — sitewide polish
+  - content-visibility for below-fold sections (faster LCP / TBT)
+  - safer mobile overflow, touch targets, fluid type
+  - reduced-motion respect
+*/
+
+/* Synced scroll-reveal + section entrance timing */
+.uc-rev-stream [data-uc-reveal],
+.pt-marquee [data-uc-reveal],
+.upr-marquee [data-uc-reveal],
+.uc-rev-stream .pt__card,
+.uc-rev-stream .upr__card,
+.pt-marquee .pt__card,
+.upr-marquee .upr__card {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+[data-uc-reveal]:not(.is-visible):not(.is-revealed),
+[data-cs-reveal]:not(.cs-is-visible),
+.uc-reveal:not(.is-visible):not(.is-revealed) {
+  opacity: 0;
+  transform: translate3d(0, 12px, 0);
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease !important;
+  will-change: opacity, transform;
+}
+
+[data-uc-reveal].is-visible,
+[data-uc-reveal].is-revealed,
+[data-cs-reveal].cs-is-visible,
+.uc-reveal.is-visible,
+.uc-reveal.is-revealed {
+  opacity: 1 !important;
+  transform: none !important;
+  will-change: auto;
+}
+
+.uc-hover-lift {
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.28s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .uc-hover-lift:hover {
+    transform: translateY(-3px);
+  }
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  [data-uc-reveal],
+  [data-cs-reveal],
+  .uc-reveal,
+  .uc-hover-lift {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* Below-fold sections: skip layout work until near viewport.
+   Exclude collection/search — their filter drawer needs position:fixed
+   which breaks inside content-visibility:auto containment. */
+.template-index #MainContent .shopify-section:nth-child(n + 4),
+.template-product #MainContent .shopify-section:nth-child(n + 4),
+.template-page #MainContent .shopify-section:nth-child(n + 3) {
+  content-visibility: auto;
+  contain-intrinsic-size: 480px;
+}
+
+/* Never clip the first three sections (hero + next) */
+.template-index #MainContent .shopify-section:nth-child(-n + 3),
+.template-product #MainContent .shopify-section:nth-child(-n + 3) {
+  content-visibility: visible;
+  contain-intrinsic-size: 480px;
+}
+
+/* Global overflow safety — use hidden on body, not clip on html
+   (overflow-x:clip on html creates a containing block for position:fixed) */
+body {
+  overflow-x: hidden;
+}
+
+html.uc-qv-open,
+html.uc-phdr-lock,
+html.uc-phdr-search-open {
+  overflow-x: clip;
+}
+
+img,
+video,
+svg,
+iframe {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Do not break absolute-fill media (before/after, heroes, cards) */
+.ba__img,
+.ba__bg-img,
+.ueh__img,
+.ueh__media img,
+.ueh__media picture,
+.ueh__media svg,
+.pf-card__media img,
+.category-showcase__media img,
+.pph__media img,
+[class*='__media'] img[class*='__img'] {
+  max-width: none !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+}
+
+/* Touch targets — keep banner dots small; expand hit area via ::after */
+@media (pointer: coarse) {
+  .button,
+  .uc-btn,
+  button.ueh__arrow,
+  .uc-phdr__icon-btn,
+  .pagination__item {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Fluid section rhythm */
+@media screen and (max-width: 749px) {
+  .shopify-section > .uc-sec,
+  .shopify-section > section.uc-sec,
+  .shopify-section .pf-showcase,
+  .shopify-section .category-showcase,
+  .shopify-section .vr,
+  .shopify-section .ba,
+  .shopify-section .ppb,
+  .shopify-section .pt,
+  .shopify-section .pvr {
+    padding-inline: max(0px, env(safe-area-inset-left));
+  }
+
+  #MainContent {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .page-width,
+  .uc-sec__container,
+  .ueh {
+    padding-inline: max(16px, env(safe-area-inset-left)) max(16px, env(safe-area-inset-right));
+  }
+}
+
+/* Hero mobile polish — keep under-banner stack from uc-editorial-hero.css */
+@media screen and (max-width: 749px) {
+  .ueh {
+    padding-inline: 12px;
+    padding-top: var(--uc-phdr-float-y, 12px);
+    margin-top: 0;
+  }
+
+  .ueh__viewport {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  .ueh__heading {
+    font-size: var(--ueh-h-size, 26px) !important;
+    line-height: 1.18;
+    text-wrap: balance;
+  }
+
+  .ueh__actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .ueh__btn {
+    min-height: 48px;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .ueh__arrow {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media screen and (min-width: 750px) and (max-width: 989px) {
+  .ueh__viewport {
+    height: min(var(--ueh-h-t, 640px), calc(100svh - var(--uc-phdr-offset, 72px) - 10px));
+    min-height: min(var(--ueh-h-t, 640px), calc(100svh - var(--uc-phdr-offset, 72px) - 10px));
+  }
+}
+
+/* ── Laptop / mid-desktop (990–1439) — prevent cramped 4-col layouts ───── */
+@media screen and (min-width: 990px) and (max-width: 1439px) {
+  .template-index .category-showcase__grid,
+  .template-index .pf-showcase__grid,
+  .pf-showcase__grid {
+    gap: clamp(16px, 2vw, 24px);
+  }
+
+  .vr-feature__title,
+  .pf-card__title,
+  .ppb-trust-card__title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: keep-all;
+    hyphens: none;
+  }
+
+  .ba__card {
+    padding: clamp(20px, 3vw, 28px);
+  }
+
+  .ba__heading {
+    font-size: 26px;
+  }
+
+  .ueh__heading {
+    font-size: var(--ueh-h-size, 32px) !important;
+  }
+
+  .page-width,
+  .uc-sec__container {
+    padding-inline: clamp(20px, 3vw, 40px);
+  }
+}
+
+/* Large desktop — keep content breathing */
+@media screen and (min-width: 1440px) {
+  .vr-feature__title {
+    white-space: nowrap;
+  }
+}
+
+/* Product / collection grids — prevent horizontal bleed */
+@media screen and (max-width: 989px) {
+  .product-grid,
+  .collection-product-list,
+  .pf-showcase__grid {
+    overflow-x: clip;
+  }
+}
+
+/* Prefer GPU-friendly transforms; kill heavy filters on small screens */
+@media screen and (max-width: 749px) {
+  .glass,
+  .uc-glass,
+  [class*='glass'] {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* 404 diagnostics readable on phones */
+@media screen and (max-width: 749px) {
+  .uc-errdiag {
+    font-size: 12px;
+  }
+}
+
+/* ── Viewport + browser-zoom resilience ─────────────────────────────────── */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  overflow-x: clip;
+}
+
+#MainContent,
+.shopify-section,
+.page-width,
+.uc-sec__container,
+.facets-container,
+.product-grid,
+.pvr__inner {
+  max-width: 100%;
+}
+
+/* Prefer fluid type that survives 80–125% zoom without horizontal scroll */
+.ueh__heading,
+.uc-page-intro__heading,
+.uc-narrative__heading,
+.pf-showcase__heading,
+.category-showcase__heading,
+.pvr__heading,
+.ba__heading {
+  font-size: clamp(1.5rem, 1.05rem + 2.2vw, 3.25rem);
+  line-height: 1.12;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+
+.ueh__text,
+.uc-page-intro__tagline,
+.uc-narrative__body,
+.pvr__subtitle,
+.ba__text,
+.pf-showcase__subtitle {
+  font-size: clamp(0.95rem, 0.88rem + 0.35vw, 1.125rem);
+  line-height: 1.55;
+  overflow-wrap: break-word;
+}
+
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+}
+
+table,
+.facets__display,
+.cart-items,
+.product-grid {
+  max-width: 100%;
+}
+
+/* Avoid fixed-pixel traps that break at zoom */
+@media screen and (max-width: 1200px) {
+  .page-width,
+  .uc-sec__container {
+    padding-inline: clamp(14px, 3.5vw, 40px);
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .facets-container,
+  .active-facets,
+  .facet-filters {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .pc-card,
+  .pc-card__media,
+  .pc-card__info {
+    min-width: 0;
+  }
+
+  .pc-card__title {
+    overflow-wrap: anywhere;
+  }
+}
+
+/* High zoom / narrow visual viewport */
+@media screen and (max-width: 420px), (max-height: 500px) {
+  .ueh__actions {
+    width: 100%;
+  }
+
+  .pvr__arrow,
+  .pvr-arrow {
+    display: none !important;
+  }
+}
+
+/* ── Additional QA fixes ─────────────────────────────────────────────────── */
+
+/* Facets vertical: single-column on tablet, hide desktop sidebar on mobile */
+@media screen and (max-width: 989px) {
+  .facets-vertical.page-width {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Facets horizontal mobile: stacked pills in scrollable row */
+@media screen and (max-width: 749px) {
+  .facets__wrapper {
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+    flex-wrap: nowrap;
+  }
+
+  .facets__wrapper::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Product grid on collection with sidebar filter: adjust columns */
+@media screen and (min-width: 990px) {
+  .facets-vertical.page-width .product-grid {
+    grid-column: unset;
+    grid-row: unset;
+  }
+
+  .facets__form-vertical {
+    grid-column: unset;
+    grid-row: unset;
+  }
+}
+
+/* ── Desktop / laptop polish (990px – 1600px) ─────────────────────────────── */
+@media screen and (min-width: 990px) {
+  .page-width,
+  .facets-vertical.page-width {
+    max-width: min(var(--page-width), 100%);
+    margin-inline: auto;
+  }
+
+  .uc-sec__container,
+  .uc-sec .uc-sec__container {
+    max-width: min(var(--page-width), 100%);
+  }
+
+  /* gap handled by uc-final-desktop.css grid — avoid double spacing with Dawn % widths */
+
+  .uc-phdr__inner {
+    max-width: min(var(--page-width), 100%);
+  }
+}
+
+@media screen and (min-width: 990px) and (max-width: 1366px) {
+  .page-width,
+  .facets-vertical.page-width {
+    padding-inline: clamp(16px, 2.5vw, 28px);
+  }
+
+  .facets-vertical {
+    gap: clamp(18px, 2.5vw, 32px);
+  }
+
+  .facets-vertical .facets-wrapper {
+    max-width: 220px;
+  }
+
+  .pvr__viewport,
+  .pvr__track {
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+}
+
+@media screen and (min-width: 1200px) and (max-width: 1599px) {
+  .page-width {
+    padding-inline: clamp(20px, 3vw, 40px);
+  }
+
+  .facets-vertical {
+    gap: clamp(24px, 3vw, 48px);
+  }
+}
+
+
+/* Mobile hero: prevent blank image area flash */
+@media screen and (max-width: 749px) {
+  .ueh__media {
+    min-height: 200px;
+  }
+}
+
+/* Accordion/drawers: prevent body scroll bleed */
+details[open] summary ~ * {
+  animation: uc-accordion-open 220ms ease;
+}
+
+@keyframes uc-accordion-open {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Foldable / small viewport height  */

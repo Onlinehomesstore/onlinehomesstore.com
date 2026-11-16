@@ -1,0 +1,204 @@
+{%- comment -%}
+  UC Ingredients page  -  format-based ingredient sections (Shampoo, Gel, Sachets).
+  Pair with uc-page-intro on the ingredients template.
+{%- endcomment -%}
+
+{{ 'uc-ingredients-page.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign s = section.settings
+  assign uid = section.id
+  assign format_blocks = section.blocks | where: 'type', 'format_section'
+  assign legacy_blocks = section.blocks | where: 'type', 'product_table'
+  assign note_blocks = section.blocks | where: 'type', 'shared_note'
+-%}
+
+{%- assign uc_sec_scope = '#Uip-' | append: uid -%}
+{%- render 'uc-section-vars', section: section, scope: uc_sec_scope -%}
+
+<section id="Uip-{{ uid }}" class="uip uc-sec" data-uip-section>
+  <div class="uip__main">
+    <div class="uc-sec__container uip__container">
+      {%- for block in note_blocks -%}
+        <div class="uip__note uc-glass-card" {{ block.shopify_attributes }}>
+          {%- if block.settings.heading != blank -%}
+            <h2 class="uip__note-title">{{ block.settings.heading | escape }}</h2>
+          {%- endif -%}
+          {%- if block.settings.content != blank -%}
+            <div class="uip__note-body rte">{{ block.settings.content }}</div>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+
+      {%- for block in format_blocks -%}
+        <div class="uip__section" {{ block.shopify_attributes }}>
+          <header class="uip__section-head">
+            {%- if block.settings.eyebrow != blank -%}
+              <p class="uc-sec__eyebrow uip__section-eyebrow">{{ block.settings.eyebrow | escape }}</p>
+            {%- endif -%}
+            {%- if block.settings.title != blank -%}
+              <h2 class="uip__section-title">{{ block.settings.title | escape }}</h2>
+            {%- endif -%}
+            {%- if block.settings.description != blank -%}
+              <div class="uip__section-desc rte">{{ block.settings.description }}</div>
+            {%- endif -%}
+          </header>
+
+          {%- assign rows = block.settings.rows -%}
+          {%- if rows != blank -%}
+            <div class="uip__table-wrap">
+              <table class="uip__table">
+                <thead>
+                  <tr>
+                    <th scope="col">{{ block.settings.col_ingredient | default: 'Ingredient' | escape }}</th>
+                    <th scope="col">{{ block.settings.col_function | default: 'Role in the formula' | escape }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {%- assign row_lines = rows | newline_to_br | split: '<br />' -%}
+                  {%- for line in row_lines -%}
+                    {%- assign line_stripped = line | strip -%}
+                    {%- if line_stripped != blank -%}
+                      {%- assign pair = line_stripped | split: '|' -%}
+                      <tr>
+                        <td>{{ pair[0] | strip | escape }}</td>
+                        <td>{{ pair[1] | default: pair[0] | strip | escape }}</td>
+                      </tr>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </tbody>
+              </table>
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+
+      {%- for block in legacy_blocks -%}
+        <div class="uip__section" {{ block.shopify_attributes }}>
+          {%- if block.settings.title != blank -%}
+            <h2 class="uip__section-title">{{ block.settings.title | escape }}</h2>
+          {%- endif -%}
+          {%- assign rows = block.settings.rows -%}
+          {%- if rows != blank -%}
+            <div class="uip__table-wrap">
+              <table class="uip__table">
+                <thead>
+                  <tr>
+                    <th scope="col">{{ block.settings.col_ingredient | default: 'Ingredient' | escape }}</th>
+                    <th scope="col">{{ block.settings.col_function | default: 'Function' | escape }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {%- assign row_lines = rows | newline_to_br | split: '<br />' -%}
+                  {%- for line in row_lines -%}
+                    {%- assign line_stripped = line | strip -%}
+                    {%- if line_stripped != blank -%}
+                      {%- assign pair = line_stripped | split: '|' -%}
+                      <tr>
+                        <td>{{ pair[0] | strip | escape }}</td>
+                        <td>{{ pair[1] | default: pair[0] | strip | escape }}</td>
+                      </tr>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </tbody>
+              </table>
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+
+      {%- if s.show_cta -%}
+        <aside class="uip__cta">
+          <div class="uip__cta-copy">
+            {%- if s.cta_eyebrow != blank -%}
+              <p class="uc-sec__eyebrow uip__cta-eyebrow">{{ s.cta_eyebrow | escape }}</p>
+            {%- endif -%}
+            {%- if s.cta_text != blank -%}
+              <p class="uip__cta-text">{{ s.cta_text | escape }}</p>
+            {%- endif -%}
+          </div>
+          {%- if s.cta_label != blank -%}
+            <a class="uip__cta-btn" href="{{ s.cta_link | default: routes.all_products_collection_url }}">
+              {{ s.cta_label | escape }}
+              {% render 'uc-icon', icon: 'arrow-right', size: 14, stroke: 2 %}
+            </a>
+          {%- endif -%}
+        </aside>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Ingredients page",
+  "tag": "section",
+  "class": "section-uc-ingredients-page",
+  "settings": [
+    { "type": "header", "content": "Bottom call to action" },
+    { "type": "checkbox", "id": "show_cta", "label": "Show CTA card", "default": true },
+    { "type": "text", "id": "cta_eyebrow", "label": "CTA eyebrow", "default": "Explore UNIK CARE" },
+    { "type": "text", "id": "cta_text", "label": "CTA text", "default": "Discover ammonia-free colour formats designed for easy home application." },
+    { "type": "text", "id": "cta_label", "label": "CTA button", "default": "Shop collection" },
+    { "type": "url", "id": "cta_link", "label": "CTA link" },
+    { "type": "checkbox", "id": "use_global_colors", "label": "Use global brand colors", "default": true },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 80, "step": 4, "unit": "px", "label": "Padding top", "default": 8 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding bottom", "default": 48 }
+  ],
+  "blocks": [
+    {
+      "type": "shared_note",
+      "name": "Intro note",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Our ingredient philosophy" },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content",
+          "default": "<p>UNIK CARE formulas combine colour performance with botanical extracts and conditioning agents. Below is an overview by product format  -  not a full INCI list for every shade. Always read the label on your pack and patch test before use.</p>"
+        }
+      ]
+    },
+    {
+      "type": "format_section",
+      "name": "Format section",
+      "settings": [
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Hair colour shampoo format" },
+        { "type": "text", "id": "title", "label": "Section title", "default": "Hair colour shampoo" },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Short description",
+          "default": "<p>Wash-in colour shampoos for quick grey coverage and refreshed tone between salon visits.</p>"
+        },
+        { "type": "text", "id": "col_ingredient", "label": "Ingredient column label", "default": "Ingredient" },
+        { "type": "text", "id": "col_function", "label": "Role column label", "default": "Role in the formula" },
+        {
+          "type": "textarea",
+          "id": "rows",
+          "label": "Rows (Ingredient | Role per line)",
+          "default": "Radix Linderae | Supports natural darkening and root strength\nGinseng | Strengthens hair roots\nAloe Vera | Soothes scalp and improves texture\nArgan Oil | Enhances shine and helps protect colour",
+          "info": "One row per line. Separate columns with a pipe character |"
+        }
+      ]
+    },
+    {
+      "type": "product_table",
+      "name": "Product table (legacy)",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Product name", "default": "Product name" },
+        { "type": "text", "id": "col_ingredient", "label": "Ingredient column label", "default": "Ingredient" },
+        { "type": "text", "id": "col_function", "label": "Function column label", "default": "Function" },
+        {
+          "type": "textarea",
+          "id": "rows",
+          "label": "Rows (Ingredient | Function per line)",
+          "default": "Example ingredient | What it does for hair",
+          "info": "One row per line. Separate ingredient and function with a pipe character |"
+        }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Ingredients page" }]
+}
+{% endschema %}

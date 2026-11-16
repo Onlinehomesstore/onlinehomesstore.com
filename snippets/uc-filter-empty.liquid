@@ -1,0 +1,9 @@
+{%- comment -%}
+  Empty collection/search grid when filters match nothing.
+  Usage: {% render 'uc-filter-empty', clear_url: collection.url %}
+{%- endcomment -%}
+<div class="uc-facets-empty" data-uc-filter-empty>
+  <h2 class="uc-facets-empty__title">No products match these filters</h2>
+  <p class="uc-facets-empty__text">Nothing is available for this price, stock, or filter combination. Remove the filters to see products again.</p>
+  <a class="uc-facets-empty__btn" href="{{ clear_url | default: routes.all_products_collection_url }}">Remove all filters</a>
+</div>

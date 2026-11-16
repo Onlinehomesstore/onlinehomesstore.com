@@ -1,0 +1,111 @@
+/*
+  uc-bg-unify.css — consistent cream page backgrounds across templates
+*/
+:root {
+  --uc-color-bg: #f7f4ef;
+  --uc-color-surface: #fcfaf7;
+  --uc-color-card-bg: #ffffff;
+  --uc-color-bg-soft: #f3eee6;
+}
+
+html {
+  background: var(--uc-color-bg, #f7f4ef);
+  overflow-x: clip;
+  max-width: 100%;
+}
+
+body,
+body.gradient,
+.color-background-1,
+.gradient {
+  background-color: var(--uc-color-bg, #f7f4ef) !important;
+}
+
+/* Content sections share the same cream plane */
+#MainContent > .shopify-section,
+.template-index #MainContent > .shopify-section,
+.template-page #MainContent > .shopify-section,
+.template-product #MainContent > .shopify-section,
+.template-collection #MainContent > .shopify-section {
+  background-color: var(--uc-color-bg, #f7f4ef);
+}
+
+#MainContent > .shopify-section .uc-sec,
+#MainContent > .shopify-section .pph,
+#MainContent > .shopify-section .vr,
+#MainContent > .shopify-section .pfaq,
+#MainContent > .shopify-section .pb,
+#MainContent > .shopify-section .ucs {
+  background-color: transparent;
+}
+
+/* Cards / panels stay white for contrast */
+.pc-card,
+.upr__card,
+.upr__form,
+.ucc__card,
+.pfaq__item,
+.pph-gallery__shell,
+.pph-gallery__viewport {
+  background-color: var(--uc-color-card-bg, #fff);
+}
+
+/* Kill horizontal page jerk */
+html,
+body {
+  overflow-x: clip !important;
+  overscroll-behavior-x: none;
+  width: 100%;
+  max-width: 100vw;
+}
+
+.shopify-section,
+.uc-sec,
+#MainContent {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+/* Carousel tracks may scroll — contain bleed */
+.uc-scroll-track,
+.pph-gallery__track,
+.pph-gallery__thumbs,
+[data-uc-scroll] {
+  overscroll-behavior-x: contain;
+  max-width: 100%;
+}
+
+html.uc-lenis-on {
+  scroll-behavior: auto !important;
+  overflow-anchor: none;
+}
+
+html.uc-lenis-on,
+html.uc-lenis-on body {
+  /* Keep compositor stable while we drive scroll in JS */
+  overscroll-behavior-y: none;
+}
+
+/* Sitewide scroll-reveal (pairs with uc-motion) — no will-change (causes scroll jitter) */
+[data-uc-reveal]:not(.is-visible):not(.is-revealed):not(.cs-is-visible) {
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+  transition:
+    opacity 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[data-uc-reveal].is-visible,
+[data-uc-reveal].is-revealed,
+[data-uc-reveal].cs-is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-uc-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

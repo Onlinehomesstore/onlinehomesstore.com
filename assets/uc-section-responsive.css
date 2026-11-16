@@ -1,0 +1,177 @@
+/* =============================================================================
+   UC SECTION RESPONSIVE — uc-section-responsive.css
+   Consumes CSS variables injected by snippets/uc-section-vars.liquid.
+   Apply classes in section markup; avoid one-off typography in section CSS.
+   ============================================================================= */
+
+/* ── Section shell ─────────────────────────────────────────────────────────── */
+.uc-sec {
+  padding-top: var(--sec-pad-top, var(--uc-section-y-pad, clamp(28px, 3.5vw, 48px)));
+  padding-bottom: var(--sec-pad-bottom, var(--uc-section-y-pad, clamp(28px, 3.5vw, 48px)));
+  padding-left: var(--sec-pad-left, 0);
+  padding-right: var(--sec-pad-right, 0);
+}
+
+.uc-sec__container {
+  width: 100%;
+  max-width: var(--sec-container-max, var(--uc-content-max, var(--page-width)));
+  margin-inline: auto;
+  padding-inline: var(--sec-container-pad, var(--container-padding, clamp(16px, 4vw, 48px)));
+}
+
+.uc-sec__container--wide {
+  max-width: var(--sec-container-max, var(--uc-container-max, var(--page-width)));
+}
+
+.uc-sec__container--full {
+  max-width: none;
+}
+
+.uc-sec__stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sec-gap, var(--uc-grid-gap, 32px));
+}
+
+/* ── Typography roles ──────────────────────────────────────────────────────── */
+.uc-sec__eyebrow {
+  font-family: var(--sec-sh-font, var(--uc-font-ui));
+  font-size: var(--sec-eyebrow-size, var(--sec-sh-size, var(--uc-text-label, 11px)));
+  font-weight: var(--sec-sh-weight, 600);
+  letter-spacing: var(--sec-sh-ls, 0.12em);
+  line-height: var(--sec-sh-lh, 1.4);
+  text-transform: var(--sec-sh-transform, uppercase);
+  text-align: var(--sec-sh-align, inherit);
+  color: var(--s-color-primary, var(--uc-color-primary));
+  margin: 0;
+}
+
+.uc-sec__heading {
+  font-family: var(--uc-font-heading, 'Manrope', sans-serif);
+  font-size: var(--uc-text-h2, 28px);
+  font-weight: var(--uc-fw-heading, 700);
+  letter-spacing: var(--uc-ls-heading, -0.02em);
+  line-height: 1.18;
+  text-transform: none;
+  text-align: inherit;
+  color: var(--s-color-text, var(--uc-color-text, #2a2a2a));
+  margin: 0;
+}
+
+.uc-sec__subheading {
+  font-family: var(--sec-sh-font, var(--uc-font-heading));
+  font-size: var(--sec-sub-size, var(--uc-text-h4));
+  font-weight: var(--sec-sub-weight, 600);
+  letter-spacing: var(--sec-sub-ls, 0);
+  line-height: var(--sec-sub-lh, 1.35);
+  text-transform: var(--sec-sh-transform, none);
+  text-align: var(--sec-sub-align, inherit);
+  color: var(--s-color-text, var(--uc-color-text, #2a2a2a));
+  margin: 0;
+}
+
+.uc-sec__desc {
+  font-family: var(--sec-desc-font, var(--uc-font-body));
+  font-size: var(--sec-desc-size, var(--uc-text-lead, 16px));
+  font-weight: var(--sec-desc-weight, var(--uc-fw-body));
+  line-height: var(--sec-desc-lh, var(--uc-lh-body));
+  text-align: var(--sec-desc-align, inherit);
+  color: var(--s-color-text-body, var(--uc-color-text-body, #2a2a2a));
+  max-width: var(--sec-desc-max-width, 62ch);
+  margin: 0;
+}
+
+.uc-sec__desc--center {
+  margin-inline: auto;
+}
+
+.uc-sec__head {
+  margin-bottom: var(--sec-head-gap, clamp(24px, 4vw, 48px));
+}
+
+.uc-sec__head--center {
+  text-align: center;
+}
+
+.uc-sec__head--center .uc-sec__desc {
+  margin-inline: auto;
+}
+
+/* ── Section button (inherits uc-btn, adds responsive vars) ────────────────── */
+.uc-sec__btn {
+  font-size: var(--sec-btn-size, var(--uc-btn-font-size, 14px));
+  font-weight: var(--sec-btn-weight, var(--uc-btn-fw, 600));
+  padding: var(--sec-btn-py, var(--uc-btn-py, 13px)) var(--sec-btn-px, var(--uc-btn-px, 28px));
+  border-radius: var(--sec-btn-radius, var(--uc-btn-radius, 10px));
+  min-height: var(--sec-btn-height, auto);
+  min-width: var(--sec-btn-min-width, auto);
+}
+
+.uc-sec__btn--icon-left {
+  flex-direction: row;
+}
+
+.uc-sec__btn--icon-right {
+  flex-direction: row-reverse;
+}
+
+/* ── Stable card hover (no layout shift / neighbor jitter) ───────────────────── */
+.uc-card-stable {
+  position: relative;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  transition:
+    transform var(--uc-transition-base, 420ms) var(--uc-ease-premium, cubic-bezier(0.22, 1, 0.36, 1)),
+    border-color var(--uc-transition-base, 420ms) ease;
+  will-change: transform;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .uc-card-stable:not(.uc-3d-card):hover {
+    transform: translate3d(0, -4px, 0);
+  }
+
+  .uc-card-stable:hover::after {
+    opacity: 0.7;
+  }
+
+  .uc-card-stable__media img,
+  .uc-card-stable__media .pc-card__img,
+  .uc-card-stable__media .pf-card__img,
+  .uc-card-stable__media .cs-card__img {
+    transition: transform var(--uc-transition-slow, 560ms) var(--uc-ease-premium, cubic-bezier(0.22, 1, 0.36, 1));
+  }
+
+  .uc-card-stable:not(:has(.pc-card__img--hover)):hover .uc-card-stable__media .pc-card__img--primary,
+  .uc-card-stable:hover .uc-card-stable__media .pf-card__img--primary,
+  .uc-card-stable:hover .uc-card-stable__media .cs-card__img {
+    transform: scale(1.03);
+  }
+
+  .uc-card-stable:has(.pc-card__img--hover):hover .uc-card-stable__media .pc-card__img--primary {
+    transform: none;
+  }
+}
+
+.uc-card-stable::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px rgba(var(--color-foreground, 23 23 23), 0.08);
+  opacity: 0;
+  transition: opacity var(--uc-transition-base, 420ms) ease;
+}
+
+.uc-card-stable__media {
+  overflow: hidden;
+  transform: translateZ(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .uc-card-stable,
+  .uc-card-stable__media img {
+    transition: none !important;
+  }
+}

@@ -1,0 +1,243 @@
+{%- comment -%}
+  UC PRODUCT CARD — single card used across the entire storefront.
+  ATC uses type=button + data-variant-id (no form submit race).
+{%- endcomment -%}
+
+{%- liquid
+  assign p = product
+  if p == blank
+    assign p = card_product
+  endif
+  assign cv = p.selected_or_first_available_variant
+
+  assign pc_ratio = image_ratio | default: 'square'
+  assign pc_show_r = show_rating
+  if pc_show_r == nil
+    assign pc_show_r = true
+  endif
+  assign pc_show_qa = show_quick_add
+  if pc_show_qa == nil
+    assign pc_show_qa = true
+  endif
+  assign pc_show_v = show_vendor | default: false
+  assign pc_show_s = show_savings
+  if pc_show_s == nil
+    assign pc_show_s = true
+  endif
+  assign pc_lazy = lazy
+  if pc_lazy == nil
+    assign pc_lazy = true
+  endif
+
+  assign pc_has_second = false
+  if p.images.size > 1
+    assign pc_has_second = true
+  endif
+
+  assign pc_discount = 0
+  if cv.compare_at_price > cv.price and cv.compare_at_price > 0
+    assign pc_discount = cv.compare_at_price | minus: cv.price | times: 100 | divided_by: cv.compare_at_price | round
+  endif
+
+  assign pc_badge = badge_type | default: ''
+  if pc_badge == blank or pc_badge == 'auto'
+    assign pc_badge = ''
+    if pc_discount > 0
+      assign pc_badge = 'sale'
+    endif
+  endif
+
+  assign pc_loading = 'lazy'
+  if pc_lazy == false
+    assign pc_loading = 'eager'
+  endif
+-%}
+
+<article
+  class="pc-card"
+  data-pc-card
+  data-product-id="{{ p.id }}"
+  data-variant-id="{{ cv.id }}"
+>
+  <div class="pc-card__media-wrap pc-card__media--{{ pc_ratio }}">
+    <a class="pc-card__media" href="{{ p.url }}" aria-label="{{ p.title | escape }}" tabindex="-1">
+      {%- if p.featured_image != blank -%}
+        {%- assign pc_img_alt = p.featured_image.alt | default: p.title | escape -%}
+        {{
+          p.featured_image
+          | image_url: width: 1200
+          | image_tag:
+            class: 'pc-card__img pc-card__img--primary',
+            loading: pc_loading,
+            widths: '400, 600, 800, 1000, 1200',
+            sizes: '(min-width: 990px) 25vw, (min-width: 750px) 33vw, 46vw',
+            alt: pc_img_alt
+        }}
+        {%- if pc_has_second -%}
+          {%- assign pc_hover_alt = p.images[1].alt | default: p.title | escape -%}
+          {{
+            p.images[1]
+            | image_url: width: 1200
+            | image_tag:
+              class: 'pc-card__img pc-card__img--hover',
+              loading: 'lazy',
+              widths: '400, 600, 800, 1000, 1200',
+              sizes: '(min-width: 990px) 25vw, (min-width: 750px) 33vw, 46vw',
+              alt: pc_hover_alt
+          }}
+        {%- endif -%}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'pc-card__img pc-card__img--primary pc-card__img--placeholder' }}
+      {%- endif -%}
+
+      <div class="pc-card__badges">
+        {%- if badge_label != blank -%}
+          <span class="pc-badge pc-badge--custom">{{ badge_label | escape }}</span>
+        {%- elsif pc_badge == 'sale' -%}
+          <span class="pc-badge pc-badge--sale">-{{ pc_discount }}%</span>
+        {%- endif -%}
+        {%- unless cv.available -%}
+          <span class="pc-badge pc-badge--soldout">Sold Out</span>
+        {%- endunless -%}
+      </div>
+    </a>
+
+    <button
+      type="button"
+      class="pc-card__wish"
+      data-pc-wishlist
+      data-product-id="{{ p.id }}"
+      data-product-handle="{{ p.handle }}"
+      data-product-title="{{ p.title | escape }}"
+      data-product-url="{{ p.url }}"
+      data-product-image="{{ p.featured_image | image_url: width: 600 }}"
+      data-product-price="{{ cv.price | money }}"
+      data-product-vendor="{{ p.vendor | escape }}"
+      data-variant-id="{{ cv.id }}"
+      data-product-available="{% if cv.available %}true{% else %}false{% endif %}"
+      aria-label="Add {{ p.title | escape }} to wishlist"
+      aria-pressed="false"
+    >
+      {% render 'uc-icon', icon: 'heart', size: 18 %}
+    </button>
+
+    <button
+      type="button"
+      class="pc-card__qv"
+      data-uc-quickview
+      data-pf-quickview
+      data-product-url="{{ p.url }}"
+      aria-label="Quick view {{ p.title | escape }}"
+    >
+      <span class="pc-card__qv-icon" aria-hidden="true">{% render 'uc-icon', icon: 'eye', size: 16 %}</span>
+      <span class="pc-card__qv-label">Quick view</span>
+    </button>
+  </div>
+
+  <div class="pc-card__info">
+    {%- if pc_show_v and p.vendor != blank -%}
+      <p class="pc-card__vendor">{{ p.vendor | escape }}</p>
+    {%- endif -%}
+
+    <a class="pc-card__title-link" href="{{ p.url }}">
+      <h3 class="pc-card__title">{{ p.title | escape }}</h3>
+    </a>
+
+    {%- if pc_show_r -%}
+      {%- liquid
+        assign pc_rating = blank
+        assign pc_rating_count = blank
+        if p.metafields.custom.reviews.value != blank
+          assign pc_rev_list = p.metafields.custom.reviews.value
+          assign pc_rev_sum = 0
+          assign pc_rev_cnt = 0
+          for pc_rv in pc_rev_list
+            assign pc_rev_sum = pc_rev_sum | plus: pc_rv.rating
+            assign pc_rev_cnt = pc_rev_cnt | plus: 1
+          endfor
+          if pc_rev_cnt > 0
+            assign pc_rating = pc_rev_sum | times: 10 | divided_by: pc_rev_cnt | divided_by: 10.0
+            assign pc_rating_count = pc_rev_cnt
+          endif
+        endif
+        if pc_rating == blank
+          assign pc_rating = p.metafields.reviews.rating.value
+          assign pc_rating_count = p.metafields.reviews.rating_count.value
+          if pc_rating != blank and pc_rating.rating != blank
+            assign pc_rating = pc_rating.rating
+          endif
+        endif
+      -%}
+      {%- if pc_rating != blank -%}
+        {%- assign pc_star_pct = pc_rating | times: 20 -%}
+        <div class="pc-card__rating" aria-label="Rated {{ pc_rating }} out of 5">
+          <span class="pc-card__stars" style="--pc-star-pct: {{ pc_star_pct }}%;" aria-hidden="true"></span>
+          {%- if pc_rating_count != blank -%}
+            <span class="pc-card__rating-count">({{ pc_rating_count }})</span>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+
+    <div class="pc-card__meta">
+      {%- if cv.available and cv.price > 0 -%}
+        <div class="pc-card__price-row">
+          {%- if cv.compare_at_price > cv.price -%}
+            <span class="pc-card__price pc-card__price--sale">{{ cv.price | money }}</span>
+            <s class="pc-card__price pc-card__price--compare">{{ cv.compare_at_price | money }}</s>
+            {%- if pc_show_s and pc_discount > 0 -%}
+              <span class="pc-card__savings">Save {{ pc_discount }}%</span>
+            {%- endif -%}
+          {%- else -%}
+            <span class="pc-card__price">{{ cv.price | money }}</span>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+      {%- if cv.available -%}
+        <span class="pc-card__stock pc-card__stock--in"><span class="pc-card__stock-dot"></span>In stock</span>
+      {%- else -%}
+        <span class="pc-card__stock pc-card__stock--out"><span class="pc-card__stock-dot"></span>Sold out</span>
+      {%- endif -%}
+    </div>
+
+    {%- if pc_show_qa -%}
+      <div class="pc-card__actions{% unless cv.available %} pc-card__actions--soldout{% endunless %}">
+        {%- if cv.available -%}
+          <button
+            type="button"
+            class="pc-card__btn pc-card__btn--add"
+            data-pc-quick-add
+            data-pc-cart-icon
+            data-variant-id="{{ cv.id }}"
+            data-quantity="1"
+            aria-label="Add {{ p.title | escape }} to cart"
+          >
+            <span class="pc-card__btn-icon pc-card__btn-icon--cart" data-pc-cart-icon-wrap aria-hidden="true">
+              {% render 'uc-icon', icon: 'shopping-cart', size: 18 %}
+            </span>
+            <span class="pc-card__btn-icon pc-card__btn-icon--ok" hidden aria-hidden="true">
+              {% render 'uc-icon', icon: 'check', size: 18 %}
+            </span>
+            <span class="pc-card__btn-spinner" hidden aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10" stroke-dasharray="32" stroke-linecap="round"/></svg>
+            </span>
+          </button>
+          <button
+            type="button"
+            class="pc-card__btn pc-card__btn--buy"
+            data-pc-buy-now
+            data-variant-id="{{ cv.id }}"
+            data-quantity="1"
+            aria-label="Buy {{ p.title | escape }} now"
+          >
+            <span class="pc-card__btn-text">Buy Now</span>
+          </button>
+        {%- else -%}
+          <button type="button" class="pc-card__btn pc-card__btn--soldout" disabled aria-disabled="true">
+            <span class="pc-card__btn-text">Sold Out</span>
+          </button>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</article>

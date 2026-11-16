@@ -1,0 +1,111 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "Global overlays",
+  "type": "custom.overlay",
+  "sections": {
+    "uc_global_ui_main": {
+      "type": "uc-global-ui",
+      "settings": {
+        "scroll_top_enable": true,
+        "scroll_top_position": "bottom-right",
+        "scroll_top_threshold": 400,
+        "scroll_top_size": 48,
+        "scroll_top_icon_size": 20,
+        "scroll_top_radius": 50,
+        "scroll_top_blur": 18,
+        "scroll_top_opacity": 100,
+        "scroll_top_offset_x": 24,
+        "scroll_top_offset_y": 24,
+        "scroll_top_bg": "#fcfaf7",
+        "scroll_top_color": "#171717",
+        "scroll_top_border": "rgba(255,255,255,0.48)",
+        "scroll_top_label": "Back to top",
+        "purchase_enable": true,
+        "purchase_demo_mode": true,
+        "purchase_collection": "",
+        "purchase_position_desktop": "bl",
+        "purchase_animation": "slide",
+        "purchase_interval_min": 10,
+        "purchase_interval_max": 22,
+        "purchase_demo_names": "Alex,Jordan,Sam,Casey,Riley",
+        "purchase_demo_cities": "London,Manchester,Birmingham,Leeds,Bristol",
+        "popup_max_width": 520
+      }
+    },
+    "uc_newsletter_popup": {
+      "type": "uc-newsletter-popup",
+      "disabled": true,
+      "settings": {
+        "enabled": true,
+        "layout": "stacked",
+        "media_decorative": true,
+        "badge": "ONLINE HOMES STORE",
+        "heading": "A little more joy in your inbox",
+        "description": "Discover new arrivals, thoughtful gift ideas and playful inspiration.",
+        "offer_text": "",
+        "coupon_code": "",
+        "show_countdown": false,
+        "countdown_minutes": 30,
+        "show_newsletter": true,
+        "email_label": "Email",
+        "email_placeholder": "you@example.com",
+        "button_label": "Get my offer",
+        "button_url": "",
+        "success_message": "You're in. Check your inbox.",
+        "error_message": "Something went wrong. Try again.",
+        "invalid_message": "Enter a valid email.",
+        "trust_text": "No spam. Unsubscribe anytime.",
+        "heading_size_desktop": 24,
+        "heading_size_tablet": 22,
+        "heading_size_mobile": 22,
+        "body_size_desktop": 15,
+        "body_size_tablet": 15,
+        "body_size_mobile": 15,
+        "badge_size": 11,
+        "button_size": 15,
+        "trigger_type": "delay",
+        "trigger_delay": 8,
+        "trigger_scroll": 45,
+        "trigger_min_time": 3,
+        "trigger_inactivity": 0,
+        "trigger_page_views": 0,
+        "cookie_days": 7,
+        "page_scope": "all",
+        "logged_out_only": false,
+        "returning_visitors_only": false,
+        "first_visit_only": false,
+        "width_desktop": 640,
+        "width_tablet": 560,
+        "width_mobile": 100,
+        "max_height": 480,
+        "overlay_opacity": 45,
+        "overlay_blur": 8,
+        "radius_desktop": 28,
+        "radius_tablet": 24,
+        "radius_mobile": 20,
+        "animation": "scale",
+        "anim_duration": 420,
+        "bg_color": "#ffffff",
+        "heading_color": "#2a2a2a",
+        "text_color": "#2a2a2a",
+        "heading_color_mobile": "",
+        "text_color_mobile": "",
+        "accent_color": "#b68a35",
+        "button_bg": "#171717",
+        "button_text_color": "#ffffff"
+      }
+    }
+  },
+  "order": [
+    "uc_global_ui_main",
+    "uc_newsletter_popup"
+  ]
+}

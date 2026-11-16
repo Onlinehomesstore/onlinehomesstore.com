@@ -1,0 +1,321 @@
+/*
+  ============================================================================
+  STICKY MOBILE ATC — CSS (~220 lines)
+  ----------------------------------------------------------------------------
+  Mobile / tablet only by default (display: none on ≥ 990px).
+  Safe-area inset support for iPhone notch/home-bar.
+  CSS prefix: sma-
+  ============================================================================
+*/
+
+/* ── Mobile only by default ───────────────────────────────────────────────── */
+.sma {
+  display: none;
+}
+
+@media (max-width: 989px) {
+  .sma {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--sma-z, 300);
+    /* Slide up animation */
+    transform: translateY(110%);
+    opacity: 0;
+    transition:
+      transform 0.4s var(--ease-premium, cubic-bezier(.22,.68,0,1.2)),
+      opacity 0.3s ease,
+      visibility 0s linear 0.4s;
+    visibility: hidden;
+  }
+
+  .sma.is-visible {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+    transition:
+      transform 0.4s var(--ease-premium, cubic-bezier(.22,.68,0,1.2)),
+      opacity 0.3s ease,
+      visibility 0s linear 0s;
+  }
+}
+
+/* ── Info bar ─────────────────────────────────────────────────────────────── */
+.sma__infobar {
+  background: rgba(var(--color-foreground), 0.05);
+  border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px clamp(12px, 3vw, 20px);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: rgba(var(--color-foreground), 0.7);
+  flex-wrap: wrap;
+}
+
+.sma__infobar-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  flex-shrink: 0;
+}
+
+.sma__infobar-badge--warn {
+  background: rgba(220, 38, 38, 0.1);
+  color: #dc2626;
+  border: 1px solid rgba(220, 38, 38, 0.2);
+}
+
+.sma__infobar-badge--ok {
+  background: rgba(5, 150, 105, 0.1);
+  color: #059669;
+  border: 1px solid rgba(5, 150, 105, 0.2);
+}
+
+.sma__infobar-ship {
+  flex: 1;
+  font-size: 0.82rem;
+}
+
+.sma__infobar-trust {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+/* ── Main bar ─────────────────────────────────────────────────────────────── */
+.sma__bar {
+  background: var(--sma-bg, rgba(var(--color-base-background-1, 255 255 255), 0.97));
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  border-top: 1px solid rgba(var(--color-foreground), 0.1);
+  box-shadow: 0 -4px 32px rgba(0, 0, 0, 0.12);
+  padding: clamp(10px, 2vw, 14px) clamp(12px, 3vw, 20px);
+  padding-bottom: calc(clamp(10px, 2vw, 14px) + env(safe-area-inset-bottom, 0px));
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ── Thumbnail ────────────────────────────────────────────────────────────── */
+.sma__media {
+  flex-shrink: 0;
+}
+
+.sma__img {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  object-fit: cover;
+  display: block;
+  border: 1px solid rgba(var(--color-foreground), 0.08);
+}
+
+.sma__img--placeholder {
+  background: rgba(var(--color-foreground), 0.05);
+  object-fit: contain;
+  padding: 6px;
+}
+
+/* ── Info ─────────────────────────────────────────────────────────────────── */
+.sma__info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sma__title {
+  font-size: clamp(0.82rem, 0.78rem + 0.1vw, 0.9rem);
+  font-weight: 600;
+  color: rgb(var(--color-foreground));
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
+.sma__price-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.sma__price {
+  font-size: clamp(0.95rem, 0.88rem + 0.15vw, 1.05rem);
+  font-weight: 800;
+  color: rgb(var(--color-foreground));
+  line-height: 1;
+}
+
+.sma__price-compare {
+  font-size: 0.8rem;
+  color: rgba(var(--color-foreground), 0.4);
+  text-decoration: line-through;
+  line-height: 1;
+}
+
+.sma__discount {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #dc2626;
+  background: rgba(220, 38, 38, 0.1);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+/* ── Actions column ───────────────────────────────────────────────────────── */
+.sma__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* ── Variant select ───────────────────────────────────────────────────────── */
+.sma__select {
+  appearance: none;
+  background: rgba(var(--color-foreground), 0.05)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")
+    no-repeat right 8px center;
+  border: 1.5px solid rgba(var(--color-foreground), 0.12);
+  border-radius: 10px;
+  padding: 7px 24px 7px 10px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: rgb(var(--color-foreground));
+  cursor: pointer;
+  max-width: 110px;
+}
+
+/* ── Quantity ─────────────────────────────────────────────────────────────── */
+.sma__qty {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid rgba(var(--color-foreground), 0.12);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.sma__qty-btn {
+  width: 30px;
+  height: 36px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: rgb(var(--color-foreground));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sma__qty-input {
+  width: 36px;
+  text-align: center;
+  border: none;
+  border-inline: 1px solid rgba(var(--color-foreground), 0.1);
+  font-size: 0.9rem;
+  font-weight: 600;
+  background: transparent;
+  -moz-appearance: textfield;
+  height: 36px;
+  color: rgb(var(--color-foreground));
+  padding: 0;
+}
+
+.sma__qty-input::-webkit-inner-spin-button,
+.sma__qty-input::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+/* ── Forms ────────────────────────────────────────────────────────────────── */
+.sma__form,
+.sma__buy-form {
+  display: contents;
+}
+
+/* ── ATC button ───────────────────────────────────────────────────────────── */
+.sma__atc {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 11px 18px;
+  background: var(--sma-accent, rgb(182 138 53));
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background 0.25s ease,
+    transform 0.25s var(--ease-premium, cubic-bezier(.22,.68,0,1.2)),
+    box-shadow 0.25s ease;
+  box-shadow: 0 4px 16px rgba(182, 138, 53, 0.35);
+}
+
+.sma__atc:hover:not(:disabled) {
+  background: rgba(182, 138, 53, 0.82);
+  transform: scale(1.03);
+}
+
+.sma__atc:disabled {
+  background: rgba(var(--color-foreground), 0.2);
+  color: rgba(var(--color-foreground), 0.5);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.sma__atc.is-loading {
+  pointer-events: none;
+  opacity: 0.75;
+}
+
+.sma__atc-spin svg {
+  animation: smaSpin 0.7s linear infinite;
+}
+
+@keyframes smaSpin { to { transform: rotate(360deg); } }
+
+/* ── Buy Now button ───────────────────────────────────────────────────────── */
+.sma__buy {
+  display: inline-flex;
+  align-items: center;
+  padding: 11px 16px;
+  background: transparent;
+  border: 1.5px solid rgba(var(--color-foreground), 0.15);
+  border-radius: 12px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: rgb(var(--color-foreground));
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.sma__buy:hover:not(:disabled) {
+  background: rgba(var(--color-foreground), 0.06);
+  border-color: rgba(var(--color-foreground), 0.25);
+}
+
+/* ── Very small screens: hide some elements ───────────────────────────────── */
+@media (max-width: 399px) {
+  .sma__info { display: none; }
+  .sma__media { display: none; }
+}
+
+@media (max-width: 479px) {
+  .sma__buy { display: none; }
+}

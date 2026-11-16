@@ -1,0 +1,1832 @@
+/*
+  UC TYPE LOCK — sitewide, matches homepage.
+  Pixel sizes only (Dawn html is 62.5% → rem ≈ 10px).
+  html body prefix beats page-specific !important rem/clamp layers.
+  Never blanket-style `p` / `li`.
+*/
+
+:root {
+  --uc-ink: #2a2a2a;
+}
+
+html body {
+  color: var(--uc-ink) !important;
+  font-family: 'Manrope', system-ui, sans-serif !important;
+  --uc-font-heading: 'Manrope', system-ui, sans-serif !important;
+  --uc-font-body: 'Manrope', system-ui, sans-serif !important;
+  --uc-font-ui: 'Manrope', system-ui, sans-serif !important;
+  --heading-font: 'Manrope', system-ui, sans-serif !important;
+  --font-heading-family: 'Manrope', system-ui, sans-serif !important;
+  --uc-text-h1: 32px !important;
+  --uc-text-h2: 28px !important;
+  --uc-text-h3: 18px !important;
+  --uc-text-lead: 16px !important;
+  --uc-text-body: 16px !important;
+  --type-heading-size: 28px !important;
+  --uc-type-section: 28px !important;
+  --uc-type-section-title: 28px !important;
+  --sec-h-size: 28px !important;
+  --sec-eyebrow-size: 11px !important;
+  --sec-sh-size: 11px !important;
+  --sec-desc-size: 16px !important;
+  --uc-space-eyebrow-to-heading: 10px !important;
+  --uc-space-heading-to-desc: 10px !important;
+}
+
+/* Retired storefront page — never show in menus */
+html body a[href*="/pages/legal"] {
+  display: none !important;
+}
+
+html body .ueh__heading p,
+html body .ueh__heading span,
+html body .ueh__heading strong {
+  font: inherit !important;
+  font-size: inherit !important;
+  font-weight: inherit !important;
+  line-height: inherit !important;
+  letter-spacing: inherit !important;
+  color: inherit !important;
+  margin: 0 !important;
+}
+
+/* ── Shared heading / body lists ─────────────────────────────────────────── */
+html body .ueh__heading,
+html body .ueh__heading p,
+html body .upi__title,
+html body h1,
+html body .h1,
+html body .uc-h1,
+html body .uc-legal__title,
+html body .collection-hero__title,
+html body .main-page-title,
+html body .article-template__title,
+html body .uc-404-page__title,
+html body .pph__title,
+html body .ucw__title,
+html body .title--primary,
+html body .main-page-title,
+html body .h0 {
+  font-family: 'Manrope', system-ui, sans-serif !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.025em !important;
+  color: var(--uc-ink) !important;
+}
+
+html body h2,
+html body .h2,
+html body .uc-h2,
+html body .uc-sec__heading,
+html body .uc-sp-head__title,
+html body .category-showcase__title,
+html body .category-showcase__heading,
+html body .pt__heading,
+html body .pvr__heading,
+html body .pvr__title,
+html body .pb__heading,
+html body .ubp__heading,
+html body .vr__heading,
+html body .ucs__heading,
+html body .ubt__heading,
+html body .pct__heading,
+html body .hiw__heading,
+html body .upr__heading,
+html body .ba__heading,
+html body .pba__heading,
+html body .uc-ft-nl-heading,
+html body .pf-nl-heading,
+html body .pfaq__heading,
+html body .ucta__heading,
+html body .prel__heading,
+html body .pwu__heading,
+html body .fu__heading,
+html body .newsletter__heading,
+html body .uip__section-title {
+  font-family: 'Manrope', system-ui, sans-serif !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+  color: var(--uc-ink) !important;
+}
+
+html body h3,
+html body .h3,
+html body .uc-h3,
+html body .uc-legal__section-title,
+html body .uc-legal__contact-title {
+  font-family: 'Manrope', system-ui, sans-serif !important;
+  color: var(--uc-ink) !important;
+}
+
+html body .upi__tagline,
+html body .uc-sec__desc,
+html body .uc-sp-head__desc,
+html body .category-showcase__intro,
+html body .category-showcase__intro p,
+html body .pt__subtitle,
+html body .pvr__subtitle,
+html body .ubp__desc,
+html body .vr__description,
+html body .vr__description p,
+html body .ba__desc,
+html body .ba__desc p,
+html body .pba__subtitle,
+html body .ueh__desc,
+html body .ueh__desc p,
+html body .ucs__body,
+html body .ucs__body p,
+html body .ucs__body li,
+html body .ucs__body.rte,
+html body .ucta__desc,
+html body .pfaq__subtitle,
+html body .pwu__subtitle,
+html body .uc-ft-nl-desc,
+html body .uc-ft-brand__desc,
+html body .collection-hero__description,
+html body .uc-404-page__text,
+html body .uc-legal__intro,
+html body .uc-legal__intro p,
+html body .uc-legal__body,
+html body .uc-legal__body p,
+html body .uc-legal__prose p,
+html body .ucc__desc,
+html body .uip__note-body,
+html body .uip__note-body p,
+html body .uip__section-desc,
+html body .uip__section-desc p,
+html body .uip__cta-text,
+html body .pb__card-desc,
+html body .pb__subtitle,
+html body .main-page-title + .rte,
+html body .main-page-title + .rte p {
+  font-weight: 400 !important;
+  color: var(--uc-ink) !important;
+  opacity: 1 !important;
+}
+
+/* ── Mobile (same as homepage) ──────────────────────────────────────────── */
+@media screen and (max-width: 749px) {
+  html body {
+    --uc-text-h1: 26px !important;
+    --uc-text-h2: 26px !important;
+    --uc-text-lead: 15px !important;
+    --uc-text-body: 15px !important;
+    --type-heading-size: 26px !important;
+    --uc-type-section: 26px !important;
+    --sec-h-size: 26px !important;
+    --sec-desc-size: 15px !important;
+  }
+
+  html body .ueh__heading,
+  html body .ueh__heading p,
+  html body .upi__title,
+  html body h1,
+  html body .h1,
+  html body .uc-h1,
+  html body .uc-legal__title,
+  html body .collection-hero__title,
+  html body .main-page-title,
+  html body .article-template__title,
+  html body .uc-404-page__title,
+  html body .pph__title,
+  html body .ucw__title,
+  html body .title--primary,
+  html body .h0,
+  html body h2,
+  html body .h2,
+  html body .uc-h2,
+  html body .uc-sec__heading,
+  html body .uc-sp-head__title,
+  html body .category-showcase__title,
+  html body .category-showcase__heading,
+  html body .pt__heading,
+  html body .pvr__heading,
+  html body .pb__heading,
+  html body .ubp__heading,
+  html body .vr__heading,
+  html body .ucs__heading,
+  html body .ubt__heading,
+  html body .pct__heading,
+  html body .hiw__heading,
+  html body .upr__heading,
+  html body .ba__heading,
+  html body .pba__heading,
+  html body .pfaq__heading,
+  html body .ucta__heading,
+  html body .prel__heading,
+  html body .pwu__heading,
+  html body .newsletter__heading,
+  html body .uip__section-title {
+    font-size: 26px !important;
+    line-height: 1.2 !important;
+  }
+
+  html body .upi__tagline,
+  html body .uc-sec__desc,
+  html body .category-showcase__intro,
+  html body .category-showcase__intro p,
+  html body .pt__subtitle,
+  html body .pvr__subtitle,
+  html body .vr__description,
+  html body .vr__description p,
+  html body .ba__desc,
+  html body .ba__desc p,
+  html body .ueh__desc,
+  html body .ueh__desc p,
+  html body .ucs__body,
+  html body .ucs__body p,
+  html body .ucta__desc,
+  html body .pfaq__subtitle,
+  html body .pwu__subtitle,
+  html body .uc-ft-brand__desc,
+  html body .collection-hero__description,
+  html body .uc-404-page__text,
+  html body .ucs__body,
+  html body .ucs__body p,
+  html body .ucs__body li,
+  html body .ucc__desc,
+  html body .uip__note-body,
+  html body .uip__note-body p,
+  html body .uip__section-desc,
+  html body .uip__section-desc p,
+  html body .uip__cta-text,
+  html body .pb__card-desc,
+  html body .main-page-title + .rte p {
+    font-size: 15px !important;
+    line-height: 1.55 !important;
+  }
+
+  html body h3,
+  html body .h3,
+  html body .cs-card__title,
+  html body .vr-feature__title,
+  html body .ucs__value-title,
+  html body .uc-legal__section-title,
+  html body .uc-legal__contact-title {
+    font-size: 18px !important;
+    font-weight: 650 !important;
+    line-height: 1.3 !important;
+    color: var(--uc-ink) !important;
+  }
+
+  html body .cs-card__desc {
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+    color: var(--uc-ink) !important;
+  }
+
+  html body .pc-card__title,
+  html body .pf-card__title,
+  html body .ubp__title {
+    font-size: 15px !important;
+    font-weight: 650 !important;
+    line-height: 1.35 !important;
+    color: var(--uc-ink) !important;
+  }
+
+  html body .pt__card-title {
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    line-height: 1.35 !important;
+    color: var(--uc-ink) !important;
+    word-spacing: 0.04em !important;
+  }
+
+  html body .pt__card-text,
+  html body .upr__card-body {
+    font-size: 15px !important;
+    line-height: 1.6 !important;
+    word-spacing: 0.04em !important;
+  }
+
+  html body .pt__card-name,
+  html body .upr__author strong {
+    font-size: 15px !important;
+    font-weight: 700 !important;
+  }
+
+  html body .pt__card-location,
+  html body .upr__author em,
+  html body .pt__card-date,
+  html body .pt__card-verified {
+    font-size: 13px !important;
+  }
+
+  html body .pc-card__stars {
+    font-size: 16px !important;
+  }
+
+  html body .pc-card__rating-value {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+  }
+
+  html body .pc-card__rating-count {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+  }
+
+  html body .pc-card__price,
+  html body .pc-card__price .price,
+  html body .pc-card__price .price-item {
+    font-size: 18px !important;
+    font-weight: 700 !important;
+  }
+
+  html body .uc-nlp__heading {
+    font-size: 22px !important;
+  }
+  html body .uc-nlp__desc {
+    font-size: 15px !important;
+  }
+}
+
+/* ── Desktop / tablet ────────────────────────────────────────────────────── */
+@media screen and (min-width: 750px) {
+  html body {
+    font-size: 16px !important;
+    line-height: 1.6 !important;
+  }
+
+  html body .upi__title,
+  html body h1,
+  html body .h1,
+  html body .uc-h1,
+  html body .uc-legal__title,
+  html body .collection-hero__title,
+  html body .main-page-title,
+  html body .article-template__title,
+  html body .uc-404-page__title,
+  html body .pph__title,
+  html body .ucw__title,
+  html body .title--primary,
+  html body .h0 {
+    font-size: 32px !important;
+    line-height: 1.16 !important;
+  }
+
+  html body .ueh__heading,
+  html body .ueh__heading p {
+    font-size: 32px !important;
+    line-height: 1.16 !important;
+  }
+
+  html body h2,
+  html body .h2,
+  html body .uc-h2,
+  html body .uc-sec__heading,
+  html body .uc-sp-head__title,
+  html body .category-showcase__title,
+  html body .category-showcase__heading,
+  html body .pt__heading,
+  html body .pvr__heading,
+  html body .pvr__title,
+  html body .pb__heading,
+  html body .ubp__heading,
+  html body .vr__heading,
+  html body .ucs__heading,
+  html body .ubt__heading,
+  html body .pct__heading,
+  html body .hiw__heading,
+  html body .upr__heading,
+  html body .ba__heading,
+  html body .pba__heading,
+  html body .uc-ft-nl-heading,
+  html body .pf-nl-heading,
+  html body .pfaq__heading,
+  html body .ucta__heading,
+  html body .prel__heading,
+  html body .pwu__heading,
+  html body .fu__heading,
+  html body .newsletter__heading,
+  html body .uip__section-title {
+    font-size: 28px !important;
+    line-height: 1.18 !important;
+  }
+
+  html body .ueh__desc,
+  html body .ueh__desc p {
+    font-size: 15px !important;
+    line-height: 1.55 !important;
+  }
+
+  html body .upi__tagline,
+  html body .uc-sec__desc,
+  html body .uc-sp-head__desc,
+  html body .category-showcase__intro,
+  html body .category-showcase__intro p,
+  html body .pt__subtitle,
+  html body .pvr__subtitle,
+  html body .ubp__desc,
+  html body .vr__description,
+  html body .vr__description p,
+  html body .ba__desc,
+  html body .ba__desc p,
+  html body .pba__subtitle,
+  html body .ucs__body,
+  html body .ucs__body p,
+  html body .ucta__desc,
+  html body .pfaq__subtitle,
+  html body .pwu__subtitle,
+  html body .uc-ft-nl-desc,
+  html body .uc-ft-brand__desc,
+  html body .collection-hero__description,
+  html body .uc-404-page__text,
+  html body .uc-legal__intro,
+  html body .uc-legal__intro p {
+    font-size: 16px !important;
+    line-height: 1.6 !important;
+  }
+
+  html body .ucs__body,
+  html body .ucs__body p,
+  html body .ucs__body li,
+  html body .ucc__desc,
+  html body .uip__note-body,
+  html body .uip__note-body p,
+  html body .uip__section-desc,
+  html body .uip__section-desc p,
+  html body .uip__cta-text,
+  html body .pb__card-desc,
+  html body .main-page-title + .rte p {
+    font-size: 16px !important;
+    line-height: 1.6 !important;
+  }
+
+  html body h3,
+  html body .h3,
+  html body .uc-h3,
+  html body .uc-sec__subheading,
+  html body .ucc__title,
+  html body .uip__note-title,
+  html body .uc-legal__section-title,
+  html body .uc-legal__contact-title,
+  html body .ucs__value-title,
+  html body .vr-feature__title,
+  html body .pi__card-title,
+  html body .pi__card-name,
+  html body .hiw__step-title,
+  html body .hiw__card-title,
+  html body .hiw__focus-title,
+  html body .pb__card-title,
+  html body .pct__th-name {
+    font-size: 18px !important;
+    font-weight: 650 !important;
+    line-height: 1.3 !important;
+    color: var(--uc-ink) !important;
+  }
+
+  html body .cs-card__title {
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    line-height: 1.22 !important;
+    color: var(--uc-ink) !important;
+  }
+  html body .cs-card__count {
+    font-size: 11px !important;
+  }
+  html body .cs-card__desc {
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+    color: var(--uc-ink) !important;
+  }
+
+  html body .pc-card__title,
+  html body .pc-card__title-link,
+  html body .ubp__title {
+    font-size: 15px !important;
+    font-weight: 650 !important;
+    line-height: 1.35 !important;
+    color: var(--uc-ink) !important;
+  }
+
+  html body .pt__card-title {
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    line-height: 1.35 !important;
+    color: var(--uc-ink) !important;
+    word-spacing: 0.04em !important;
+  }
+
+  html body .pt__card-text,
+  html body .upr__card-body {
+    font-size: 15px !important;
+    line-height: 1.6 !important;
+    word-spacing: 0.04em !important;
+  }
+
+  html body .pc-card__stars {
+    font-size: 16px !important;
+  }
+
+  html body .pc-card__rating-value {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+  }
+
+  html body .pc-card__rating-count {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+  }
+
+  html body .pc-card__price,
+  html body .pc-card__price .price,
+  html body .pc-card__price .price-item {
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    color: var(--uc-ink) !important;
+  }
+
+  html body .pph__price,
+  html body .pf-qv__price {
+    font-size: 22px !important;
+    font-weight: 700 !important;
+    color: var(--uc-ink) !important;
+  }
+
+  html body .pf-qv__title {
+    font-size: 22px !important;
+    line-height: 1.28 !important;
+    color: var(--uc-ink) !important;
+  }
+  html body .pf-qv__description,
+  html body .pf-qv__description p {
+    font-size: 16px !important;
+    line-height: 1.6 !important;
+    color: var(--uc-ink) !important;
+  }
+
+  html body .uc-label,
+  html body .category-showcase__label,
+  html body .upi__eyebrow,
+  html body .uc-sec__eyebrow,
+  html body .ucs__eyebrow,
+  html body .ueh__badge,
+  html body .uf-facets__badge {
+    font-size: 11px !important;
+  }
+
+  html body .uc-btn,
+  html body .button,
+  html body .pc-card__btn,
+  html body .pc-card__buy {
+    font-size: 14px !important;
+  }
+
+  html body .uc-ft-trust__item {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.06em !important;
+    line-height: 1.2 !important;
+    padding: 5px 10px !important;
+  }
+
+  html body .uc-nlp__heading {
+    font-size: 24px !important;
+    line-height: 1.22 !important;
+    color: var(--uc-ink) !important;
+  }
+  html body .uc-nlp__desc {
+    font-size: 15px !important;
+    line-height: 1.5 !important;
+    color: var(--uc-ink) !important;
+  }
+  html body .uc-nlp__input,
+  html body .uc-nlp__submit {
+    font-size: 14px !important;
+    white-space: nowrap;
+  }
+  html body .uc-nlp__trust {
+    font-size: 12px !important;
+  }
+
+  html body .uc-ft-nl-note {
+    font-size: 13px !important;
+    color: var(--uc-ink) !important;
+  }
+
+  /* Collection / search chrome — match home UI, not body copy */
+  html body .product-count,
+  html body .product-count-vertical,
+  html body #ProductCount,
+  html body #ProductCountDesktop,
+  html body .facets__product-count,
+  html body .uc-sort__trigger,
+  html body .uf-facet__title,
+  html body .facets__label,
+  html body .facet-checkbox__text,
+  html body .uc-ft-nav-col__link {
+    font-size: 13px !important;
+    color: var(--uc-ink) !important;
+  }
+
+  html body .uc-sort__label,
+  html body .uc-ft-contact__item-label,
+  html body .uc-ft-nav-col__heading,
+  html body .uc-ft-col-title {
+    font-size: 11px !important;
+  }
+}
+
+@media screen and (min-width: 990px) and (max-width: 1439px) {
+  html body .upi__title,
+  html body h1,
+  html body .h1,
+  html body .uc-h1,
+  html body .uc-legal__title,
+  html body .collection-hero__title,
+  html body .main-page-title,
+  html body .article-template__title,
+  html body .pph__title,
+  html body .ucw__title,
+  html body .title--primary,
+  html body .ueh__heading,
+  html body .ueh__heading p {
+    font-size: 30px !important;
+  }
+
+  html body h2,
+  html body .h2,
+  html body .uc-h2,
+  html body .uc-sec__heading,
+  html body .category-showcase__title,
+  html body .pt__heading,
+  html body .pvr__heading,
+  html body .ucs__heading,
+  html body .ubp__heading,
+  html body .vr__heading,
+  html body .uc-ft-nl-heading,
+  html body .pfaq__heading,
+  html body .ucta__heading,
+  html body .ba__heading,
+  html body .pba__heading,
+  html body .hiw__heading,
+  html body .upr__heading,
+  html body .pct__heading,
+  html body .pb__heading,
+  html body .prel__heading,
+  html body .pwu__heading {
+    font-size: 26px !important;
+  }
+}
+
+/* ── Our Story / About — homepage type + pill rhythm ─────────────────────── */
+html body.template-page-our-story .ucs,
+html body.template-page-about .ucs {
+  --sec-h-size: 28px;
+  --sec-desc-size: 16px;
+}
+
+html body.template-page-our-story .ucs__heading,
+html body.template-page-about .ucs__heading,
+html body.template-page-our-story .uc-sec__heading.ucs__heading,
+html body.template-page-about .uc-sec__heading.ucs__heading {
+  font-size: 28px !important;
+  line-height: 1.18 !important;
+  font-weight: 700 !important;
+  margin: 0 !important;
+}
+
+html body.template-page-our-story .ucs__body,
+html body.template-page-our-story .ucs__body p,
+html body.template-page-our-story .ucs__body li,
+html body.template-page-about .ucs__body,
+html body.template-page-about .ucs__body p,
+html body.template-page-about .ucs__body li {
+  font-size: 16px !important;
+  line-height: 1.6 !important;
+}
+
+html body.template-page-our-story .vr,
+html body.template-page-about .vr {
+  --sec-h-size: 28px;
+  --sec-desc-size: 16px;
+  --vr-h-size-d: 28px;
+  --vr-h-size-t: 26px;
+  --vr-h-size-m: 26px;
+}
+
+html body.template-page-our-story .vr__heading,
+html body.template-page-about .vr__heading,
+html body.template-page-our-story .uc-sp-head__title,
+html body.template-page-about .uc-sp-head__title {
+  font-size: 28px !important;
+  line-height: 1.18 !important;
+  margin: 0 !important;
+}
+
+html body.template-page-our-story .vr__description,
+html body.template-page-our-story .vr__description p,
+html body.template-page-about .vr__description,
+html body.template-page-about .vr__description p,
+html body.template-page-our-story .uc-sp-head__desc,
+html body.template-page-our-story .uc-sp-head__desc p,
+html body.template-page-about .uc-sp-head__desc,
+html body.template-page-about .uc-sp-head__desc p {
+  font-size: 16px !important;
+  line-height: 1.6 !important;
+}
+
+html body.template-page-our-story .pt__heading,
+html body.template-page-about .pt__heading {
+  font-size: 28px !important;
+  margin: 0 !important;
+}
+
+html body.template-page-our-story .pt__subtitle,
+html body.template-page-about .pt__subtitle {
+  font-size: 16px !important;
+  line-height: 1.6 !important;
+}
+
+html body.template-page-our-story .pt__header-text,
+html body.template-page-about .pt__header-text {
+  gap: 10px !important;
+}
+
+html body.template-page-our-story .vr-feature__title,
+html body.template-page-about .vr-feature__title {
+  font-size: 15px !important;
+  line-height: 1.35 !important;
+}
+
+html body.template-page-our-story .vr-feature__desc,
+html body.template-page-about .vr-feature__desc {
+  font-size: 13px !important;
+  line-height: 1.45 !important;
+}
+
+html body.template-page-our-story .vr-stat__num,
+html body.template-page-about .vr-stat__num {
+  font-size: 24px !important;
+  line-height: 1 !important;
+}
+
+html body.template-page-our-story .vr-stat__title,
+html body.template-page-about .vr-stat__title {
+  font-size: 14px !important;
+  line-height: 1.4 !important;
+}
+
+@media screen and (max-width: 749px) {
+  html body.template-page-our-story .ucs,
+  html body.template-page-about .ucs,
+  html body.template-page-our-story .vr,
+  html body.template-page-about .vr {
+    --sec-h-size: 26px;
+    --sec-desc-size: 15px;
+    --vr-h-size-m: 26px;
+  }
+
+  html body.template-page-our-story .ucs__heading,
+  html body.template-page-about .ucs__heading,
+  html body.template-page-our-story .vr__heading,
+  html body.template-page-about .vr__heading,
+  html body.template-page-our-story .uc-sp-head__title,
+  html body.template-page-about .uc-sp-head__title,
+  html body.template-page-our-story .pt__heading,
+  html body.template-page-about .pt__heading {
+    font-size: 26px !important;
+  }
+
+  html body.template-page-our-story .ucs__body,
+  html body.template-page-our-story .ucs__body p,
+  html body.template-page-about .ucs__body,
+  html body.template-page-about .ucs__body p,
+  html body.template-page-our-story .vr__description,
+  html body.template-page-our-story .vr__description p,
+  html body.template-page-about .vr__description,
+  html body.template-page-about .vr__description p,
+  html body.template-page-our-story .uc-sp-head__desc,
+  html body.template-page-our-story .uc-sp-head__desc p,
+  html body.template-page-about .uc-sp-head__desc,
+  html body.template-page-about .uc-sp-head__desc p,
+  html body.template-page-our-story .pt__subtitle,
+  html body.template-page-about .pt__subtitle {
+    font-size: 15px !important;
+    line-height: 1.55 !important;
+  }
+}
+
+/* ── Contact page — homepage type + pill rhythm ──────────────────────────── */
+html body.template-page-contact .upi,
+html body.template-page-contact .ucc,
+html body.template-page-contact .uwa--contact,
+html body.template-page-contact .pfaq,
+html body.template-page-contact .ucta {
+  --sec-h-size: 28px;
+  --sec-desc-size: 16px;
+}
+
+html body.template-page-contact .upi__inner,
+html body.template-page-contact .uwa--contact .uwa__lead,
+html body.template-page-contact .uwa--contact .uwa__lead .uc-sp-head,
+html body.template-page-contact .uwa--contact .uci-nested-section .uc-sp-head,
+html body.template-page-contact .pfaq__header.uc-sp-head,
+html body.template-page-contact .ucta__content,
+html body.template-page-contact .ucta__head {
+  gap: 10px !important;
+}
+
+html body.template-page-contact .upi__eyebrow,
+html body.template-page-contact .upi__title,
+html body.template-page-contact .upi__tagline,
+html body.template-page-contact .uc-sp-head__eyebrow,
+html body.template-page-contact .uc-sp-head__title,
+html body.template-page-contact .uc-sp-head__desc,
+html body.template-page-contact .uc-sp-head__desc p,
+html body.template-page-contact .pfaq__heading,
+html body.template-page-contact .pfaq__subtitle,
+html body.template-page-contact .ucta__heading,
+html body.template-page-contact .ucta__desc,
+html body.template-page-contact .uwa--contact .uwa__lead > .uc-sec__heading,
+html body.template-page-contact .uwa--contact .uwa__lead > .uc-sec__desc,
+html body.template-page-contact .uwa--contact .uci-nested-section .uc-sp-head__title,
+html body.template-page-contact .uwa--contact .uci-nested-section .uc-sp-head__desc,
+html body.template-page-contact .uwa--contact .uci-nested-section .uc-sp-head__desc p,
+html body.template-page-contact .uwa--contact .uci-nested-section .pfaq__heading,
+html body.template-page-contact .uwa--contact .uci-nested-section .pfaq__subtitle {
+  margin: 0 !important;
+}
+
+html body.template-page-contact .upi__title {
+  font-size: 32px !important;
+  line-height: 1.16 !important;
+}
+
+html body.template-page-contact .upi__tagline,
+html body.template-page-contact .uc-sp-head__desc,
+html body.template-page-contact .uc-sp-head__desc p,
+html body.template-page-contact .pfaq__subtitle,
+html body.template-page-contact .ucta__desc,
+html body.template-page-contact .uwa--contact .uwa__lead > .uc-sec__desc,
+html body.template-page-contact .uwa--contact .uci-nested-section .uc-sp-head__desc,
+html body.template-page-contact .uwa--contact .uci-nested-section .uc-sp-head__desc p,
+html body.template-page-contact .uwa--contact .uci-nested-section .pfaq__subtitle {
+  font-size: 16px !important;
+  line-height: 1.6 !important;
+}
+
+html body.template-page-contact .uc-sp-head__title,
+html body.template-page-contact .pfaq__heading,
+html body.template-page-contact .ucta__heading,
+html body.template-page-contact .uwa--contact .uwa__lead > .uc-sec__heading,
+html body.template-page-contact .uwa--contact .uci-nested-section .uc-sp-head__title,
+html body.template-page-contact .uwa--contact .uci-nested-section .pfaq__heading {
+  font-size: 28px !important;
+  line-height: 1.18 !important;
+  font-weight: 700 !important;
+}
+
+html body.template-page-contact .uwa--contact .uwa__form-card .uc-sec__subheading,
+html body.template-page-contact .uwa--contact .uwa__form-title {
+  font-size: 18px !important;
+  line-height: 1.3 !important;
+  font-weight: 650 !important;
+}
+
+html body.template-page-contact .ucc__title {
+  font-size: 15px !important;
+  line-height: 1.35 !important;
+  font-weight: 650 !important;
+}
+
+html body.template-page-contact .ucc__desc {
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+}
+
+html body.template-page-contact .pfaq__trigger-text,
+html body.template-page-contact .uwa--contact .uci-nested-section .pfaq__trigger-text {
+  font-size: 15px !important;
+  line-height: 1.35 !important;
+  font-weight: 600 !important;
+}
+
+html body.template-page-contact .pfaq__answer,
+html body.template-page-contact .pfaq__answer p,
+html body.template-page-contact .pfaq__body-inner,
+html body.template-page-contact .pfaq__body-inner p,
+html body.template-page-contact .uwa--contact .uci-nested-section .pfaq__answer,
+html body.template-page-contact .uwa--contact .uci-nested-section .pfaq__answer p {
+  font-size: 15px !important;
+  line-height: 1.55 !important;
+}
+
+html body.template-page-contact .uwa--contact .uwa__field label {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+}
+
+html body.template-page-contact .uwa--contact .uwa__field input,
+html body.template-page-contact .uwa--contact .uwa__field textarea,
+html body.template-page-contact .uwa--contact .uwa__field select {
+  font-size: 16px !important;
+}
+
+html body.template-page-contact .uwa--contact .uwa__privacy {
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+}
+
+@media screen and (max-width: 749px) {
+  html body.template-page-contact .upi,
+  html body.template-page-contact .ucc,
+  html body.template-page-contact .uwa--contact,
+  html body.template-page-contact .pfaq,
+  html body.template-page-contact .ucta {
+    --sec-h-size: 26px;
+    --sec-desc-size: 15px;
+  }
+
+  html body.template-page-contact .upi__title {
+    font-size: 26px !important;
+    line-height: 1.2 !important;
+  }
+
+  html body.template-page-contact .upi__tagline,
+  html body.template-page-contact .uc-sp-head__desc,
+  html body.template-page-contact .uc-sp-head__desc p,
+  html body.template-page-contact .pfaq__subtitle,
+  html body.template-page-contact .ucta__desc,
+  html body.template-page-contact .uwa--contact .uwa__lead > .uc-sec__desc,
+  html body.template-page-contact .uwa--contact .uci-nested-section .uc-sp-head__desc,
+  html body.template-page-contact .uwa--contact .uci-nested-section .uc-sp-head__desc p,
+  html body.template-page-contact .uwa--contact .uci-nested-section .pfaq__subtitle {
+    font-size: 15px !important;
+    line-height: 1.55 !important;
+  }
+
+  html body.template-page-contact .uc-sp-head__title,
+  html body.template-page-contact .pfaq__heading,
+  html body.template-page-contact .ucta__heading,
+  html body.template-page-contact .uwa--contact .uwa__lead > .uc-sec__heading,
+  html body.template-page-contact .uwa--contact .uci-nested-section .uc-sp-head__title,
+  html body.template-page-contact .uwa--contact .uci-nested-section .pfaq__heading {
+    font-size: 26px !important;
+    line-height: 1.2 !important;
+  }
+
+  html body.template-page-contact .ucc__title {
+    font-size: 15px !important;
+  }
+
+  html body.template-page-contact .ucc__desc {
+    font-size: 13px !important;
+  }
+}
+
+/* ── Ingredients page — homepage type + pill rhythm ──────────────────────── */
+html body.template-page-ingredients .upi,
+html body.template-page-ingredients .uip {
+  --sec-h-size: 28px;
+  --sec-desc-size: 16px;
+}
+
+html body.template-page-ingredients .upi__inner,
+html body.template-page-ingredients .uip__note,
+html body.template-page-ingredients .uip__section-head,
+html body.template-page-ingredients .uip__cta-copy {
+  gap: 10px !important;
+}
+
+html body.template-page-ingredients .upi__eyebrow,
+html body.template-page-ingredients .upi__title,
+html body.template-page-ingredients .upi__tagline,
+html body.template-page-ingredients .uip__note-title,
+html body.template-page-ingredients .uip__section-eyebrow,
+html body.template-page-ingredients .uip__section-title,
+html body.template-page-ingredients .uip__section-desc,
+html body.template-page-ingredients .uip__section-desc p,
+html body.template-page-ingredients .uip__cta-eyebrow,
+html body.template-page-ingredients .uip__cta-text {
+  margin: 0 !important;
+}
+
+html body.template-page-ingredients .upi__title {
+  font-size: 32px !important;
+  line-height: 1.16 !important;
+}
+
+html body.template-page-ingredients .upi__tagline,
+html body.template-page-ingredients .uip__note-body,
+html body.template-page-ingredients .uip__note-body p,
+html body.template-page-ingredients .uip__section-desc,
+html body.template-page-ingredients .uip__section-desc p,
+html body.template-page-ingredients .uip__cta-text {
+  font-size: 16px !important;
+  line-height: 1.6 !important;
+  max-width: 100% !important;
+}
+
+html body.template-page-ingredients .uip__section-title {
+  font-size: 28px !important;
+  line-height: 1.18 !important;
+  font-weight: 700 !important;
+}
+
+html body.template-page-ingredients .uip__note-title {
+  font-size: 18px !important;
+  line-height: 1.3 !important;
+  font-weight: 650 !important;
+}
+
+html body.template-page-ingredients .uip__table {
+  font-size: 15px !important;
+}
+
+html body.template-page-ingredients .uip__table thead th {
+  font-size: 11px !important;
+}
+
+@media screen and (max-width: 749px) {
+  html body.template-page-ingredients .upi,
+  html body.template-page-ingredients .uip {
+    --sec-h-size: 26px;
+    --sec-desc-size: 15px;
+  }
+
+  html body.template-page-ingredients .upi__title {
+    font-size: 26px !important;
+    line-height: 1.2 !important;
+  }
+
+  html body.template-page-ingredients .upi__tagline,
+  html body.template-page-ingredients .uip__note-body,
+  html body.template-page-ingredients .uip__note-body p,
+  html body.template-page-ingredients .uip__section-desc,
+  html body.template-page-ingredients .uip__section-desc p,
+  html body.template-page-ingredients .uip__cta-text {
+    font-size: 15px !important;
+    line-height: 1.55 !important;
+  }
+
+  html body.template-page-ingredients .uip__section-title {
+    font-size: 26px !important;
+    line-height: 1.2 !important;
+  }
+
+  html body.template-page-ingredients .uip__table,
+  html body.template-page-ingredients .uip__table td {
+    font-size: 14px !important;
+  }
+}
+
+/* ── Legal pages — homepage type + 10px pill rhythm ──────────────────────── */
+html body .uc-legal {
+  --sec-h-size: 32px;
+  --sec-desc-size: 16px;
+}
+
+html body .uc-legal__header,
+html body .uc-legal__section,
+html body .uc-legal__contact,
+html body .uc-legal__intro {
+  gap: 10px !important;
+}
+
+html body .uc-legal__header > *,
+html body .uc-legal__section > *,
+html body .uc-legal__contact > * {
+  margin: 0 !important;
+  max-width: 100% !important;
+}
+
+html body .uc-legal__title {
+  font-family: 'Manrope', system-ui, sans-serif !important;
+  font-size: 32px !important;
+  line-height: 1.16 !important;
+  font-weight: 700 !important;
+  max-width: 100% !important;
+}
+
+html body .uc-legal__meta,
+html body .uc-legal__note,
+html body .uc-legal__intro,
+html body .uc-legal__intro p,
+html body .uc-legal__section-body,
+html body .uc-legal__section-body p,
+html body .uc-legal__section-body li,
+html body .uc-legal__body,
+html body .uc-legal__body p,
+html body .uc-legal__body li,
+html body .uc-legal__prose,
+html body .uc-legal__prose p,
+html body .uc-legal__prose li {
+  font-size: 16px !important;
+  line-height: 1.6 !important;
+  max-width: 100% !important;
+}
+
+html body .uc-legal__section-title,
+html body .uc-legal__contact-title {
+  font-family: 'Manrope', system-ui, sans-serif !important;
+  font-size: 18px !important;
+  line-height: 1.3 !important;
+  font-weight: 650 !important;
+}
+
+html body .uc-legal__eyebrow,
+html body .uc-legal__section-eyebrow,
+html body .uc-legal__contact-eyebrow {
+  font-size: 11px !important;
+  white-space: normal !important;
+  margin: 0 !important;
+}
+
+@media screen and (max-width: 749px) {
+  html body .uc-legal {
+    --sec-h-size: 26px;
+    --sec-desc-size: 15px;
+  }
+
+  html body .uc-legal__title {
+    font-size: 26px !important;
+    line-height: 1.2 !important;
+  }
+
+  html body .uc-legal__meta,
+  html body .uc-legal__note,
+  html body .uc-legal__intro,
+  html body .uc-legal__intro p,
+  html body .uc-legal__section-body,
+  html body .uc-legal__section-body p,
+  html body .uc-legal__section-body li,
+  html body .uc-legal__body,
+  html body .uc-legal__body p,
+  html body .uc-legal__body li,
+  html body .uc-legal__prose,
+  html body .uc-legal__prose p,
+  html body .uc-legal__cta p,
+  html body .uc-legal__contact-list li {
+    font-size: 15px !important;
+    line-height: 1.55 !important;
+  }
+}
+
+/* ── Product page — homepage type + 10px pill / heading / intro ─────────── */
+html body.template-product .pi,
+html body.template-product .hiw,
+html body.template-product .pct,
+html body.template-product .upr,
+html body.template-product .prel,
+html body.template-product .pb,
+html body.template-product .pba,
+html body.template-product .pvr,
+html body.template-product .pph {
+  --sec-h-size: 28px !important;
+  --sec-eyebrow-size: 11px !important;
+  --sec-sh-size: 11px !important;
+  --sec-desc-size: 16px !important;
+  --uc-heading-max: 100% !important;
+}
+
+html body.template-product .pph {
+  --sec-h-size: 32px !important;
+}
+
+html body.template-product .pph__head,
+html body.template-product .pba__header,
+html body.template-product .pb__header,
+html body.template-product .category-showcase__heading-group,
+html body.template-product .uc-sp-head {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+}
+
+html body.template-product .pph__head > *,
+html body.template-product .pba__header > *,
+html body.template-product .pb__header > *,
+html body.template-product .category-showcase__heading-group > *,
+html body.template-product .pph__eyebrow,
+html body.template-product .pph__title,
+html body.template-product .pph__subtitle,
+html body.template-product .pba__eyebrow,
+html body.template-product .pba__heading,
+html body.template-product .pba__subtitle,
+html body.template-product .pi .category-showcase__label,
+html body.template-product .hiw .category-showcase__label,
+html body.template-product .pct .category-showcase__label,
+html body.template-product .upr .category-showcase__label,
+html body.template-product .prel .category-showcase__label,
+html body.template-product .pi .category-showcase__title,
+html body.template-product .hiw .category-showcase__title,
+html body.template-product .pct .category-showcase__title,
+html body.template-product .upr .category-showcase__title,
+html body.template-product .prel .category-showcase__title,
+html body.template-product .pi .category-showcase__intro,
+html body.template-product .hiw .category-showcase__intro,
+html body.template-product .pct .category-showcase__intro,
+html body.template-product .upr .category-showcase__intro,
+html body.template-product .category-showcase__intro p {
+  margin: 0 !important;
+  max-width: 100% !important;
+}
+
+html body.template-product .pi .category-showcase__heading-group,
+html body.template-product .hiw .category-showcase__heading-group,
+html body.template-product .pct .category-showcase__heading-group,
+html body.template-product .upr .category-showcase__heading-group,
+html body.template-product .prel .category-showcase__heading-group,
+html body.template-product .pb .category-showcase__heading-group {
+  max-width: 100% !important;
+}
+
+html body.template-product .pi .category-showcase__header,
+html body.template-product .hiw .category-showcase__header,
+html body.template-product .pct .category-showcase__header,
+html body.template-product .upr .category-showcase__header,
+html body.template-product .prel .category-showcase__header,
+html body.template-product .pba .category-showcase__header,
+html body.template-product .pvr .category-showcase__header,
+html body.template-product .pb .category-showcase__header {
+  margin-bottom: var(--uc-space-desc-to-content, 28px) !important;
+}
+
+html body.template-product .pph__title {
+  font-family: 'Manrope', system-ui, sans-serif !important;
+  font-size: 32px !important;
+  line-height: 1.16 !important;
+  font-weight: 700 !important;
+}
+
+html body.template-product .pph__subtitle {
+  font-size: 16px !important;
+  line-height: 1.6 !important;
+  font-style: normal !important;
+}
+
+html body.template-product .pph__eyebrow,
+html body.template-product .pba__eyebrow,
+html body.template-product .category-showcase__label,
+html body.template-product .uc-sec__eyebrow,
+html body.template-product .pvr__label,
+html body.template-product .pb__eyebrow,
+html body.template-product .prel__eyebrow {
+  font-size: 11px !important;
+  white-space: normal !important;
+}
+
+html body.template-product .category-showcase__title,
+html body.template-product .pi .category-showcase__title,
+html body.template-product .hiw .category-showcase__title,
+html body.template-product .pct .category-showcase__title,
+html body.template-product .upr .category-showcase__title,
+html body.template-product .prel .category-showcase__title,
+html body.template-product .pb .category-showcase__title,
+html body.template-product .pba__heading,
+html body.template-product .uc-sec__heading,
+html body.template-product .pvr__heading,
+html body.template-product .pi__heading,
+html body.template-product .hiw__heading,
+html body.template-product .pct__heading,
+html body.template-product .prel__heading,
+html body.template-product .upr__heading,
+html body.template-product .pb__heading {
+  font-family: 'Manrope', system-ui, sans-serif !important;
+  font-size: 28px !important;
+  line-height: 1.18 !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+  white-space: normal !important;
+}
+
+html body.template-product .category-showcase__intro,
+html body.template-product .category-showcase__intro p,
+html body.template-product .pba__subtitle,
+html body.template-product .pvr__subtitle,
+html body.template-product .pi__subtitle,
+html body.template-product .hiw__subtitle,
+html body.template-product .pct__subtitle,
+html body.template-product .prel__subtitle,
+html body.template-product .upr__subtitle,
+html body.template-product .pb__subtitle {
+  font-size: 16px !important;
+  line-height: 1.6 !important;
+  max-width: 100% !important;
+}
+
+/* ── PDP cards — homepage scale (H3 18 / body 16 / caption 13 / pill 11) ─── */
+html body.template-product .pi__card-name,
+html body.template-product .pi__card-title,
+html body.template-product .hiw__step-title,
+html body.template-product .hiw__card-title,
+html body.template-product .hiw__focus-title,
+html body.template-product .pct__th-name {
+  font-family: 'Manrope', system-ui, sans-serif !important;
+  font-size: 18px !important;
+  line-height: 1.3 !important;
+  font-weight: 650 !important;
+  color: #2a2a2a !important;
+}
+
+html body.template-product .pi__card-sci {
+  font-family: 'Manrope', system-ui, sans-serif !important;
+  font-size: 13px !important;
+  line-height: 1.45 !important;
+  font-weight: 400 !important;
+  font-style: italic !important;
+  color: rgba(42, 42, 42, 0.55) !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
+
+html body.template-product .pi__card-row,
+html body.template-product .pi__card-row-val,
+html body.template-product .pi__card-rte,
+html body.template-product .pi__card-rte p,
+html body.template-product .pi__card-rte li,
+html body.template-product .hiw__step-desc,
+html body.template-product .hiw__focus-desc,
+html body.template-product .pct__td,
+html body.template-product .pct__val,
+html body.template-product .pct__val--text,
+html body.template-product .pct__val--muted {
+  font-family: 'Manrope', system-ui, sans-serif !important;
+  font-size: 16px !important;
+  line-height: 1.55 !important;
+  font-weight: 400 !important;
+  color: #2a2a2a !important;
+}
+
+html body.template-product .hiw__step-tip,
+html body.template-product .hiw__focus-tip {
+  font-size: 13px !important;
+  line-height: 1.45 !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  font-weight: 400 !important;
+}
+
+html body.template-product .pi__card-row-label,
+html body.template-product .pi__badge,
+html body.template-product .hiw__step-duration,
+html body.template-product .pct__th--feature,
+html body.template-product .pct__th-badge {
+  font-family: 'Manrope', system-ui, sans-serif !important;
+  font-size: 11px !important;
+  line-height: 1.35 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  font-weight: 700 !important;
+}
+
+html body.template-product .pct__td--feature {
+  font-size: 16px !important;
+  line-height: 1.45 !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
+
+html body.template-product .pct__th,
+html body.template-product .pct__th--others {
+  font-size: 16px !important;
+  line-height: 1.45 !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
+
+html body.template-product .pct__td--ours,
+html body.template-product .pct__val--text {
+  font-weight: 600 !important;
+}
+
+/* ── Hero purchase / trust / variants ───────────────────────────────────── */
+html body.template-product .pph__stock,
+html body.template-product .pph__tax-info,
+html body.template-product .pph__installment,
+html body.template-product .pph__save-line,
+html body.template-product .pph__option-name,
+html body.template-product .pph__option-selected,
+html body.template-product .pph__compare {
+  font-family: 'Manrope', system-ui, sans-serif !important;
+  font-size: 16px !important;
+  line-height: 1.5 !important;
+}
+
+html body.template-product .pph__qty-input {
+  font-family: 'Manrope', system-ui, sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+}
+
+html body.template-product .pph__variant-card__label {
+  font-family: 'Manrope', system-ui, sans-serif !important;
+  font-size: 13px !important;
+  line-height: 1.3 !important;
+  font-weight: 600 !important;
+}
+
+html body.template-product .pph__delivery-heading,
+html body.template-product .pph__benefit-title,
+html body.template-product .pph__trust-label {
+  font-family: 'Manrope', system-ui, sans-serif !important;
+  font-size: 18px !important;
+  line-height: 1.3 !important;
+  font-weight: 650 !important;
+  color: #2a2a2a !important;
+}
+
+html body.template-product .pph__benefit-desc,
+html body.template-product .pph__trust-desc {
+  display: none !important;
+}
+
+html body.template-product .pph__delivery-body {
+  display: none !important;
+}
+
+html body.template-product .pph__badge,
+html body.template-product .pph__variant-card__badge,
+html body.template-product .pph__save-badge,
+html body.template-product .pph__vendor,
+html body.template-product .pph-gallery__counter,
+html body.template-product .pph__section-label,
+html body.template-product .pph__verified {
+  font-family: 'Manrope', system-ui, sans-serif !important;
+  font-size: 11px !important;
+  line-height: 1.35 !important;
+  letter-spacing: 0.06em !important;
+}
+
+html body.template-product .pph__highlight,
+html body.template-product .pph__rating-value,
+html body.template-product .pph__review-count,
+html body.template-product .pph__trust-item {
+  font-family: 'Manrope', system-ui, sans-serif !important;
+  font-size: 13px !important;
+  line-height: 1.4 !important;
+}
+
+html body.template-product .pph__price {
+  font-family: 'Manrope', system-ui, sans-serif !important;
+  font-size: 22px !important;
+  line-height: 1.2 !important;
+}
+
+html body.template-product .pba__inner {
+  gap: var(--uc-space-desc-to-content, 28px) !important;
+}
+
+html body.template-product .pph__atc,
+html body.template-product .pph__buy-fast,
+html body.template-product .pph__buynow .shopify-payment-button__button {
+  font-family: 'Manrope', system-ui, sans-serif !important;
+  font-size: 16px !important;
+}
+
+html body.template-product .pi__header,
+html body.template-product .pi .category-showcase__header {
+  position: relative !important;
+  z-index: 3 !important;
+}
+
+html body.template-product .pi__media {
+  overflow: hidden !important;
+  isolation: isolate !important;
+  z-index: 1 !important;
+}
+
+@media screen and (max-width: 989px) {
+  html body.template-product .pi__media {
+    position: relative !important;
+  }
+}
+
+html body.template-product .pi__formula-badge,
+html body.template-product .pi__count-badge,
+html body.template-product .pi__count-label {
+  font-family: 'Manrope', system-ui, sans-serif !important;
+  font-size: 11px !important;
+  line-height: 1.3 !important;
+}
+
+html body.template-product .pi__count-num {
+  font-size: 18px !important;
+  line-height: 1 !important;
+}
+
+html body.template-product .pb__card-title,
+html body.template-product .pba__customer,
+html body.template-product .upr__card-title,
+html body.template-product .upr__form-title {
+  font-family: 'Manrope', system-ui, sans-serif !important;
+  font-size: 18px !important;
+  line-height: 1.3 !important;
+  font-weight: 650 !important;
+}
+
+html body.template-product .pb__card-desc,
+html body.template-product .pba__quote,
+html body.template-product .upr__card-body,
+html body.template-product .upr__form-lead,
+html body.template-product .upr__empty p,
+html body.template-product .upr__field-label,
+html body.template-product .upr__score-count {
+  font-family: 'Manrope', system-ui, sans-serif !important;
+  font-size: 16px !important;
+  line-height: 1.55 !important;
+}
+
+html body.template-product .pb__card-badge,
+html body.template-product .pba__duration,
+html body.template-product .upr__badge {
+  font-family: 'Manrope', system-ui, sans-serif !important;
+  font-size: 11px !important;
+  line-height: 1.35 !important;
+  letter-spacing: 0.06em !important;
+}
+
+html body.template-product .upr__score-num {
+  font-family: 'Manrope', system-ui, sans-serif !important;
+  font-size: 40px !important;
+  line-height: 1 !important;
+}
+
+html body.template-product .upr__write-toggle,
+html body.template-product .upr__chip,
+html body.template-product .upr__submit {
+  font-family: 'Manrope', system-ui, sans-serif !important;
+  font-size: 15px !important;
+}
+
+html body.template-product .upr__submit {
+  font-size: 16px !important;
+}
+
+html body.template-product .hiw__step-num {
+  font-family: 'Manrope', system-ui, sans-serif !important;
+  font-size: 18px !important;
+  line-height: 1 !important;
+}
+
+@media screen and (max-width: 749px) {
+  html body.template-product,
+  html body.template-product .pi,
+  html body.template-product .hiw,
+  html body.template-product .pct,
+  html body.template-product .upr,
+  html body.template-product .prel,
+  html body.template-product .pb,
+  html body.template-product .pba,
+  html body.template-product .pvr {
+    --sec-h-size: 26px !important;
+    --sec-desc-size: 15px !important;
+  }
+
+  html body.template-product .pph {
+    --sec-h-size: 26px !important;
+  }
+
+  html body.template-product .pph__title {
+    font-size: 26px !important;
+    line-height: 1.2 !important;
+  }
+
+  html body.template-product .pph__subtitle,
+  html body.template-product .category-showcase__intro,
+  html body.template-product .category-showcase__intro p,
+  html body.template-product .pba__subtitle,
+  html body.template-product .pvr__subtitle,
+  html body.template-product .pi__subtitle,
+  html body.template-product .hiw__subtitle,
+  html body.template-product .pct__subtitle,
+  html body.template-product .prel__subtitle,
+  html body.template-product .upr__subtitle,
+  html body.template-product .pb__subtitle {
+    font-size: 15px !important;
+    line-height: 1.55 !important;
+  }
+
+  html body.template-product .category-showcase__title,
+  html body.template-product .pi .category-showcase__title,
+  html body.template-product .hiw .category-showcase__title,
+  html body.template-product .pct .category-showcase__title,
+  html body.template-product .upr .category-showcase__title,
+  html body.template-product .prel .category-showcase__title,
+  html body.template-product .pb .category-showcase__title,
+  html body.template-product .pba__heading,
+  html body.template-product .uc-sec__heading,
+  html body.template-product .pvr__heading,
+  html body.template-product .pi__heading,
+  html body.template-product .hiw__heading,
+  html body.template-product .pct__heading,
+  html body.template-product .prel__heading,
+  html body.template-product .upr__heading,
+  html body.template-product .pb__heading {
+    font-size: 26px !important;
+    line-height: 1.2 !important;
+  }
+
+  html body.template-product .pi__card-name,
+  html body.template-product .pi__card-title,
+  html body.template-product .hiw__step-title,
+  html body.template-product .hiw__card-title,
+  html body.template-product .hiw__focus-title,
+  html body.template-product .pct__th-name {
+    font-size: 18px !important;
+    line-height: 1.3 !important;
+  }
+
+  html body.template-product .pi__card-sci,
+  html body.template-product .hiw__step-tip,
+  html body.template-product .hiw__focus-tip {
+    font-size: 13px !important;
+    line-height: 1.45 !important;
+  }
+
+  html body.template-product .pi__card-row,
+  html body.template-product .pi__card-row-val,
+  html body.template-product .pi__card-rte,
+  html body.template-product .pi__card-rte p,
+  html body.template-product .pi__card-rte li,
+  html body.template-product .hiw__step-desc,
+  html body.template-product .hiw__focus-desc,
+  html body.template-product .pct__td,
+  html body.template-product .pct__val,
+  html body.template-product .pct__val--text,
+  html body.template-product .pct__val--muted,
+  html body.template-product .pct__td--feature,
+  html body.template-product .pct__th,
+  html body.template-product .pct__th--others {
+    font-size: 15px !important;
+    line-height: 1.55 !important;
+  }
+
+  html body.template-product .pph__stock,
+  html body.template-product .pph__tax-info,
+  html body.template-product .pph__installment,
+  html body.template-product .pph__save-line,
+  html body.template-product .pph__option-name,
+  html body.template-product .pph__option-selected,
+  html body.template-product .pph__compare,
+  html body.template-product .pph__qty-input,
+  html body.template-product .pb__card-desc,
+  html body.template-product .pba__quote,
+  html body.template-product .upr__card-body,
+  html body.template-product .upr__form-lead,
+  html body.template-product .upr__empty p,
+  html body.template-product .upr__field-label,
+  html body.template-product .upr__score-count {
+    font-size: 15px !important;
+    line-height: 1.55 !important;
+  }
+
+  html body.template-product .pph__benefit-desc,
+  html body.template-product .pph__trust-desc {
+    display: none !important;
+  }
+
+  html body.template-product .upr__score-num {
+    font-size: 32px !important;
+  }
+}
+
+/* ── Statement bands (OUR PHILOSOPHY) — layout only, never type sizes ─────── */
+@media screen and (min-width: 990px) {
+  html body.template-page-our-story .ucs__row--statement,
+  html body.template-page-about .ucs__row--statement,
+  html body.template-page-our-story .ucs__row--statement .ucs__content,
+  html body.template-page-about .ucs__row--statement .ucs__content,
+  html body.template-page-our-story .ucs__row--statement .ucs__heading,
+  html body.template-page-about .ucs__row--statement .ucs__heading,
+  html body.template-page-our-story .ucs__row--statement .uc-sec__heading,
+  html body.template-page-about .ucs__row--statement .uc-sec__heading,
+  html body.template-page-our-story .ucs__row--statement .ucs__body,
+  html body.template-page-about .ucs__row--statement .ucs__body,
+  html body.template-page-our-story .ucs__row--statement .ucs__body.rte,
+  html body.template-page-about .ucs__row--statement .ucs__body.rte,
+  html body.template-page-our-story .ucs__row--statement .ucs__body p,
+  html body.template-page-about .ucs__row--statement .ucs__body p {
+    text-align: center !important;
+  }
+
+  html body.template-page-our-story .ucs__row--statement .ucs__content,
+  html body.template-page-about .ucs__row--statement .ucs__content {
+    align-items: center !important;
+    margin-inline: auto !important;
+  }
+}
+
+/* =============================================================================
+   THEME EDITOR TEXT COLORS — opt in with data-uc-theme-text on section wrapper
+   ============================================================================= */
+
+html body [data-uc-theme-text] {
+  --uc-theme-heading: var(--uc-theme-text);
+  --uc-theme-body: var(--uc-theme-text);
+}
+
+html body [data-uc-theme-text] .ueh__copy {
+  color: var(--uc-theme-text, var(--ueh-text, #ffffff)) !important;
+}
+
+html body [data-uc-theme-text] .ueh__heading,
+html body [data-uc-theme-text] .ueh__heading p,
+html body [data-uc-theme-text] .ueh__heading span,
+html body [data-uc-theme-text] .ueh__desc,
+html body [data-uc-theme-text] .ueh__eyebrow,
+html body [data-uc-theme-text] .ueh__subheading,
+html body [data-uc-theme-text] .category-showcase__title,
+html body [data-uc-theme-text] .category-showcase__intro,
+html body [data-uc-theme-text] .category-showcase__intro p,
+html body [data-uc-theme-text] .category-showcase__label,
+html body [data-uc-theme-text] .pph__title,
+html body [data-uc-theme-text] .pvr__heading,
+html body [data-uc-theme-text] .ba__heading,
+html body [data-uc-theme-text] .ubp__title,
+html body [data-uc-theme-text] .ubp__heading,
+html body [data-uc-theme-text] .ubp__desc,
+html body [data-uc-theme-text] .ucta__heading,
+html body [data-uc-theme-text] .ucta__desc,
+html body [data-uc-theme-text] .uc-nlp__heading,
+html body [data-uc-theme-text] .uc-nlp__desc,
+html body [data-uc-theme-text] .uc-ft-nl-heading,
+html body [data-uc-theme-text] .uc-ft-nl-desc,
+html body [data-uc-theme-text] .uc-ft-nl-eyebrow,
+html body [data-uc-theme-text] .pf-nl-heading {
+  color: inherit !important;
+}
+
+html body [data-uc-theme-text] .category-showcase__title,
+html body [data-uc-theme-text] .pph__title,
+html body [data-uc-theme-text] .ubp__title,
+html body [data-uc-theme-text] .ucta__heading,
+html body [data-uc-theme-text] .uc-nlp__heading,
+html body [data-uc-theme-text] .uc-ft-nl-heading,
+html body [data-uc-theme-text] .pvr__heading,
+html body [data-uc-theme-text] .ba__heading {
+  color: var(--uc-theme-heading, inherit) !important;
+}
+
+html body [data-uc-theme-text] .category-showcase__intro,
+html body [data-uc-theme-text] .category-showcase__intro p,
+html body [data-uc-theme-text] .ucta__desc,
+html body [data-uc-theme-text] .uc-nlp__desc,
+html body [data-uc-theme-text] .uc-ft-nl-desc,
+html body [data-uc-theme-text] .ubp__desc {
+  color: var(--uc-theme-body, inherit) !important;
+}
+
+html body [data-uc-theme-text] .uc-nlp__heading {
+  color: var(--uc-nlp-heading, var(--uc-theme-heading, inherit)) !important;
+}
+
+html body [data-uc-theme-text] .uc-nlp__desc {
+  color: var(--uc-nlp-text, var(--uc-theme-body, inherit)) !important;
+}
+
+html body [data-uc-theme-text] .category-showcase__label,
+html body [data-uc-theme-text] .uc-sec__eyebrow,
+html body .ubp .category-showcase__label,
+html body .ubp .uc-sec__eyebrow {
+  color: #b68a35 !important;
+}
+
+/* Theme editor colours — mobile overrides (stacked layouts / light panels) */
+@media screen and (max-width: 749px) {
+  html body [data-uc-theme-text] {
+    color: var(--uc-theme-text-mobile, var(--uc-theme-text, inherit));
+  }
+
+  html body [data-uc-theme-text] .ueh__copy {
+    color: var(--uc-theme-text-mobile, var(--uc-theme-text, #171717)) !important;
+  }
+
+  html body [data-uc-theme-text] .category-showcase__title,
+  html body [data-uc-theme-text] .pph__title,
+  html body [data-uc-theme-text] .ubp__title,
+  html body [data-uc-theme-text] .ucta__heading,
+  html body [data-uc-theme-text] .uc-nlp__heading,
+  html body [data-uc-theme-text] .uc-ft-nl-heading,
+  html body [data-uc-theme-text] .pvr__heading,
+  html body [data-uc-theme-text] .ba__heading {
+    color: var(--uc-theme-heading-mobile, var(--uc-theme-heading, inherit)) !important;
+  }
+
+  html body [data-uc-theme-text] .category-showcase__intro,
+  html body [data-uc-theme-text] .category-showcase__intro p,
+  html body [data-uc-theme-text] .ucta__desc,
+  html body [data-uc-theme-text] .uc-nlp__desc,
+  html body [data-uc-theme-text] .uc-ft-nl-desc,
+  html body [data-uc-theme-text] .ubp__desc {
+    color: var(--uc-theme-body-mobile, var(--uc-theme-body, inherit)) !important;
+  }
+
+  html body [data-uc-theme-text] .uc-nlp__heading {
+    color: var(--uc-nlp-heading-mobile, var(--uc-nlp-heading, var(--uc-theme-heading-mobile, inherit))) !important;
+  }
+
+  html body [data-uc-theme-text] .uc-nlp__desc {
+    color: var(--uc-nlp-text-mobile, var(--uc-nlp-text, var(--uc-theme-body-mobile, inherit))) !important;
+  }
+
+  html body [data-uc-theme-text] .category-showcase__label,
+  html body [data-uc-theme-text] .uc-sec__eyebrow,
+  html body .ubp .category-showcase__label,
+  html body .ubp .uc-sec__eyebrow {
+    color: #b68a35 !important;
+  }
+}

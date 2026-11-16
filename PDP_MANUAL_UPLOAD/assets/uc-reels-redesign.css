@@ -1,0 +1,589 @@
+/*
+  UC Reels redesign — home (premium-video-reels) + PDP (product-video-reviews)
+  Soft cream/gold cinema strip. Overrides Dawn-era glass clutter.
+*/
+
+.pvr {
+  --pvr-ink: #1a1814;
+  --pvr-muted: rgba(26, 24, 20, 0.58);
+  --pvr-gold: #b68a35;
+  --pvr-cream: #f7f4ef;
+  --pvr-line: rgba(26, 24, 20, 0.1);
+  --pvr-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(182, 138, 53, 0.07), transparent 55%),
+    var(--pvr-bg, var(--pvr-cream, #f7f4ef));
+  padding-top: clamp(40px, 6vw, 72px);
+  padding-bottom: clamp(40px, 6vw, 72px);
+}
+
+.pvr__inner {
+  max-width: min(var(--pvr-container-max, var(--page-width)), 100%);
+  padding-inline: clamp(16px, 4vw, 40px);
+}
+
+.pvr__header {
+  gap: 10px;
+  margin-bottom: clamp(20px, 3.5vw, 40px);
+}
+
+.pvr__label {
+  font-size: clamp(0.7rem, 0.65rem + 0.2vw, 0.78rem);
+  letter-spacing: 0.14em;
+  font-weight: 600;
+  color: var(--pvr-gold);
+}
+
+.pvr__heading {
+  font-size: clamp(1.65rem, 1.2rem + 1.8vw, 2.65rem);
+  letter-spacing: -0.02em;
+  color: var(--pvr-ink);
+  max-width: 18ch;
+}
+
+.pvr--align-center .pvr__heading {
+  max-width: 22ch;
+}
+
+.pvr__subtitle {
+  font-size: clamp(0.95rem, 0.9rem + 0.25vw, 1.1rem);
+  line-height: 1.55;
+  color: var(--pvr-muted);
+  max-width: 42ch;
+}
+
+.pvr__viewport {
+  position: relative;
+}
+
+.pvr__track {
+  gap: clamp(12px, 2vw, 18px);
+  padding: 6px 2px 18px;
+  scroll-padding-inline: 2px;
+}
+
+/* TikTok-style phone frames — pure 9:16 portrait, no max-height clipping */
+.pvr-card__media {
+  border-radius: clamp(16px, 2vw, 22px);
+  /* No max-height: aspect-ratio alone governs the card proportions */
+  aspect-ratio: 9 / 16;
+  box-shadow: none;
+  filter: none;
+  border: 1px solid rgba(26, 24, 20, 0.08);
+  outline: 1px solid transparent;
+  transition: outline-color 220ms ease;
+  transform: none;
+  background: #111;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .pvr-card:hover .pvr-card__media {
+    transform: none;
+    outline-color: rgba(182, 138, 53, 0.35);
+  }
+}
+
+.pvr__cell {
+  flex: 0 0 calc((100% - (var(--pvr-per-desktop) - 1) * var(--pvr-gap)) / var(--pvr-per-desktop));
+}
+
+@media screen and (max-width: 989px) {
+  .pvr__cell {
+    flex: 0 0 clamp(200px, 40vw, 280px);
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .pvr__cell {
+    flex: 0 0 min(72vw, 300px) !important;
+    max-width: min(72vw, 300px) !important;
+  }
+
+  .pvr-card__media {
+    /* Let aspect-ratio handle the height on mobile too */
+    max-height: none;
+  }
+}
+
+/* Remove the gradient overlay — keep only the reel preview */
+.pvr-card__media::after {
+  content: none !important;
+}
+
+.pvr-card.is-playing .pvr-card__media::after {
+  content: none !important;
+}
+
+/* Controls — compact, corner-anchored */
+.pvr-card__controls,
+.pvr-card__mute,
+.pvr-card__play,
+.pvr-ctl {
+  z-index: 5;
+}
+
+.pvr-card__mute,
+.pvr-card__play,
+.pvr-ctl,
+.pvr-card [class*='mute'],
+.pvr-card button.pvr-card__mute-btn,
+.pvr-card .pvr-card__btn-mute {
+  border-radius: 999px !important;
+  background: rgba(20, 18, 16, 0.45) !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: none !important;
+}
+
+.pvr-card__progress,
+.pvr-progress {
+  height: 2px !important;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.28) !important;
+}
+
+.pvr-card__progress-bar,
+.pvr-progress__bar,
+.pvr-progress > span {
+  background: #fff !important;
+  border-radius: inherit;
+}
+
+/* Shoppable product strip under reel */
+.pvr-card__product {
+  margin-top: 10px;
+  padding: 12px 12px 12px;
+  border-radius: 14px;
+  background: #fff;
+  border: 1px solid var(--pvr-line);
+  box-shadow: 0 8px 24px rgba(26, 24, 20, 0.05);
+  gap: 10px;
+}
+
+.pvr-card__product.is-glass {
+  background: rgba(255, 255, 255, 0.92);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+.pvr-card__product-title,
+.pvr-product__title {
+  font-size: clamp(0.82rem, 0.78rem + 0.2vw, 0.95rem) !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em;
+  color: var(--pvr-ink) !important;
+}
+
+.pvr-card__product-price,
+.pvr-product__price {
+  font-size: clamp(0.78rem, 0.75rem + 0.15vw, 0.88rem) !important;
+  color: var(--pvr-gold) !important;
+  font-weight: 600;
+}
+
+.pvr-card__product .button,
+.pvr-card__product .pvr-product__atc,
+.pvr-product__actions .button {
+  min-height: 40px !important;
+  border-radius: 999px !important;
+  font-size: 0.78rem !important;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 600 !important;
+}
+
+/* Nav arrows + dots */
+.pvr__arrow,
+.pvr-arrow {
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 999px !important;
+  background: #fff !important;
+  border: 1px solid var(--pvr-line) !important;
+  box-shadow: 0 6px 18px rgba(26, 24, 20, 0.08) !important;
+  color: var(--pvr-ink) !important;
+}
+
+.pvr__arrow:hover,
+.pvr-arrow:hover {
+  border-color: rgba(182, 138, 53, 0.45) !important;
+  color: var(--pvr-gold) !important;
+}
+
+.pvr__dots button,
+.pvr-dot,
+.pvr__pagination button {
+  width: 7px !important;
+  height: 7px !important;
+  border-radius: 999px !important;
+  background: rgba(26, 24, 20, 0.18) !important;
+  opacity: 1 !important;
+}
+
+.pvr__dots button.is-active,
+.pvr-dot.is-active,
+.pvr__pagination button[aria-current='true'] {
+  width: 22px !important;
+  background: var(--pvr-gold) !important;
+}
+
+/* ── Premium Reel Viewer (phone-frame modal) ─────────────────────────────── */
+
+.pvr-popup {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 2800 !important;
+  display: grid !important;
+  place-items: center !important;
+  padding:
+    max(72px, calc(env(safe-area-inset-top, 0px) + 56px))
+    16px
+    max(20px, env(safe-area-inset-bottom, 0px)) !important;
+  box-sizing: border-box !important;
+  pointer-events: none !important;
+}
+
+.pvr-popup.is-open {
+  pointer-events: auto !important;
+}
+
+/* Full-page blur focus — entire website softens behind the modal */
+.pvr-popup .pvr-popup__backdrop {
+  position: absolute !important;
+  inset: 0 !important;
+  background: rgba(12, 10, 8, 0.62) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(1.15) !important;
+  backdrop-filter: blur(22px) saturate(1.15) !important;
+  opacity: 0 !important;
+  transition: opacity 320ms ease !important;
+}
+
+.pvr-popup.is-open .pvr-popup__backdrop {
+  opacity: 1 !important;
+}
+
+html:has(.pvr-popup.is-open) #MainContent,
+html:has(.pvr-popup.is-open) .shopify-section-group-header-group,
+html:has(.pvr-popup.is-open) .shopify-section-group-footer-group {
+  filter: blur(6px);
+  transition: filter 320ms ease;
+}
+
+.pvr-popup__shell {
+  position: relative !important;
+  z-index: 2 !important;
+  display: grid !important;
+  place-items: center !important;
+  width: 100% !important;
+  max-width: 380px !important;
+  pointer-events: none !important;
+}
+
+/* Strict 9:16 phone — no heavy shadow, no letterbox twin */
+.pvr-popup .pvr-popup__panel {
+  position: relative !important;
+  pointer-events: auto !important;
+  width: min(calc((100dvh - 110px) * 9 / 16), calc(100vw - 40px), 360px) !important;
+  height: auto !important;
+  max-width: 360px !important;
+  max-height: min(78dvh, 680px) !important;
+  aspect-ratio: 9 / 16 !important;
+  border-radius: 18px !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: none !important;
+  filter: none !important;
+  transform: scale(0.96) translateY(10px) !important;
+  opacity: 0 !important;
+  transition:
+    transform 360ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 280ms ease !important;
+  overflow: hidden !important;
+  isolation: isolate !important;
+  background: #050505 !important;
+}
+
+.pvr-popup.is-open .pvr-popup__panel {
+  transform: none !important;
+  opacity: 1 !important;
+}
+
+.pvr-popup__stage {
+  position: absolute !important;
+  inset: 0 !important;
+  overflow: hidden !important;
+  background: #050505 !important;
+  border-radius: inherit !important;
+  z-index: 1 !important;
+}
+
+.pvr-popup__video {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 1 !important;
+  background: #050505 !important;
+  overflow: hidden !important;
+  border-radius: inherit !important;
+}
+
+.pvr-popup__crop,
+.pvr-popup__crop--cover,
+.pvr-popup__crop--contain {
+  position: absolute !important;
+  inset: 0 !important;
+  overflow: hidden !important;
+  background: #050505 !important;
+}
+
+/* Fit — full video visible, no crop, no scaled twin blur */
+.pvr-popup__crop--fit .pvr-popup__crop-iframe,
+.pvr-popup__crop--cover .pvr-popup__crop-iframe,
+.pvr-popup__crop--contain .pvr-popup__crop-iframe {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  border: 0 !important;
+  transform: none !important;
+  pointer-events: auto !important;
+  background: #050505 !important;
+}
+
+.pvr-popup__video video,
+.pvr-popup__video > iframe,
+.pvr-popup__poster {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  border: 0 !important;
+  object-fit: cover !important;
+  background: #050505 !important;
+  z-index: 1 !important;
+}
+
+.pvr-popup__video:not(.pvr-popup__video--loading) .pvr-popup__loading {
+  display: none !important;
+}
+
+.pvr-popup__loading {
+  z-index: 2 !important;
+  pointer-events: none !important;
+  max-width: 140px !important;
+  white-space: nowrap !important;
+}
+
+.pvr-popup__ctl--close {
+  position: absolute !important;
+  top: 12px !important;
+  right: 12px !important;
+  left: auto !important;
+  bottom: auto !important;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 999px !important;
+  background: rgba(20, 18, 16, 0.55) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  backdrop-filter: blur(12px) !important;
+  color: #fff !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 20 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  transform: none !important;
+  transition: background 160ms ease, transform 160ms ease !important;
+}
+
+.pvr-popup__ctl--close:hover {
+  background: rgba(30, 28, 24, 0.78) !important;
+  transform: scale(1.08) !important;
+}
+
+.pvr-popup__ctl--close svg {
+  width: 16px !important;
+  height: 16px !important;
+}
+
+.pvr-popup__chrome {
+  position: absolute !important;
+  inset: 0 !important;
+  display: block !important;
+  background: transparent !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  transform: none !important;
+  z-index: 15 !important;
+  pointer-events: none !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.pvr-popup__chrome > * {
+  pointer-events: auto !important;
+}
+
+.pvr-popup__ctl--more,
+.pvr-popup__ctl--share,
+.pvr-popup__menu {
+  display: none !important;
+}
+
+.pvr-popup__nav {
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  padding: 0 8px !important;
+  pointer-events: none !important;
+  z-index: 16 !important;
+}
+
+.pvr-popup__ctl[data-pvr-popup-prev],
+.pvr-popup__ctl[data-pvr-popup-next] {
+  pointer-events: auto !important;
+  width: 38px !important;
+  height: 38px !important;
+  background: rgba(16, 14, 12, 0.45) !important;
+  border-radius: 999px !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  color: #fff !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+.pvr-popup__panel::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 36px;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.22);
+  z-index: 18;
+  pointer-events: none;
+}
+
+@media screen and (max-width: 599px) {
+  .pvr-popup .pvr-popup__panel {
+    width: min(82vw, 340px) !important;
+    height: auto !important;
+    max-height: min(76dvh, 640px) !important;
+    aspect-ratio: 9 / 16 !important;
+    border-radius: 16px !important;
+    box-shadow: none !important;
+  }
+}
+
+.pvr-popup__ctl:focus-visible {
+  outline: 2px solid var(--pvr-gold, #b68a35) !important;
+  outline-offset: 2px !important;
+}
+
+/* Review cards (PDP) */
+.pvr-card__review {
+  margin-top: 10px;
+  padding: 14px;
+  border-radius: 14px;
+  background: #fff;
+  border: 1px solid var(--pvr-line);
+  box-shadow: 0 8px 24px rgba(26, 24, 20, 0.05);
+  gap: 10px;
+}
+
+.pvr-card__review.is-glass {
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid var(--pvr-line);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.pvr-review__stars {
+  font-size: clamp(0.95rem, 0.9rem + 0.2vw, 1.1rem);
+  letter-spacing: 0.02em;
+  background: linear-gradient(
+    to right,
+    var(--pvr-gold) var(--pvr-star-pct, 100%),
+    rgba(26, 24, 20, 0.16) var(--pvr-star-pct, 100%)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.pvr-review__verified {
+  color: var(--pvr-gold);
+  background: rgba(182, 138, 53, 0.12);
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.pvr-review__text {
+  font-style: normal;
+  font-size: clamp(0.82rem, 0.78rem + 0.2vw, 0.92rem);
+  line-height: 1.5;
+  opacity: 0.82;
+  -webkit-line-clamp: 3;
+}
+
+.pvr-review__name {
+  font-size: 0.82rem;
+  font-weight: 650;
+}
+
+.pvr-review__result {
+  background: rgba(182, 138, 53, 0.1);
+  color: var(--pvr-ink);
+  border-radius: 6px;
+  font-size: 0.68rem;
+}
+
+/* Responsive density */
+@media screen and (max-width: 989px) {
+  .pvr__arrow,
+  .pvr-arrow {
+    width: 40px !important;
+    height: 40px !important;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .pvr {
+    padding-top: clamp(28px, 8vw, 48px);
+    padding-bottom: clamp(28px, 8vw, 48px);
+  }
+
+  /* aspect-ratio controls height on mobile — no max-height needed */
+
+  .pvr-card__product,
+  .pvr-card__review {
+    padding: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pvr-card__media,
+  .pvr-card:hover .pvr-card__media {
+    transition: none;
+    transform: none;
+  }
+}

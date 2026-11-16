@@ -1,0 +1,729 @@
+/* =============================================================================
+   PREMIUM FOOTER — premium-footer.css
+   Prefix: pf-
+   Scoped entirely to .pf-section — zero global side effects.
+   Dependencies: uc-design-tokens.css (uses --uc-* variables when available)
+   ============================================================================= */
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   VISUALLY HIDDEN (accessibility utility)
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.pf-section .pf-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   SECTION & CONTAINER
+   ───────────────────────────────────────────────────────────────────────────── */
+
+.pf-section {
+  background: var(--pf-bg, var(--uc-color-footer-bg, #171717));
+  color: var(--pf-color, var(--uc-color-footer-text, #D4C9B8));
+  font-family: var(--uc-font-body, var(--font-body-family, system-ui, sans-serif));
+  padding-top: var(--pf-pt, 0px);
+  position: relative;
+  isolation: isolate;
+}
+
+.pf-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(182, 138, 53, 0.08) 0%, transparent 55%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, transparent 40%);
+  z-index: 0;
+}
+
+.pf-section > * {
+  position: relative;
+  z-index: 1;
+}
+
+.pf-container {
+  max-width: var(--pf-max, 1280px);
+  margin-inline: auto;
+  padding-inline: clamp(16px, 4vw, 48px);
+}
+
+/* =============================================================================
+   PART 1 — NEWSLETTER BANNER
+   ============================================================================= */
+
+.pf-nl-outer {
+  padding: clamp(16px, 3vw, 32px) 0;
+}
+
+.pf-nl-banner {
+  display: flex;
+  align-items: center;
+  gap: clamp(20px, 4vw, 48px);
+  background: var(--pf-nl-bg, #3a5730);
+  border-radius: var(--pf-nl-radius, 16px);
+  padding: clamp(24px, 4vw, 40px) clamp(24px, 5vw, 56px);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Subtle decorative gradient blob */
+.pf-nl-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 80% at 110% 50%, rgba(255,255,255,0.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* Left: content */
+.pf-nl-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+  min-width: 0;
+}
+
+.pf-nl-icon {
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.pf-nl-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.pf-nl-text { flex: 1; min-width: 0; }
+
+.pf-nl-heading {
+  font-family: var(--uc-font-heading, var(--font-heading-family, inherit));
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--pf-nl-text, #ffffff);
+  margin: 0 0 4px;
+  line-height: 1.25;
+}
+
+.pf-nl-desc {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.78);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Right: form */
+.pf-nl-form-wrap {
+  flex-shrink: 0;
+  width: min(400px, 100%);
+}
+
+.pf-nl-form {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: #fff;
+  border-radius: var(--pf-nl-input-radius, 10px);
+  overflow: hidden;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.15);
+  transition: box-shadow 0.25s ease;
+}
+
+.pf-nl-form:focus-within {
+  box-shadow: 0 4px 24px rgba(0,0,0,0.22), 0 0 0 3px rgba(255,255,255,0.4);
+}
+
+.pf-nl-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 13px 16px;
+  font-size: 0.88rem;
+  color: #1a1a1a;
+  outline: none;
+  min-width: 0;
+  font-family: inherit;
+}
+
+.pf-nl-input::placeholder { color: #9ca3af; }
+
+.pf-nl-btn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: var(--pf-nl-btn-bg, #3a5730);
+  color: var(--pf-nl-btn-color, #ffffff);
+  border: none;
+  padding: 13px 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.25s ease, opacity 0.25s ease;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+}
+
+.pf-nl-btn:hover { opacity: 0.88; }
+
+.pf-nl-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+.pf-nl-btn__spinner {
+  display: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: pf-spin 0.7s linear infinite;
+}
+
+@keyframes pf-spin { to { transform: rotate(360deg); } }
+
+.pf-nl-form.is-loading .pf-nl-btn__label,
+.pf-nl-form.is-loading .pf-nl-btn__arrow { display: none; }
+.pf-nl-form.is-loading .pf-nl-btn__spinner { display: block; }
+
+/* Messages */
+.pf-nl-feedback {
+  margin-top: 10px;
+  font-size: 0.8rem;
+  padding: 8px 12px;
+  border-radius: 8px;
+  display: none;
+  line-height: 1.4;
+}
+
+.pf-nl-feedback.is-success {
+  display: block;
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.25);
+}
+
+.pf-nl-feedback.is-error {
+  display: block;
+  background: rgba(239,68,68,0.15);
+  color: #fecaca;
+  border: 1px solid rgba(239,68,68,0.3);
+}
+
+.pf-nl-note {
+  margin-top: 8px;
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.55);
+}
+
+/* =============================================================================
+   PART 2 — MAIN FOOTER GRID
+   ============================================================================= */
+
+.pf-main {
+  padding-block: clamp(48px, 6vw, 80px);
+  border-top: 1px solid var(--uc-color-footer-border, rgba(255, 255, 255, 0.08));
+  -webkit-backdrop-filter: blur(var(--uc-glass-blur, 18px)) saturate(140%);
+  backdrop-filter: blur(var(--uc-glass-blur, 18px)) saturate(140%);
+}
+
+.pf-grid {
+  display: grid;
+  grid-template-columns: var(--pf-grid-cols, 1.8fr 1fr 1fr 1fr 1.4fr);
+  gap: clamp(28px, 4vw, 56px);
+  align-items: start;
+}
+
+/* ── Brand Column ── */
+.pf-brand {}
+
+.pf-brand__logo-link {
+  display: inline-block;
+  text-decoration: none;
+  margin-bottom: 16px;
+}
+
+.pf-brand__logo {
+  height: auto;
+  max-width: var(--pf-logo-w, 140px);
+  display: block;
+}
+
+.pf-brand__text-logo {
+  font-family: var(--uc-font-heading, inherit);
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  font-weight: 800;
+  color: var(--pf-heading-color, #1a1a1a);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  display: block;
+}
+
+.pf-brand__tagline {
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--pf-muted, #9ca3af);
+  display: block;
+  margin-top: 2px;
+}
+
+.pf-brand__desc {
+  font-size: clamp(0.8rem, 1.1vw, 0.88rem);
+  line-height: 1.7;
+  color: var(--pf-muted, #6b7280);
+  margin: 0 0 20px;
+  max-width: 30ch;
+}
+
+/* ── Social Icons ── */
+.pf-social {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.pf-social__link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--pf-social-size, 36px);
+  height: var(--pf-social-size, 36px);
+  border-radius: var(--pf-social-shape, 50%);
+  background: var(--pf-social-bg, rgba(0,0,0,0.05));
+  color: var(--pf-social-color, #5a5a5a);
+  text-decoration: none;
+  transition: background 0.25s ease, color 0.25s ease, transform 0.25s var(--uc-ease-premium, ease);
+}
+
+.pf-social__link:hover {
+  background: var(--pf-social-hover-bg, #3a5730);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.pf-social__link svg {
+  width: calc(var(--pf-social-size, 36px) * 0.46);
+  height: calc(var(--pf-social-size, 36px) * 0.46);
+  display: block;
+  flex-shrink: 0;
+}
+
+/* Payment icons in brand column */
+.pf-brand__payments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.pf-brand__payment-icon {
+  height: 24px;
+  width: auto;
+  border-radius: 4px;
+  display: block;
+  opacity: 0.6;
+}
+
+/* ── Navigation Columns ── */
+.pf-nav-col {}
+
+.pf-nav-col__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.pf-nav-col__heading {
+  font-family: var(--uc-font-heading, inherit);
+  font-size: clamp(0.8rem, 1.1vw, 0.9rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--pf-heading-color, #1a1a1a);
+  margin: 0;
+}
+
+.pf-nav-col__toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  color: var(--pf-muted, #6b7280);
+  border-radius: 6px;
+  transition: background 0.2s ease, color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.pf-nav-col__toggle:hover { background: rgba(0,0,0,0.05); }
+
+.pf-nav-col__toggle svg {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.3s var(--uc-ease-premium, ease);
+}
+
+.pf-nav-col.is-open .pf-nav-col__toggle svg {
+  transform: rotate(180deg);
+}
+
+.pf-nav-col__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pf-nav-col__link {
+  font-size: clamp(0.82rem, 1.1vw, 0.9rem);
+  color: var(--pf-link-color, #5a5a5a);
+  text-decoration: none;
+  display: inline-block;
+  transition: color 0.22s ease, padding-left 0.22s ease;
+  line-height: 1.4;
+  padding-left: 0;
+}
+
+.pf-nav-col__link:hover {
+  color: var(--pf-accent, #3a5730);
+  padding-left: 4px;
+}
+
+.pf-nav-col__link[aria-current="page"] {
+  color: var(--pf-accent, #3a5730);
+  font-weight: 600;
+}
+
+/* ── Contact Column ── */
+.pf-contact {}
+
+.pf-contact__body {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.pf-contact__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--pf-link-color, #5a5a5a);
+  font-size: clamp(0.82rem, 1.1vw, 0.9rem);
+  line-height: 1.5;
+  transition: color 0.22s ease;
+}
+
+.pf-contact__item:hover { color: var(--pf-accent, #3a5730); }
+
+.pf-contact__item-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: var(--pf-icon-bg, rgba(58,87,48,0.08));
+  color: var(--pf-accent, #3a5730);
+  margin-top: -1px;
+}
+
+.pf-contact__item-icon svg { width: 14px; height: 14px; }
+
+.pf-contact__item-text { flex: 1; }
+
+.pf-contact__item-label {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--pf-muted, #9ca3af);
+  margin-bottom: 2px;
+}
+
+.pf-contact__item-value { display: block; }
+
+/* ── Footer Divider ── */
+.pf-grid-divider {
+  height: 1px;
+  background: var(--pf-divider-color, rgba(0,0,0,0.07));
+  margin-block: clamp(20px, 3vw, 40px);
+}
+
+/* =============================================================================
+   PART 3 — BOTTOM BAR
+   ============================================================================= */
+
+.pf-bottom {
+  border-top: var(--pf-divider, 1px solid rgba(0,0,0,0.07));
+  padding-block: clamp(16px, 2.5vw, 24px);
+  background: var(--pf-bottom-bg, transparent);
+}
+
+.pf-bottom__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+}
+
+.pf-bottom__copy {
+  font-size: 0.78rem;
+  color: var(--pf-muted, #9ca3af);
+  margin: 0;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+/* Payment icons in bottom bar */
+.pf-payments {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.pf-payments svg,
+.pf-payments img {
+  height: 22px;
+  width: auto;
+  display: block;
+  border-radius: 3px;
+  opacity: 0.65;
+}
+
+/* Policy links */
+.pf-policies {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 16px;
+}
+
+.pf-policies__link {
+  font-size: 0.76rem;
+  color: var(--pf-muted, #9ca3af);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  white-space: nowrap;
+}
+
+.pf-policies__link:hover { color: var(--pf-accent, #3a5730); }
+
+/* =============================================================================
+   FOCUS STATES (WCAG 2.2)
+   ============================================================================= */
+
+.pf-section a:focus-visible,
+.pf-section button:focus-visible,
+.pf-section input:focus-visible {
+  outline: 2px solid var(--pf-accent, #3a5730);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.pf-nl-input:focus-visible {
+  outline: none;
+}
+
+/* =============================================================================
+   RESPONSIVE — TABLET (≤ 1023px)
+   ============================================================================= */
+
+@media (max-width: 1023px) {
+  .pf-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .pf-brand {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0 32px;
+    align-items: start;
+  }
+
+  .pf-brand__logo-wrap { grid-row: 1 / 3; }
+  .pf-brand__desc { max-width: 50ch; }
+
+  .pf-contact {
+    grid-column: 1 / -1;
+  }
+
+  /* Newsletter: keep side by side */
+  .pf-nl-banner { flex-wrap: wrap; gap: 24px; }
+  .pf-nl-form-wrap { width: 100%; }
+
+  .pf-bottom__payments { order: 3; width: 100%; justify-content: center; }
+}
+
+/* =============================================================================
+   RESPONSIVE — TABLET PORTRAIT (≤ 768px)
+   ============================================================================= */
+
+@media (max-width: 768px) {
+  .pf-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .pf-brand {
+    grid-column: auto;
+    display: block;
+    padding-bottom: 28px;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    margin-bottom: 0;
+  }
+
+  .pf-brand__desc { max-width: 100%; }
+
+  /* Accordion: show toggle buttons */
+  .pf-nav-col__toggle { display: flex; }
+
+  /* Accordion: collapse list by default */
+  .pf-nav-col__list {
+    max-height: 0;
+    overflow: hidden;
+    gap: 0;
+    transition: max-height 0.38s var(--uc-ease-premium, ease);
+  }
+
+  .pf-nav-col__list li {
+    border-bottom: none;
+  }
+
+  .pf-nav-col__list li:last-child a {
+    padding-bottom: 16px;
+  }
+
+  .pf-nav-col__list .pf-nav-col__link {
+    padding-block: 9px;
+    display: block;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+  }
+
+  .pf-nav-col.is-open .pf-nav-col__list {
+    max-height: 500px;
+  }
+
+  .pf-nav-col__head {
+    padding-block: 16px;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    margin-bottom: 0;
+  }
+
+  .pf-contact {
+    grid-column: auto;
+  }
+
+  .pf-contact .pf-nav-col__head {
+    padding-block: 16px;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+
+  .pf-contact .pf-contact__body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.38s var(--uc-ease-premium, ease);
+    padding-block: 0;
+    gap: 0;
+  }
+
+  .pf-contact.is-open .pf-contact__body {
+    max-height: 400px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    gap: 13px;
+  }
+
+  /* Bottom bar: stack vertically */
+  .pf-bottom__inner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 14px;
+  }
+
+  .pf-policies {
+    justify-content: center;
+  }
+
+  /* Newsletter: stack */
+  .pf-nl-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
+
+/* =============================================================================
+   RESPONSIVE — MOBILE (≤ 480px)
+   ============================================================================= */
+
+@media (max-width: 480px) {
+  .pf-nl-banner {
+    padding: 20px;
+    gap: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .pf-nl-form-wrap { width: 100%; }
+
+  .pf-social { gap: 8px; }
+}
+
+/* =============================================================================
+   REDUCED MOTION
+   ============================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .pf-nav-col__toggle svg,
+  .pf-nav-col__list,
+  .pf-contact__body,
+  .pf-social__link,
+  .pf-nav-col__link {
+    transition: none;
+  }
+
+  .pf-nl-btn__spinner {
+    animation: none;
+    border-top-color: rgba(255,255,255,0.5);
+  }
+}
+
+/* =============================================================================
+   RTL SUPPORT
+   ============================================================================= */
+
+[dir="rtl"] .pf-nav-col__link:hover { padding-left: 0; padding-right: 4px; }
+[dir="rtl"] .pf-nl-banner { direction: rtl; }

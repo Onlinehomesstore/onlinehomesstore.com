@@ -1,0 +1,652 @@
+{%- comment -%}
+ Premium Product Showcase  -  luxury featured collection (OS 2.0 / Dawn)
+ Original implementation. Uses UC Design System + native AJAX cart.
+{%- endcomment -%}
+{{ 'premium-product-showcase.css' | asset_url | stylesheet_tag }}
+{{ 'uc-product-card.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'uc-product-card.js' | asset_url }}" defer="defer"></script>
+
+<script src="{{ 'premium-product-showcase.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+ assign s = section.settings
+ assign uid = section.id
+
+ assign cs_container = '1280px'
+ unless s.full_width
+ case s.container_width
+ when 'narrow'
+ assign cs_container = '1200px'
+ when 'wide'
+ assign cs_container = '1440px'
+ else
+ assign cs_container = '1280px'
+ endcase
+ else
+ assign cs_container = 'none'
+ endunless
+
+ assign cs_card_shadow = 0
+ if s.card_shadow
+ assign cs_card_shadow = s.card_shadow_strength
+ endif
+
+ assign products_limit = s.products_to_show
+ assign collection = s.collection
+ assign products_count = 0
+ if collection != blank
+ assign products_count = collection.products_count
+ endif
+ assign more_in_collection = false
+ if collection != blank and products_count > products_limit
+ assign more_in_collection = true
+ endif
+-%}
+
+{%- assign uc_sec_scope = '#PremiumShowcase-' | append: uid -%}
+{%- render 'uc-section-vars', section: section, scope: uc_sec_scope -%}
+{%- render 'uc-section-colors', section: section -%}
+
+{%- style -%}
+ #PremiumShowcase-{{ uid }} {
+ --cs-cols-desktop: {{ s.columns_desktop }};
+ --cs-cols-tablet: {{ s.columns_tablet }};
+ --cs-cols-mobile: 1;
+ --cs-gap: {{ s.grid_gap }}px;
+ --cs-card-radius: {{ s.card_radius }}px;
+ --cs-card-shadow: {{ cs_card_shadow }};
+ --cs-pad-top: {{ s.padding_top }}px;
+ --cs-pad-bottom: {{ s.padding_bottom }}px;
+ --cs-container-max: {{ cs_container }};
+ --pf-card-min-height: {% if s.card_min_height > 0 %}{{ s.card_min_height }}px{% else %}auto{% endif %};
+ --pf-card-padding: {{ s.card_padding }}px;
+ --pf-image-fit: {{ s.image_fit }};
+ --pf-badge-bestseller-bg: {{ s.badge_bestseller_bg | default: settings.uc_color_primary }};
+ --pf-badge-bestseller-fg: {{ s.badge_bestseller_text | default: '#ffffff' }};
+ --pf-badge-new-bg: {{ s.badge_new_bg | default: 'rgba(182,138,53,0.12)' }};
+ --pf-badge-new-fg: {{ s.badge_new_text | default: settings.uc_color_primary }};
+ --pf-badge-sale-bg: {{ s.badge_sale_bg | default: settings.uc_color_sale_bg }};
+ --pf-badge-sale-fg: {{ s.badge_sale_text | default: settings.uc_color_sale_text }};
+ --pf-savings-color: {{ s.savings_color | default: settings.uc_color_success }};
+ --pf-cta-bg: {{ s.button_bg | default: settings.uc_color_primary }};
+ --pf-cta-text: {{ s.button_text_color | default: '#ffffff' }};
+ --pf-cta-hover-bg: {{ s.button_hover_bg | default: settings.uc_color_primary_dark }};
+ --pf-cta-hover-text: {{ s.button_hover_text | default: '#ffffff' }};
+ }
+ @media screen and (max-width: 749px) {
+ #PremiumShowcase-{{ uid }} {
+ --cs-pad-top: {{ s.padding_top | times: 0.75 | round: 0 }}px;
+ --cs-pad-bottom: {{ s.padding_bottom | times: 0.75 | round: 0 }}px;
+ }
+ }
+{%- endstyle -%}
+
+<premium-product-showcase
+ id="PremiumShowcase-{{ uid }}"
+ class="category-showcase pf-showcase color-{{ s.color_scheme }} gradient"
+ data-header-layout="{{ s.header_layout }}"
+ data-header-align="{{ s.header_alignment }}"
+ data-hover="{{ s.enable_hover }}"
+ data-zoom="{{ s.enable_image_zoom }}"
+ data-secondary="{{ s.show_secondary_image }}"
+ data-reveal="{{ s.enable_reveal }}"
+>
+ <div class="category-showcase__inner">
+
+ {%- if s.subtitle != blank or s.title != blank or s.description != blank or s.show_view_all -%}
+ {%- liquid
+ assign pf_hdr_btn = ''
+ if s.show_view_all and more_in_collection and collection != blank
+ assign pf_hdr_btn = s.view_all_label | default: 'Shop All'
+ endif
+ -%}
+ {% render 'uc-section-header',
+ subheading: s.subtitle,
+ title: s.title,
+ description: s.description,
+ button_label: pf_hdr_btn,
+ button_link: collection.url,
+ reveal: true
+ %}
+ {%- endif -%}
+
+ {%- if collection != blank and collection.products_count > 0 -%}
+ <ul class="category-showcase__grid" role="list" data-uc-mobile-scroll aria-label="{{ s.title | default: 'Products' | escape }}">
+ {%- assign lazy = false -%}
+ {%- for product in collection.products limit: products_limit -%}
+ {%- if lazy == false and forloop.index > s.columns_desktop -%}
+ {%- assign lazy = true -%}
+ {%- endif -%}
+ {%- liquid
+ assign pf_ratio = 'square'
+ if s.image_ratio == 'square'
+ assign pf_ratio = 'square'
+ elsif s.image_ratio == 'landscape'
+ assign pf_ratio = 'landscape'
+ elsif s.image_ratio == 'portrait'
+ assign pf_ratio = 'portrait'
+ endif
+ -%}
+ <li class="category-showcase__cell" style="--uc-product-image-fit: {{ s.image_fit | default: 'cover' }};">
+ {% render 'uc-product-card',
+ product: product,
+ image_ratio: pf_ratio,
+ show_rating: s.show_rating,
+ show_quick_add: s.enable_quick_add,
+ show_quick_view: false,
+ show_vendor: s.show_vendor,
+ show_swatches: false,
+ lazy: lazy,
+ section_id: section.id,
+ card_index: forloop.index
+ %}
+ </li>
+ {%- endfor -%}
+ </ul>
+ {%- else -%}
+ <div class="category-showcase__empty">Select a collection with products to display this section.</div>
+ {%- endif -%}
+
+ {%- if s.show_view_all and more_in_collection and s.view_all_in_footer and collection != blank -%}
+ <div class="category-showcase__footer-cta">
+ <a class="category-showcase__header-btn uc-btn uc-btn--ghost" href="{{ collection.url }}">
+ <span>{{ s.view_all_label | default: 'Shop All' }}</span>
+ <svg class="cs-arrow" aria-hidden="true" viewBox="0 0 24 24" width="16" height="16"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+ </a>
+ </div>
+ {%- endif -%}
+ </div>
+</premium-product-showcase>
+
+{% schema %}
+{
+ "name": "Premium Products",
+ "tag": "section",
+ "class": "section section-premium-products",
+ "settings": [
+ {
+ "type": "collection",
+ "id": "collection",
+ "label": "Collection"
+ },
+ {
+ "type": "range",
+ "id": "products_to_show",
+ "label": "Products to show",
+ "min": 2,
+ "max": 12,
+ "step": 1,
+ "default": 4
+ },
+
+ { "type": "header", "content": "Section header" },
+ {
+ "type": "text",
+ "id": "subtitle",
+ "label": "Subtitle",
+ "default": "Featured"
+ },
+ {
+ "type": "inline_richtext",
+ "id": "title",
+ "label": "Heading",
+ "default": "Whole body health starts with premium care."
+ },
+ {
+ "type": "richtext",
+ "id": "description",
+ "label": "Description"
+ },
+ {
+ "type": "select",
+ "id": "header_layout",
+ "label": "Header layout",
+ "default": "split",
+ "options": [
+ { "value": "split", "label": "Split (title / description / CTA)" },
+ { "value": "stacked", "label": "Stacked" }
+ ]
+ },
+ {
+ "type": "select",
+ "id": "header_alignment",
+ "label": "Header alignment",
+ "default": "left",
+ "options": [
+ { "value": "left", "label": "Left" },
+ { "value": "center", "label": "Center" },
+ { "value": "right", "label": "Right" }
+ ]
+ },
+ {
+ "type": "checkbox",
+ "id": "show_view_all",
+ "label": "Show View All",
+ "default": true
+ },
+ {
+ "type": "text",
+ "id": "view_all_label",
+ "label": "View All label",
+ "default": "Shop All"
+ },
+ {
+ "type": "checkbox",
+ "id": "view_all_in_footer",
+ "label": "Duplicate View All in footer",
+ "default": false
+ },
+
+ { "type": "header", "content": "Layout" },
+ {
+ "type": "range",
+ "id": "columns_desktop",
+ "label": "Desktop columns",
+ "min": 2,
+ "max": 5,
+ "step": 1,
+ "default": 4
+ },
+ {
+ "type": "range",
+ "id": "columns_tablet",
+ "label": "Tablet columns",
+ "min": 1,
+ "max": 3,
+ "step": 1,
+ "default": 2
+ },
+ {
+ "type": "range",
+ "id": "grid_gap",
+ "label": "Grid gap",
+ "min": 8,
+ "max": 48,
+ "step": 4,
+ "unit": "px",
+ "default": 24
+ },
+ {
+ "type": "select",
+ "id": "container_width",
+ "label": "Container width",
+ "default": "medium",
+ "options": [
+ { "value": "narrow", "label": "Narrow" },
+ { "value": "medium", "label": "Medium" },
+ { "value": "wide", "label": "Wide" }
+ ]
+ },
+ {
+ "type": "checkbox",
+ "id": "full_width",
+ "label": "Full width section",
+ "default": false
+ },
+ {
+ "type": "range",
+ "id": "padding_top",
+ "label": "Padding top",
+ "min": 0,
+ "max": 100,
+ "step": 4,
+ "unit": "px",
+ "default": 52
+ },
+ {
+ "type": "range",
+ "id": "padding_bottom",
+ "label": "Padding bottom",
+ "min": 0,
+ "max": 100,
+ "step": 4,
+ "unit": "px",
+ "default": 52
+ },
+
+ { "type": "header", "content": "Card design" },
+ {
+ "type": "range",
+ "id": "card_radius",
+ "label": "Card radius",
+ "min": 8,
+ "max": 32,
+ "step": 2,
+ "unit": "px",
+ "default": 22
+ },
+ {
+ "type": "checkbox",
+ "id": "card_shadow",
+ "label": "Card shadow",
+ "default": true
+ },
+ {
+ "type": "range",
+ "id": "card_shadow_strength",
+ "label": "Shadow strength",
+ "min": 4,
+ "max": 40,
+ "step": 2,
+ "default": 18
+ },
+ {
+ "type": "range",
+ "id": "card_padding",
+ "label": "Card padding",
+ "min": 12,
+ "max": 40,
+ "step": 2,
+ "unit": "px",
+ "default": 16
+ },
+ {
+ "type": "range",
+ "id": "card_min_height",
+ "label": "Minimum card height",
+ "min": 0,
+ "max": 480,
+ "step": 20,
+ "unit": "px",
+ "default": 0,
+ "info": "Set to 0 for compact auto height (recommended)."
+ },
+ {
+ "type": "select",
+ "id": "image_ratio",
+ "label": "Image ratio",
+ "default": "landscape",
+ "options": [
+ { "value": "square", "label": "Square" },
+ { "value": "portrait", "label": "Portrait" },
+ { "value": "landscape", "label": "Landscape" },
+ { "value": "adapt", "label": "Adapt to image" }
+ ]
+ },
+ {
+ "type": "select",
+ "id": "image_fit",
+ "label": "Image fit",
+ "default": "contain",
+ "options": [
+ { "value": "contain", "label": "Contain" },
+ { "value": "cover", "label": "Cover" }
+ ]
+ },
+ {
+ "type": "checkbox",
+ "id": "enable_hover",
+ "label": "Card hover lift",
+ "default": true
+ },
+ {
+ "type": "checkbox",
+ "id": "enable_image_zoom",
+ "label": "Hover image zoom",
+ "default": true
+ },
+ {
+ "type": "checkbox",
+ "id": "show_secondary_image",
+ "label": "Show second image on hover",
+ "default": true
+ },
+ {
+ "type": "checkbox",
+ "id": "enable_reveal",
+ "label": "Scroll reveal animation",
+ "default": true
+ },
+
+ { "type": "header", "content": "Product features" },
+ {
+ "type": "checkbox",
+ "id": "enable_quick_add",
+ "label": "Enable AJAX add to cart",
+ "default": true
+ },
+ {
+ "type": "checkbox",
+ "id": "enable_quick_view",
+ "label": "Enable quick view",
+ "default": true
+ },
+ {
+ "type": "checkbox",
+ "id": "enable_wishlist",
+ "label": "Enable wishlist button",
+ "default": true
+ },
+ {
+ "type": "checkbox",
+ "id": "show_variant_picker",
+ "label": "Show variant selector",
+ "default": true
+ },
+ {
+ "type": "checkbox",
+ "id": "show_quantity",
+ "label": "Show quantity selector",
+ "default": false
+ },
+ {
+ "type": "checkbox",
+ "id": "show_rating",
+ "label": "Show rating area (app compatible)",
+ "default": true
+ },
+ {
+ "type": "checkbox",
+ "id": "show_vendor",
+ "label": "Use vendor as subtitle",
+ "default": false
+ },
+ {
+ "type": "checkbox",
+ "id": "show_subtitle",
+ "label": "Show subtitle",
+ "default": true
+ },
+ {
+ "type": "checkbox",
+ "id": "show_stock_status",
+ "label": "Show stock status",
+ "default": false
+ },
+ {
+ "type": "checkbox",
+ "id": "show_savings",
+ "label": "Show savings text",
+ "default": true
+ },
+ {
+ "type": "checkbox",
+ "id": "show_price_note",
+ "label": "Show price note under button",
+ "default": false
+ },
+ {
+ "type": "text",
+ "id": "price_note",
+ "label": "Price note prefix",
+ "default": "Starting at"
+ },
+ {
+ "type": "text",
+ "id": "button_label",
+ "label": "Button label",
+ "default": "Shop Now"
+ },
+
+ { "type": "header", "content": "Badges" },
+ {
+ "type": "checkbox",
+ "id": "show_bestseller_badge",
+ "label": "Bestseller badge",
+ "default": true
+ },
+ {
+ "type": "text",
+ "id": "bestseller_tag",
+ "label": "Bestseller tag",
+ "default": "bestseller"
+ },
+ {
+ "type": "text",
+ "id": "bestseller_label",
+ "label": "Bestseller label",
+ "default": "Bestseller"
+ },
+ {
+ "type": "checkbox",
+ "id": "show_new_badge",
+ "label": "New badge",
+ "default": true
+ },
+ {
+ "type": "text",
+ "id": "new_tag",
+ "label": "New tag",
+ "default": "new"
+ },
+ {
+ "type": "text",
+ "id": "new_label",
+ "label": "New label",
+ "default": "New"
+ },
+ {
+ "type": "checkbox",
+ "id": "show_sale_badge",
+ "label": "Sale badge",
+ "default": true
+ },
+ {
+ "type": "checkbox",
+ "id": "show_sku_pill",
+ "label": "Show SKU / product code pill",
+ "default": true
+ },
+
+ { "type": "header", "content": "Colors" },
+ {
+ "type": "select",
+ "id": "color_scheme",
+ "label": "Color scheme",
+ "default": "scheme-1",
+ "options": [
+ { "value": "scheme-1", "label": "Scheme 1" },
+ { "value": "scheme-2", "label": "Scheme 2" },
+ { "value": "scheme-3", "label": "Scheme 3" },
+ { "value": "scheme-4", "label": "Scheme 4" },
+ { "value": "scheme-5", "label": "Scheme 5" }
+ ]
+ },
+ {
+ "type": "color",
+ "id": "button_bg",
+ "label": "Button background",
+ "default": "#B68A35"
+ },
+ {
+ "type": "color",
+ "id": "button_text_color",
+ "label": "Button text",
+ "default": "#ffffff"
+ },
+ {
+ "type": "color",
+ "id": "button_hover_bg",
+ "label": "Button hover background",
+ "default": "#8F6824"
+ },
+ {
+ "type": "color",
+ "id": "button_hover_text",
+ "label": "Button hover text",
+ "default": "#ffffff"
+ },
+ {
+ "type": "color",
+ "id": "badge_bestseller_bg",
+ "label": "Bestseller badge bg",
+ "default": "#B68A35"
+ },
+ {
+ "type": "color",
+ "id": "badge_bestseller_text",
+ "label": "Bestseller badge text",
+ "default": "#ffffff"
+ },
+ {
+ "type": "color",
+ "id": "badge_new_bg",
+ "label": "New badge bg",
+ "default": "#FBF5E6"
+ },
+ {
+ "type": "color",
+ "id": "badge_new_text",
+ "label": "New badge text",
+ "default": "#8F6824"
+ },
+ {
+ "type": "color",
+ "id": "badge_sale_bg",
+ "label": "Sale badge bg",
+ "default": "#B83D3D"
+ },
+ {
+ "type": "color",
+ "id": "badge_sale_text",
+ "label": "Sale badge text",
+ "default": "#ffffff"
+ },
+ {
+ "type": "color",
+ "id": "savings_color",
+ "label": "Savings text color",
+ "default": "#4A7A54"
+ },
+
+ { "type": "header", "content": "UC - Responsive spacing" },
+ { "type": "range", "id": "pad_top_lg", "label": "Top padding - laptop (990px+)", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+ { "type": "range", "id": "pad_top_xxl", "label": "Top padding - large desktop (1440px+)", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 96 },
+ { "type": "range", "id": "container_max_lg", "label": "Container max width - laptop+", "min": 960, "max": 1600, "step": 20, "unit": "px", "default": 1280 },
+ { "type": "select", "id": "container_mode", "label": "Container", "default": "boxed", "options": [{"value":"boxed","label":"Boxed"},{"value":"full","label":"Full width"}] },
+ { "type": "header", "content": "Typography — sizes by device" },
+ { "type": "paragraph", "content": "Set font sizes per breakpoint. Values apply immediately (no override checkbox required)." },
+ { "type": "range", "id": "eyebrow_size_xs", "label": "Eyebrow / pill label — mobile", "min": 9, "max": 18, "step": 1, "unit": "px", "default": 11 },
+ { "type": "range", "id": "eyebrow_size_md", "label": "Eyebrow / pill label — tablet (750px+)", "min": 9, "max": 18, "step": 1, "unit": "px", "default": 11 },
+ { "type": "range", "id": "eyebrow_size_lg", "label": "Eyebrow / pill label — laptop (990px+)", "min": 9, "max": 20, "step": 1, "unit": "px", "default": 12 },
+ { "type": "range", "id": "eyebrow_size_xxl", "label": "Eyebrow / pill label — large desktop", "min": 9, "max": 20, "step": 1, "unit": "px", "default": 12 },
+ { "type": "range", "id": "h_size_xs", "label": "Heading — mobile", "min": 18, "max": 56, "step": 1, "unit": "px", "default": 24 },
+ { "type": "range", "id": "h_size_md", "label": "Heading — tablet (750px+)", "min": 18, "max": 64, "step": 1, "unit": "px", "default": 26 },
+ { "type": "range", "id": "h_size_lg", "label": "Heading — laptop (990px+)", "min": 20, "max": 64, "step": 1, "unit": "px", "default": 30 },
+ { "type": "range", "id": "h_size_xxl", "label": "Heading — large desktop", "min": 20, "max": 72, "step": 1, "unit": "px", "default": 32 },
+ { "type": "range", "id": "sub_size_xs", "label": "Subheading — mobile", "min": 12, "max": 36, "step": 1, "unit": "px", "default": 16 },
+ { "type": "range", "id": "sub_size_md", "label": "Subheading — tablet", "min": 12, "max": 40, "step": 1, "unit": "px", "default": 17 },
+ { "type": "range", "id": "sub_size_lg", "label": "Subheading — laptop+", "min": 12, "max": 40, "step": 1, "unit": "px", "default": 18 },
+ { "type": "range", "id": "sub_size_xxl", "label": "Subheading — large desktop", "min": 12, "max": 44, "step": 1, "unit": "px", "default": 18 },
+ { "type": "range", "id": "desc_size_xs", "label": "Description — mobile", "min": 12, "max": 22, "step": 1, "unit": "px", "default": 14 },
+ { "type": "range", "id": "desc_size_md", "label": "Description — tablet", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 15 },
+ { "type": "range", "id": "desc_size_lg", "label": "Description — laptop+", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 15 },
+ { "type": "range", "id": "desc_size_xxl", "label": "Description — large desktop", "min": 12, "max": 26, "step": 1, "unit": "px", "default": 16 },
+ { "type": "range", "id": "btn_size_xs", "label": "Button / pill text — mobile", "min": 11, "max": 18, "step": 1, "unit": "px", "default": 13 },
+ { "type": "range", "id": "btn_size_md", "label": "Button / pill text — tablet", "min": 11, "max": 18, "step": 1, "unit": "px", "default": 13 },
+ { "type": "range", "id": "btn_size_lg", "label": "Button / pill text — laptop+", "min": 11, "max": 20, "step": 1, "unit": "px", "default": 14 },
+ { "type": "range", "id": "btn_size_xxl", "label": "Button / pill text — large desktop", "min": 11, "max": 20, "step": 1, "unit": "px", "default": 14 },
+ { "type": "header", "content": "UC - Section colors" },
+ { "type": "checkbox", "id": "use_global_colors", "label": "Use global brand colors", "default": true }
+ ],
+ "presets": [
+ {
+ "name": "Premium Products",
+ "settings": {
+ "subtitle": "Featured",
+ "title": "Whole body health starts with premium care."
+ }
+ }
+ ]
+}
+{% endschema %}

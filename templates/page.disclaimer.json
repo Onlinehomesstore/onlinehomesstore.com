@@ -1,0 +1,55 @@
+/*
+ * ------------------------------------------------------------
+ * Online Homes Store — legal / policy template
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "uc-legal-page",
+      "blocks": {
+        "b1": {
+          "type": "section",
+          "settings": {
+            "heading": "Product information",
+            "content": "<p>Product details such as age guidance, materials, dimensions and care notes are shown when provided for that item. Always follow the information on the product page and packaging.</p>"
+          }
+        },
+        "b2": {
+          "type": "section",
+          "settings": {
+            "heading": "Safe play",
+            "content": "<p>Supervise children during play. Check toys regularly for wear and follow any care or use guidance supplied with the product. If a product appears damaged, stop use and contact us for support.</p>"
+          }
+        },
+        "b3": {
+          "type": "section",
+          "settings": {
+            "heading": "No medical claims",
+            "content": "<p>Online Homes Store does not make medical or developmental treatment claims. Educational or learning-inspired language describes playful experiences, not clinical outcomes.</p>"
+          }
+        },
+        "b4": {
+          "type": "section",
+          "settings": {
+            "heading": "Accuracy",
+            "content": "<p>We aim to keep product information clear and up to date. If something looks incorrect, please contact us so we can review it.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4"
+      ],
+      "settings": {
+        "markets_note": "Please read this information before purchase and play.",
+        "intro": "<p>This page shares general guidance for shopping and using products from Online Homes Store.</p>"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

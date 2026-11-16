@@ -1,0 +1,87 @@
+/*
+  uc-bg-lines.css — subtle animated line pattern for empty cream areas
+  Very low opacity; respects prefers-reduced-motion.
+*/
+
+body.gradient,
+body {
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image:
+    repeating-linear-gradient(
+      118deg,
+      transparent 0,
+      transparent 46px,
+      rgba(182, 138, 53, 0.55) 46px,
+      rgba(182, 138, 53, 0.55) 47px
+    ),
+    repeating-linear-gradient(
+      -118deg,
+      transparent 0,
+      transparent 72px,
+      rgba(26, 24, 20, 0.28) 72px,
+      rgba(26, 24, 20, 0.28) 72.8px
+    );
+  background-size: 180% 180%;
+  background-position: 0% 0%, 100% 0%;
+  animation: ucBgLinesDrift 48s linear infinite;
+  will-change: background-position;
+}
+
+#shopify-section-header,
+.shopify-section-group-header-group,
+#MainContent,
+#shopify-section-footer,
+.shopify-section-group-footer-group,
+cart-drawer,
+.pvr-popup,
+.pf-qv-modal,
+.uc-qv-modal {
+  position: relative;
+  z-index: 1;
+}
+
+/* Soften on denser product/collection content so cards stay primary */
+.template-collection body::before,
+.template-search body::before {
+  opacity: 0.028;
+}
+
+.template-product body::before,
+.template-cart body::before {
+  opacity: 0.022;
+}
+
+@keyframes ucBgLinesDrift {
+  0% {
+    background-position: 0% 0%, 100% 0%;
+  }
+  50% {
+    background-position: 18% 12%, 82% 8%;
+  }
+  100% {
+    background-position: 0% 0%, 100% 0%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before {
+    animation: none !important;
+    opacity: 0.02;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  body::before {
+    opacity: 0.025;
+    background-size: 220% 220%;
+  }
+}

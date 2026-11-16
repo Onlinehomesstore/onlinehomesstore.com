@@ -1,0 +1,318 @@
+/*
+  ============================================================================
+  WHY CHOOSE US — CSS
+  ----------------------------------------------------------------------------
+  Comparison cards + trust stats. Prefix: pwu-
+  Uses uc-design-tokens.css variables throughout.
+
+  Sections:
+    1. Shell & layout
+    2. Header
+    3. Comparison wrapper
+    4. Cards (ours / others)
+    5. Row items
+    6. Check / cross icons
+    7. Stats strip
+    8. Responsive
+    9. Accessibility / reduced motion
+  ============================================================================
+*/
+
+/* ─── 1. Shell & layout ──────────────────────────────────────────────────── */
+.pwu {
+  padding-block: var(--pwu-pad-top, 64px) var(--pwu-pad-bottom, 64px);
+  background: rgb(var(--color-background));
+}
+
+.pwu__inner {
+  max-width: min(var(--page-width), 100%);
+  margin-inline: auto;
+  padding-inline: var(--container-padding, clamp(16px, 4vw, 48px));
+  display: flex;
+  flex-direction: column;
+  gap: clamp(36px, 5vw, 52px);
+}
+
+/* ─── 2. Header ──────────────────────────────────────────────────────────── */
+.pwu__header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pwu__header--center { align-items: center; text-align: center; }
+.pwu__header--left   { align-items: flex-start; }
+.pwu__header--right  { align-items: flex-end; text-align: right; }
+
+.pwu__eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: var(--type-label-spacing, 0.16em);
+  text-transform: uppercase;
+  color: var(--pwu-accent, rgb(var(--color-foreground)));
+  opacity: 0.6;
+  margin: 0;
+}
+
+.pwu__heading {
+  font-family: var(--heading-font);
+  font-size: var(--type-heading-size, 28px);
+  font-weight: 700;
+  line-height: var(--type-title-line, 1.08);
+  letter-spacing: -0.02em;
+  color: rgb(var(--color-foreground));
+  margin: 0;
+}
+
+.pwu__subtitle {
+  font-size: 16px;
+  line-height: var(--type-body-line, 1.6);
+  color: rgb(var(--color-foreground));
+  opacity: 0.65;
+  margin: 0;
+  max-width: 56ch;
+}
+
+/* ─── 3. Comparison wrapper ──────────────────────────────────────────────── */
+.pwu__comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+/* ─── 4. Cards ───────────────────────────────────────────────────────────── */
+.pwu__card {
+  border-radius: var(--pwu-card-radius, 24px);
+  overflow: hidden;
+}
+
+/* Our brand card — premium, gradient border accent */
+.pwu__card--ours {
+  background: linear-gradient(
+    160deg,
+    rgba(var(--color-foreground), 0.04) 0%,
+    rgba(var(--color-foreground), 0.02) 100%
+  );
+  border: 1.5px solid rgba(var(--color-foreground), 0.12);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.08);
+  position: relative;
+}
+
+/* Accent glow border for our brand card */
+.pwu__card--ours::before {
+  content: '';
+  position: absolute;
+  inset: -1.5px;
+  border-radius: calc(var(--pwu-card-radius, 24px) + 1.5px);
+  background: linear-gradient(160deg, var(--pwu-accent, #b68a35), transparent 50%);
+  z-index: -1;
+  opacity: 0.35;
+}
+
+/* Others card — neutral, muted */
+.pwu__card--others {
+  background: rgba(var(--color-foreground), 0.025);
+  border: 1.5px solid rgba(var(--color-foreground), 0.07);
+  opacity: 0.8;
+}
+
+/* Card header */
+.pwu__card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid rgba(var(--color-foreground), 0.08);
+}
+
+.pwu__brand-logo {
+  height: 28px;
+  width: auto;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.pwu__brand-name {
+  font-family: var(--heading-font);
+  font-size: var(--fs-md, 1.6rem);
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.pwu__brand-name--ours {
+  background: linear-gradient(135deg, var(--pwu-accent, #b68a35), #8f6824);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.pwu__brand-name--others {
+  color: rgb(var(--color-foreground));
+  opacity: 0.5;
+}
+
+.pwu__brand-badge {
+  align-self: flex-start;
+  font-size: var(--fs-2xs, 1rem);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 3px 10px;
+  border-radius: 100px;
+  background: linear-gradient(135deg, var(--pwu-accent, #b68a35), #8f6824);
+  color: #fff;
+}
+
+/* ─── 5. Row items ───────────────────────────────────────────────────────── */
+.pwu__rows {
+  display: flex;
+  flex-direction: column;
+}
+
+.pwu__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 11px 20px;
+  border-bottom: 1px solid rgba(var(--color-foreground), 0.05);
+  transition: background var(--transition-fast, 150ms);
+}
+
+.pwu__row:last-child { border-bottom: none; }
+
+.pwu__row--ours:hover { background: rgba(var(--color-foreground), 0.03); }
+.pwu__row--others:hover { background: transparent; }
+
+.pwu__feature {
+  font-size: var(--fs-sm, 1.25rem);
+  font-weight: 500;
+  color: rgb(var(--color-foreground));
+  line-height: 1.3;
+}
+
+.pwu__row--others .pwu__feature { opacity: 0.6; }
+
+.pwu__row-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* ─── 6. Check / cross icons ─────────────────────────────────────────────── */
+.pwu__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.pwu__icon--check {
+  background: rgba(5, 150, 105, 0.12);
+  color: #059669;
+}
+
+.pwu__icon--check.pwu__icon--muted {
+  background: rgba(var(--color-foreground), 0.07);
+  color: rgb(var(--color-foreground));
+  opacity: 0.5;
+}
+
+.pwu__icon--cross {
+  background: rgba(220, 38, 38, 0.1);
+  color: #dc2626;
+  opacity: 0.7;
+}
+
+.pwu__detail {
+  font-size: var(--fs-2xs, 1rem);
+  color: rgb(var(--color-foreground));
+  opacity: 0.55;
+  white-space: nowrap;
+}
+
+/* ─── 7. Stats strip ─────────────────────────────────────────────────────── */
+.pwu__stats-label {
+  text-align: center;
+  font-size: var(--type-label-size, 1.1rem);
+  font-weight: 700;
+  letter-spacing: var(--type-label-spacing, 0.16em);
+  text-transform: uppercase;
+  color: rgb(var(--color-foreground));
+  opacity: 0.5;
+  margin: 0;
+}
+
+.pwu__stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  padding: 28px 24px;
+  border-radius: var(--pwu-card-radius, 24px);
+  background: rgba(var(--color-foreground), 0.03);
+  border: 1px solid rgba(var(--color-foreground), 0.08);
+}
+
+.pwu__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+}
+
+.pwu__stat-number {
+  font-family: var(--heading-font);
+  font-size: clamp(2.2rem, 2vw + 1rem, 3.2rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: rgb(var(--color-foreground));
+  /* Will be animated by product-why-us.js */
+}
+
+.pwu__stat-label {
+  font-size: var(--fs-xs, 1.1rem);
+  font-weight: 500;
+  color: rgb(var(--color-foreground));
+  opacity: 0.6;
+  line-height: 1.3;
+}
+
+/* ─── 8. Responsive ──────────────────────────────────────────────────────── */
+@media (max-width: 749px) {
+  .pwu__comparison {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .pwu__card--others {
+    /* Still show both cards stacked on mobile */
+    opacity: 0.7;
+  }
+
+  .pwu__stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .pwu__row { padding: 10px 16px; }
+  .pwu__card-header { padding: 16px 16px 12px; }
+}
+
+@media (min-width: 750px) and (max-width: 989px) {
+  .pwu__stats {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ─── 9. Accessibility / reduced motion ──────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .pwu__stat-number { transition: none !important; }
+  .pwu__row { transition: none; }
+}

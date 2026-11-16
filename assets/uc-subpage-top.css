@@ -1,0 +1,123 @@
+/* Equal clearance under floating header for ALL subpages — one offset only */
+:root {
+  --uc-subpage-gap: 40px;
+  --uc-subpage-top: calc(var(--uc-phdr-offset, 72px) + var(--uc-subpage-gap));
+}
+
+@media screen and (min-width: 990px) {
+  :root {
+    --uc-subpage-gap: 48px;
+  }
+}
+
+@media screen and (max-width: 989px) {
+  :root {
+    --uc-subpage-gap: 40px;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  :root {
+    --uc-subpage-gap: 36px;
+  }
+}
+
+/*
+  Homepage keeps MainContent padding from uc-layout (hero sits under the pill).
+  Subpages: the FIRST MainContent section owns header clearance.
+  Inner intros (.upi / .pph / .ueh) only keep a small internal pad.
+*/
+body:not(.template-index) #MainContent.content-for-layout,
+body:not(.template-index) #MainContent {
+  padding-top: 0 !important;
+}
+
+html body:not(.template-index) #MainContent > .shopify-section:first-child {
+  padding-top: calc(var(--uc-phdr-offset, 72px) + var(--uc-subpage-gap, 40px)) !important;
+  margin-top: 0 !important;
+}
+
+/* Cart is a 2-column grid — pad the page, not only the first section */
+html body.template-cart #MainContent.content-for-layout,
+html body.template-cart #MainContent {
+  padding-top: calc(var(--uc-phdr-offset, 72px) + var(--uc-subpage-gap, 40px)) !important;
+}
+
+html body.template-cart #MainContent > .shopify-section:first-child {
+  padding-top: 0 !important;
+}
+
+body:not(.template-index) #MainContent > .shopify-section:first-child:not(.uc-ph-section) .section-padding,
+body:not(.template-index) #MainContent > .shopify-section:first-child:not(.uc-ph-section) [class*='-padding'] {
+  padding-top: 0 !important;
+}
+
+/* Inner intros — do NOT re-add the header offset */
+body:not(.template-index) .upi,
+body:not(.template-index) .upi.uc-sec,
+.template-collection .upi,
+.template-search .upi,
+body.template-page-our-story .upi,
+body.template-page-about .upi,
+body.template-page-contact .upi,
+body.template-page-wishlist .upi,
+body.template-page-ingredients .upi {
+  --sec-pad-top: 0px !important;
+  --upi-pad-top: 0px !important;
+  padding-top: 8px !important;
+  padding-bottom: 12px !important;
+}
+
+body:not(.template-index) .ueh {
+  padding-top: 8px !important;
+}
+
+.template-product .pph {
+  padding-top: 8px !important;
+  padding-bottom: var(--pph-pad-bottom, 48px);
+}
+
+body:not(.template-index) .uc-legal,
+body:not(.template-index) .uc-legal.uc-sec {
+  --sec-pad-top: 0px !important;
+  padding-top: 8px !important;
+}
+
+.template-search .template-search__header,
+.template-cart .title-wrapper-with-link,
+.template-blog .main-blog,
+.template-list-collections .title-wrapper {
+  padding-top: 0;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+#MainContent {
+  scroll-padding-top: var(--uc-subpage-top);
+}
+
+@media screen and (min-width: 990px) {
+  html body:not(.template-index) #MainContent > .shopify-section:first-child {
+    padding-top: calc(var(--uc-phdr-offset, 72px) + 48px) !important;
+  }
+  html body.template-cart #MainContent.content-for-layout,
+  html body.template-cart #MainContent {
+    padding-top: calc(var(--uc-phdr-offset, 72px) + 48px) !important;
+  }
+  html body.template-cart #MainContent > .shopify-section:first-child {
+    padding-top: 0 !important;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  html body:not(.template-index) #MainContent > .shopify-section:first-child {
+    padding-top: calc(var(--uc-phdr-offset, 64px) + 36px) !important;
+  }
+  html body.template-cart #MainContent.content-for-layout,
+  html body.template-cart #MainContent {
+    padding-top: calc(var(--uc-phdr-offset, 64px) + 36px) !important;
+  }
+  html body.template-cart #MainContent > .shopify-section:first-child {
+    padding-top: 0 !important;
+  }
+}

@@ -1,0 +1,14 @@
+{%- comment -%}
+  Device-specific theme text colour CSS custom properties.
+  Use on elements with data-uc-theme-text.
+
+  Params: text, text_mobile, heading, heading_mobile, body, body_mobile, eyebrow, eyebrow_mobile
+{%- endcomment -%}
+{%- if text != blank -%}--uc-theme-text: {{ text }};{%- endif -%}
+{%- if text_mobile != blank -%}--uc-theme-text-mobile: {{ text_mobile }};{%- endif -%}
+{%- if heading != blank -%}--uc-theme-heading: {{ heading }};{%- endif -%}
+{%- if heading_mobile != blank -%}--uc-theme-heading-mobile: {{ heading_mobile }};{%- endif -%}
+{%- if body != blank -%}--uc-theme-body: {{ body }};{%- endif -%}
+{%- if body_mobile != blank -%}--uc-theme-body-mobile: {{ body_mobile }};{%- endif -%}
+{%- if eyebrow != blank -%}--vr-eyebrow-color: {{ eyebrow }};{%- endif -%}
+{%- if eyebrow_mobile != blank -%}--vr-eyebrow-color-mobile: {{ eyebrow_mobile }};{%- endif -%}

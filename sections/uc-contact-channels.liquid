@@ -1,0 +1,105 @@
+{%- comment -%}
+ UC Contact channels - support / sales / wholesale cards (ucc- prefix).
+ CSS: uc-contact-hub.css
+{%- endcomment -%}
+{{ 'uc-contact-hub.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+ assign s = section.settings
+ assign uid = section.id
+ assign channels = section.blocks | where: 'type', 'channel'
+-%}
+
+{%- capture channels_scope -%}#UcContactChannels-{{ uid }}{%- endcapture -%}
+{%- render 'uc-section-vars', section: section, scope: channels_scope -%}
+{%- render 'uc-section-colors', section: section -%}
+
+{%- style -%}
+ #UcContactChannels-{{ uid }} {
+ --ucc-radius: {{ s.card_radius | default: 20 }}px;
+ }
+{%- endstyle -%}
+
+<section id="UcContactChannels-{{ uid }}" class="ucc uc-sec color-{{ s.color_scheme }}" data-ucc-section>
+ <div class="uc-sec__container">
+ {%- if s.eyebrow != blank or s.heading != blank or s.subtitle != blank -%}
+ {% render 'uc-subpage-section-head',
+ eyebrow: s.eyebrow,
+ heading: s.heading,
+ description: s.subtitle,
+ align: 'center',
+ header_class: 'ucc__header',
+ reveal: true
+ %}
+ {%- endif -%}
+
+ {%- if channels.size > 0 -%}
+ <div class="ucc__grid ucc__grid--4" role="list">
+ {%- for block in channels -%}
+ {%- assign delay = forloop.index0 | times: 60 -%}
+ <article class="ucc__card" role="listitem" data-uc-reveal style="--ucs-delay: {{ delay }}ms" {{ block.shopify_attributes }}>
+ <span class="ucc__icon" aria-hidden="true">
+ {%- assign ucc_icon = block.settings.icon | default: 'message-circle' -%}
+ {%- render 'uc-icon', icon: ucc_icon, size: 22 -%}
+ </span>
+ {%- if block.settings.title != blank -%}
+ <h3 class="ucc__title">{{ block.settings.title | escape }}</h3>
+ {%- endif -%}
+ {%- if block.settings.description != blank -%}
+ <p class="ucc__desc">{{ block.settings.description | escape }}</p>
+ {%- endif -%}
+ {%- if block.settings.button_label != blank -%}
+ <a class="uc-btn uc-btn--secondary uc-btn--sm ucc__link" href="{{ block.settings.button_link | default: '#contact-form' }}">
+ {{ block.settings.button_label | escape }}
+ </a>
+ {%- endif -%}
+ </article>
+ {%- endfor -%}
+ </div>
+ {%- endif -%}
+ </div>
+</section>
+
+{% schema %}
+{
+ "name": "UC Contact channels",
+ "tag": "section",
+ "class": "section section-uc-contact-channels",
+ "disabled_on": { "groups": ["header", "footer"] },
+ "max_blocks": 8,
+ "settings": [
+ { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "How can we help?" },
+ { "type": "text", "id": "heading", "label": "Heading", "default": "Choose the right team" },
+ { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "We respond within one business day." },
+ { "type": "range", "id": "card_radius", "label": "Card radius", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 20 },
+ { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 32 },
+ { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 32 },
+ { "type": "checkbox", "id": "use_global_colors", "label": "Use global brand colors", "default": true },
+ { "type": "color_scheme", "id": "color_scheme", "label": "Colour scheme", "default": "scheme-1" }
+ ],
+ "blocks": [
+ {
+ "type": "channel",
+ "name": "Contact channel",
+ "settings": [
+ { "type": "text", "id": "icon", "label": "Lucide icon", "default": "headphones", "info": "See uc-icon.liquid for names." },
+ { "type": "text", "id": "title", "label": "Title", "default": "Customer support" },
+ { "type": "textarea", "id": "description", "label": "Description", "default": "Order help, product questions, and aftercare." },
+ { "type": "text", "id": "button_label", "label": "Button label", "default": "Email support" },
+ { "type": "url", "id": "button_link", "label": "Button link" }
+ ]
+ }
+ ],
+ "presets": [
+ {
+ "name": "UC Contact channels",
+ "blocks": [
+ { "type": "channel", "settings": { "icon": "headphones", "title": "Customer support", "description": "Help with orders, shade matching, and application tips.", "button_label": "Get support" } },
+ { "type": "channel", "settings": { "icon": "shopping-bag", "title": "Sales", "description": "Product recommendations and purchase assistance.", "button_label": "Talk to sales" } },
+ { "type": "channel", "settings": { "icon": "building-2", "title": "Wholesale", "description": "Salon and retail partner enquiries.", "button_label": "Wholesale" } },
+ { "type": "channel", "settings": { "icon": "briefcase", "title": "Business", "description": "Press, partnerships, and corporate requests.", "button_label": "Business team" } }
+ ]
+ }
+ ]
+}
+{% endschema %}

@@ -1,0 +1,12 @@
+/*
+  UC Newsletter Banner — page-level newsletter (reuses pf-nl pattern from premium-footer.css)
+  Section loads premium-footer.css for .pf-nl-* classes; this file adds page spacing only.
+*/
+
+.uc-nl {
+  overflow: hidden;
+}
+
+.uc-nl .pf-nl-outer {
+  padding: 0;
+}

@@ -1,0 +1,112 @@
+{%- comment -%}
+  Ingredients fallback  -  when the default page template is used instead of page.ingredients.
+{%- endcomment -%}
+{{ 'uc-page-intro.css' | asset_url | stylesheet_tag }}
+{{ 'uc-ingredients-page.css' | asset_url | stylesheet_tag }}
+
+<div class="template-page-ingredients uip-fallback">
+  <section class="upi uc-sec" data-uc-page-intro>
+    <div class="upi__inner uc-sec__container">
+      <p class="upi__eyebrow">Transparency</p>
+      <h1 class="upi__title">Ingredients</h1>
+      <p class="upi__tagline">An honest overview of what goes into UNIK CARE colour formats  -  grouped by shampoo, gel, and sachets so you can understand each routine at a glance.</p>
+    </div>
+  </section>
+
+  <section class="uip uc-sec">
+    <div class="uip__main">
+      <div class="uc-sec__container uip__container">
+        <div class="uip__note uc-glass-card">
+          <h2 class="uip__note-title">Our ingredient philosophy</h2>
+          <div class="uip__note-body rte">
+            <p>UNIK CARE combines colour performance with botanical extracts and conditioning agents. The sections below summarise key ingredients by product format  -  not a full INCI list for every shade. Always read the label on your pack, follow instructions, and complete a patch test before use.</p>
+          </div>
+        </div>
+
+        <div class="uip__section">
+          <header class="uip__section-head">
+            <p class="uc-sec__eyebrow uip__section-eyebrow">Hair colour shampoo format</p>
+            <h2 class="uip__section-title">Hair colour shampoo</h2>
+            <div class="uip__section-desc rte"><p>Wash-in colour shampoos for quick grey coverage and refreshed tone between salon visits. Our black and dark brown shades share a botanical and conditioning base designed for easy, everyday use at home.</p></div>
+          </header>
+          <div class="uip__table-wrap">
+            <table class="uip__table">
+              <thead>
+                <tr><th scope="col">Ingredient</th><th scope="col">Role in the formula</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Radix Linderae</td><td>Supports natural darkening and root strength</td></tr>
+                <tr><td>Ginseng</td><td>Strengthens hair roots and supports healthy growth</td></tr>
+                <tr><td>Ganoderma Lucidum</td><td>Scalp nourishment and vitality</td></tr>
+                <tr><td>Ginkgo Biloba</td><td>Supports circulation at the scalp</td></tr>
+                <tr><td>Aloe Vera</td><td>Soothes scalp, hydrates, and improves hair texture</td></tr>
+                <tr><td>Argan Oil</td><td>Enhances shine and helps protect colour</td></tr>
+                <tr><td>Colour pigments</td><td>Deliver rich black or dark brown tone</td></tr>
+                <tr><td>Conditioning agents</td><td>Leave hair soft and manageable after washing</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="uip__section">
+          <header class="uip__section-head">
+            <p class="uc-sec__eyebrow uip__section-eyebrow">Hair colour gel format</p>
+            <h2 class="uip__section-title">Hair colour gel</h2>
+            <div class="uip__section-desc rte"><p>Cream-gel colour with developer for fuller coverage and longer-lasting results. Includes a separate developer step — use only as directed on the pack for safe, even application.</p></div>
+          </header>
+          <div class="uip__table-wrap">
+            <table class="uip__table">
+              <thead>
+                <tr><th scope="col">Ingredient</th><th scope="col">Role in the formula</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Radix Linderae</td><td>Helps promote even, natural-looking darkening</td></tr>
+                <tr><td>Ginseng</td><td>Strengthens roots and hair structure</td></tr>
+                <tr><td>Ganoderma Lucidum</td><td>Supports scalp nourishment</td></tr>
+                <tr><td>Ginkgo Biloba</td><td>Scalp conditioning benefits</td></tr>
+                <tr><td>Aloe Vera</td><td>Soothes and hydrates during application</td></tr>
+                <tr><td>Argan Oil</td><td>Shine and colour protection</td></tr>
+                <tr><td>Hydrogen Peroxide (Developer)</td><td>Activates colour  -  use only as directed</td></tr>
+                <tr><td>Colour pigments</td><td>Even coverage for black and dark brown shades</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="uip__section">
+          <header class="uip__section-head">
+            <p class="uc-sec__eyebrow uip__section-eyebrow">Hair colour sachets format</p>
+            <h2 class="uip__section-title">Hair colour sachets</h2>
+            <div class="uip__section-desc rte"><p>Single-use portions of shampoo-format colour — ideal for travel, touch-ups, and consistent mixing every time. The same botanical base as our shampoo range, in a convenient sachet size.</p></div>
+          </header>
+          <div class="uip__table-wrap">
+            <table class="uip__table">
+              <thead>
+                <tr><th scope="col">Ingredient</th><th scope="col">Role in the formula</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Radix Linderae</td><td>Supports tone refresh and root strength</td></tr>
+                <tr><td>Ginseng</td><td>Fortifies hair during quick applications</td></tr>
+                <tr><td>Aloe Vera</td><td>Soothes scalp in portion-sized routines</td></tr>
+                <tr><td>Argan Oil</td><td>Adds softness and luminous shine</td></tr>
+                <tr><td>Colour pigments</td><td>Precise shade in every sachet</td></tr>
+                <tr><td>Conditioning agents</td><td>Keeps hair manageable after a fast colour wash</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <aside class="uip__cta">
+          <div class="uip__cta-copy">
+            <p class="uc-sec__eyebrow uip__cta-eyebrow">Explore UNIK CARE</p>
+            <p class="uip__cta-text">Discover ammonia-free colour formats designed for easy home application.</p>
+          </div>
+          <a class="uip__cta-btn" href="{{ routes.all_products_collection_url }}">
+            Shop collection
+            {% render 'uc-icon', icon: 'arrow-right', size: 14, stroke: 2 %}
+          </a>
+        </aside>
+      </div>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,295 @@
+/*
+  UC Page rhythm — tighter informational pages + unified product cards + FAQ brand type
+*/
+
+:root {
+  --uc-page-sec-pad: 24px;
+  --uc-ar-product: 1 / 1;
+  --uc-product-image-fit: cover;
+}
+
+/* Global section fallback was too tall (48–80px) — tighten brand-wide */
+.uc-sec {
+  --uc-section-y-pad: clamp(28px, 3.5vw, 44px);
+}
+
+.template-page .uc-sec:not(.upi),
+.template-collection .uc-sec:not(.upi),
+.template-page .shopify-section .ucs,
+.template-page .shopify-section .pfaq,
+.template-page .shopify-section .pwu,
+.template-page .shopify-section .pb,
+.template-page .shopify-section .vr,
+.template-page .shopify-section .ubt,
+.template-page .shopify-section .ucta,
+.template-page .shopify-section .ucc,
+.template-page .shopify-section .uci,
+.template-page .shopify-section .ucd {
+  --sec-pad-top: var(--uc-page-sec-pad, 24px);
+  --sec-pad-bottom: var(--uc-page-sec-pad, 24px);
+}
+
+.template-page-about .uc-sec:not(.upi),
+.template-page-our-story .uc-sec:not(.upi),
+.template-page-contact .uc-sec:not(.upi),
+.template-page-wishlist .uc-sec:not(.upi) {
+  padding-block: clamp(28px, 3.5vw, 48px) !important;
+}
+
+.template-page-about .shopify-section,
+.template-page-our-story .shopify-section,
+.template-page-contact .shopify-section {
+  margin: 0 !important;
+}
+
+.template-page-about .ucs__inner,
+.template-page-our-story .ucs__inner,
+.template-page-contact .ucs__inner {
+  gap: 0 !important;
+}
+
+.template-page-about .ucs__row,
+.template-page-our-story .ucs__row {
+  gap: clamp(16px, 3vw, 28px) !important;
+}
+
+.template-page-about .ucs__row:not(.ucs__row--statement) .ucs__content,
+.template-page-our-story .ucs__row:not(.ucs__row--statement) .ucs__content {
+  padding-inline: 0;
+  max-width: none !important;
+}
+
+.template-page-about .ucs__row:not(.ucs__row--statement) .ucs__body,
+.template-page-our-story .ucs__row:not(.ucs__row--statement) .ucs__body {
+  max-width: none !important;
+}
+
+.template-page-about .ucs__row--statement,
+.template-page-our-story .ucs__row--statement {
+  padding: clamp(18px, 2.8vw, 32px) clamp(16px, 4vw, 36px) !important;
+}
+
+.template-page-about .ucs__row--statement .ucs__body,
+.template-page-our-story .ucs__row--statement .ucs__body,
+.template-page-about .ucs__row--statement .ucs__body p,
+.template-page-our-story .ucs__row--statement .ucs__body p {
+  max-width: min(100%, 52rem) !important;
+}
+
+.template-page-about .upi__inner,
+.template-page-our-story .upi__inner {
+  max-width: min(100%, 56rem);
+}
+
+@media (min-width: 990px) {
+  .template-page-about .ucs__row:not(.ucs__row--statement),
+  .template-page-our-story .ucs__row:not(.ucs__row--statement) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    gap: clamp(28px, 4vw, 56px) !important;
+    align-items: center;
+  }
+
+  .template-page-about .ucs__row:not(.ucs__row--statement) .ucs__heading,
+  .template-page-our-story .ucs__row:not(.ucs__row--statement) .ucs__heading {
+    max-width: none !important;
+  }
+
+  .template-page-about .ucs__row:not(.ucs__row--statement) .ucs__body,
+  .template-page-our-story .ucs__row:not(.ucs__row--statement) .ucs__body {
+    max-width: 100% !important;
+  }
+}
+
+@media (max-width: 749px) {
+  .template-page-about .ucs__inner,
+  .template-page-about .uc-sec__container,
+  .template-page-our-story .ucs__inner,
+  .template-page-our-story .uc-sec__container {
+    padding-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px));
+  }
+
+  .template-page-about .ucs__row,
+  .template-page-our-story .ucs__row {
+    gap: 16px !important;
+  }
+
+  .template-page-about .ucs__row--statement,
+  .template-page-our-story .ucs__row--statement {
+    padding: clamp(22px, 6vw, 32px) clamp(16px, 5vw, 22px) !important;
+    text-align: center;
+  }
+
+  .template-page-about .ucs__actions,
+  .template-page-our-story .ucs__actions {
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .template-page-about .upi,
+  .template-page-our-story .upi {
+    padding-bottom: 16px;
+  }
+
+  .template-page-about .upi__tagline,
+  .template-page-our-story .upi__tagline {
+    font-size: 15px;
+    line-height: 1.58;
+    padding-inline: 4px;
+  }
+
+  .template-page-about .ubt__track,
+  .template-page-our-story .ubt__track {
+    padding-inline: max(4px, env(safe-area-inset-left, 0px)) max(4px, env(safe-area-inset-right, 0px));
+  }
+
+  .template-page-about .vr__stats,
+  .template-page-our-story .vr__stats {
+    gap: clamp(12px, 3vw, 18px);
+  }
+}
+
+.template-collection .ueh,
+.template-page-about .ueh,
+.template-page-our-story .ueh,
+.template-page-contact .ueh {
+  padding-bottom: 4px;
+  margin-bottom: 0;
+}
+
+.template-collection .collection,
+.template-collection .product-grid-container {
+  margin-top: 0;
+}
+
+/* FAQ — Luxury Cream typography matching homepage */
+.template-page .pfaq,
+.pfaq.uc-sec {
+  font-family: var(--uc-font-body, 'Manrope', system-ui, sans-serif) !important;
+  color: var(--uc-color-text, #171717);
+  padding-block: clamp(28px, 3.5vw, 48px) !important;
+}
+
+.pfaq *,
+.pfaq button,
+.pfaq input {
+  font-family: inherit !important;
+}
+
+.pfaq__eyebrow {
+  font-family: var(--uc-font-body, 'Manrope', system-ui, sans-serif) !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  color: var(--uc-color-primary, #b68a35) !important;
+}
+
+.pfaq__heading,
+.pfaq .uc-sec__heading {
+  font-family: var(--uc-font-heading, 'Manrope', system-ui, sans-serif) !important;
+  font-size: 28px !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+  line-height: 1.18 !important;
+  color: #2a2a2a !important;
+}
+
+.pfaq__subtitle {
+  font-family: var(--uc-font-body, 'Manrope', system-ui, sans-serif) !important;
+  font-size: 16px !important;
+  color: #2a2a2a !important;
+}
+
+.pfaq__trigger,
+.pfaq__trigger-text {
+  font-family: var(--uc-font-body, 'Manrope', system-ui, sans-serif) !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: var(--uc-color-text, #171717) !important;
+}
+
+.pfaq__answer,
+.pfaq__answer.rte,
+.pfaq__answer p,
+.pfaq__body,
+.pfaq__body-inner,
+.pfaq__body-inner p {
+  font-family: var(--uc-font-body, 'Manrope', system-ui, sans-serif) !important;
+  font-size: 16px !important;
+  line-height: 1.65 !important;
+  color: rgba(23, 23, 23, 0.68) !important;
+}
+
+.pfaq__filter,
+.pfaq__chip,
+.pfaq__cat {
+  font-family: var(--uc-font-body, 'Manrope', system-ui, sans-serif) !important;
+  border: none !important;
+}
+
+.pfaq__header {
+  margin-bottom: clamp(14px, 2vw, 22px) !important;
+}
+
+.pfaq__cats {
+  margin-bottom: clamp(12px, 1.8vw, 18px) !important;
+}
+
+/* Unified product card media — home, collection, related, search */
+.pc-card,
+.product-card-wrapper .pc-card,
+.category-showcase__cell .pc-card,
+.pf-showcase .pc-card,
+.grid__item .pc-card {
+  height: 100%;
+  min-height: 0 !important;
+  background: #fff;
+  border: 1px solid rgba(23, 23, 23, 0.06);
+  border-radius: var(--uc-radius-card, 22px);
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+.pc-card__media-wrap,
+.product-card-wrapper .pc-card__media-wrap,
+.category-showcase__cell .pc-card__media-wrap,
+.pf-showcase .pc-card__media-wrap,
+.grid__item .pc-card__media-wrap {
+  aspect-ratio: var(--uc-ar-product, 1 / 1) !important;
+  max-height: none !important;
+  background: #f3eee6 !important;
+}
+
+.pc-card__img,
+.product-card-wrapper .pc-card__img,
+.category-showcase__cell .pc-card__img,
+.pf-showcase .pc-card__img,
+.grid__item .pc-card__img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: var(--uc-product-image-fit, cover) !important;
+  object-position: center center !important;
+}
+
+.pc-card__img--placeholder {
+  object-fit: contain !important;
+  padding: 18% !important;
+  opacity: 0.35 !important;
+}
+
+.pc-card__btn,
+.pc-card__qa,
+.pc-card__buy,
+.pc-card .uc-btn {
+  border: none !important;
+}
+
+.product-card-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card-wrapper > .pc-card {
+  flex: 1;
+}

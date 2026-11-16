@@ -1,0 +1,89 @@
+{%- comment -%}
+ UC Wishlist - dedicated client-side wishlist page.
+ Reads saved products from localStorage (same key as the header + product cards)
+ and renders them as premium cards with remove + add-to-cart actions.
+ Namespace: ucw
+{%- endcomment -%}
+
+{{ 'uc-product-card.css' | asset_url | stylesheet_tag }}
+{{ 'uc-wishlist-page.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+ assign s = section.settings
+ assign wkey = s.storage_key | default: 'uc:wishlist'
+-%}
+
+{%- style -%}
+ #Ucw-{{ section.id }} {
+ --ucw-max: var(--page-width);
+ --ucw-pad-y: {{ s.padding_top | default: 56 }}px;
+ --ucw-pad-b: {{ s.padding_bottom | default: 72 }}px;
+ --ucw-gap: {{ s.card_gap | default: 24 }}px;
+ --ucw-cols: {{ s.columns | default: 4 }};
+ }
+{%- endstyle -%}
+
+<section
+ id="Ucw-{{ section.id }}"
+ class="ucw"
+ data-uc-wishlist
+ data-wishlist-key="{{ wkey | escape }}"
+>
+ <div class="ucw__inner">
+ {%- if s.eyebrow != blank or s.heading != blank or s.subheading != blank -%}
+ <header class="ucw__head">
+ {%- if s.eyebrow != blank -%}<p class="ucw__eyebrow">{{ s.eyebrow | escape }}</p>{%- endif -%}
+ {%- if s.heading != blank -%}<h1 class="ucw__title">{{ s.heading | escape }}</h1>{%- endif -%}
+ {%- if s.subheading != blank -%}<p class="ucw__subtitle" data-ucw-count-label>{{ s.subheading | escape }}</p>{%- endif -%}
+ </header>
+ {%- else -%}
+ <p class="visually-hidden" data-ucw-count-label>Wishlist</p>
+ {%- endif -%}
+
+ {%- comment -%} Populated by JS from localStorage {%- endcomment -%}
+ <div class="ucw__grid" data-ucw-grid hidden></div>
+
+ <div class="ucw__empty" data-ucw-empty hidden>
+ <div class="ucw__empty-icon" aria-hidden="true">
+ <svg viewBox="0 0 24 24" width="46" height="46" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+ </div>
+ <h2 class="ucw__empty-title">{{ s.empty_title | default: 'Your wishlist is empty' | escape }}</h2>
+ <p class="ucw__empty-text">{{ s.empty_text | default: 'Tap the heart on any product to save it here for later.' | escape }}</p>
+ <a class="ucw__empty-cta" href="{{ s.empty_link | default: routes.all_products_collection_url }}">{{ s.empty_button | default: 'Start shopping' | escape }}</a>
+ </div>
+
+ <div class="ucw__loading" data-ucw-loading>
+ <span class="ucw__spinner" aria-hidden="true"></span>
+ </div>
+ </div>
+</section>
+
+<script src="{{ 'uc-product-card.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'uc-wishlist-page.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+ "name": "Wishlist page",
+ "tag": "section",
+ "class": "section section-uc-wishlist",
+ "settings": [
+ { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Saved for later" },
+ { "type": "text", "id": "heading", "label": "Heading", "default": "My Wishlist" },
+ { "type": "text", "id": "subheading", "label": "Subheading", "default": "The pieces you love, all in one place." },
+ { "type": "header", "content": "Empty state" },
+ { "type": "text", "id": "empty_title", "label": "Empty title", "default": "Your wishlist is empty" },
+ { "type": "text", "id": "empty_text", "label": "Empty text", "default": "Tap the heart on any product to save it here for later." },
+ { "type": "text", "id": "empty_button", "label": "Empty button label", "default": "Start shopping" },
+ { "type": "url", "id": "empty_link", "label": "Empty button link" },
+ { "type": "header", "content": "Layout" },
+ { "type": "range", "id": "container_width", "min": 1000, "max": 1600, "step": 20, "unit": "px", "label": "Max width", "default": 1280 },
+ { "type": "range", "id": "columns", "min": 2, "max": 5, "step": 1, "label": "Columns (desktop)", "default": 4 },
+ { "type": "range", "id": "card_gap", "min": 8, "max": 40, "step": 2, "unit": "px", "label": "Card gap", "default": 24 },
+ { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding top", "default": 56 },
+ { "type": "range", "id": "padding_bottom", "min": 0, "max": 160, "step": 4, "unit": "px", "label": "Padding bottom", "default": 72 },
+ { "type": "header", "content": "Advanced" },
+ { "type": "text", "id": "storage_key", "label": "Wishlist storage key", "default": "uc:wishlist", "info": "Must match the header + product card storage key." }
+ ],
+ "presets": [{ "name": "Wishlist page" }]
+}
+{% endschema %}

@@ -1,0 +1,26 @@
+{%- comment -%}
+  Subpage section head — matches UC Page intro rhythm (Our Story / Contact).
+  align: center | left
+{%- endcomment -%}
+{%- liquid
+  assign sp_align = align | default: 'center'
+  assign sp_class = 'uc-sp-head uc-sp-head--' | append: sp_align
+  if header_class != blank
+    assign sp_class = sp_class | append: ' ' | append: header_class
+  endif
+-%}
+
+{%- if eyebrow != blank or heading != blank or description != blank or description_html != blank -%}
+<header class="{{ sp_class }}" {% if reveal %}data-uc-reveal{% endif %}>
+  {%- if eyebrow != blank -%}
+    <p class="uc-sp-head__eyebrow">{{ eyebrow | escape }}</p>
+  {%- endif -%}
+  {%- if heading != blank -%}
+    <h2 class="uc-sp-head__title">{{ heading | escape }}</h2>
+  {%- endif -%}
+  {%- assign sp_desc = description_html | default: description -%}
+  {%- if sp_desc != blank -%}
+    <div class="uc-sp-head__desc rte">{{ sp_desc }}</div>
+  {%- endif -%}
+</header>
+{%- endif -%}

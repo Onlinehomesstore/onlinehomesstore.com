@@ -1,0 +1,62 @@
+/*
+  UC Mobile horizontal scroll tracks — lightweight product/card sliders.
+  Desktop/tablet: grid unchanged. Mobile: swipe + scroll-snap.
+*/
+
+@media (max-width: 749px) {
+  .uc-scroll-track,
+  .category-showcase__grid.uc-scroll-track {
+    display: flex !important;
+    flex-wrap: nowrap;
+    gap: var(--cs-gap, var(--uc-grid-gap, 16px));
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    padding-bottom: 4px;
+    margin-inline: calc(-1 * var(--uc-page-pad-x, 16px));
+    padding-inline: var(--uc-page-pad-x, 16px);
+    scrollbar-width: none;
+  }
+
+  .uc-scroll-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .uc-scroll-track > li,
+  .uc-scroll-track > .grid__item,
+  .uc-scroll-track > .category-showcase__cell,
+  .uc-scroll-track > .pc-card,
+  .uc-scroll-track > article {
+    flex: 0 0 100%;
+    max-width: 100%;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  .uc-scroll-track--compact > li,
+  .uc-scroll-track--compact > .grid__item,
+  .uc-scroll-track--compact > .category-showcase__cell,
+  .uc-scroll-track--compact > .pc-card {
+    flex-basis: 100%;
+    max-width: 100%;
+  }
+
+  .prv__grid.uc-scroll-track {
+    display: flex;
+    gap: var(--uc-grid-gap, 16px);
+  }
+
+  .prv__grid.uc-scroll-track > .pc-card {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .uc-scroll-track {
+    scroll-behavior: auto;
+  }
+}

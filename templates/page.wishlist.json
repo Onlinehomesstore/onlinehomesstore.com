@@ -1,0 +1,29 @@
+{
+  "sections": {
+    "hero": {
+      "type": "uc-page-intro",
+      "settings": {
+        "use_global_colors": true,
+        "eyebrow": "Saved for later",
+        "heading": "My Wishlist",
+        "tagline": "The pieces you love, all in one place.",
+        "padding_top": 0,
+        "padding_bottom": 12
+      }
+    },
+    "wishlist": {
+      "type": "uc-wishlist",
+      "settings": {
+        "eyebrow": "",
+        "heading": "",
+        "subheading": "",
+        "columns": 4,
+        "card_gap": 24
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "wishlist"
+  ]
+}

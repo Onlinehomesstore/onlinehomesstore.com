@@ -1,0 +1,179 @@
+{%- comment -%}
+  UC Contact inquiry form — reuses wholesale form styles (uwa- prefix).
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+  assign uid = section.id
+  assign form_id = 'uci-form-' | append: uid
+  assign inquiry_scope = '#UcContactInquiry-' | append: uid
+-%}
+
+{%- include 'uc-market-contact' -%}
+{{ 'uc-wholesale-application.css' | asset_url | stylesheet_tag }}
+{{ 'uc-contact-hub.css' | asset_url | stylesheet_tag }}
+{%- render 'uc-section-vars', section: section, scope: inquiry_scope -%}
+{%- render 'uc-section-colors', section: section -%}
+
+<div id="UcContactInquiry-{{ uid }}" class="uwa uwa--contact uc-sec color-{{ s.color_scheme }}" data-uci-section>
+  <span id="contact-form" class="visually-hidden" tabindex="-1"></span>
+
+  <div class="uc-sec__container uwa__grid">
+    <div class="uwa__lead" data-uc-reveal>
+      {% render 'uc-subpage-section-head',
+        eyebrow: s.eyebrow,
+        heading: s.heading,
+        description: s.subtitle,
+        align: 'center',
+        header_class: 'uwa__lead-head'
+      %}
+      {%- if s.show_market_note and uc_market_name != blank -%}
+        <p class="uwa__market-note">
+          {%- render 'uc-icon', icon: 'map-pin', size: 16 -%}
+          <span>{{ s.market_note | default: 'You are shopping in' | escape }} {{ uc_market_name | escape }}</span>
+        </p>
+      {%- endif -%}
+    </div>
+
+    <div class="uwa__form-card" data-uc-reveal>
+      {%- if s.form_heading != blank -%}
+        <h3 class="uc-sec__subheading uwa__form-title">{{ s.form_heading | escape }}</h3>
+      {%- endif -%}
+
+      {%- form 'contact', id: form_id, class: 'uwa__form' -%}
+        <input type="hidden" name="contact[tags]" value="contact,page">
+
+        {%- if form.posted_successfully? -%}
+          <div class="uwa__form-status">
+            <p class="uc-form-msg is-success" role="status" tabindex="-1">{{ s.success_message | default: 'Thank you. Our team will reply shortly.' | escape }}</p>
+          </div>
+        {%- else -%}
+          <div class="uwa__form-body">
+            {%- if form.errors -%}
+              <p class="uc-form-msg is-error" role="alert">{{ 'templates.contact.form.error_heading' | t | default: 'Please fix the errors below.' }}</p>
+              <ul class="uwa__errors" role="list">
+                {%- for field in form.errors -%}
+                  <li>
+                    {%- if field == 'form' -%}
+                      {{ form.errors.messages[field] }}
+                    {%- else -%}
+                      {{ form.errors.translated_fields[field] | capitalize }} {{ form.errors.messages[field] }}
+                    {%- endif -%}
+                  </li>
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+
+            <div class="uwa__fields uwa__fields--2">
+              <div class="uwa__field">
+                <label for="{{ form_id }}-name">{{ s.label_name | default: 'Name' | escape }}{% if s.require_name %} <span aria-hidden="true">*</span>{% endif %}</label>
+                <input
+                  id="{{ form_id }}-name"
+                  type="text"
+                  name="contact[name]"
+                  {% if s.require_name %}required{% endif %}
+                  autocomplete="name"
+                  placeholder="{{ s.placeholder_name | escape }}"
+                  value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+                >
+              </div>
+              <div class="uwa__field">
+                <label for="{{ form_id }}-email">{{ s.label_email | default: 'Email' | escape }} <span aria-hidden="true">*</span></label>
+                <input
+                  id="{{ form_id }}-email"
+                  type="email"
+                  name="contact[email]"
+                  required
+                  autocomplete="email"
+                  placeholder="{{ s.placeholder_email | escape }}"
+                  value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+                >
+              </div>
+              <div class="uwa__field">
+                <label for="{{ form_id }}-subject">{{ s.label_subject | default: 'Subject' | escape }}</label>
+                <input
+                  id="{{ form_id }}-subject"
+                  type="text"
+                  name="contact[subject]"
+                  placeholder="{{ s.placeholder_subject | escape }}"
+                >
+              </div>
+              {%- if s.show_order_number -%}
+                <div class="uwa__field">
+                  <label for="{{ form_id }}-order">{{ s.label_order | default: 'Order number' | escape }}</label>
+                  <input
+                    id="{{ form_id }}-order"
+                    type="text"
+                    name="contact[order]"
+                    placeholder="{{ s.placeholder_order | escape }}"
+                  >
+                </div>
+              {%- endif -%}
+            </div>
+
+            <div class="uwa__fields uwa__fields--message">
+              <div class="uwa__field">
+                <label for="{{ form_id }}-message">{{ s.label_message | default: 'Message' | escape }} <span aria-hidden="true">*</span></label>
+                <textarea
+                  id="{{ form_id }}-message"
+                  name="contact[body]"
+                  rows="5"
+                  required
+                  placeholder="{{ s.placeholder_message | escape }}"
+                >{{ form.body }}</textarea>
+              </div>
+            </div>
+
+            <button type="submit" class="uc-btn uc-btn--primary uwa__submit">{{ s.submit_label | default: 'Send message' | escape }}</button>
+            {%- if s.privacy_note != blank -%}
+              <p class="uwa__privacy">{{ s.privacy_note | escape }}</p>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      {%- endform -%}
+    </div>
+
+    <div class="uwa__extras" data-uci-info-host data-uc-reveal></div>
+  </div>
+</div>
+
+<script src="{{ 'uc-contact-hub.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "UC Contact form",
+  "tag": "section",
+  "class": "section section-uc-contact-inquiry",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Write to us" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Send a message" },
+    { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Share as much detail as you like - we are here to help." },
+    { "type": "text", "id": "form_heading", "label": "Form title", "default": "Contact form" },
+    { "type": "text", "id": "label_name", "label": "Name label", "default": "Name" },
+    { "type": "text", "id": "placeholder_name", "label": "Name placeholder", "default": "Your name" },
+    { "type": "checkbox", "id": "require_name", "label": "Name required", "default": true },
+    { "type": "text", "id": "label_email", "label": "Email label", "default": "Email" },
+    { "type": "text", "id": "placeholder_email", "label": "Email placeholder", "default": "you@example.com" },
+    { "type": "text", "id": "label_phone", "label": "Phone label", "default": "Phone" },
+    { "type": "text", "id": "placeholder_phone", "label": "Phone placeholder", "default": "+92 ..." },
+    { "type": "text", "id": "label_subject", "label": "Subject label", "default": "Subject" },
+    { "type": "text", "id": "placeholder_subject", "label": "Subject placeholder", "default": "How can we help?" },
+    { "type": "checkbox", "id": "show_order_number", "label": "Show order number field", "default": true },
+    { "type": "text", "id": "label_order", "label": "Order number label", "default": "Order number (optional)" },
+    { "type": "text", "id": "placeholder_order", "label": "Order placeholder", "default": "#1234" },
+    { "type": "text", "id": "label_message", "label": "Message label", "default": "Message" },
+    { "type": "text", "id": "placeholder_message", "label": "Message placeholder", "default": "Tell us how we can help..." },
+    { "type": "text", "id": "submit_label", "label": "Submit button", "default": "Send message" },
+    { "type": "textarea", "id": "success_message", "label": "Success message", "default": "Thank you. Our team will reply within one business day." },
+    { "type": "text", "id": "privacy_note", "label": "Privacy note", "default": "We respect your privacy and never share your details." },
+    { "type": "checkbox", "id": "show_market_note", "label": "Show selected country note", "default": true },
+    { "type": "text", "id": "market_note", "label": "Country note prefix", "default": "You are shopping in" },
+    { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 36 },
+    { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 40 },
+    { "type": "checkbox", "id": "use_global_colors", "label": "Use global brand colors", "default": true },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Colour scheme", "default": "scheme-1" }
+  ],
+  "presets": [{ "name": "UC Contact form" }]
+}
+{% endschema %}

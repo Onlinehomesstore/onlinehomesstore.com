@@ -1,0 +1,90 @@
+/*
+ * ------------------------------------------------------------
+ * Online Homes Store — legal / policy template
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "uc-legal-page",
+      "blocks": {
+        "what": {
+          "type": "section",
+          "settings": {
+            "eyebrow": "What cookies are",
+            "heading": "1. What cookies are",
+            "content": "<p>Cookies are small files saved on your phone or computer when you visit a website. They help the site remember your basket, login, and choices.</p>"
+          }
+        },
+        "how": {
+          "type": "section",
+          "settings": {
+            "eyebrow": "How we use them",
+            "heading": "2. How we use cookies",
+            "content": "<ul><li><strong>Needed cookies:</strong> These make the site work. They keep your basket, checkout, and security in place. The shop cannot run without them.</li><li><strong>Analytics cookies:</strong> These help us see how people use the site so we can improve it. We only use these if you agree.</li><li><strong>Choice cookies:</strong> These remember things like your language or last visit. We only use these if you agree.</li></ul>"
+          }
+        },
+        "types": {
+          "type": "section",
+          "settings": {
+            "eyebrow": "Who sets them",
+            "heading": "3. Who sets cookies",
+            "content": "<p>Some cookies are set by Online Homes Store. Others are set by partners such as payment or analytics firms. Those firms have their own privacy rules.</p>"
+          }
+        },
+        "choices": {
+          "type": "section",
+          "settings": {
+            "eyebrow": "Your choices",
+            "heading": "4. Your choices",
+            "content": "<p>UK PECR rules mean we ask before we use cookies that are not needed to run the shop.</p><ul><li>Use the cookie banner to accept or refuse extra cookies.</li><li>You can also block cookies in your browser. If you block needed cookies, the basket and checkout may not work.</li></ul>"
+          }
+        },
+        "more": {
+          "type": "section",
+          "settings": {
+            "eyebrow": "More detail",
+            "heading": "5. More detail",
+            "content": "<p>How we handle personal data is explained in our Privacy Policy.</p>"
+          }
+        },
+        "contact": {
+          "type": "section",
+          "settings": {
+            "eyebrow": "Contact",
+            "heading": "6. Contact us",
+            "content": "<p>Cookie questions: <a href=\"mailto:info@onlinehomesstore.com\">info@onlinehomesstore.com</a>.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "what",
+        "how",
+        "types",
+        "choices",
+        "more",
+        "contact"
+      ],
+      "settings": {
+        "eyebrow": "Cookie policy",
+        "heading": "Cookie Policy",
+        "effective_date": "17 October 2026",
+        "markets_note": "This policy follows the UK Privacy and Electronic Communications Regulations (PECR).",
+        "intro": "<p>This Cookie Policy explains how Online Homes Store uses cookies on onlinehomesstore.com.</p>",
+        "use_page_content": false,
+        "show_contact_details": true,
+        "show_contact_cta": false,
+        "cta_text": "Questions about this policy? Contact our team.",
+        "cta_label": "Contact us",
+        "cta_link": "/pages/contact",
+        "padding_top": 32,
+        "padding_bottom": 48,
+        "accent_color": "#B68A35",
+        "content_width": 1280
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

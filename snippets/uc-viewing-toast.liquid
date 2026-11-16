@@ -1,0 +1,61 @@
+{%- if settings.uc_viewing_enable != false -%}
+{%- liquid
+  assign uc_view_interval = settings.uc_viewing_interval | default: 10
+  assign uc_view_first = settings.uc_viewing_first_delay | default: 12
+  assign uc_catalog = collections['all']
+-%}
+<aside
+  class="uc-viewing"
+  data-uc-viewing
+  data-interval="{{ uc_view_interval }}"
+  data-first-delay="{{ uc_view_first }}"
+  hidden
+  aria-live="polite"
+  aria-label="Recent shopper activity"
+>
+  <div class="uc-viewing__card">
+    <a class="uc-viewing__link" data-uc-viewing-link href="#">
+      <div class="uc-viewing__media" aria-hidden="true">
+        <img data-uc-viewing-img src="" alt="" width="80" height="80" loading="lazy" decoding="async" fetchpriority="low">
+      </div>
+      <div class="uc-viewing__copy">
+        <p class="uc-viewing__eyebrow">
+          <span class="uc-viewing__pulse" aria-hidden="true"></span>
+          <span>Live activity</span>
+        </p>
+        <p class="uc-viewing__product" data-uc-viewing-product>Online Homes Store</p>
+        <p class="uc-viewing__action" data-uc-viewing-action>
+          <span data-uc-viewing-who>Sophie from Leeds</span>
+        </p>
+        <p class="uc-viewing__foot">
+          <time class="uc-viewing__time" data-uc-viewing-time datetime="">Just now</time>
+          <span class="uc-viewing__cta" aria-hidden="true">View</span>
+        </p>
+      </div>
+    </a>
+    <button type="button" class="uc-viewing__close" data-uc-viewing-close aria-label="Dismiss activity notice">
+      <svg width="14" height="14" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2 2l8 8M10 2L2 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</aside>
+<script type="application/json" data-uc-viewing-catalog>
+[
+{%- assign uc_view_json_first = true -%}
+{%- if uc_catalog != blank -%}
+  {%- for p in uc_catalog.products limit: 40 -%}
+    {%- if p.available and p.featured_image != blank -%}
+      {%- unless uc_view_json_first -%},{%- endunless -%}
+      {%- assign uc_view_json_first = false -%}
+      {"title":{{ p.title | json }},"url":{{ p.url | json }},"image":{{ p.featured_image | image_url: width: 200 | json }}}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
+{%- if uc_view_json_first and product != blank and product.featured_image != blank -%}
+  {"title":{{ product.title | json }},"url":{{ product.url | json }},"image":{{ product.featured_image | image_url: width: 200 | json }}}
+{%- endif -%}
+]
+</script>
+<link rel="stylesheet" href="{{ 'uc-viewing-toast.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="{{ 'uc-viewing-toast.css' | asset_url }}"></noscript>
+<script src="{{ 'uc-viewing-toast.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}

@@ -1,0 +1,72 @@
+/*
+ * ------------------------------------------------------------
+ * Online Homes Store — legal / policy template
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "uc-legal-page",
+      "blocks": {
+        "processing": {
+          "type": "section",
+          "settings": {
+            "eyebrow": "When we send orders",
+            "heading": "When we send orders",
+            "content": "<ul><li>We aim to pack UK orders within 1 to 2 working days, not including weekends and bank holidays.</li><li>You will get an email when the order leaves us.</li></ul>"
+          }
+        },
+        "shipping_time": {
+          "type": "section",
+          "settings": {
+            "eyebrow": "Delivery times",
+            "heading": "Delivery times",
+            "content": "<ul><li>Standard UK delivery: usually 3 to 7 working days after dispatch.</li><li>Faster UK options, if shown at checkout: usually 1 to 3 working days after dispatch.</li><li>Times are estimates, not a guarantee. Carrier delays can happen.</li></ul>"
+          }
+        },
+        "tracking": {
+          "type": "section",
+          "settings": {
+            "eyebrow": "Tracking",
+            "heading": "Tracking your order",
+            "content": "<p>When your order ships we email a tracking number if the carrier provides one.</p>"
+          }
+        },
+        "issues": {
+          "type": "section",
+          "settings": {
+            "eyebrow": "Problems",
+            "heading": "If there is a problem",
+            "content": "<ul><li>If a parcel arrives damaged or does not arrive, email us as soon as you can.</li><li>Please check your address at checkout. We will help as far as we can if a carrier delay or address error occurs.</li></ul>"
+          }
+        }
+      },
+      "block_order": [
+        "processing",
+        "shipping_time",
+        "tracking",
+        "issues"
+      ],
+      "settings": {
+        "eyebrow": "Shipping policy",
+        "heading": "Shipping Policy",
+        "effective_date": "17 October 2026",
+        "markets_note": "UK delivery from Online Homes Store, London.",
+        "intro": "<p>This page explains how we send Online Homes Store orders in the UK.</p>",
+        "use_page_content": false,
+        "show_contact_details": true,
+        "show_contact_cta": false,
+        "cta_text": "Questions about this policy? Contact our team.",
+        "cta_label": "Contact us",
+        "cta_link": "/pages/contact",
+        "padding_top": 32,
+        "padding_bottom": 48,
+        "accent_color": "#B68A35",
+        "content_width": 1280
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

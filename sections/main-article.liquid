@@ -1,0 +1,205 @@
+{{ 'uc-article-page.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign uc_read_mins = article.content | strip_html | split: ' ' | size | divided_by: 200 | at_least: 1
+  assign uc_show_date = true
+  assign uc_show_author = false
+  for block in section.blocks
+    if block.type == 'title'
+      assign uc_show_date = block.settings.blog_show_date
+      assign uc_show_author = block.settings.blog_show_author
+    endif
+  endfor
+  assign uc_share_url = request.origin | append: article.url
+-%}
+
+<article class="uc-article" itemscope itemtype="http://schema.org/BlogPosting">
+  {%- for block in section.blocks -%}
+    {%- if block.type == '@app' -%}
+      <div class="uc-article__app">
+        {% render block %}
+      </div>
+    {%- endif -%}
+  {%- endfor -%}
+
+  <div class="uc-article__page">
+    <header class="uc-article__mast">
+      <a class="uc-article__kicker" href="{{ blog.url }}">{{ blog.title | escape }}</a>
+      <h1 class="uc-article__title" itemprop="headline">{{ article.title | escape }}</h1>
+
+      <div class="uc-article__meta-row">
+        {%- if uc_show_date -%}
+          <time class="uc-article__meta-item" itemprop="datePublished" datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
+            {{ article.published_at | date: '%b %d, %Y' }}
+          </time>
+        {%- endif -%}
+        <span class="uc-article__meta-item">{{ uc_read_mins }} min read</span>
+        {%- if uc_show_author and article.author != blank -%}
+          <span class="uc-article__meta-item" itemprop="author">{{ article.author }}</span>
+        {%- endif -%}
+      </div>
+
+      {%- if article.tags.size > 0 -%}
+        <div class="uc-article__tags" aria-label="Article tags">
+          {%- for tag in article.tags limit: 6 -%}
+            <a class="uc-article__tag" href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </header>
+
+    {%- if article.image -%}
+      <figure class="uc-article__figure">
+        <div class="uc-article__figure-media">
+          <img
+            srcset="
+              {% if article.image.width >= 750 %}{{ article.image | image_url: width: 750 }} 750w,{% endif %}
+              {% if article.image.width >= 1100 %}{{ article.image | image_url: width: 1100 }} 1100w,{% endif %}
+              {% if article.image.width >= 1500 %}{{ article.image | image_url: width: 1500 }} 1500w,{% endif %}
+              {% if article.image.width >= 2200 %}{{ article.image | image_url: width: 2200 }} 2200w,{% endif %}
+              {{ article.image | image_url: width: 2400 }} 2400w
+            "
+            sizes="(min-width: 1100px) 960px, 100vw"
+            src="{{ article.image | image_url: width: 1500 }}"
+            loading="eager"
+            fetchpriority="high"
+            width="{{ article.image.width }}"
+            height="{{ article.image.height }}"
+            alt="{{ article.image.alt | default: article.title | escape }}"
+          >
+        </div>
+      </figure>
+    {%- endif -%}
+
+    <div class="uc-article__prose rte" itemprop="articleBody">
+      {{ article.content }}
+    </div>
+
+    <footer class="uc-article__footer">
+      <div class="uc-article__action-bar">
+        <a href="{{ blog.url }}" class="uc-article__back">
+          <span class="uc-article__back-icon" aria-hidden="true">←</span>
+          {{ 'blogs.article.back_to_blog' | t: title: blog.title | escape }}
+        </a>
+
+        <div class="uc-article__share" aria-label="Share this article">
+          <span class="uc-article__share-label">Share this story</span>
+          <div class="uc-article__share-row">
+            <a class="uc-article__share-btn" href="https://www.facebook.com/sharer/sharer.php?u={{ uc_share_url | url_encode }}" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook">f</a>
+            <a class="uc-article__share-btn" href="https://twitter.com/intent/tweet?url={{ uc_share_url | url_encode }}&text={{ article.title | url_encode }}" target="_blank" rel="noopener noreferrer" aria-label="Share on X">X</a>
+            <a class="uc-article__share-btn" href="https://wa.me/?text={{ article.title | url_encode }}%20{{ uc_share_url | url_encode }}" target="_blank" rel="noopener noreferrer" aria-label="Share on WhatsApp">W</a>
+            <button type="button" class="uc-article__share-btn uc-article__share-copy" data-uc-copy-link="{{ uc_share_url }}" aria-label="Copy link">⧉</button>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  {%- if blog.comments_enabled? -%}
+    <div class="uc-article__comments" id="comments">
+      <div class="uc-article__comments-inner">
+        {%- if article.comments_count > 0 -%}
+          {%- assign anchorId = '#Comments-' | append: article.id -%}
+          <h2 class="uc-article__comments-title" id="Comments-{{ article.id }}">
+            {{ 'blogs.article.comments' | t: count: article.comments_count }}
+          </h2>
+          {% paginate article.comments by 5 %}
+            <div class="uc-article__comments-list">
+              {%- if comment.status == 'pending' and comment.content -%}
+                <article class="uc-article__comment">
+                  <div class="uc-article__comment-body">{{ comment.content }}</div>
+                  <footer class="uc-article__comment-meta">{{ comment.author }}</footer>
+                </article>
+              {%- endif -%}
+              {%- for comment in article.comments -%}
+                <article id="{{ comment.id }}" class="uc-article__comment">
+                  <div class="uc-article__comment-body">{{ comment.content }}</div>
+                  <footer class="uc-article__comment-meta">
+                    <span>{{ comment.author }}</span>
+                    <span>{{ comment.created_at | time_tag: format: 'date' }}</span>
+                  </footer>
+                </article>
+              {%- endfor -%}
+              {% render 'pagination', paginate: paginate, anchor: anchorId %}
+            </div>
+          {% endpaginate %}
+        {%- endif -%}
+
+        {% form 'new_comment', article, class: 'uc-article__comment-form' %}
+          {%- liquid
+            assign post_message = 'blogs.article.success'
+            if blog.moderated? and comment.status == 'unapproved'
+              assign post_message = 'blogs.article.success_moderated'
+            endif
+          -%}
+          <h2 class="uc-article__comments-title">{{ 'blogs.article.comment_form_title' | t }}</h2>
+          {%- if form.errors -%}
+            <p class="uc-article__form-msg uc-article__form-msg--error" role="alert">
+              {{ 'templates.contact.form.error_heading' | t }}
+            </p>
+          {%- elsif form.posted_successfully? -%}
+            <p class="uc-article__form-msg uc-article__form-msg--success" role="status">{{ post_message | t }}</p>
+          {%- endif -%}
+
+          <div class="uc-article__comment-fields">
+            <label class="uc-article__field">
+              <span class="uc-article__field-label">{{ 'blogs.article.name' | t }}</span>
+              <input type="text" name="comment[author]" class="uc-article__field-input" autocomplete="name" value="{{ form.author }}" required>
+            </label>
+            <label class="uc-article__field">
+              <span class="uc-article__field-label">{{ 'blogs.article.email' | t }}</span>
+              <input type="email" name="comment[email]" class="uc-article__field-input" autocomplete="email" value="{{ form.email }}" required>
+            </label>
+          </div>
+          <label class="uc-article__field uc-article__field--full">
+            <span class="uc-article__field-label">{{ 'blogs.article.message' | t }}</span>
+            <textarea name="comment[body]" class="uc-article__field-input uc-article__field-textarea" rows="5" required>{{ form.body }}</textarea>
+          </label>
+          {%- if blog.moderated? -%}
+            <p class="uc-article__comment-note">{{ 'blogs.article.moderated' | t }}</p>
+          {%- endif -%}
+          <button type="submit" class="uc-article__comment-submit">{{ 'blogs.article.post' | t }}</button>
+        {% endform %}
+      </div>
+    </div>
+  {%- endif -%}
+</article>
+
+<script type="application/ld+json">{{ article | structured_data }}</script>
+
+{% schema %}
+{
+  "name": "UC Article",
+  "tag": "section",
+  "class": "section-uc-article",
+  "blocks": [
+    { "type": "@app" },
+    {
+      "type": "title",
+      "name": "Title settings",
+      "limit": 1,
+      "settings": [
+        { "type": "checkbox", "id": "blog_show_date", "default": true, "label": "Show date" },
+        { "type": "checkbox", "id": "blog_show_author", "default": false, "label": "Show author" }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<script>
+(function () {
+  document.querySelectorAll('[data-uc-copy-link]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var url = btn.getAttribute('data-uc-copy-link');
+      if (!url) return;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(function () {
+          btn.textContent = '✓';
+          setTimeout(function () { btn.textContent = '⧉'; }, 2000);
+        });
+      }
+    });
+  });
+})();
+</script>

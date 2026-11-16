@@ -1,0 +1,116 @@
+{%- comment -%}
+  UC Legal Page — homepage type scale + 10px pill rhythm.
+  Assign to Must Knows, Terms, Refund, Shipping, Privacy, Cookie pages.
+{%- endcomment -%}
+
+{{ 'uc-legal.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign s = section.settings
+  assign uid = section.id
+-%}
+
+{%- style -%}
+  #UcLegal-{{ uid }} {
+    --uc-legal-max: {{ s.content_width | default: 1280 }}px;
+    --uc-legal-accent: {{ s.accent_color | default: '#B68A35' }};
+    padding-top: {{ s.padding_top | default: 32 }}px;
+    padding-bottom: {{ s.padding_bottom | default: 48 }}px;
+  }
+{%- endstyle -%}
+
+<section id="UcLegal-{{ uid }}" class="uc-legal uc-sec">
+  <div class="uc-sec__container uc-legal__inner">
+    <header class="uc-legal__header">
+      {%- if s.eyebrow != blank -%}
+        <p class="uc-sec__eyebrow uc-legal__eyebrow">{{ s.eyebrow | escape }}</p>
+      {%- endif -%}
+      <h1 class="uc-legal__title">{{ s.heading | default: page.title | escape }}</h1>
+      {%- if s.effective_date != blank -%}
+        <p class="uc-legal__meta">Last updated: {{ s.effective_date | escape }}</p>
+      {%- endif -%}
+      {%- if s.markets_note != blank -%}
+        <p class="uc-legal__note">{{ s.markets_note | escape }}</p>
+      {%- endif -%}
+    </header>
+
+    <div class="uc-legal__content">
+      {%- if s.intro != blank -%}
+        <div class="uc-legal__intro rte">{{ s.intro }}</div>
+      {%- endif -%}
+
+      <article class="uc-legal__body">
+        {%- if s.use_page_content and page.content != blank -%}
+          <div class="uc-legal__prose rte">{{ page.content }}</div>
+        {%- elsif s.body != blank -%}
+          <div class="uc-legal__prose rte">{{ s.body }}</div>
+        {%- else -%}
+          <div class="uc-legal__sections">
+            {%- for block in section.blocks -%}
+              <section class="uc-legal__section" {{ block.shopify_attributes }}>
+                {%- if block.settings.eyebrow != blank -%}
+                  <p class="uc-sec__eyebrow uc-legal__section-eyebrow">{{ block.settings.eyebrow | escape }}</p>
+                {%- endif -%}
+                {%- if block.settings.heading != blank -%}
+                  <h3 class="uc-legal__section-title">{{ block.settings.heading | escape }}</h3>
+                {%- endif -%}
+                {%- if block.settings.content != blank -%}
+                  <div class="uc-legal__section-body rte">{{ block.settings.content }}</div>
+                {%- endif -%}
+              </section>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </article>
+
+      {%- if s.show_contact_details -%}
+        {%- render 'uc-legal-contact' -%}
+      {%- endif -%}
+
+      {%- if s.show_contact_cta -%}
+        <aside class="uc-legal__cta">
+          <p>{{ s.cta_text | default: 'Questions about this policy? Contact our team.' | escape }}</p>
+          <a class="uc-btn uc-btn--premium" href="{{ s.cta_link | default: '/pages/contact' }}">{{ s.cta_label | default: 'Contact us' | escape }}</a>
+        </aside>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Legal page",
+  "tag": "section",
+  "class": "section-uc-legal",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Page pill", "default": "Legal" },
+    { "type": "text", "id": "heading", "label": "Heading (defaults to page title)" },
+    { "type": "text", "id": "effective_date", "label": "Last updated", "default": "17 October 2026" },
+    { "type": "text", "id": "markets_note", "label": "Optional note under the date" },
+    { "type": "richtext", "id": "intro", "label": "Intro", "default": "<p>Please read this policy carefully. Contact details are shown at the end of this page.</p>" },
+    { "type": "checkbox", "id": "show_contact_details", "label": "Show contact details block", "default": true },
+    { "type": "checkbox", "id": "use_page_content", "label": "Use Shopify page body content instead of blocks", "default": false },
+    { "type": "richtext", "id": "body", "label": "Optional full body (if not using blocks/page content)" },
+    { "type": "range", "id": "content_width", "min": 640, "max": 1280, "step": 20, "unit": "px", "label": "Content width", "default": 1280 },
+    { "type": "color", "id": "accent_color", "label": "Accent", "default": "#B68A35" },
+    { "type": "checkbox", "id": "show_contact_cta", "label": "Show contact CTA", "default": false },
+    { "type": "text", "id": "cta_text", "label": "CTA text", "default": "Questions about this policy? Contact our team." },
+    { "type": "text", "id": "cta_label", "label": "CTA button", "default": "Contact us" },
+    { "type": "url", "id": "cta_link", "label": "CTA link" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding top", "default": 32 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 100, "step": 4, "unit": "px", "label": "Padding bottom", "default": 48 }
+  ],
+  "blocks": [
+    {
+      "type": "section",
+      "name": "Policy section",
+      "settings": [
+        { "type": "text", "id": "eyebrow", "label": "Section pill", "default": "Policy section" },
+        { "type": "text", "id": "heading", "label": "Section heading", "default": "Overview" },
+        { "type": "richtext", "id": "content", "label": "Section content", "default": "<p>Add your policy wording.</p>" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Legal page" }]
+}
+{% endschema %}

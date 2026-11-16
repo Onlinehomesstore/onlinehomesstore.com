@@ -1,0 +1,161 @@
+{%- comment -%}
+ UC Wholesale Application - B2B partner inquiry form.
+ CSS prefix: uwa-
+{%- endcomment -%}
+{{ 'uc-wholesale-application.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+ assign s = section.settings
+ assign uid = section.id
+ assign form_id = 'uwa-form-' | append: uid
+ assign checklist = section.blocks | where: 'type', 'requirement'
+-%}
+
+{%- assign uc_sec_scope = '#UcWholesale-' | append: uid -%}
+{%- render 'uc-section-vars', section: section, scope: uc_sec_scope -%}
+{%- render 'uc-section-colors', section: section -%}
+
+{%- style -%}
+ #UcWholesale-{{ uid }} {
+ {%- if s.accent_color != blank -%}--uwa-accent: {{ s.accent_color }};{%- endif -%}
+ }
+ {%- if s.background_color != blank -%}
+ #UcWholesale-{{ uid }} { background: {{ s.background_color }}; }
+ {%- endif -%}
+{%- endstyle -%}
+
+<section id="UcWholesale-{{ uid }}" class="uwa uc-sec color-{{ s.color_scheme }}" data-uwa-section>
+ <div class="uc-sec__container uwa__grid">
+ <aside class="uwa__aside" data-uc-reveal>
+ {%- if s.eyebrow != blank -%}
+ <p class="uc-sec__eyebrow">{{ s.eyebrow | escape }}</p>
+ {%- endif -%}
+ {%- if s.heading != blank -%}
+ <h2 class="uc-sec__heading">{{ s.heading | escape }}</h2>
+ {%- endif -%}
+ {%- if s.subtitle != blank -%}
+ <p class="uc-sec__desc">{{ s.subtitle | escape }}</p>
+ {%- endif -%}
+ {%- if checklist.size > 0 -%}
+ <ul class="uwa__list">
+ {%- for block in checklist -%}
+ <li class="uwa__list-item" {{ block.shopify_attributes }}>
+ <span class="uwa__list-icon" aria-hidden="true">
+ {%- assign uwa_icon = block.settings.icon | default: 'check-circle-2' -%}
+ {%- render 'uc-icon', icon: uwa_icon, size: 18 -%}
+ </span>
+ <span>{{ block.settings.text | escape }}</span>
+ </li>
+ {%- endfor -%}
+ </ul>
+ {%- endif -%}
+ </aside>
+
+ <div class="uwa__form-card" data-uc-reveal>
+ {%- if s.form_heading != blank -%}
+ <h3 class="uc-sec__subheading" style="margin-bottom: 1rem;">{{ s.form_heading | escape }}</h3>
+ {%- endif -%}
+
+ {%- form 'contact', id: form_id, class: 'uwa__form' -%}
+ <input type="hidden" name="contact[tags]" value="wholesale,distributor">
+
+ {%- if form.posted_successfully? -%}
+ <p class="uc-form-msg is-success" role="status" tabindex="-1">{{ s.success_message | default: 'Thank you - our team will contact you shortly.' | escape }}</p>
+ {%- else -%}
+ {%- if form.errors -%}
+ <p class="uc-form-msg is-error" role="alert">{{ 'templates.contact.form.error_heading' | t | default: 'Please fix the errors below.' }}</p>
+ {%- endif -%}
+
+ <div class="uwa__fields uwa__fields--2">
+ <div class="uwa__field">
+ <label for="{{ form_id }}-company">{{ s.label_company | default: 'Business name' | escape }} <span aria-hidden="true">*</span></label>
+ <input id="{{ form_id }}-company" type="text" name="contact[company]" required autocomplete="organization">
+ </div>
+ <div class="uwa__field">
+ <label for="{{ form_id }}-name">{{ s.label_name | default: 'Contact name' | escape }} <span aria-hidden="true">*</span></label>
+ <input id="{{ form_id }}-name" type="text" name="contact[name]" required autocomplete="name" value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}">
+ </div>
+ <div class="uwa__field">
+ <label for="{{ form_id }}-email">{{ s.label_email | default: 'Email' | escape }} <span aria-hidden="true">*</span></label>
+ <input id="{{ form_id }}-email" type="email" name="contact[email]" required autocomplete="email" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}">
+ </div>
+ {%- if s.show_country -%}
+ <div class="uwa__field">
+ <label for="{{ form_id }}-country">{{ s.label_country | default: 'Country / region' | escape }}</label>
+ <input id="{{ form_id }}-country" type="text" name="contact[country]" autocomplete="country-name">
+ </div>
+ {%- endif -%}
+ {%- if s.show_volume -%}
+ <div class="uwa__field">
+ <label for="{{ form_id }}-volume">{{ s.label_volume | default: 'Estimated monthly volume' | escape }}</label>
+ <select id="{{ form_id }}-volume" name="contact[volume]">
+ <option value="">{{ s.volume_placeholder | default: 'Select range' | escape }}</option>
+ <option value="Starter (50 - 200 units)">Starter (50 - 200 units)</option>
+ <option value="Growth (200 - 1,000 units)">Growth (200 - 1,000 units)</option>
+ <option value="Enterprise (1,000+ units)">Enterprise (1,000+ units)</option>
+ </select>
+ </div>
+ {%- endif -%}
+ </div>
+ <div class="uwa__fields" style="margin-top: 16px;">
+ <div class="uwa__field">
+ <label for="{{ form_id }}-message">{{ s.label_message | default: 'Tell us about your business' | escape }}</label>
+ <textarea id="{{ form_id }}-message" name="contact[body]" rows="5">{{ form.body }}</textarea>
+ </div>
+ </div>
+ <button type="submit" class="uc-btn uc-btn--primary uwa__submit">{{ s.submit_label | default: 'Submit application' | escape }}</button>
+ {%- if s.privacy_note != blank -%}
+ <p class="uwa__privacy">{{ s.privacy_note | escape }}</p>
+ {%- endif -%}
+ {%- endif -%}
+ {%- endform -%}
+ </div>
+ </div>
+</section>
+
+{% schema %}
+{
+ "name": "UC Wholesale application",
+ "tag": "section",
+ "class": "section section-uc-wholesale-application",
+ "disabled_on": { "groups": ["header", "footer"] },
+ "max_blocks": 8,
+ "settings": [
+ { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Partner with us" },
+ { "type": "text", "id": "heading", "label": "Heading", "default": "Become a UNIK Care distributor" },
+ { "type": "textarea", "id": "subtitle", "label": "Subtitle", "default": "Apply below and our wholesale team will respond within 2 business days." },
+ { "type": "text", "id": "form_heading", "label": "Form heading", "default": "Application form" },
+ { "type": "text", "id": "submit_label", "label": "Submit button", "default": "Submit application" },
+ { "type": "text", "id": "success_message", "label": "Success message", "default": "Thank you - our wholesale team will contact you shortly." },
+ { "type": "textarea", "id": "privacy_note", "label": "Privacy note", "default": "Your information is kept confidential and used only to process your partnership inquiry." },
+ { "type": "checkbox", "id": "show_country", "label": "Show country field", "default": true },
+ { "type": "checkbox", "id": "show_volume", "label": "Show volume selector", "default": true },
+ { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 72 },
+ { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 72 },
+ { "type": "color_scheme", "id": "color_scheme", "label": "Colour scheme", "default": "scheme-1" },
+ { "type": "color", "id": "background_color", "label": "Background override" },
+ { "type": "color", "id": "accent_color", "label": "Accent colour" },
+ { "type": "checkbox", "id": "use_global_colors", "label": "Use global brand colors", "default": true }
+ ],
+ "blocks": [
+ {
+ "type": "requirement",
+ "name": "Requirement bullet",
+ "settings": [
+ { "type": "text", "id": "icon", "label": "Lucide icon", "default": "check-circle-2" },
+ { "type": "text", "id": "text", "label": "Text", "default": "Registered business with retail or salon presence" }
+ ]
+ }
+ ],
+ "presets": [
+ {
+ "name": "B2B - Wholesale application form",
+ "blocks": [
+ { "type": "requirement", "settings": { "text": "Valid trade or business registration" } },
+ { "type": "requirement", "settings": { "text": "Minimum opening order applies" } },
+ { "type": "requirement", "settings": { "text": "Dedicated account manager for approved partners" } }
+ ]
+ }
+ ]
+}
+{% endschema %}

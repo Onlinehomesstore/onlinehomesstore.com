@@ -1,0 +1,167 @@
+{%- comment -%}
+ UC Contact details + optional map (ucd- prefix). CSS: uc-contact-hub.css
+{%- endcomment -%}
+{{ 'uc-contact-hub.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+ assign s = section.settings
+ assign uid = section.id
+ assign infos = section.blocks | where: 'type', 'info'
+-%}
+
+{%- render 'uc-market-contact' -%}
+
+{%- capture details_scope -%}#UcContactDetails-{{ uid }}{%- endcapture -%}
+{%- render 'uc-section-vars', section: section, scope: details_scope -%}
+{%- render 'uc-section-colors', section: section -%}
+
+<section id="UcContactDetails-{{ uid }}" class="ucd uc-sec color-{{ s.color_scheme }}">
+ <div class="uc-sec__container">
+ {%- if s.heading != blank or s.eyebrow != blank -%}
+ <header class="ucc__header ucd__header" data-uc-reveal>
+ {%- if s.eyebrow != blank -%}<p class="uc-sec__eyebrow">{{ s.eyebrow | escape }}</p>{%- endif -%}
+ {%- if s.heading != blank -%}<h2 class="uc-sec__heading">{{ s.heading | escape }}</h2>{%- endif -%}
+ {%- if s.subtitle != blank -%}<p class="uc-sec__desc">{{ s.subtitle | escape }}</p>{%- endif -%}
+ {%- if s.show_market_banner and uc_market_shipping != blank -%}
+ <p class="ucd__market-chip">
+ {%- render 'uc-icon', icon: 'truck', size: 16 -%}
+ <span>{{ uc_market_shipping | escape }}</span>
+ </p>
+ {%- endif -%}
+ </header>
+ {%- endif -%}
+
+ <div class="ucd__grid">
+ <div class="ucd__stack" data-uc-reveal>
+ {%- if s.show_response_time and uc_market_support_note != blank -%}
+ <div class="ucd__highlight">
+ <span class="ucd__highlight-icon" aria-hidden="true">{%- render 'uc-icon', icon: 'clock', size: 20 -%}</span>
+ <div>
+ {%- if s.response_time_title != blank -%}<strong>{{ s.response_time_title | escape }}</strong>{%- endif -%}
+ <p>{{ uc_market_support_note | escape }}</p>
+ </div>
+ </div>
+ {%- endif -%}
+
+ <div class="ucd__cards">
+ {%- for block in infos -%}
+ {%- liquid
+ assign show_block = true
+ assign markets = block.settings.markets | strip | upcase
+ if markets != blank
+ assign show_block = false
+ assign market_parts = markets | split: ','
+ for part in market_parts
+ assign part_trim = part | strip
+ if part_trim == uc_market_iso
+ assign show_block = true
+ endif
+ endfor
+ endif
+
+ assign row_title = block.settings.title
+ assign row_text = block.settings.text
+
+ if block.settings.use_market_default
+ case block.settings.market_field
+ when 'phone'
+ assign show_block = false
+ when 'email'
+ assign row_text = uc_market_email
+ when 'address'
+ assign row_text = uc_market_address
+ when 'hours'
+ assign row_text = uc_market_hours
+ endcase
+ endif
+ -%}
+ {%- if show_block and row_text != blank -%}
+ <div class="ucd__info" {{ block.shopify_attributes }}>
+ <span class="ucd__info-icon" aria-hidden="true">
+ {%- assign ucd_icon = block.settings.icon | default: 'map-pin' -%}
+ {%- render 'uc-icon', icon: ucd_icon, size: 20 -%}
+ </span>
+ <div class="ucd__info-body">
+ {%- if row_title != blank -%}<strong>{{ row_title | escape }}</strong>{%- endif -%}
+ <p>{{ row_text | escape | newline_to_br }}</p>
+ </div>
+ </div>
+ {%- endif -%}
+ {%- endfor -%}
+ </div>
+
+ {%- if s.show_registration and settings.uc_company_registration != blank -%}
+ <p class="ucd__registration">{{ settings.uc_company_registration | escape }}</p>
+ {%- endif -%}
+ </div>
+
+ {%- if s.show_map and s.map_embed != blank -%}
+ {%- assign map_html = s.map_embed | replace: '<iframe ', '<iframe loading="lazy" ' -%}
+ <div class="ucd__map" data-uc-reveal>
+ {{ map_html }}
+ </div>
+ {%- endif -%}
+ </div>
+ </div>
+</section>
+
+{% schema %}
+{
+ "name": "UC Contact details",
+ "tag": "section",
+ "class": "section section-uc-contact-details",
+ "disabled_on": { "groups": ["header", "footer"] },
+ "max_blocks": 8,
+ "settings": [
+ { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Visit us" },
+ { "type": "text", "id": "heading", "label": "Heading", "default": "Business information" },
+ { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Details for your selected country." },
+ { "type": "checkbox", "id": "show_market_banner", "label": "Show market shipping message", "default": true, "info": "From Theme settings → UC Markets and contact." },
+ { "type": "checkbox", "id": "show_response_time", "label": "Show response time card", "default": true },
+ { "type": "text", "id": "response_time_title", "label": "Response time title", "default": "Typical response time" },
+ { "type": "checkbox", "id": "show_registration", "label": "Show company registration", "default": false },
+ { "type": "checkbox", "id": "show_map", "label": "Show map", "default": false },
+ { "type": "html", "id": "map_embed", "label": "Map embed HTML", "info": "Paste Google Maps iframe embed code." },
+ { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 40 },
+ { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 40 },
+ { "type": "checkbox", "id": "use_global_colors", "label": "Use global brand colors", "default": true },
+ { "type": "color_scheme", "id": "color_scheme", "label": "Colour scheme", "default": "scheme-1" }
+ ],
+ "blocks": [
+ {
+ "type": "info",
+ "name": "Info row",
+ "settings": [
+ { "type": "text", "id": "icon", "label": "Lucide icon", "default": "map-pin" },
+ { "type": "text", "id": "title", "label": "Title", "default": "Address" },
+ { "type": "textarea", "id": "text", "label": "Text", "info": "Ignored when using market default below." },
+ { "type": "checkbox", "id": "use_market_default", "label": "Use theme market default", "default": false },
+ {
+ "type": "select",
+ "id": "market_field",
+ "label": "Market field",
+ "default": "address",
+ "options": [
+ { "value": "address", "label": "Address" },
+ { "value": "email", "label": "Email" },
+ { "value": "phone", "label": "Phone" },
+ { "value": "hours", "label": "Hours" }
+ ]
+ },
+ { "type": "text", "id": "markets", "label": "Show only in markets", "info": "ISO codes comma-separated (GB, US). Leave blank for all markets." }
+ ]
+ }
+ ],
+ "presets": [
+ {
+ "name": "UC Contact details",
+ "blocks": [
+ { "type": "info", "settings": { "icon": "map-pin", "title": "Address", "use_market_default": true, "market_field": "address" } },
+ { "type": "info", "settings": { "icon": "mail", "title": "Email", "use_market_default": true, "market_field": "email" } },
+ { "type": "info", "settings": { "icon": "phone", "title": "Phone", "use_market_default": true, "market_field": "phone" } },
+ { "type": "info", "settings": { "icon": "clock", "title": "Hours", "use_market_default": true, "market_field": "hours" } }
+ ]
+ }
+ ]
+}
+{% endschema %}

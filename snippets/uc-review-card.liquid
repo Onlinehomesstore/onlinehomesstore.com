@@ -1,0 +1,17 @@
+{%- assign r_pct = rating | times: 20 -%}
+<article class="upr__card is-visible is-revealed" data-verified="false" data-rating="{{ rating }}" data-has-photos="false">
+  <div class="upr__card-top">
+    <span class="upr__stars upr__stars--sm" style="--upr-pct: {{ r_pct }}%;" aria-hidden="true"></span>
+    <span class="upr__badge">Verified</span>
+    {%- if date != blank -%}<span class="upr__date">{{ date | date: '%b %Y' }}</span>{%- endif -%}
+  </div>
+  {%- if title != blank -%}<h3 class="upr__card-title">{{ title | escape }}</h3>{%- endif -%}
+  <p class="upr__card-body">{{ body | escape }}</p>
+  <div class="upr__card-foot">
+    <span class="upr__avatar" aria-hidden="true">{{ author | slice: 0 | upcase }}</span>
+    <span class="upr__author">
+      <strong>{{ author | escape }}</strong>
+      {%- if location != blank -%}<em>{{ location | escape }}</em>{%- endif -%}
+    </span>
+  </div>
+</article>

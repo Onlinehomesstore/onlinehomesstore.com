@@ -1,0 +1,594 @@
+/*
+  UC Mobile Premium — professional phone & tablet storefront polish
+  Loaded last (theme.liquid) so it safely overrides Dawn quirks.
+  Does not change desktop layout above 990px except soft heading breaks.
+*/
+
+/* ── 1) Kill letter-stacking from Dawn headings ───────────────────────────── */
+h1, h2, h3, h4, h5,
+.h0, .h1, .h2, .h3, .h4, .h5 {
+  word-break: normal;
+  overflow-wrap: break-word;
+  hyphens: none;
+}
+
+.vr-feature__title,
+.vr__heading,
+.cs-card__title,
+.category-showcase__title,
+.pc-card__title,
+.pf-card__title,
+.ueh__heading,
+.ueh__heading p,
+.pt__heading,
+.pvr__heading,
+.ba__heading,
+.ufc__title,
+.pvr-card__product-title {
+  word-break: normal !important;
+  overflow-wrap: normal;
+  hyphens: none;
+}
+
+/* ── 2) Visible Results — never squeeze copy into a 1-letter column ───────── */
+.vr__heading {
+  max-width: none;
+}
+
+.vr__intro,
+.vr__content,
+.vr__features,
+.vr-feature,
+.vr-feature__text {
+  min-width: 0;
+}
+
+@media screen and (max-width: 989px) {
+  .vr__grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .vr__intro {
+    position: static;
+    min-height: 0;
+    text-align: left;
+    align-items: flex-start;
+  }
+
+  .vr__heading {
+    max-width: none;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .vr__features {
+    grid-template-columns: 1fr !important;
+    gap: 12px;
+  }
+
+  .vr-feature {
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+  }
+
+  .vr-feature__title {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: unset !important;
+    font-size: 1rem;
+    line-height: 1.3;
+  }
+
+  .vr-feature__desc {
+    font-size: 0.875rem;
+  }
+
+  /* 2×2 stats grid on mobile (5th item spans or sits in next row) */
+  .vr__stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px 10px;
+    padding: 16px 14px;
+  }
+
+  .vr-stat {
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6px;
+    text-align: center;
+    min-height: 0;
+    padding-block: 8px;
+  }
+
+  .vr-stat__num {
+    font-size: 22px !important;
+    line-height: 1.1 !important;
+  }
+
+  .vr-stat__title {
+    font-size: 13px !important;
+    line-height: 1.3 !important;
+  }
+
+  .vr-stat__subtitle {
+    font-size: 11px !important;
+    line-height: 1.3 !important;
+    opacity: 0.72;
+  }
+
+  .vr__stats .vr-stat:nth-child(5):last-child {
+    grid-column: 1 / -1;
+    max-width: 50%;
+    justify-self: center;
+  }
+}
+
+/* ── 3) Product cards — premium mobile density ───────────────────────────── */
+.pc-card,
+.pf-card,
+.pc-card__info,
+.pc-card__title-link {
+  min-width: 0;
+}
+
+.pc-card__title,
+.pf-card__title {
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+@media screen and (max-width: 749px) {
+  .pf-showcase .category-showcase__grid {
+    display: flex !important;
+    grid-template-columns: none !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scroll-snap-type: x mandatory;
+    gap: 14px !important;
+    scrollbar-width: none;
+  }
+  .pf-showcase .category-showcase__grid::-webkit-scrollbar { display: none; }
+  .pf-showcase .category-showcase__cell {
+    flex: 0 0 100%;
+    max-width: 100%;
+    scroll-snap-align: start;
+  }
+
+  .pf-card,
+  .pc-card {
+    min-height: 0 !important;
+  }
+
+  .pc-card__actions,
+  .pf-card__actions {
+    grid-template-columns: auto 1fr;
+    gap: 8px;
+    position: relative;
+    z-index: 30;
+    pointer-events: auto;
+  }
+
+  .pc-card__btn,
+  .pf-card__btn,
+  .pc-card .uc-btn,
+  .pf-card .uc-btn {
+    min-height: 44px;
+    width: 100%;
+    min-width: 0;
+    justify-content: center;
+    padding: 0 10px;
+    font-size: 12px;
+    pointer-events: auto !important;
+    touch-action: manipulation;
+  }
+
+  .pc-card__btn--add {
+    width: 44px;
+    min-width: 44px;
+    max-width: 44px;
+    padding: 0;
+  }
+
+  .pc-card__btn--add .pc-card__btn-text {
+    display: none !important;
+  }
+
+  .pc-card__btn--add .pc-card__btn-icon {
+    display: inline-flex !important;
+  }
+
+  .pc-card__btn-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .pc-card__form {
+    position: relative;
+    z-index: 30;
+    pointer-events: auto !important;
+  }
+
+  .pc-card__info,
+  .pf-card__info {
+    padding: 12px 10px 14px;
+    gap: 8px;
+  }
+
+  .pc-card__title,
+  .pf-card__title {
+    font-size: 0.9rem;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+/* ── 4) Category showcase ────────────────────────────────────────────────── */
+.cs-card__title,
+.category-showcase__card-title {
+  word-break: normal;
+  overflow-wrap: break-word;
+}
+
+@media screen and (max-width: 749px) {
+  .category-showcase__header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .category-showcase__header-actions {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .category-showcase__header-btn {
+    min-height: 44px;
+    margin-right: auto;
+  }
+
+  .category-showcase[data-slider='true'] .category-showcase__cell {
+    flex: 0 0 100%;
+    max-width: 100%;
+    scroll-snap-align: start;
+  }
+
+  .cs-card__badge,
+  .category-showcase__badge {
+    max-width: calc(100% - 1.25rem);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+/* ── 5) Video reels — readable card width ────────────────────────────────── */
+@media screen and (max-width: 749px) {
+  .pvr__track {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+  }
+
+  .pvr__cell,
+  .pvr-card,
+  .pvr-card__media {
+    overflow: hidden !important;
+  }
+
+  .pvr__cell {
+    flex: 0 0 calc((100% - 12px) / 2) !important;
+    max-width: calc((100% - 12px) / 2) !important;
+  }
+
+  .pvr-card__poster {
+    object-fit: cover !important;
+    object-position: center center !important;
+    transform: none !important;
+  }
+
+  .pvr-card__video-slot > video {
+    object-fit: cover !important;
+    object-position: center center !important;
+    transform: none !important;
+  }
+
+  .pvr-card__media {
+    transform: none !important;
+  }
+
+  .pvr-card:hover .pvr-card__media {
+    transform: none !important;
+  }
+
+  .pvr-card__product-title {
+    word-break: normal;
+    overflow-wrap: break-word;
+    -webkit-line-clamp: 2;
+  }
+}
+
+/* ── 6) Hero — mobile stacks copy UNDER banner (never overlay) ───────────── */
+@media screen and (max-width: 749px) {
+  body.template-index .ueh,
+  .ueh {
+    padding-top: var(--uc-phdr-float-y, 12px) !important;
+    padding-inline: 12px;
+    padding-bottom: 4px;
+    margin-top: 0;
+  }
+
+  .ueh__frame {
+    border-radius: 18px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 10px 28px rgba(23, 23, 23, 0.06);
+    margin-top: 0;
+  }
+
+  .ueh__viewport {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .ueh__slide {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 0 0 100% !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: hidden !important;
+  }
+
+  .ueh__media,
+  .ueh__media picture {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 4 / 5;
+    max-height: none;
+  }
+
+  .ueh__arrow {
+    display: none !important;
+  }
+
+  .ueh__img,
+  .ueh__media img {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    transform: none !important;
+  }
+
+  .ueh__overlay {
+    display: none !important;
+  }
+
+  .ueh__content {
+    position: relative !important;
+    inset: auto !important;
+    padding: 18px 16px 20px !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    --ueh-text: var(--uc-theme-text-mobile, #171717);
+    color: var(--ueh-text) !important;
+  }
+
+  .ueh__copy {
+    color: var(--uc-theme-text-mobile, var(--ueh-text, #171717)) !important;
+  }
+
+  .ueh__heading,
+  .ueh__desc,
+  .ueh__eyebrow {
+    color: inherit !important;
+    text-shadow: none !important;
+  }
+
+  .ueh__heading {
+    font-size: var(--ueh-h-size, 26px) !important;
+    line-height: 1.18;
+  }
+
+  .ueh__actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    max-width: none;
+  }
+
+  .ueh__btn {
+    min-height: 48px;
+    width: 100%;
+  }
+}
+
+/* ── 7) Header / page rhythm ─────────────────────────────────────────────── */
+@media screen and (max-width: 749px) {
+  .uc-phdr__float--capsule {
+    margin-top: max(8px, env(safe-area-inset-top, 0px)) !important;
+    margin-inline: 12px !important;
+    width: calc(100% - 24px) !important;
+    max-width: none;
+    padding-inline: 6px;
+    box-sizing: border-box;
+  }
+
+  .uc-phdr__bar {
+    min-height: 52px;
+    gap: 4px;
+    padding-inline: 4px;
+  }
+
+  .uc-phdr__logo img,
+  .uc-phdr__logo-img {
+    max-height: 28px;
+    width: auto;
+  }
+
+  .uc-phdr__tools {
+    gap: 2px;
+  }
+
+  .uc-phdr__tool {
+    width: 36px !important;
+    height: 36px !important;
+  }
+
+  .uc-phdr__menu-btn {
+    width: 38px;
+    height: 38px;
+  }
+
+  #MainContent {
+    padding-bottom: calc(24px + env(safe-area-inset-bottom));
+  }
+
+  .shopify-section {
+    margin-inline: 0;
+  }
+
+  .page-width,
+  .uc-sec__container {
+    padding-inline: max(16px, env(safe-area-inset-left)) max(16px, env(safe-area-inset-right));
+  }
+
+  /* Consistent section breathing room */
+  .template-index .shopify-section + .shopify-section {
+    margin-top: 0;
+  }
+
+  .ba__card {
+    padding: 18px 16px;
+  }
+
+  .ba__heading {
+    font-size: clamp(1.4rem, 6vw, 1.85rem);
+  }
+
+  .pt__header,
+  .pvr__header,
+  .vr__intro,
+  .category-showcase__header {
+    margin-bottom: 18px;
+  }
+}
+
+/* ── 8) Testimonials / before-after / forms ──────────────────────────────── */
+@media screen and (max-width: 749px) {
+  .pt__card,
+  .product-testimonials .pt-card {
+    min-width: min(86vw, 340px);
+  }
+
+  .ba__compare {
+    min-height: 280px;
+  }
+
+  input,
+  textarea,
+  select,
+  .field__input,
+  .button,
+  .uc-btn {
+    font-size: 16px; /* prevent iOS zoom */
+  }
+}
+
+/* ── 9) Soften Dawn break-all on mobile chrome ───────────────────────────── */
+@media screen and (max-width: 749px) {
+  .localization-form .button {
+    word-break: normal;
+    overflow-wrap: break-word;
+    white-space: normal;
+  }
+
+  .predictive-search__item--term {
+    word-break: normal;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* ── 10) Tablet polish (keep premium, avoid cramped 4-cols) ──────────────── */
+@media screen and (min-width: 750px) and (max-width: 989px) {
+  .vr__features {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .vr-feature__title {
+    white-space: normal;
+  }
+
+  .ueh__viewport {
+    min-height: 480px;
+  }
+}
+
+/* -- Announcement bar compact luxury height ------------------------------- */
+.utility-bar,
+.announcement-bar,
+.announcement-bar__message {
+  min-height: 0;
+}
+.utility-bar {
+  --uc-announce-h: 42px;
+}
+.announcement-bar__message {
+  min-height: var(--uc-announce-h, 42px);
+  padding-block: 0.55rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+}
+@media screen and (max-width: 749px) {
+  .utility-bar { --uc-announce-h: 40px; }
+  .announcement-bar__message {
+    min-height: var(--uc-announce-h, 40px);
+    padding-block: 0.45rem;
+    font-size: 0.8125rem;
+  }
+}
+
+/* Mobile-first layout safety — no type changes */
+@media screen and (max-width: 749px) {
+  #MainContent,
+  .uc-sec__container,
+  .page-width {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  img,
+  video,
+  iframe,
+  svg {
+    max-width: 100%;
+  }
+
+  .uc-ft-section,
+  .uc-phdr,
+  .pvr,
+  .category-showcase,
+  .pph {
+    overflow-x: clip;
+  }
+
+  .uc-ft-nav-col__toggle {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}

@@ -1,0 +1,19 @@
+{% comment %}
+  uc-online-store-schema.liquid - OnlineStore JSON-LD for homepage.
+{% endcomment %}
+{% if request.page_type == 'index' %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "OnlineStore",
+  "@id": "https://unikcare.eu/#organization",
+  "name": "UNIK CARE",
+  "url": "https://unikcare.eu/",
+  "currenciesAccepted": "GBP",
+  "areaServed": {
+    "@type": "Country",
+    "name": "United Kingdom"
+  }
+}
+</script>
+{% endif %}

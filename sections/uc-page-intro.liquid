@@ -1,0 +1,108 @@
+{%- comment -%}
+ UC Page intro - centered title + tagline (no banner / hero media).
+ Use on About, Contact, Wishlist and other sub-pages instead of editorial hero.
+{%- endcomment -%}
+{{ 'uc-page-intro.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+ assign s = section.settings
+ assign uid = section.id
+ assign title = s.heading
+ if title == blank
+ if collection != blank
+ assign title = collection.title
+ elsif page != blank
+ assign title = page.title
+ elsif blog != blank
+ assign title = blog.title
+ endif
+ endif
+-%}
+
+{%- capture intro_scope -%}#UcPageIntro-{{ uid }}{%- endcapture -%}
+{%- render 'uc-section-vars', section: section, scope: intro_scope -%}
+{%- render 'uc-section-colors', section: section -%}
+
+<section
+ id="UcPageIntro-{{ uid }}"
+ class="upi uc-sec color-{{ s.color_scheme }}"
+ data-uc-page-intro
+ style="
+ --upi-pad-top: {{ s.padding_top }}px;
+ --upi-pad-bottom: {{ s.padding_bottom }}px;
+ "
+>
+ <div class="upi__inner uc-sec__container">
+ {%- if s.eyebrow != blank -%}
+ <p class="upi__eyebrow">{{ s.eyebrow | escape }}</p>
+ {%- endif -%}
+ {%- if title != blank -%}
+ <h1 class="upi__title">{{ title | escape }}</h1>
+ {%- endif -%}
+ {%- if s.tagline != blank -%}
+ <p class="upi__tagline">{{ s.tagline | escape }}</p>
+ {%- endif -%}
+ </div>
+</section>
+
+{% schema %}
+{
+ "name": "UC Page intro",
+ "tag": "section",
+ "class": "section section-uc-page-intro",
+ "disabled_on": { "groups": ["header", "footer"] },
+ "settings": [
+ {
+ "type": "text",
+ "id": "eyebrow",
+ "label": "Eyebrow",
+ "default": "UNIK CARE"
+ },
+ {
+ "type": "text",
+ "id": "heading",
+ "label": "Page title",
+ "info": "Leave blank to use the page title from Shopify Admin."
+ },
+ {
+ "type": "textarea",
+ "id": "tagline",
+ "label": "Tagline",
+ "default": "Write your own short supporting line for this page."
+ },
+ {
+ "type": "range",
+ "id": "padding_top",
+ "label": "Padding top",
+ "min": 0,
+ "max": 120,
+ "step": 4,
+ "unit": "px",
+ "default": 28
+ },
+ {
+ "type": "range",
+ "id": "padding_bottom",
+ "label": "Padding bottom",
+ "min": 0,
+ "max": 120,
+ "step": 4,
+ "unit": "px",
+ "default": 20
+ },
+ {
+ "type": "checkbox",
+ "id": "use_global_colors",
+ "label": "Use global brand colors",
+ "default": true
+ },
+ {
+ "type": "color_scheme",
+ "id": "color_scheme",
+ "label": "Colour scheme",
+ "default": "scheme-1"
+ }
+ ],
+ "presets": [{ "name": "UC Page intro" }]
+}
+{% endschema %}

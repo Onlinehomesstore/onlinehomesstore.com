@@ -1,0 +1,431 @@
+{%- comment -%}
+ ============================================================================
+ PRODUCT VIDEO REVIEWS
+ ----
+ Product-page adaptation of the homepage Premium Video Reels section.
+
+ REUSE STRATEGY (zero code duplication):
+  Loads the same premium-video-reels.css -> 100% carousel/slider/popup CSS
+  Loads the same premium-video-reels.js -> 100% slider, video, AJAX logic
+  Uses the same <premium-video-reels> custom element with identical HTML
+ structure (.pvr__inner / .pvr__viewport / .pvr__track / .pvr__cell /
+ .pvr-card__media + data-pvr-* attributes)
+  Adds ONLY product-video-reviews.css for the review card content styles
+ (.pvr-card__review, .pvr-review__*, ~120 lines)  -  nothing else new
+
+ The difference vs. homepage: each card shows customer review info
+ (.pvr-card__review) instead of a shoppable product card (.pvr-card__product).
+ The video player, swipe, popup, autoplay, pagination  -  100% identical.
+ ============================================================================
+{%- endcomment -%}
+{{ 'premium-video-reels.css' | asset_url | stylesheet_tag }}
+{{ 'uc-reels-redesign.css' | asset_url | stylesheet_tag }}
+{{ 'product-video-reviews.css' | asset_url | stylesheet_tag }}
+
+<script src="{{ 'premium-video-reels.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+ assign s = section.settings
+ assign uid = section.id
+
+ assign container_max = '1200px'
+ case s.container_width
+ when 'narrow'
+ assign container_max = '1080px'
+ when 'wide'
+ assign container_max = '1440px'
+ when 'full'
+ assign container_max = 'none'
+ endcase
+
+ assign anim = s.animation_speed | default: 280
+-%}
+
+{%- assign uc_sec_scope = '#ProductVideoReviews-' | append: uid -%}
+{%- render 'uc-section-vars', section: section, scope: uc_sec_scope -%}
+{%- render 'uc-section-colors', section: section -%}
+
+{%- style -%}
+ #ProductVideoReviews-{{ uid }} {
+ --pvr-bg: {{ s.background_color | default: 'rgb(var(--color-background))' }};
+ --pvr-heading-color: {{ s.heading_color | default: 'rgb(var(--color-foreground))' }};
+ --pvr-subtitle-color: {{ s.subtitle_color | default: 'rgba(var(--color-foreground), 0.65)' }};
+ --pvr-container-max: {{ container_max }};
+ --pvr-card-radius: {{ s.card_radius | default: 18 }}px;
+ --pvr-card-shadow: {{ s.card_shadow | default: 16 }};
+ --pvr-gap: {{ s.card_gap | default: 16 }}px;
+ --pvr-pad-top: {{ s.padding_top | default: 56 }}px;
+ --pvr-pad-bottom: {{ s.padding_bottom | default: 56 }}px;
+ --pvr-per-desktop: {{ s.cards_desktop | default: 5 }};
+ --pvr-per-laptop: {{ s.cards_laptop | default: 4 }};
+ --pvr-per-tablet: {{ s.cards_tablet | default: 3 }};
+ --pvr-per-mobile: {{ s.cards_mobile | default: 2 }};
+ --pvr-per-small: {{ s.cards_small | default: '1' }};
+ --pvr-anim: {{ anim }}ms;
+ --pvr-viewbox: 9 / 16;
+ }
+ {%- if s.background_color != blank -%}
+ #ProductVideoReviews-{{ uid }} { background: {{ s.background_color }}; }
+ {%- endif -%}
+{%- endstyle -%}
+
+{%- comment -%}
+ The outer element is <premium-video-reels>  -  exactly the same custom element
+ tag and attributes as the homepage version. The JS reads data-* attributes
+ from this element to configure slider, autoplay, popup, etc.
+{%- endcomment -%}
+<premium-video-reels
+ id="ProductVideoReviews-{{ uid }}"
+ class="pvr color-{{ s.color_scheme }} pvr--align-{{ s.heading_alignment }}"
+ data-section-id="{{ uid }}"
+ {% if s.heading_color != blank or s.subtitle_color != blank or s.heading_color_mobile != blank or s.subtitle_color_mobile != blank %}data-uc-theme-text style="{% render 'uc-theme-text-vars', heading: s.heading_color, heading_mobile: s.heading_color_mobile, body: s.subtitle_color, body_mobile: s.subtitle_color_mobile %}"{% endif %}
+ data-autoplay="false"
+ data-reel-order="{{ s.order_mode | default: 'sync' }}"
+ data-reel-master-id="{{ s.reel_master_id | default: 'premium_video_reels_CkL9Fj' }}"
+ data-loop="{{ s.loop }}"
+ data-muted="{{ s.start_muted }}"
+ data-hover="{{ s.enable_hover }}"
+ data-glass="{{ s.glass_effect }}"
+ data-popup="{{ s.enable_popup }}"
+ data-arrows="{{ s.show_arrows }}"
+ data-pagination="{{ s.pagination_style }}"
+ data-overlay="false"
+>
+ <div class="pvr__inner uc-sec__container">
+
+ {%- if s.label != blank or s.heading != blank or s.subtitle != blank -%}
+ <header class="pvr__header" data-pvr-reveal>
+ {%- if s.label != blank -%}
+ <p class="pvr__label">{{ s.label | escape }}</p>
+ {%- endif -%}
+ {%- if s.heading != blank -%}
+ <h2 class="pvr__heading uc-sec__heading">{{ s.heading | escape }}</h2>
+ {%- endif -%}
+ {%- if s.show_divider -%}
+ <span class="pvr__divider" aria-hidden="true"></span>
+ {%- endif -%}
+ {%- if s.subtitle != blank -%}
+ <p class="pvr__subtitle">{{ s.subtitle | escape }}</p>
+ {%- endif -%}
+ </header>
+ {%- endif -%}
+
+ {%- if section.blocks.size > 0 -%}
+ <div class="pvr__viewport">
+ {%- if s.show_arrows -%}
+ <button type="button" class="pvr__arrow pvr__arrow--prev" data-pvr-prev aria-label="Previous reviews">
+ <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+ </button>
+ <button type="button" class="pvr__arrow pvr__arrow--next" data-pvr-next aria-label="Next reviews">
+ <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+ </button>
+ {%- endif -%}
+
+ <ul
+ class="pvr__track"
+ data-pvr-track
+ role="list"
+ tabindex="0"
+ aria-label="{{ s.heading | default: 'Customer video reviews' | escape }}"
+ >
+ {%- for block in section.blocks -%}
+ {%- liquid
+ assign b = block.settings
+ assign vid = b.video_shopify
+ assign ext = b.video_url | strip
+
+ assign mp4src = ''
+ if vid != blank
+ for source in vid.sources
+ if source.format == 'mp4'
+ assign mp4src = source.url
+ endif
+ endfor
+ endif
+
+ assign uc_poster_image = blank
+ assign uc_poster_url = blank
+ assign uc_video_provider = 'unknown'
+ assign uc_video_id = ''
+ -%}
+ {%- include 'uc-video-poster', video_shopify: vid, video_url: ext, poster: b.poster, thumbnail: blank, poster_url: blank, product: blank, thumbnail_mode: 'auto' -%}
+ {%- liquid
+ assign star_pct = b.rating | times: 20
+ assign pvr_star_label = 'Rated ' | append: b.rating | append: ' out of 5 stars'
+ -%}
+
+ <li
+ class="pvr__cell"
+ {{ block.shopify_attributes }}
+ data-pvr-cell
+ data-block-id="{{ block.id }}"
+ data-video-shopify="{{ mp4src | escape }}"
+ data-video-url="{{ ext | escape }}"
+ data-video-provider="{{ uc_video_provider | escape }}"
+ data-video-id="{{ uc_video_id | escape }}"
+ data-thumb-auto="true"
+ data-autoplay-block="{{ b.autoplay }}"
+ data-muted-block="{{ b.mute }}"
+ data-gradient="false"
+ >
+ <article class="pvr-card">
+
+ {%- comment -%} Media area  -  100% reuse of pvr-card__media structure {%- endcomment -%}
+ <div class="pvr-card__media" data-pvr-media style="--pvr-card-h: {{ b.video_height | default: 380 }}px;">
+ <div class="pvr-card__skeleton" data-pvr-skeleton aria-hidden="true"></div>
+
+ {%- if uc_poster_image != blank -%}
+ {%- assign pvr_poster_alt = b.customer_name | default: 'Customer review video' | escape -%}
+ {{
+ uc_poster_image
+ | image_url: width: 720
+ | image_tag:
+ class: 'pvr-card__poster',
+ loading: 'lazy',
+ widths: '360, 540, 720',
+ sizes: '(min-width: 990px) 240px, 55vw',
+ alt: pvr_poster_alt
+ }}
+ {%- elsif uc_poster_url != blank -%}
+ <img
+ class="pvr-card__poster"
+ src="{{ uc_poster_url | escape }}"
+ data-poster-url="{{ uc_poster_url | escape }}"
+ loading="lazy"
+ width="480"
+ height="854"
+ alt="{{ b.customer_name | default: 'Customer review video' | escape }}"
+ referrerpolicy="no-referrer"
+ decoding="async"
+ >
+ {%- elsif ext != blank or mp4src != blank -%}
+ <img
+ class="pvr-card__poster pvr-card__poster--pending"
+ data-poster-pending="true"
+ {% if uc_video_id != blank %}data-tiktok-id="{{ uc_video_id | escape }}"{% endif %}
+ alt="{{ b.customer_name | default: 'Customer review video' | escape }}"
+ width="480"
+ height="854"
+ referrerpolicy="no-referrer"
+ decoding="async"
+ hidden
+ >
+ {%- else -%}
+ <div class="pvr-card__poster pvr-card__poster--empty">
+ {{ 'lifestyle-1' | placeholder_svg_tag: 'pvr-card__placeholder' }}
+ </div>
+ {%- endif -%}
+
+ <div class="pvr-card__video-slot" data-pvr-video-slot></div>
+
+ {%- if b.badge != 'none' -%}
+ <span class="pvr-card__badge pvr-card__badge--{{ b.badge }}">
+ {{ b.badge | upcase }}
+ </span>
+ {%- endif -%}
+
+ <button type="button" class="pvr-card__hit" data-pvr-toggle aria-label="Play or pause review"></button>
+ <button type="button" class="pvr-card__mute" data-pvr-mute aria-label="Toggle mute" aria-pressed="true">
+ <svg class="pvr-card__mute-on" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8.65v6.7A4.47 4.47 0 0 0 16.5 12zM14 3.23v2.06a7 7 0 0 1 0 13.42v2.06A9 9 0 0 0 14 3.23z"/></svg>
+ <svg class="pvr-card__mute-off" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" hidden><path fill="currentColor" d="M16.5 12A4.5 4.5 0 0 0 14 8.65v2.2l2.45 2.45c.03-.2.05-.41.05-.62zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51A8.8 8.8 0 0 0 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06a9 9 0 0 0 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+ </button>
+
+ <span class="pvr-card__cue" aria-hidden="true">
+ <svg viewBox="0 0 24 24" width="18" height="18"><polygon points="6 3 20 12 6 21 6 3" fill="currentColor"/></svg>
+ </span>
+
+ <div class="pvr-card__spinner" data-pvr-spinner hidden aria-hidden="true">
+ <svg viewBox="0 0 24 24" width="30" height="30"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="46" stroke-linecap="round"/></svg>
+ </div>
+
+ <div class="pvr-card__progress" data-pvr-progress aria-hidden="true">
+ <span class="pvr-card__progress-buffer" data-pvr-buffer></span>
+ <span class="pvr-card__progress-fill" data-pvr-fill></span>
+ </div>
+ </div>
+
+ {%- comment -%} Review card  -  replaces pvr-card__product; same glass technique {%- endcomment -%}
+ <div class="pvr-card__review{% if s.glass_effect %} is-glass{% endif %}">
+ <div class="pvr-review__header">
+ {%- render 'uc-star-rating', pct: star_pct, class: 'pvr-review__stars', label: pvr_star_label -%}
+ {%- if b.verified -%}
+ <span class="pvr-review__verified" aria-label="Verified purchase">{%- render 'uc-icon', icon: 'check', size: 12, class: 'pvr-review__verified-icon' -%} Verified</span>
+ {%- endif -%}
+ </div>
+
+ {%- if b.review_text != blank -%}
+ <p class="pvr-review__text" lang="{{ request.locale.iso_code }}">&ldquo;{{ b.review_text | escape }}&rdquo;</p>
+ {%- endif -%}
+
+ <div class="pvr-review__meta">
+ <div class="pvr-review__customer">
+ {%- if b.customer_name != blank -%}
+ <strong class="pvr-review__name">{{ b.customer_name | escape }}</strong>
+ {%- endif -%}
+ {%- if b.location != blank -%}
+ <span class="pvr-review__location">{{ b.location | escape }}</span>
+ {%- endif -%}
+ </div>
+ {%- if b.result_time != blank -%}
+ <span class="pvr-review__result">{{ b.result_time | escape }}</span>
+ {%- endif -%}
+ </div>
+ </div>
+
+ {%- comment -%} Data island for popup: customer info instead of product info {%- endcomment -%}
+ <script type="application/json" data-pvr-data>
+ {
+ "id": {{ block.id | json }},
+ "title": {{ b.customer_name | default: 'Customer Review' | json }},
+ "vendor": {{ b.location | json }},
+ "description": {{ b.review_text | json }},
+ "available": false,
+ "onSale": false,
+ "priceHtml": "",
+ "compareHtml": "",
+ "image": ""
+ }
+ </script>
+
+ </article>
+ </li>
+ {%- endfor -%}
+ </ul>
+ </div>
+
+ {%- if s.pagination_style == 'dots' -%}
+ <div class="pvr__dots" data-pvr-dots role="group" aria-label="Video review slides" hidden></div>
+ {%- elsif s.pagination_style == 'progress' -%}
+ <div class="pvr__progressbar" data-pvr-scrollbar aria-hidden="true"><span data-pvr-scrollfill></span></div>
+ {%- elsif s.pagination_style == 'numbers' -%}
+ <div class="pvr__numbers" data-pvr-numbers aria-hidden="true">
+ <span data-pvr-num-current>1</span> / <span data-pvr-num-total>{{ section.blocks.size }}</span>
+ </div>
+ {%- endif -%}
+
+ {%- else -%}
+ <div class="pvr__empty">Add video review blocks to display customer testimonials.</div>
+ {%- endif -%}
+ </div>
+</premium-video-reels>
+
+{% schema %}
+{
+ "name": "UC Video reviews",
+ "tag": "section",
+ "class": "section section-product-video-reviews",
+ "max_blocks": 50,
+ "settings": [
+ { "type": "paragraph", "content": "Add up to 50 video reviews here. Duplicate this section if you need more. Keep existing video links as they are." },
+ { "type": "header", "content": "Section header" },
+ { "type": "text", "id": "label", "label": "Eyebrow label", "default": "Customer reviews" },
+ { "type": "text", "id": "heading", "label": "Heading", "default": "See real results" },
+ { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Real customers. Real transformations. Watch and decide." },
+ { "type": "checkbox", "id": "show_divider", "label": "Show divider", "default": true },
+ {
+ "type": "select", "id": "heading_alignment", "label": "Alignment", "default": "center",
+ "options": [
+ { "value": "left", "label": "Left" },
+ { "value": "center", "label": "Center" },
+ { "value": "right", "label": "Right" }
+ ]
+ },
+
+ { "type": "header", "content": "Layout" },
+ {
+ "type": "select", "id": "container_width", "label": "Container width", "default": "medium",
+ "options": [
+ { "value": "narrow", "label": "Narrow (1080px)" },
+ { "value": "medium", "label": "Medium (1200px)" },
+ { "value": "wide", "label": "Wide (1440px)" },
+ { "value": "full", "label": "Full width" }
+ ]
+ },
+ { "type": "range", "id": "card_gap", "label": "Card gap", "min": 8, "max": 40, "step": 2, "unit": "px", "default": 16 },
+ { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 },
+ { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 },
+
+ { "type": "header", "content": "UC - Responsive spacing" },
+ { "type": "range", "id": "pad_top_lg", "label": "Top padding - laptop (990px+)", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+ { "type": "range", "id": "pad_top_xxl", "label": "Top padding - large desktop (1440px+)", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 96 },
+ { "type": "range", "id": "container_max_lg", "label": "Container max width - laptop+", "min": 960, "max": 1600, "step": 20, "unit": "px", "default": 1280 },
+ { "type": "select", "id": "container_mode", "label": "Container", "default": "boxed", "options": [{"value":"boxed","label":"Boxed"},{"value":"full","label":"Full width"}] },
+ { "type": "header", "content": "Typography — sizes by device" },
+ { "type": "paragraph", "content": "Set font sizes per breakpoint. Values apply immediately (no override checkbox required)." },
+ { "type": "range", "id": "eyebrow_size_xs", "label": "Eyebrow / pill label — mobile", "min": 9, "max": 18, "step": 1, "unit": "px", "default": 11 },
+ { "type": "range", "id": "eyebrow_size_md", "label": "Eyebrow / pill label — tablet (750px+)", "min": 9, "max": 18, "step": 1, "unit": "px", "default": 11 },
+ { "type": "range", "id": "eyebrow_size_lg", "label": "Eyebrow / pill label — laptop (990px+)", "min": 9, "max": 20, "step": 1, "unit": "px", "default": 12 },
+ { "type": "range", "id": "eyebrow_size_xxl", "label": "Eyebrow / pill label — large desktop", "min": 9, "max": 20, "step": 1, "unit": "px", "default": 12 },
+ { "type": "range", "id": "h_size_xs", "label": "Heading — mobile", "min": 18, "max": 56, "step": 1, "unit": "px", "default": 24 },
+ { "type": "range", "id": "h_size_md", "label": "Heading — tablet (750px+)", "min": 18, "max": 64, "step": 1, "unit": "px", "default": 26 },
+ { "type": "range", "id": "h_size_lg", "label": "Heading — laptop (990px+)", "min": 20, "max": 64, "step": 1, "unit": "px", "default": 30 },
+ { "type": "range", "id": "h_size_xxl", "label": "Heading — large desktop", "min": 20, "max": 72, "step": 1, "unit": "px", "default": 32 },
+ { "type": "range", "id": "sub_size_xs", "label": "Subheading — mobile", "min": 12, "max": 36, "step": 1, "unit": "px", "default": 16 },
+ { "type": "range", "id": "sub_size_md", "label": "Subheading — tablet", "min": 12, "max": 40, "step": 1, "unit": "px", "default": 17 },
+ { "type": "range", "id": "sub_size_lg", "label": "Subheading — laptop+", "min": 12, "max": 40, "step": 1, "unit": "px", "default": 18 },
+ { "type": "range", "id": "sub_size_xxl", "label": "Subheading — large desktop", "min": 12, "max": 44, "step": 1, "unit": "px", "default": 18 },
+ { "type": "range", "id": "desc_size_xs", "label": "Description — mobile", "min": 12, "max": 22, "step": 1, "unit": "px", "default": 14 },
+ { "type": "range", "id": "desc_size_md", "label": "Description — tablet", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 15 },
+ { "type": "range", "id": "desc_size_lg", "label": "Description — laptop+", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 15 },
+ { "type": "range", "id": "desc_size_xxl", "label": "Description — large desktop", "min": 12, "max": 26, "step": 1, "unit": "px", "default": 16 },
+ { "type": "range", "id": "btn_size_xs", "label": "Button / pill text — mobile", "min": 11, "max": 18, "step": 1, "unit": "px", "default": 13 },
+ { "type": "range", "id": "btn_size_md", "label": "Button / pill text — tablet", "min": 11, "max": 18, "step": 1, "unit": "px", "default": 13 },
+ { "type": "range", "id": "btn_size_lg", "label": "Button / pill text — laptop+", "min": 11, "max": 20, "step": 1, "unit": "px", "default": 14 },
+ { "type": "range", "id": "btn_size_xxl", "label": "Button / pill text — large desktop", "min": 11, "max": 20, "step": 1, "unit": "px", "default": 14 },
+ { "type": "color_scheme", "id": "color_scheme", "label": "Colour scheme", "default": "scheme-1" },
+ { "type": "color", "id": "background_color", "label": "Background override" },
+ { "type": "color", "id": "heading_color", "label": "Heading colour (desktop)" },
+ { "type": "color", "id": "subtitle_color", "label": "Subtitle colour (desktop)" },
+ { "type": "color", "id": "heading_color_mobile", "label": "Heading colour (mobile)" },
+ { "type": "color", "id": "subtitle_color_mobile", "label": "Subtitle colour (mobile)" }
+ ],
+ "blocks": [
+ {
+ "type": "video_review",
+ "name": "Video Review",
+ "settings": [
+ { "type": "header", "content": "Video" },
+ { "type": "video", "id": "video_shopify", "label": "Shopify-hosted video" },
+ { "type": "text", "id": "video_url", "label": "External URL (YouTube / Vimeo / MP4)", "info": "Paste a YouTube, Vimeo, or direct MP4 link." },
+ { "type": "image_picker", "id": "poster", "label": "Cover / poster image" },
+ { "type": "range", "id": "video_height", "label": "Card video height", "min": 260, "max": 500, "step": 20, "unit": "px", "default": 380 },
+ { "type": "checkbox", "id": "autoplay", "label": "Autoplay on visibility", "default": true },
+ { "type": "checkbox", "id": "mute", "label": "Start muted", "default": true },
+
+ { "type": "header", "content": "Review content" },
+ { "type": "text", "id": "customer_name", "label": "Customer name", "default": "Sarah M." },
+ { "type": "text", "id": "location", "label": "Location", "default": "Karachi, Pakistan" },
+ { "type": "range", "id": "rating", "label": "Star rating", "min": 1, "max": 5, "step": 1, "default": 5 },
+ { "type": "textarea", "id": "review_text", "label": "Review text", "default": "I can't believe how well this works! My grey hair is completely covered after just one use." },
+ { "type": "checkbox", "id": "verified", "label": "Verified purchase badge", "default": true },
+ { "type": "text", "id": "result_time", "label": "Result badge (optional)", "info": "e.g. 'After 4 weeks'", "default": "After 4 weeks" },
+
+ { "type": "header", "content": "Card badge" },
+ {
+ "type": "select", "id": "badge", "label": "Badge type", "default": "none",
+ "options": [
+ { "value": "none", "label": "None" },
+ { "value": "new", "label": "New" },
+ { "value": "hot", "label": "Hot" },
+ { "value": "featured", "label": "Featured" }
+ ]
+ }
+ ]
+ }
+ ],
+ "presets": [
+ {
+ "name": "Product Video Reviews",
+ "blocks": [
+ { "type": "video_review", "settings": { "customer_name": "Sarah M.", "location": "Karachi, PK", "rating": 5, "review_text": "Completely transformed my hair! Grey hair gone in one wash.", "verified": true, "result_time": "After 4 weeks" } },
+ { "type": "video_review", "settings": { "customer_name": "Ayesha R.", "location": "Lahore, PK", "rating": 5, "review_text": "The most natural looking colour I've ever used. No chemical smell!", "verified": true, "result_time": "After 2 weeks" } },
+ { "type": "video_review", "settings": { "customer_name": "Fatima K.", "location": "Islamabad, PK", "rating": 5, "review_text": "Easy application and the result is stunning. Highly recommend!", "verified": true, "result_time": "Immediate results" } }
+ ]
+ },
+ {
+ "name": "Content - Video reviews",
+ "settings": { "heading": "Watch real results" }
+ }
+ ]
+}
+{% endschema %}

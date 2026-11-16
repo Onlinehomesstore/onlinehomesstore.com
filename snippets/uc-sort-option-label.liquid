@@ -1,0 +1,48 @@
+{%- comment -%}
+  Friendly sort labels for UNIK CARE collections.
+  Usage:
+    {% render 'uc-sort-option-label', option: option %}
+    {% render 'uc-sort-option-label', value: option.value, name: option.name %}
+{%- endcomment -%}
+{%- liquid
+  if option != blank
+    assign value = option.value
+    assign name = option.name
+  endif
+
+  assign _v = value | default: '' | downcase
+  assign _n = name | default: ''
+  assign uc_sort_label = _n
+
+  if _v == 'created-descending'
+    assign uc_sort_label = 'Most recent'
+  elsif _v == 'created-ascending'
+    assign uc_sort_label = 'Oldest first'
+  elsif _v == 'best-selling'
+    assign uc_sort_label = 'Best selling'
+  elsif _v == 'title-ascending'
+    assign uc_sort_label = 'A to Z'
+  elsif _v == 'title-descending'
+    assign uc_sort_label = 'Z to A'
+  elsif _v == 'price-ascending'
+    assign uc_sort_label = 'Price: low to high'
+  elsif _v == 'price-descending'
+    assign uc_sort_label = 'Price: high to low'
+  elsif _v == 'manual'
+    assign uc_sort_label = 'Featured'
+  elsif _v == 'relevance'
+    assign uc_sort_label = 'Most relevant'
+  else
+    assign _nl = _n | downcase
+    if _nl contains 'new to old' or _nl contains 'date, new' or _nl contains 'newest'
+      assign uc_sort_label = 'Most recent'
+    elsif _nl contains 'old to new' or _nl contains 'date, old' or _nl contains 'oldest'
+      assign uc_sort_label = 'Oldest first'
+    endif
+  endif
+
+  if uc_sort_label == blank
+    assign uc_sort_label = 'Featured'
+  endif
+-%}
+{{- uc_sort_label | escape -}}

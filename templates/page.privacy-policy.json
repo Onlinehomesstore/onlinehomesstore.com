@@ -1,0 +1,126 @@
+/*
+ * ------------------------------------------------------------
+ * Online Homes Store — legal / policy template
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "uc-legal-page",
+      "blocks": {
+        "intro": {
+          "type": "section",
+          "settings": {
+            "eyebrow": "Who we are",
+            "heading": "1. Who we are",
+            "content": "<p>Online Homes Store (we, us, our) sells baby toys and children's play products from onlinehomesstore.com. We are based in the United Kingdom at 85 Great Portland Street, First Floor, London, W1W 7LT.</p><p>This policy explains what personal data we collect, why we use it, and your rights under UK GDPR and the Data Protection Act 2018.</p>"
+          }
+        },
+        "collect": {
+          "type": "section",
+          "settings": {
+            "eyebrow": "What we collect",
+            "heading": "2. What we collect",
+            "content": "<p>We collect data you give us and data your device sends when you use the site.</p><p><strong>Data you give us</strong></p><ul><li>Name, email, phone number, and delivery or billing address when you order, create an account, or write to us.</li><li>Account login details if you open an account.</li><li>Order details, including the products you buy.</li><li>Payment is handled by our payment provider. We do not store full card numbers.</li><li>Messages you send to our team, including questions about products or patch tests.</li></ul><p><strong>Data collected automatically</strong></p><ul><li>How you use the site, such as pages viewed, device type, browser, and IP address.</li><li>Cookies and similar tools. See our Cookie Policy for details.</li></ul>"
+          }
+        },
+        "use": {
+          "type": "section",
+          "settings": {
+            "eyebrow": "How we use it",
+            "heading": "3. How we use your data",
+            "content": "<p>We use your data to:</p><ul><li>Run the site and process your orders, including payment and delivery.</li><li>Manage your account and reply to your questions.</li><li>Send order and delivery updates.</li><li>Send offers only if you have asked for them. You can stop these at any time.</li><li>Improve the site and our products.</li><li>Prevent fraud and keep the site secure.</li><li>Meet UK law, including tax and consumer rules.</li></ul><p>We rely on contract, legal duty, and, where needed, your consent or our legitimate interests.</p>"
+          }
+        },
+        "share": {
+          "type": "section",
+          "settings": {
+            "eyebrow": "Who we share it with",
+            "heading": "4. Who we share it with",
+            "content": "<p>We do not sell your personal data. We only share it when we need to:</p><ul><li>Payment providers, delivery firms, hosting, email, and analytics partners who help us run the shop.</li><li>UK public bodies if the law requires it.</li><li>A buyer if the business is sold. We will tell you if that happens.</li></ul><p>These partners may only use your data to provide their service to us.</p>"
+          }
+        },
+        "cookies": {
+          "type": "section",
+          "settings": {
+            "eyebrow": "Cookies",
+            "heading": "5. Cookies",
+            "content": "<p>We use cookies to run the basket, remember choices, and understand site use. Non-essential cookies are used only if you agree. Full detail is in our Cookie Policy.</p>"
+          }
+        },
+        "security": {
+          "type": "section",
+          "settings": {
+            "eyebrow": "Security",
+            "heading": "6. How we keep data safe",
+            "content": "<p>We use reasonable security, including encrypted checkout. No website can promise perfect security.</p>"
+          }
+        },
+        "retention": {
+          "type": "section",
+          "settings": {
+            "eyebrow": "How long we keep it",
+            "heading": "7. How long we keep it",
+            "content": "<p>We keep your data only as long as we need it for the reason we collected it, or as UK tax and legal rules require.</p>"
+          }
+        },
+        "rights": {
+          "type": "section",
+          "settings": {
+            "eyebrow": "Your rights",
+            "heading": "8. Your UK rights",
+            "content": "<p>Under UK GDPR you can ask us to:</p><ul><li>Show you the data we hold about you.</li><li>Correct data that is wrong.</li><li>Delete your data, where the law allows.</li><li>Limit or object to some uses, including marketing.</li><li>Move your data to another service where this is possible.</li></ul><p>Email us at <a href=\"mailto:info@onlinehomesstore.com\">info@onlinehomesstore.com</a>. We may need to check who you are first.</p><p>You can also complain to the ICO at ico.org.uk.</p>"
+          }
+        },
+        "changes": {
+          "type": "section",
+          "settings": {
+            "eyebrow": "Updates",
+            "heading": "9. Changes to this policy",
+            "content": "<p>We may update this page. The date at the top will change when we do. Please check it from time to time.</p>"
+          }
+        },
+        "contact": {
+          "type": "section",
+          "settings": {
+            "eyebrow": "Contact",
+            "heading": "10. Contact us",
+            "content": "<p>Questions about this policy or your data: <a href=\"mailto:info@onlinehomesstore.com\">info@onlinehomesstore.com</a>. Postal address: 85 Great Portland Street, First Floor, London, W1W 7LT, United Kingdom.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "intro",
+        "collect",
+        "use",
+        "share",
+        "cookies",
+        "security",
+        "retention",
+        "rights",
+        "changes",
+        "contact"
+      ],
+      "settings": {
+        "eyebrow": "Privacy policy",
+        "heading": "Privacy Policy",
+        "effective_date": "17 October 2026",
+        "markets_note": "This policy follows UK GDPR and the Data Protection Act 2018.",
+        "intro": "<p>This Privacy Policy explains how Online Homes Store collects and uses your personal data when you visit or shop at onlinehomesstore.com.</p>",
+        "use_page_content": false,
+        "show_contact_details": true,
+        "show_contact_cta": false,
+        "cta_text": "Questions about this policy? Contact our team.",
+        "cta_label": "Contact us",
+        "cta_link": "/pages/contact",
+        "padding_top": 32,
+        "padding_bottom": 48,
+        "accent_color": "#B68A35",
+        "content_width": 1280
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

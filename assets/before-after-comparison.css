@@ -1,0 +1,307 @@
+/* ==========================================================================
+   BEFORE & AFTER IMAGE COMPARISON
+   Token-driven, dependency-free. Inherits uc-design-tokens.css + uc-components.
+   Sections: 1) Shell/bg  2) Glass card  3) Head  4) Compare  5) Divider/handle
+             6) Labels  7) CTA  8) Reveal  9) Responsive  10) A11y
+   ========================================================================== */
+
+/* 1) Shell + background -------------------------------------------------- */
+.ba {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-block: var(--ba-pad-top, 72px) var(--ba-pad-bottom, 72px);
+  padding-inline: var(--container-padding, clamp(16px, 4vw, 48px));
+  min-height: var(--ba-bg-height, 0);
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.ba--no-bg { background: rgb(var(--color-background)); }
+
+.ba__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.ba__bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(var(--ba-bg-blur, 0));
+  transform: scale(1.02); /* hide blur edges */
+}
+
+.ba--fixed .ba__bg { background-attachment: fixed; }
+.ba--fixed .ba__bg-img { position: fixed; inset: 0; height: 100vh; }
+
+.ba__bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--ba-overlay, #0a0a0a);
+  opacity: var(--ba-overlay-opacity, 0.35);
+}
+
+.ba__shell {
+  width: 100%;
+  max-width: min(var(--ba-card-max, 900px), 100%);
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 3vw, 40px);
+}
+
+.ba__inner {
+  width: 100%;
+  max-width: var(--ba-card-max, 900px);
+  display: flex;
+  justify-content: center;
+}
+
+/* 2) Glass card ---------------------------------------------------------- */
+.ba__card {
+  width: var(--ba-card-width, 100%);
+  max-width: var(--ba-card-max, 900px);
+  padding: var(--ba-card-padding, 32px);
+  border-radius: var(--ba-card-radius, 28px);
+  background: rgb(from var(--ba-card-tint, #fff) r g b / var(--ba-card-bg-opacity, 0.55));
+  border: 1px solid rgb(from var(--ba-card-tint, #fff) r g b / var(--ba-card-border-opacity, 0.55));
+  box-shadow: 0 calc(var(--ba-card-shadow-intensity, 24) * 0.5px) calc(var(--ba-card-shadow-intensity, 24) * 2px) rgba(10, 10, 20, calc(var(--ba-card-shadow-intensity, 24) * 0.012));
+  -webkit-backdrop-filter: blur(var(--ba-card-blur, 20px)) saturate(1.4);
+  backdrop-filter: blur(var(--ba-card-blur, 20px)) saturate(1.4);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(var(--space-5, 20px), 3vw, var(--space-7, 32px));
+}
+
+/* Fallback for browsers without relative-color syntax */
+@supports not (color: rgb(from #fff r g b / 0.5)) {
+  .ba__card {
+    background: rgba(255, 255, 255, var(--ba-card-bg-opacity, 0.55));
+    border-color: rgba(255, 255, 255, var(--ba-card-border-opacity, 0.55));
+  }
+}
+
+/* 3) Head ---------------------------------------------------------------- */
+.ba__head { display: flex; flex-direction: column; gap: var(--space-3, 12px); }
+
+.ba--align-center .ba__head { text-align: center; align-items: center; }
+.ba--align-center .ba__cta { justify-content: center; }
+.ba--align-left .ba__head { text-align: left; align-items: flex-start; }
+
+.ba__eyebrow {
+  margin: 0;
+  font-size: var(--type-label-size, 1.25rem);
+  letter-spacing: var(--type-label-spacing, 0.16em);
+  text-transform: uppercase;
+  font-weight: var(--font-weight-bold, 600);
+  color: var(--ba-desc-color, var(--text-secondary));
+  line-height: 1.2;
+}
+
+.ba__heading {
+  margin: 0;
+  font-family: var(--heading-font, inherit);
+  font-size: var(--ba-heading-size, 40px);
+  font-weight: var(--ba-heading-weight, 600);
+  letter-spacing: var(--ba-heading-spacing, -0.5px);
+  line-height: var(--ba-heading-line, 1.15);
+  color: var(--ba-heading-color, rgb(var(--color-foreground)));
+}
+
+.ba__desc {
+  margin: 0;
+  max-width: 60ch;
+  font-size: var(--ba-desc-size, 17px);
+  line-height: var(--type-body-line, 1.6);
+  color: var(--ba-desc-color, var(--text-secondary));
+}
+.ba__desc > :first-child { margin-top: 0; }
+.ba__desc > :last-child { margin-bottom: 0; }
+
+/* 4) Compare area -------------------------------------------------------- */
+.ba__compare {
+  position: relative;
+  width: 100%;
+  aspect-ratio: var(--ba-aspect, 7 / 8);
+  border-radius: var(--ba-img-radius, 16px);
+  overflow: hidden;
+  background: rgba(var(--color-foreground), 0.06);
+  touch-action: pan-y;
+  cursor: ew-resize;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Custom-height mode only when aspect is explicitly "custom" via data attr */
+.ba__compare[data-ba-custom-height="true"] {
+  aspect-ratio: auto;
+  height: var(--ba-img-height, 460px);
+}
+
+.ba__compare:focus-visible {
+  outline: var(--focus-ring, 2px solid);
+  outline-offset: 3px;
+}
+
+.ba__layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* After = full base layer */
+.ba__layer--after {
+  z-index: 1;
+}
+
+/*
+  Before = identical full-size layer, revealed with clip-path.
+  This keeps both photos perfectly aligned (no thumbnail / stretch bugs).
+*/
+.ba__layer--before {
+  z-index: 2;
+  width: 100%;
+  clip-path: inset(0 calc(100% - var(--ba-pos, 50%)) 0 0);
+  -webkit-clip-path: inset(0 calc(100% - var(--ba-pos, 50%)) 0 0);
+  will-change: clip-path;
+}
+
+.ba__img {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  object-fit: var(--ba-object-fit, cover) !important;
+  object-position: center center;
+  display: block;
+  margin: 0 !important;
+}
+
+.ba__img--placeholder { background: rgba(var(--color-foreground), 0.05); }
+
+/* 5) Divider + handle ---------------------------------------------------- */
+.ba__divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--ba-pos, 50%);
+  z-index: 3;
+  width: var(--ba-divider-width, 3px);
+  transform: translateX(-50%);
+  background: var(--ba-divider-color, #fff);
+  pointer-events: none;
+}
+
+.ba--divider-glow .ba__divider {
+  box-shadow: 0 0 12px 1px rgb(from var(--ba-divider-color, #fff) r g b / 0.6);
+}
+@supports not (color: rgb(from #fff r g b / 0.5)) {
+  .ba--divider-glow .ba__divider { box-shadow: 0 0 12px 1px rgba(255, 255, 255, 0.6); }
+}
+
+.ba__handle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  width: var(--ba-handle-size, 48px);
+  height: var(--ba-handle-size, 48px);
+  border-radius: 50%;
+  background: var(--ba-handle-color, #fff);
+  color: var(--ba-handle-icon-color, #111);
+  border: var(--ba-handle-border, 2px) solid rgba(255, 255, 255, 0.85);
+  box-shadow: var(--shadow-floating, 0 10px 34px rgba(0, 0, 0, 0.2));
+  cursor: ew-resize;
+  pointer-events: auto;
+  transition: transform var(--ba-anim, 300ms) var(--ease-premium), box-shadow var(--ba-anim, 300ms) var(--ease-premium);
+}
+
+.ba__handle-dot {
+  width: 30%;
+  height: 30%;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+@media (hover: hover) {
+  .ba__compare:hover .ba__handle { transform: translate(-50%, -50%) scale(1.08); }
+}
+.ba.is-dragging .ba__handle { transform: translate(-50%, -50%) scale(1.12); }
+
+/* Optional glow (toggles add class from Liquid via body flags) */
+.ba__handle::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 6px rgba(255, 255, 255, 0);
+  transition: box-shadow var(--ba-anim, 300ms) var(--ease-premium);
+}
+.ba.is-dragging .ba__handle::after { box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.14); }
+.ba--handle-glow .ba__handle { box-shadow: var(--shadow-floating, 0 10px 34px rgba(0,0,0,0.2)), 0 0 18px 2px rgba(255, 255, 255, 0.45); }
+
+/* Labels live above both layers so clip-path never crops them */
+.ba__label {
+  position: absolute;
+  z-index: 4;
+  padding: 6px 14px;
+  font-size: var(--ba-label-size, 13px);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--ba-label-color, #fff);
+  background: var(--ba-label-bg, rgba(17, 17, 17, 0.55));
+  border-radius: var(--ba-label-radius, 100px);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.ba__label--top-left { top: 14px; left: 14px; }
+.ba__label--top-right { top: 14px; right: 14px; }
+.ba__label--bottom-left { bottom: 14px; left: 14px; }
+.ba__label--bottom-right { bottom: 14px; right: 14px; }
+
+/* 7) CTA ----------------------------------------------------------------- */
+.ba__cta { display: flex; }
+.ba__cta-btn--full { width: 100%; }
+
+/* 8) Reveal -------------------------------------------------------------- */
+.ba--reveal [data-ba-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+}
+.ba--reveal.is-in [data-ba-reveal] {
+  opacity: 1;
+  transform: none;
+  transition: opacity var(--transition-slow), transform var(--transition-slow);
+}
+
+/* 9) Responsive ---------------------------------------------------------- */
+@media screen and (max-width: 749px) {
+  .ba__card { padding: clamp(16px, 5vw, 24px); }
+  .ba__heading { font-size: clamp(24px, 7vw, var(--ba-heading-size, 40px)); }
+  .ba__label { padding: 5px 11px; }
+}
+
+@media screen and (max-width: 479px) {
+  .ba__handle { width: clamp(38px, 12vw, var(--ba-handle-size, 48px)); height: clamp(38px, 12vw, var(--ba-handle-size, 48px)); }
+}
+
+/* 10) Accessibility / reduced motion ------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  .ba--reveal [data-ba-reveal] { opacity: 1 !important; transform: none !important; }
+  .ba__handle,
+  .ba__handle::after,
+  .ba__layer--before,
+  .ba__divider { transition: none !important; }
+  .ba--fixed .ba__bg,
+  .ba--fixed .ba__bg-img { background-attachment: scroll; position: absolute; height: 100%; }
+}

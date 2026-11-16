@@ -1,0 +1,97 @@
+/*
+  uc-mobile-carousel-lock.css — last-loaded carousel structure.
+  No adjacent-card peek. Reels: two full cards on mobile, one-at-a-time snap.
+  Desktop reels: exact column math, no right-edge crop.
+*/
+
+.pvr__viewport,
+.template-index .pvr__viewport,
+.template-index .pvr__inner,
+.template-product .pvr__viewport {
+  overflow: hidden !important;
+}
+
+.pvr__track,
+.template-index .pvr__track,
+.template-product .pvr__track {
+  scroll-padding-inline: 0 !important;
+  padding-inline: 0 !important;
+  gap: var(--pvr-gap, 16px) !important;
+}
+
+.pvr__cell {
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  scroll-snap-align: start !important;
+  scroll-snap-stop: always !important;
+}
+
+@media screen and (min-width: 990px) {
+  .pvr__cell,
+  .template-index .pvr__cell,
+  .template-product .pvr__cell {
+    flex: 0 0 calc((100% - (var(--pvr-per-desktop, 5) - 1) * var(--pvr-gap, 16px)) / var(--pvr-per-desktop, 5)) !important;
+    max-width: calc((100% - (var(--pvr-per-desktop, 5) - 1) * var(--pvr-gap, 16px)) / var(--pvr-per-desktop, 5)) !important;
+    width: auto !important;
+  }
+}
+
+@media screen and (min-width: 750px) and (max-width: 989px) {
+  .pvr__cell,
+  .template-index .pvr__cell,
+  .template-product .pvr__cell {
+    flex: 0 0 calc((100% - (var(--pvr-per-tablet, 3) - 1) * var(--pvr-gap, 14px)) / var(--pvr-per-tablet, 3)) !important;
+    max-width: calc((100% - (var(--pvr-per-tablet, 3) - 1) * var(--pvr-gap, 14px)) / var(--pvr-per-tablet, 3)) !important;
+    width: auto !important;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .uc-scroll-track,
+  .category-showcase[data-slider='true'] .category-showcase__grid,
+  .pf-showcase .category-showcase__grid,
+  .pt__track,
+  .prv__grid.uc-scroll-track,
+  .ubp__grid,
+  .uc-blog-track,
+  .slider--tablet,
+  .slider--mobile {
+    scroll-padding-inline: 0 !important;
+    margin-inline: 0 !important;
+    padding-inline: 0 !important;
+  }
+
+  .category-showcase[data-slider='true'] .category-showcase__cell,
+  .uc-scroll-track > li,
+  .uc-scroll-track > .grid__item,
+  .uc-scroll-track > .category-showcase__cell,
+  .uc-scroll-track > .pc-card,
+  .uc-scroll-track > article,
+  .pf-showcase .category-showcase__cell,
+  .pt__track .pt__card,
+  .prv__grid.uc-scroll-track > .pc-card,
+  .ubp__card,
+  .uc-blog-card,
+  .slider--tablet .grid__item,
+  .slider--mobile .grid__item {
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    scroll-snap-align: start !important;
+    scroll-snap-stop: always !important;
+  }
+
+  .pvr__cell,
+  .template-index .pvr__cell,
+  .template-product .pvr__cell {
+    flex: 0 0 calc((100% - 12px) / 2) !important;
+    max-width: calc((100% - 12px) / 2) !important;
+    width: auto !important;
+  }
+
+  .pvr__track,
+  .template-index .pvr__track,
+  .template-product .pvr__track {
+    gap: 12px !important;
+  }
+}

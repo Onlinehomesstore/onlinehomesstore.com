@@ -1,0 +1,23 @@
+{%- comment -%}
+  Canonical UNIK CARE contact email for display / mailto links.
+  Shopify contact forms still route via Admin → Settings → Notifications.
+{%- endcomment -%}
+{%- liquid
+  assign uc_site_email = settings.uc_contact_email_default
+  assign uc_market_iso = localization.country.iso_code | upcase
+
+  case uc_market_iso
+    when 'GB'
+      if settings.uc_contact_email_gb != blank
+        assign uc_site_email = settings.uc_contact_email_gb
+      endif
+    when 'US'
+      if settings.uc_contact_email_us != blank
+        assign uc_site_email = settings.uc_contact_email_us
+      endif
+  endcase
+
+  if uc_site_email == blank
+    assign uc_site_email = 'info@unikcare.eu'
+  endif
+-%}

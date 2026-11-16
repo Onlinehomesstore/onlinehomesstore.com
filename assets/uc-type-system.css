@@ -1,0 +1,574 @@
+/*
+  =============================================================================
+  UC DESIGN SYSTEM — Typography + Spacing + Containers
+  File: uc-type-system.css
+
+  AUTHORITATIVE source for all storefront typography.
+  Loaded LAST in layout/theme.liquid so it wins over polish / section CSS.
+
+  Font: Manrope only (headings, body, UI, nav, buttons, prices, labels).
+  Color: #2a2a2a for primary text sitewide.
+  Scale uses px + clamp() only (Dawn html is 62.5% → rem ≈ 10px — never rem here).
+  Section customizer sizes win via --sec-h-size / --sec-desc-size / etc.
+  =============================================================================
+*/
+
+:root {
+  /* ── Font families ─────────────────────────────────────────────────────── */
+  --uc-font-heading: 'Manrope', system-ui, -apple-system, sans-serif;
+  --uc-font-ui: 'Manrope', system-ui, -apple-system, sans-serif;
+  --uc-font-nav: 'Manrope', system-ui, sans-serif;
+  --uc-font-btn: 'Manrope', system-ui, sans-serif;
+  --uc-font-product-title: 'Manrope', system-ui, sans-serif;
+  --uc-font-body: 'Manrope', system-ui, -apple-system, sans-serif;
+  --uc-font-mono: 'SF Mono', Consolas, 'Courier New', monospace;
+
+  --font-heading-family: var(--uc-font-heading);
+  --font-body-family: var(--uc-font-body);
+  --heading-font: var(--uc-font-heading);
+
+  /* ── Type scale (desktop/laptop locked in px; mobile overridden below) ── */
+  --uc-text-display: 38px;
+  --uc-text-h1: 32px;
+  --uc-text-h2: 28px;
+  --uc-text-h3: 18px;
+  --uc-text-h4: 16px;
+
+  --uc-text-lead: 16px;
+  --uc-text-body: 16px;
+  --uc-text-body-sm: 14px;
+  --uc-text-label: 11px;
+  --uc-text-caption: 12px;
+  --uc-text-micro: 11px;
+
+  /* Semantic aliases used across sections */
+  --uc-type-page-title: var(--uc-text-h1);
+  --uc-type-section-title: var(--uc-text-h2);
+  --uc-type-showcase-title: var(--uc-text-h2);
+  --uc-type-page-desc: var(--uc-text-lead);
+  --uc-type-section-desc: var(--uc-text-lead);
+  --uc-type-showcase-desc: var(--uc-text-lead);
+  --uc-type-product-title: 15px;
+  --uc-type-card-title: 15px;
+  --uc-type-label: var(--uc-text-label);
+  --uc-type-label-spacing: 0.12em;
+  --uc-type-body: var(--uc-text-body);
+  --uc-type-desc: var(--uc-text-lead);
+
+  --uc-text-body-leading: 1.6;
+  --uc-text-heading-leading: 1.18;
+  --uc-body-ref: var(--uc-text-body);
+  --uc-body-lh: var(--uc-text-body-leading);
+  --uc-body-color: #2a2a2a;
+  --uc-color-text: #2a2a2a;
+  --uc-color-text-body: #2a2a2a;
+  --uc-color-text-muted: #2a2a2a;
+
+  /* ── Spacing scale ─────────────────────────────────────────────────────── */
+  --uc-space-xs: 8px;
+  --uc-space-sm: 12px;
+  --uc-space-md: 16px;
+  --uc-space-lg: 24px;
+  --uc-space-xl: 32px;
+  --uc-space-2xl: 48px;
+  --uc-space-3xl: 64px;
+
+  --uc-space-section-y: clamp(48px, 40px + 2vw, 80px);
+  --uc-space-section-y-tight: clamp(32px, 28px + 1vw, 48px);
+  --uc-space-eyebrow-to-heading: 10px;
+  --uc-space-heading-to-desc: 10px;
+  --uc-space-desc-to-content: clamp(24px, 20px + 1vw, 40px);
+
+  /* ── Containers ────────────────────────────────────────────────────────── */
+  --uc-page-pad-x: clamp(16px, 4vw, 40px);
+  --uc-content-max: min(1280px, 100%);
+  --uc-page-max: min(var(--page-width, 1440px), 100%);
+  --uc-prose-max: 72ch;
+  --uc-heading-max: min(720px, 100%);
+
+  --uc-radius-card: 18px;
+  --uc-radius-media: 16px;
+  --uc-radius-pill: 16px;
+}
+
+@media screen and (max-width: 749px) {
+  :root {
+    --uc-text-display: 28px;
+    --uc-text-h1: 28px;
+    --uc-text-h2: 26px;
+    --uc-text-h3: 18px;
+    --uc-text-h4: 16px;
+    --uc-text-lead: 15px;
+    --uc-text-body: 15px;
+    --uc-text-body-sm: 13px;
+  }
+}
+
+@media screen and (min-width: 750px) and (max-width: 989px) {
+  :root {
+    --uc-text-display: 36px;
+    --uc-text-h1: 30px;
+    --uc-text-h2: 26px;
+    --uc-text-h3: 18px;
+  }
+}
+
+/* =============================================================================
+   BASE ELEMENTS
+   ============================================================================= */
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--uc-font-body);
+  font-size: var(--uc-text-body);
+  font-weight: 400;
+  line-height: var(--uc-text-body-leading);
+  color: #2a2a2a;
+}
+
+/* Everything → Manrope */
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4,
+.uc-display, .uc-h1, .uc-h2, .uc-h3, .uc-h4,
+button, .button, .uc-btn,
+input, select, textarea,
+nav, .uc-phdr,
+label,
+.price, .price-item,
+.badge,
+.rte,
+.uc-body, .uc-body-lg, .uc-body-sm,
+.uc-sec__desc, .uc-sp-head__desc,
+p, li, dd, blockquote {
+  font-family: var(--uc-font-heading);
+}
+
+h1, .h1, .uc-h1, .upi__title, .pph__title {
+  font-size: var(--uc-text-h1);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: var(--uc-text-heading-leading);
+  color: #2a2a2a;
+  max-width: var(--uc-heading-max);
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+h2, .h2, .uc-h2, .uc-sec__heading,
+.uc-sp-head__title,
+.category-showcase__title,
+.category-showcase__heading,
+.pt__heading, .pvr__heading, .pb__heading, .ubp__heading,
+.vr__heading, .ucs__heading, .ubt__heading, .pct__heading,
+.hiw__heading, .upr__heading, .ba__heading,
+.uc-ft-nl-heading, .pfaq__heading, .ucta__heading {
+  font-family: var(--uc-font-heading) !important;
+  font-size: var(--uc-text-h2) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+  line-height: var(--uc-text-heading-leading) !important;
+  color: #2a2a2a !important;
+  max-width: var(--uc-heading-max);
+  white-space: normal !important;
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+
+h3, .h3, .uc-h3, .uc-sec__subheading {
+  font-size: var(--sec-sub-size, var(--uc-text-h3));
+  font-weight: 650;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+  color: #2a2a2a;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+h4, .h4, .uc-h4 {
+  font-size: var(--uc-text-h4);
+  font-weight: 650;
+  line-height: 1.25;
+  color: #2a2a2a;
+}
+
+.uc-display {
+  font-size: var(--uc-text-display);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  color: #2a2a2a;
+}
+
+/* Body roles */
+.uc-body-lg,
+.uc-sec__desc, .uc-sp-head__desc,
+.category-showcase__intro, .category-showcase__intro p,
+.pt__subtitle, .pvr__subtitle, .ubp__desc,
+.vr__intro .category-showcase__intro,
+.vr__intro .category-showcase__intro p,
+.vr__description, .vr__description p,
+.ba__desc, .ba__desc p,
+.ueh__desc, .upi__tagline,
+.uc-ft-nl-desc, .uc-ft-brand__desc {
+  font-family: var(--uc-font-body) !important;
+  font-size: var(--uc-text-lead) !important;
+  font-weight: 400 !important;
+  line-height: var(--uc-text-body-leading) !important;
+  color: #2a2a2a !important;
+  max-width: var(--uc-prose-max);
+  white-space: normal !important;
+  overflow-wrap: break-word;
+}
+
+.uc-body, .rte p, .rte li {
+  font-size: var(--uc-text-body);
+  line-height: var(--uc-text-body-leading);
+}
+
+.uc-body-sm {
+  font-size: var(--uc-text-body-sm);
+  line-height: 1.55;
+}
+
+/* =============================================================================
+   EYEBROW / LABEL PILLS — Manrope UI
+   ============================================================================= */
+
+.uc-label,
+.category-showcase__label,
+.upi__eyebrow, .uc-sec__eyebrow, .uc-sp-head__eyebrow,
+.ucs__eyebrow, .pct__eyebrow, .hiw__eyebrow, .upr__eyebrow,
+.pvr__label, .pph__eyebrow, .ucta__eyebrow, .pfaq__eyebrow,
+.pb__eyebrow, .prel__eyebrow, .vr__eyebrow, .pt__eyebrow, .ubp__eyebrow,
+.uip__section-eyebrow, .uip__cta-eyebrow,
+.uc-legal__eyebrow, .uc-legal__section-eyebrow, .uc-legal__contact-eyebrow,
+.ba__eyebrow, .uc-ft-nl-eyebrow,
+[class$='__eyebrow']:not(.uc-ft-nl-eyebrow) {
+  display: inline-flex !important;
+  align-items: center !important;
+  width: fit-content !important;
+  max-width: 100%;
+  margin: 0 0 var(--uc-space-eyebrow-to-heading) !important;
+  padding: 6px 14px !important;
+  border-radius: var(--uc-radius-pill) !important;
+  background: rgba(182, 138, 53, 0.12) !important;
+  border: 1px solid rgba(182, 138, 53, 0.22) !important;
+  font-family: var(--uc-font-ui) !important;
+  font-size: var(--uc-text-label, 11px) !important;
+  font-weight: 700 !important;
+  letter-spacing: var(--uc-type-label-spacing) !important;
+  text-transform: uppercase !important;
+  line-height: 1.2 !important;
+  color: #5c4518 !important;
+  white-space: nowrap;
+}
+
+.uc-ft-nl-eyebrow {
+  background: none !important;
+  border: 0 !important;
+  padding: 0 !important;
+  margin: 0 0 8px !important;
+}
+
+.uc-legal__eyebrow,
+.uc-legal__section-eyebrow,
+.uc-legal__contact-eyebrow {
+  white-space: normal !important;
+  margin: 0 !important;
+}
+
+.uc-legal__title,
+.uc-legal__section-title,
+.uc-legal__contact-title,
+.uc-legal__meta,
+.uc-legal__note,
+.uc-legal__intro,
+.uc-legal__section-body,
+.uc-legal__prose {
+  max-width: 100% !important;
+}
+
+/* Section header rhythm */
+.category-showcase__header,
+.uc-sec-header,
+.uc-sp-head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--uc-space-heading-to-desc, 10px);
+}
+
+.uc-sp-head--center {
+  align-items: center;
+  text-align: center;
+}
+
+.uc-sp-head > .uc-sp-head__eyebrow,
+.uc-sp-head > .uc-sp-head__title,
+.uc-sp-head > .uc-sp-head__desc {
+  margin: 0 !important;
+}
+
+.category-showcase__heading-group {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start;
+  gap: 10px !important;
+  max-width: 100% !important;
+}
+
+.category-showcase__heading-group > .category-showcase__label,
+.category-showcase__heading-group > .uc-sec__eyebrow,
+.category-showcase__heading-group > .category-showcase__title,
+.category-showcase__heading-group > .uc-sec__heading,
+.category-showcase__heading-group > .category-showcase__intro,
+.category-showcase__heading-group > .uc-sec__desc,
+.uc-sp-head > .uc-sp-head__eyebrow,
+.uc-sp-head > .uc-sec__eyebrow,
+.uc-sp-head > .uc-sp-head__title,
+.uc-sp-head > .uc-sp-head__desc,
+.pph__head > .pph__eyebrow {
+  margin: 0 !important;
+}
+
+.category-showcase__intro {
+  margin-top: 0 !important;
+}
+
+/* =============================================================================
+   UI CONTROLS — Manrope
+   ============================================================================= */
+
+.uc-btn, .button, button,
+.pc-card__btn, .pc-card__buy,
+.uc-sec__btn,
+input[type='submit'], input[type='button'] {
+  font-family: var(--uc-font-btn) !important;
+  font-size: var(--sec-btn-size, 14px);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.price, .price-item, .pc-card__price, .pph__price {
+  font-family: var(--uc-font-ui) !important;
+  color: #2a2a2a !important;
+}
+
+.pc-card__title, .pc-card__title-link,
+.ubp__title, .pt__card-title, .vr-feature__title {
+  font-family: var(--uc-font-product-title) !important;
+  font-size: var(--uc-type-card-title) !important;
+  font-weight: 650 !important;
+  line-height: 1.32 !important;
+  color: #2a2a2a !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: unset !important;
+  -webkit-line-clamp: unset !important;
+  line-clamp: unset !important;
+  display: block !important;
+  min-height: 0 !important;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.ubp__excerpt, .pt__card-text, .vr-feature__desc {
+  font-family: var(--uc-font-body) !important;
+  font-size: var(--uc-text-body) !important;
+  line-height: 1.55 !important;
+  color: #2a2a2a !important;
+}
+
+.ubp__meta, .ubp__read,
+.pt__card-location, .pt__card-variant, .pt__card-date, .pt__card-helpful {
+  font-family: var(--uc-font-ui) !important;
+  font-size: var(--uc-text-caption) !important;
+}
+
+.pt__card-name {
+  font-family: var(--uc-font-ui) !important;
+  font-size: 15px !important;
+  font-weight: 650 !important;
+}
+
+.uc-sec-header__footnote,
+.vr__intro .uc-sec-header__footnote,
+.vr__footnote {
+  font-family: var(--uc-font-body) !important;
+  font-size: var(--uc-text-body) !important;
+  line-height: 1.6 !important;
+  color: #2a2a2a !important;
+  opacity: 1 !important;
+  font-weight: 400 !important;
+  margin-top: 8px !important;
+  white-space: normal !important;
+}
+
+/* =============================================================================
+   FOOTER
+   ============================================================================= */
+
+.uc-ft-brand__text-logo,
+.uc-ft-nav-col__heading,
+.uc-ft-col-title {
+  font-family: var(--uc-font-heading) !important;
+}
+
+.uc-ft-nav-col__heading,
+.uc-ft-col-title {
+  font-size: var(--uc-text-micro) !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  font-weight: 700 !important;
+}
+
+.uc-ft-brand__text-logo {
+  font-size: clamp(20px, 18px + 0.35vw, 24px) !important;
+}
+
+.uc-ft-nav-col__link,
+.uc-ft-link,
+.uc-ft-contact-value,
+.uc-ft-contact__item,
+.uc-ft-contact__item-value {
+  font-family: var(--uc-font-ui) !important;
+  font-size: 15px !important;
+  line-height: 1.55 !important;
+  color: #2a2a2a !important;
+}
+
+.uc-ft-contact__item-label {
+  font-family: var(--uc-font-ui) !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  color: #2a2a2a !important;
+  opacity: 0.65 !important;
+}
+
+.uc-ft-nl-input,
+.uc-ft-nl-btn {
+  font-family: var(--uc-font-ui) !important;
+  font-size: 15px !important;
+}
+
+ .uc-ft-nl-input::placeholder {
+  font-size: 15px !important;
+  color: #6b6b6b !important;
+  opacity: 1 !important;
+}
+
+.uc-ft-brand__desc {
+  font-family: var(--uc-font-body) !important;
+  font-size: var(--uc-text-body) !important;
+  line-height: 1.6 !important;
+  max-width: 38ch;
+  color: #2a2a2a !important;
+}
+
+.uc-ft-nl-heading {
+  max-width: none;
+}
+
+.uc-ft-nl-note,
+.uc-ft-bottom__copy {
+  font-family: var(--uc-font-ui) !important;
+  font-size: var(--uc-text-caption) !important;
+}
+
+/* =============================================================================
+   CONTAINERS
+   ============================================================================= */
+
+.uc-sec__container,
+.page-width,
+.category-showcase__inner,
+.pvr__inner,
+.pt__inner,
+.ubp__inner,
+.vr__inner,
+.ba__shell,
+.uc-ft-container {
+  padding-inline: var(--uc-page-pad-x);
+  box-sizing: border-box;
+}
+
+.page-width,
+.uc-sec__container {
+  max-width: var(--uc-page-max);
+  margin-inline: auto;
+}
+
+/* =============================================================================
+   NATURAL WRAPPING — kill artificial line-break design
+   ============================================================================= */
+
+.category-showcase__title,
+.uc-sec__heading,
+.vr__heading,
+.vr__intro .category-showcase__title,
+.ueh__heading,
+.pvr__heading,
+.pt__heading,
+.ubp__heading,
+.ba__heading,
+.pph__title {
+  white-space: normal !important;
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: manual;
+}
+
+.vr__heading {
+  max-width: var(--uc-heading-max) !important;
+}
+
+.template-index .vr__intro .category-showcase__title {
+  max-width: var(--uc-heading-max) !important;
+}
+
+/* Feature cards readable */
+.vr-feature__title {
+  font-size: 16px !important;
+  font-weight: 650 !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: unset !important;
+}
+
+.vr-feature__desc {
+  font-size: var(--uc-text-body-sm) !important;
+}
+
+.template-index .vr__features {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+/* Cap oversized section headings from legacy CSS or customizer */
+.section-uc-blog-posts .category-showcase__title,
+.section-uc-blog-posts .category-showcase__intro,
+.section-uc-blog-posts .category-showcase__intro p {
+  color: #2a2a2a !important;
+}
+
+/* =============================================================================
+   SCROLLBAR HIDDEN (keep scroll) — site-wide
+   ============================================================================= */
+
+*,
+*::before,
+*::after {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  display: none !important;
+  background: transparent !important;
+}

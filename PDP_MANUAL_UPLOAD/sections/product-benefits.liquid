@@ -1,0 +1,269 @@
+{%- comment -%}
+ ============================================================================
+ PRODUCT BENEFITS and FEATURES
+ ----------------------------------------------------------------------------
+ Original premium section. Two-column layout (product image | benefit cards)
+ that answers WHY someone should buy before they scroll to the accordion.
+
+ Reuses: uc-design-tokens.css, uc-components.css, uc-icon.liquid (snippets).
+ New: product-benefits.css (~280 lines), inline 18-line reveal script.
+ ============================================================================
+{%- endcomment -%}
+{{ 'product-benefits.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+ assign s = section.settings
+ assign uid = section.id
+ assign benefit_blocks = section.blocks | where: 'type', 'benefit_card'
+-%}
+
+{%- assign uc_sec_scope = '#ProductBenefits-' | append: uid -%}
+{%- render 'uc-section-vars', section: section, scope: uc_sec_scope -%}
+{%- render 'uc-section-colors', section: section -%}
+
+{%- style -%}
+ #ProductBenefits-{{ uid }} {
+ --pb-pad-top: {{ s.padding_top | default: 60 }}px;
+ --pb-pad-bottom: {{ s.padding_bottom | default: 60 }}px;
+ --pb-card-radius: {{ s.card_radius | default: 16 }}px;
+ --pb-gap: {{ s.grid_gap | default: 16 }}px;
+ --pb-img-radius: {{ s.image_radius | default: 20 }}px;
+ }
+ {%- if s.background_color != blank -%}
+ #ProductBenefits-{{ uid }} { background: {{ s.background_color }}; }
+ {%- endif -%}
+ {%- if s.accent_color != blank -%}
+ #ProductBenefits-{{ uid }} { --pb-accent: {{ s.accent_color }}; }
+ {%- endif -%}
+{%- endstyle -%}
+
+<section
+ id="ProductBenefits-{{ uid }}"
+ class="pb uc-sec color-{{ s.color_scheme }}{% if s.enable_reveal %} pb--reveal{% endif %}{% if s.layout == 'cards_only' %} pb--cards-only{% endif %}"
+ data-pb-section
+>
+ <div class="pb__inner uc-sec__container">
+
+ {%- comment -%} Left: product image / illustration {%- endcomment -%}
+ {%- if s.layout != 'cards_only' -%}
+ {%- if s.product_image != blank or s.show_image_placeholder -%}
+ <div class="pb__media" data-uc-reveal>
+ {%- if s.product_image != blank -%}
+ {%- assign pb_img_alt = s.image_alt | default: s.heading | escape -%}
+ {{
+ s.product_image
+ | image_url: width: 960
+ | image_tag:
+ class: 'pb__media-img',
+ loading: 'lazy',
+ widths: '480, 720, 960',
+ sizes: '(min-width: 990px) 45vw, 92vw',
+ alt: pb_img_alt
+ }}
+ {%- else -%}
+ {{ 'product-1' | placeholder_svg_tag: 'pb__media-img pb__media-img--placeholder' }}
+ {%- endif -%}
+
+ {%- if s.image_badge != blank -%}
+ <span class="pb__img-badge">{{ s.image_badge | escape }}</span>
+ {%- endif -%}
+ </div>
+ {%- endif -%}
+ {%- endif -%}
+
+ {%- comment -%} Right: header + benefits grid {%- endcomment -%}
+ <div class="pb__content">
+ {%- if s.layout == 'cards_only' -%}
+ {% render 'uc-subpage-section-head',
+ eyebrow: s.eyebrow,
+ heading: s.heading,
+ description: s.subtitle,
+ align: 'center',
+ header_class: 'pb__header',
+ reveal: true
+ %}
+ {%- else -%}
+ <header class="pb__header" data-uc-reveal>
+ {%- if s.eyebrow != blank -%}
+ <p class="pb__eyebrow">{{ s.eyebrow | escape }}</p>
+ {%- endif -%}
+ {%- if s.heading != blank -%}
+ <h2 class="pb__heading uc-sec__heading">{{ s.heading | escape }}</h2>
+ {%- endif -%}
+ {%- if s.subtitle != blank -%}
+ <p class="pb__subtitle">{{ s.subtitle | escape }}</p>
+ {%- endif -%}
+ </header>
+ {%- endif -%}
+
+ {%- if benefit_blocks.size > 0 -%}
+ <div class="pb__grid" role="list">
+ {%- for block in benefit_blocks -%}
+ {%- assign delay = forloop.index0 | times: 70 -%}
+ <div
+ class="pb__card"
+ role="listitem"
+ data-uc-reveal
+ style="--ucs-delay: {{ delay }}ms"
+ {{ block.shopify_attributes }}
+ >
+ <span class="pb__card-icon" aria-hidden="true">
+ {%- render 'uc-icon', icon: block.settings.icon, size: 24 -%}
+ </span>
+ <div class="pb__card-body">
+ {%- if block.settings.badge != blank -%}
+ <span
+ class="pb__card-badge"
+ {%- if block.settings.badge_color != blank -%}
+ style="background: {{ block.settings.badge_color }}1a; color: {{ block.settings.badge_color }}; border-color: {{ block.settings.badge_color }}33"
+ {%- endif -%}
+ >{{ block.settings.badge | escape }}</span>
+ {%- endif -%}
+ <h3 class="pb__card-title">{{ block.settings.title | escape }}</h3>
+ {%- if block.settings.description != blank -%}
+ <p class="pb__card-desc">{{ block.settings.description | escape }}</p>
+ {%- endif -%}
+ </div>
+ </div>
+ {%- endfor -%}
+ </div>
+ {%- endif -%}
+
+ {%- if s.cta_label != blank -%}
+ <div class="pb__cta" data-uc-reveal>
+ <a href="{{ s.cta_link | default: '#' }}" class="uc-btn uc-btn--premium">
+ {{ s.cta_label | escape }}
+ </a>
+ </div>
+ {%- endif -%}
+ </div>
+ </div>
+</section>
+
+{% schema %}
+{
+ "name": "UC Benefits grid",
+ "tag": "section",
+ "class": "section section-product-benefits",
+ "max_blocks": 12,
+ "settings": [
+ { "type": "header", "content": "Section header" },
+ { "type": "text", "id": "eyebrow", "label": "Eyebrow label", "default": "Why it works" },
+ { "type": "text", "id": "heading", "label": "Heading", "default": "Everything you need in one bottle" },
+ { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Scientifically formulated for flawless coverage and lasting colour." },
+ { "type": "text", "id": "cta_label", "label": "CTA button label" },
+ { "type": "url", "id": "cta_link", "label": "CTA button link" },
+
+ { "type": "header", "content": "Product image" },
+ { "type": "paragraph", "content": "Recommended image size: 1200 × 1500 px (portrait 4:5). JPG/WebP, under 300 KB." },
+ { "type": "image_picker", "id": "product_image", "label": "Product / illustration image (1200×1500)" },
+ { "type": "text", "id": "image_alt", "label": "Image alt text", "default": "Product image" },
+ { "type": "text", "id": "image_badge", "label": "Image overlay badge (optional)", "default": "#1 Best Seller" },
+ { "type": "checkbox", "id": "show_image_placeholder", "label": "Show placeholder if no image", "default": true },
+ { "type": "range", "id": "image_radius", "label": "Image radius", "min": 0, "max": 48, "step": 4, "unit": "px", "default": 20 },
+
+ { "type": "header", "content": "Grid" },
+ { "type": "range", "id": "grid_gap", "label": "Card gap", "min": 8, "max": 32, "step": 4, "unit": "px", "default": 16 },
+ { "type": "range", "id": "card_radius", "label": "Card radius", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 16 },
+
+ { "type": "header", "content": "Layout and spacing" },
+ { "type": "select", "id": "layout", "label": "Layout", "default": "two_column", "options": [
+ { "value": "two_column", "label": "Image + benefit cards" },
+ { "value": "cards_only", "label": "Full-width premium cards" }
+ ]},
+ { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 60 },
+ { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 60 },
+ { "type": "checkbox", "id": "enable_reveal", "label": "Scroll reveal animation", "default": true },
+
+ { "type": "header", "content": "UC - Responsive spacing" },
+ { "type": "range", "id": "pad_top_lg", "label": "Top padding - laptop (990px+)", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+ { "type": "range", "id": "pad_top_xxl", "label": "Top padding - large desktop (1440px+)", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 96 },
+ { "type": "range", "id": "container_max_lg", "label": "Container max width - laptop+", "min": 960, "max": 1600, "step": 20, "unit": "px", "default": 1280 },
+ { "type": "select", "id": "container_mode", "label": "Container", "default": "boxed", "options": [{"value":"boxed","label":"Boxed"},{"value":"full","label":"Full width"}] },
+ { "type": "header", "content": "UC - Typography overrides" },
+ { "type": "checkbox", "id": "use_custom_section_styles", "label": "Override global typography", "default": false },
+ { "type": "range", "id": "h_size_xs", "label": "Heading size - mobile", "min": 20, "max": 72, "step": 2, "unit": "px", "default": 28 },
+ { "type": "range", "id": "h_size_lg", "label": "Heading size - laptop+", "min": 24, "max": 88, "step": 2, "unit": "px", "default": 40 },
+ { "type": "range", "id": "h_size_xxl", "label": "Heading size - large desktop", "min": 28, "max": 96, "step": 2, "unit": "px", "default": 44 },
+ { "type": "header", "content": "UC - Section colors" },
+ { "type": "checkbox", "id": "use_global_colors", "label": "Use global brand colors", "default": true },
+
+ { "type": "header", "content": "Colours" },
+ { "type": "color_scheme", "id": "color_scheme", "label": "Colour scheme", "default": "scheme-1" },
+ { "type": "color", "id": "background_color", "label": "Background override" },
+ { "type": "color", "id": "accent_color", "label": "Accent / icon colour override" }
+ ],
+ "blocks": [
+ {
+ "type": "benefit_card",
+ "name": "Benefit card",
+ "settings": [
+ {
+ "type": "select", "id": "icon", "label": "Icon", "default": "check",
+ "options": [
+ { "value": "check", "label": "Check" },
+ { "value": "leaf", "label": "Leaf / Natural" },
+ { "value": "droplet", "label": "Droplet" },
+ { "value": "sparkle", "label": "Sparkle" },
+ { "value": "shield", "label": "Shield / Safe" },
+ { "value": "heart", "label": "Heart" },
+ { "value": "star", "label": "Star" },
+ { "value": "moon", "label": "Moon / Gentle" },
+ { "value": "feather", "label": "Feather / Light" },
+ { "value": "zap", "label": "Zap / Fast" },
+ { "value": "award", "label": "Award" },
+ { "value": "clock", "label": "Long-lasting" },
+ { "value": "recycle", "label": "Eco-friendly" },
+ { "value": "thumbs-up", "label": "Thumbs up" }
+ ]
+ },
+ { "type": "text", "id": "title", "label": "Benefit title", "default": "Covers Grey Hair 100%" },
+ { "type": "text", "id": "description", "label": "Short description", "default": "Full, even coverage from root to tip in just one application." },
+ { "type": "text", "id": "badge", "label": "Badge label (optional)" },
+ { "type": "color", "id": "badge_color", "label": "Badge colour", "default": "#B68A35" }
+ ]
+ }
+ ],
+ "presets": [
+ {
+ "name": "Product Benefits",
+ "blocks": [
+ { "type": "benefit_card", "settings": { "icon": "check", "title": "Covers Grey Hair 100%", "description": "Full, even coverage from root to tip in just one wash." } },
+ { "type": "benefit_card", "settings": { "icon": "leaf", "title": "No Ammonia Formula", "description": "Gentle on your hair and scalp. Zero harsh chemicals." } },
+ { "type": "benefit_card", "settings": { "icon": "sparkle", "title": "Instant Shine Boost", "description": "Leaves hair looking glossy, healthy and vibrant." } },
+ { "type": "benefit_card", "settings": { "icon": "clock", "title": "Long-Lasting Colour", "description": "Colour that stays vivid for weeks, not days." } },
+ { "type": "benefit_card", "settings": { "icon": "droplet", "title": "Deeply Nourishing", "description": "Enriched with keratin and argan oil for extra softness." } },
+ { "type": "benefit_card", "settings": { "icon": "shield", "title": "Dermatologically Tested", "description": "Safe for all hair types including sensitive scalps." } }
+ ]
+ },
+ {
+ "name": "About - Core values",
+ "settings": {
+ "eyebrow": "Core values",
+ "heading": "What we stand for",
+ "subtitle": "The principles behind every bottle we make.",
+ "show_image_placeholder": false
+ },
+ "blocks": [
+ { "type": "benefit_card", "settings": { "icon": "shield", "title": "Safety first", "description": "Dermatologist-tested formulas without ammonia." } },
+ { "type": "benefit_card", "settings": { "icon": "leaf", "title": "Nature-led", "description": "Botanical extracts chosen for performance." } },
+ { "type": "benefit_card", "settings": { "icon": "award", "title": "Salon grade", "description": "Professional results at home." } },
+ { "type": "benefit_card", "settings": { "icon": "heart", "title": "People centred", "description": "Support at every step of your journey." } }
+ ]
+ },
+ {
+ "name": "B2B - Distributor benefits",
+ "settings": {
+ "eyebrow": "Partner benefits",
+ "heading": "Built for your business",
+ "show_image_placeholder": false
+ },
+ "blocks": [
+ { "type": "benefit_card", "settings": { "icon": "trending-up", "title": "Strong margins", "description": "Wholesale pricing for healthy retail profit." } },
+ { "type": "benefit_card", "settings": { "icon": "package", "title": "Reliable fulfilment", "description": "Consistent stock and fast dispatch." } },
+ { "type": "benefit_card", "settings": { "icon": "users", "title": "Dedicated support", "description": "Account manager for approved partners." } }
+ ]
+ }
+ ]
+}
+{% endschema %}

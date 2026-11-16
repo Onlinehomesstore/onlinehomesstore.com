@@ -1,0 +1,195 @@
+{%- comment -%}
+ UC Narrative - one story/mission/vision block per section (modular pages).
+ CSS: uc-content-split.css (ucs- prefix)
+{%- endcomment -%}
+{{ 'uc-content-split.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+ assign s = section.settings
+ assign uid = section.id
+-%}
+
+{%- assign uc_sec_scope = '#UcNarrative-' | append: uid -%}
+{%- render 'uc-section-vars', section: section, scope: uc_sec_scope -%}
+{%- render 'uc-section-colors', section: section -%}
+
+{%- style -%}
+ #UcNarrative-{{ uid }} {
+ --ucs-media-radius: {{ s.media_radius | default: 20 }}px;
+ --ucs-media-ratio: {{ s.media_aspect_ratio | default: '1 / 1' }};
+ --ucs-media-ratio-mobile: {{ s.media_aspect_ratio_mobile | default: '1 / 1' }};
+ --ucs-media-fit: {{ s.media_object_fit | default: 'cover' }};
+ }
+ {%- if s.background_color != blank -%}
+ #UcNarrative-{{ uid }} { background: {{ s.background_color }}; }
+ {%- endif -%}
+ {%- if s.accent_color != blank -%}
+ #UcNarrative-{{ uid }} { --ucs-accent: {{ s.accent_color }}; }
+ {%- endif -%}
+{%- endstyle -%}
+
+{%- liquid
+ assign layout_style = s.layout_style | default: 'split'
+ assign ucs_mods = 'ucs ucs--single ucs--' | append: layout_style
+ if layout_style == 'split' and s.lock_media_frame != false
+ assign ucs_mods = ucs_mods | append: ' ucs--split-lock'
+ endif
+-%}
+
+<section
+ id="UcNarrative-{{ uid }}"
+ class="ucs {{ ucs_mods }} uc-sec color-{{ s.color_scheme }}"
+ data-ucs-section
+ {{ section.shopify_attributes }}
+>
+ <div class="ucs__inner uc-sec__container">
+ {% render 'uc-narrative-block',
+ uid: uid,
+ layout_style: layout_style,
+ media_placeholder: s.media_placeholder,
+ image_position: s.image_position,
+ layout_alternate: s.layout_alternate,
+ image: s.image,
+ image_alt: s.image_alt,
+ media_badge: s.media_badge,
+ eyebrow: s.eyebrow,
+ heading: s.heading,
+ body: s.body,
+ button_label: s.button_label,
+ button_link: s.button_link,
+ button_secondary_label: s.button_secondary_label,
+ button_secondary_link: s.button_secondary_link
+ %}
+ </div>
+</section>
+
+{% schema %}
+{
+ "name": "UC Narrative block",
+ "tag": "section",
+ "class": "section section-uc-narrative",
+ "disabled_on": { "groups": ["header", "footer"] },
+ "settings": [
+ { "type": "header", "content": "Content" },
+ { "type": "select", "id": "layout_style", "label": "Section layout", "default": "split", "options": [
+ { "value": "split", "label": "Split - image + text" },
+ { "value": "statement", "label": "Statement - centered band (no image column)" }
+ ]},
+ { "type": "select", "id": "image_position", "label": "Image position (desktop)", "default": "left", "options": [
+ { "value": "left", "label": "Image left" },
+ { "value": "right", "label": "Image right" }
+ ]},
+ { "type": "checkbox", "id": "layout_alternate", "label": "Swap layout (image right)", "default": false, "info": "Use when this section follows another narrative block and you want alternating layout." },
+ { "type": "checkbox", "id": "lock_media_frame", "label": "Lock media frame size (split layout)", "default": true, "info": "Keeps the same aspect ratio and container size as other narrative sections." },
+ { "type": "select", "id": "media_placeholder", "label": "Placeholder art (until image uploaded)", "default": "lifestyle-1", "options": [
+ { "value": "lifestyle-1", "label": "Lifestyle A" },
+ { "value": "lifestyle-2", "label": "Lifestyle B" },
+ { "value": "product-1", "label": "Product A" },
+ { "value": "product-2", "label": "Product B" },
+ { "value": "collection-1", "label": "Collection" }
+ ]},
+ { "type": "paragraph", "content": "Recommended upload: square 1600 × 1600 px (1:1). WebP or JPG under 350 KB." },
+ { "type": "image_picker", "id": "image", "label": "Image (square 1600×1600 recommended)" },
+ { "type": "text", "id": "image_alt", "label": "Image alt text" },
+ { "type": "text", "id": "media_badge", "label": "Image badge (optional)" },
+ { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Our story" },
+ { "type": "text", "id": "heading", "label": "Heading", "default": "Crafted for confidence" },
+ { "type": "richtext", "id": "body", "label": "Body", "default": "<p>Share your brand narrative with rich, editorial copy and imagery that feels unmistakably UNIK Care.</p>" },
+ { "type": "text", "id": "button_label", "label": "Primary button label" },
+ { "type": "url", "id": "button_link", "label": "Primary button link" },
+ { "type": "text", "id": "button_secondary_label", "label": "Secondary button label" },
+ { "type": "url", "id": "button_secondary_link", "label": "Secondary button link" },
+ { "type": "header", "content": "Layout" },
+ { "type": "range", "id": "media_radius", "label": "Image radius", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 20 },
+ { "type": "select", "id": "media_aspect_ratio", "label": "Media aspect ratio (desktop)", "default": "1 / 1", "info": "Use Square 1:1 for Our Story sections.", "options": [
+ { "value": "1 / 1", "label": "Square 1:1 (recommended)" },
+ { "value": "4 / 5", "label": "Portrait 4:5" },
+ { "value": "16 / 10", "label": "Landscape 16:10" },
+ { "value": "3 / 4", "label": "Portrait 3:4" }
+ ]},
+ { "type": "select", "id": "media_aspect_ratio_mobile", "label": "Media aspect ratio (mobile)", "default": "1 / 1", "options": [
+ { "value": "1 / 1", "label": "Square 1:1" },
+ { "value": "4 / 5", "label": "Portrait 4:5" },
+ { "value": "16 / 10", "label": "Landscape 16:10" }
+ ]},
+ { "type": "select", "id": "media_object_fit", "label": "Image fit", "default": "cover", "options": [
+ { "value": "cover", "label": "Cover (photos)" },
+ { "value": "contain", "label": "Contain (placeholders / logos)" }
+ ]},
+ { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 },
+ { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 },
+ { "type": "header", "content": "UC - Responsive spacing" },
+ { "type": "range", "id": "pad_top_lg", "label": "Top padding - laptop+", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 72 },
+ { "type": "range", "id": "container_max_lg", "label": "Container max width - laptop+", "min": 960, "max": 1600, "step": 20, "unit": "px", "default": 1280 },
+ { "type": "select", "id": "container_mode", "label": "Container", "default": "boxed", "options": [{"value":"boxed","label":"Boxed"},{"value":"full","label":"Full width"}] },
+ { "type": "checkbox", "id": "use_global_colors", "label": "Use global brand colors", "default": true },
+ { "type": "color_scheme", "id": "color_scheme", "label": "Colour scheme", "default": "scheme-1" },
+ { "type": "color", "id": "background_color", "label": "Background override" },
+ { "type": "color", "id": "accent_color", "label": "Accent override" }
+ ],
+ "presets": [
+ {
+ "name": "About - Our Story",
+ "settings": {
+ "image_position": "left",
+ "eyebrow": "Our story",
+ "heading": "Born from real salon expertise",
+ "body": "<p>UNIK Care was created for people who want professional colour results without harsh chemicals or complicated routines. Every formula reflects years of hands-on hair expertise.</p>"
+ }
+ },
+ {
+ "name": "About - Our Mission",
+ "settings": {
+ "image_position": "right",
+ "layout_alternate": true,
+ "eyebrow": "Our mission",
+ "heading": "Make premium hair care effortless",
+ "body": "<p>We deliver ammonia-free colour and nourishing care that fits real life - quick applications, lasting vibrancy, and hair that feels as good as it looks.</p>"
+ }
+ },
+ {
+ "name": "About - Our Vision",
+ "settings": {
+ "image_position": "left",
+ "eyebrow": "Our vision",
+ "heading": "The trusted name in at-home colour",
+ "body": "<p>To become the most loved hair colour brand in every home we serve - through transparency, performance, and uncompromising quality.</p>"
+ }
+ },
+ {
+ "name": "About - Brand promise",
+ "settings": {
+ "image_position": "right",
+ "layout_alternate": true,
+ "eyebrow": "Brand promise",
+ "heading": "Your satisfaction, guaranteed",
+ "body": "<p>If you are not delighted with your results, our team will make it right. That is the UNIK Care standard.</p>"
+ }
+ },
+ {
+ "name": "Content - Ingredient overview",
+ "settings": {
+ "eyebrow": "Ingredient philosophy",
+ "heading": "Performance without compromise",
+ "body": "<p>We combine clinically inspired actives with botanical oils and extracts - no unnecessary fillers, no ammonia, no guesswork.</p>"
+ }
+ },
+ {
+ "name": "B2B - Why partner with us",
+ "settings": {
+ "eyebrow": "Wholesale",
+ "heading": "Grow with a brand customers love",
+ "body": "<p>Competitive margins, marketing assets, and reliable supply - backed by proven demand and premium positioning.</p>"
+ }
+ },
+ {
+ "name": "B2B - Partner requirements",
+ "settings": {
+ "eyebrow": "Requirements",
+ "heading": "Who we work with",
+ "body": "<p>Salons, retailers, and distributors with established business registration and a commitment to premium customer experience.</p>"
+ }
+ }
+ ]
+}
+{% endschema %}

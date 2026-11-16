@@ -1,0 +1,152 @@
+{%- comment -%}
+ UC CTA Banner - premium conversion strip for any template.
+ CSS prefix: ucta-
+{%- endcomment -%}
+{{ 'uc-cta-banner.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+ assign s = section.settings
+ assign uid = section.id
+ assign btn_primary = 'uc-btn--primary'
+ assign btn_secondary = 'uc-btn--secondary'
+ if s.secondary_style == 'ghost'
+ assign btn_secondary = 'uc-btn--ghost'
+ endif
+ assign card_style = s.card_style | default: 'glass'
+-%}
+
+{%- assign uc_sec_scope = '#UcCtaBanner-' | append: uid -%}
+{%- render 'uc-section-vars', section: section, scope: uc_sec_scope -%}
+{%- render 'uc-section-colors', section: section -%}
+
+{%- style -%}
+ #UcCtaBanner-{{ uid }} {
+ --ucta-radius: {{ s.banner_radius | default: 24 }}px;
+ --ucta-bg: {{ s.background_color | default: '#171717' }};
+ --ucta-text: {{ s.text_color | default: '#171717' }};
+ --ucta-btn-bg: {{ s.button_bg | default: '#171717' }};
+ --ucta-btn-text: {{ s.button_text_color | default: '#ffffff' }};
+ --ucta-pad-y: {{ s.padding_y | default: 0 }}px;
+ --ucta-glass-blur: {{ s.glass_blur | default: 18 }}px;
+ --ucta-glass-opacity: {{ s.glass_opacity | default: 70 | times: 0.01 }};
+ --ucta-overlay-opacity: {{ s.overlay_opacity | default: 35 | times: 0.01 }};
+ }
+{%- endstyle -%}
+
+<section
+ id="UcCtaBanner-{{ uid }}"
+ class="ucta uc-sec color-{{ s.color_scheme }}"
+ data-ucta-section
+>
+ <div class="uc-sec__container">
+ <div
+ class="ucta__card ucta__card--{{ card_style }}{% if s.background_image != blank %} ucta__card--has-bg{% endif %}"
+ data-uc-reveal
+ data-uc-theme-text
+ style="--uc-theme-text: var(--ucta-text); --uc-theme-heading: var(--ucta-text); --uc-theme-body: var(--ucta-text);{% if s.text_color_mobile != blank %} --uc-theme-text-mobile: {{ s.text_color_mobile }}; --uc-theme-heading-mobile: {{ s.text_color_mobile }}; --uc-theme-body-mobile: {{ s.text_color_mobile }};{% endif %} color: var(--ucta-text);"
+ >
+ {%- if s.background_image != blank -%}
+ <div class="ucta__bg" aria-hidden="true">
+ {{
+ s.background_image
+ | image_url: width: 2000
+ | image_tag: loading: 'lazy', widths: '800, 1200, 1600, 2000', sizes: '100vw', class: 'ucta__bg-img', alt: ''
+ }}
+ </div>
+ {%- endif -%}
+ <div class="ucta__glass" aria-hidden="true"></div>
+ <div class="ucta__content">
+ {%- if template.suffix == 'our-story' or template.suffix == 'about' or template.suffix == 'contact' -%}
+ {% render 'uc-subpage-section-head',
+ eyebrow: s.eyebrow,
+ heading: s.heading,
+ description: s.description,
+ align: 'center',
+ header_class: 'ucta__head',
+ reveal: false
+ %}
+ {%- else -%}
+ {%- if s.eyebrow != blank -%}
+ <p class="ucta__eyebrow">{{ s.eyebrow | escape }}</p>
+ {%- endif -%}
+ {%- if s.heading != blank -%}
+ <h2 class="ucta__heading">{{ s.heading | escape }}</h2>
+ {%- endif -%}
+ {%- if s.description != blank -%}
+ <p class="ucta__desc">{{ s.description | escape }}</p>
+ {%- endif -%}
+ {%- endif -%}
+ </div>
+ {%- if s.button_label != blank or s.button_secondary_label != blank -%}
+ <div class="ucta__actions">
+ {%- if s.button_label != blank -%}
+ <a href="{{ s.button_link | default: routes.all_products_collection_url }}" class="uc-btn {{ btn_primary }} uc-btn--lg">
+ {{ s.button_label | escape }}
+ </a>
+ {%- endif -%}
+ {%- if s.button_secondary_label != blank -%}
+ <a href="{{ s.button_secondary_link | default: '#' }}" class="uc-btn {{ btn_secondary }} uc-btn--lg">
+ {{ s.button_secondary_label | escape }}
+ </a>
+ {%- endif -%}
+ </div>
+ {%- endif -%}
+ </div>
+ </div>
+</section>
+
+{% schema %}
+{
+ "name": "UC CTA banner",
+ "tag": "section",
+ "class": "section section-uc-cta-banner",
+ "disabled_on": { "groups": ["header", "footer"] },
+ "settings": [
+ { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "START EXPLORING" },
+ { "type": "text", "id": "heading", "label": "Heading", "default": "Find something special for your little one" },
+ { "type": "textarea", "id": "description", "label": "Description", "default": "Browse new arrivals, best sellers and gift-ready collections." },
+ { "type": "text", "id": "button_label", "label": "Primary button", "default": "Shop All" },
+ { "type": "url", "id": "button_link", "label": "Primary button link" },
+ { "type": "text", "id": "button_secondary_label", "label": "Secondary button", "default": "Contact us" },
+ { "type": "url", "id": "button_secondary_link", "label": "Secondary button link" },
+ { "type": "select", "id": "secondary_style", "label": "Secondary button style", "default": "secondary", "options": [
+ { "value": "secondary", "label": "Outlined" },
+ { "value": "ghost", "label": "Ghost" }
+ ]},
+ { "type": "header", "content": "Banner style" },
+ { "type": "select", "id": "card_style", "label": "Panel style", "default": "glass", "options": [
+ { "value": "glass", "label": "Frosted glass" },
+ { "value": "solid", "label": "Solid fill" }
+ ]},
+ { "type": "paragraph", "content": "Recommended: 2400 x 1000 px wide. WebP/JPG under 400 KB." },
+ { "type": "image_picker", "id": "background_image", "label": "Background image (2400x1000)" },
+ { "type": "range", "id": "glass_blur", "label": "Glass blur", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 18 },
+ { "type": "range", "id": "glass_opacity", "label": "Glass opacity", "min": 40, "max": 95, "step": 5, "unit": "%", "default": 70 },
+ { "type": "range", "id": "overlay_opacity", "label": "Image overlay opacity", "min": 0, "max": 90, "step": 5, "unit": "%", "default": 35 },
+ { "type": "color", "id": "background_color", "label": "Solid background / tint", "default": "#171717" },
+ { "type": "color", "id": "text_color", "label": "Text colour (desktop)", "default": "#171717" },
+ { "type": "color", "id": "text_color_mobile", "label": "Text colour (mobile)" },
+ { "type": "color", "id": "button_bg", "label": "Primary button background", "default": "#171717" },
+ { "type": "color", "id": "button_text_color", "label": "Primary button text", "default": "#ffffff" },
+ { "type": "range", "id": "banner_radius", "label": "Banner radius", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 24 },
+ { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 40 },
+ { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 48 },
+ { "type": "range", "id": "padding_y", "label": "Inner banner vertical padding (0 = default)", "min": 0, "max": 80, "step": 4, "unit": "px", "default": 0 },
+ { "type": "color_scheme", "id": "color_scheme", "label": "Colour scheme", "default": "scheme-1" },
+ { "type": "checkbox", "id": "use_global_colors", "label": "Use global brand colors", "default": true }
+ ],
+ "presets": [
+ { "name": "UC CTA banner" },
+ {
+ "name": "About - Shop CTA",
+ "settings": {
+ "card_style": "glass",
+ "eyebrow": "Ready to transform?",
+ "heading": "Experience UNIK Care today",
+ "button_label": "Shop collection",
+ "button_secondary_label": "Contact us"
+ }
+ }
+ ]
+}
+{% endschema %}

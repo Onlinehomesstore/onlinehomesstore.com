@@ -1,0 +1,489 @@
+{%- comment -%}
+ ============================================================================
+ VISIBLE RESULTS / BRAND BENEFITS
+ ----
+ Premium results + benefits section for Online Store 2.0 (Dawn compatible).
+
+ - Left column: eyebrow, heading, description, optional footnote.
+ - Right column: statistics row (optional count-up) + feature icons grid.
+ - Inherits the store design system via uc-design-tokens.css (colours, type,
+ radius, shadows, motion) so it matches the header and other sections.
+ - Blocks: "statistic" and "feature" (add as many as you like).
+ - Icons: image upload (PNG/WEBP/retina), pasted inline SVG, or a curated
+ built-in line-icon set  -  all render inline / lazily with no libraries.
+ - JS only runs when animations are enabled (reveal + count-up via IO).
+
+ Paste this file into /sections and add it from the theme editor.
+ ============================================================================
+{%- endcomment -%}
+{{ 'visible-results.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+ assign s = section.settings
+ assign uid = section.id
+
+ assign lh = s.line_height | default: 150 | divided_by: 100.0
+
+ assign radius_shape = '18px'
+ case s.icon_shape
+ when 'circle'
+ assign radius_shape = '50%'
+ when 'squircle'
+ assign radius_shape = '30%'
+ when 'square'
+ assign radius_shape = '4px'
+ when 'rounded'
+ assign radius_shape = '14px'
+ endcase
+-%}
+
+{%- assign uc_sec_scope = '#VisibleResults-' | append: uid -%}
+{%- render 'uc-section-vars', section: section, scope: uc_sec_scope -%}
+{%- render 'uc-section-colors', section: section -%}
+
+{%- style -%}
+ #VisibleResults-{{ uid }} {
+ --vr-max-width: var(--page-width);
+ --vr-text-col: {{ s.content_width | default: 460 }}px;
+ --vr-radius: {{ s.border_radius | default: 20 }}px;
+ --vr-pad-top: {{ s.padding_top | default: 72 }}px;
+ --vr-pad-bottom: {{ s.padding_bottom | default: 72 }}px;
+ --vr-pad-left: {{ s.padding_left | default: 0 }}px;
+ --vr-pad-right: {{ s.padding_right | default: 0 }}px;
+ --vr-cols-d: {{ s.columns_desktop | default: 4 }};
+ --vr-cols-t: {{ s.columns_tablet | default: 2 }};
+ --vr-cols-m: {{ s.columns_mobile | default: '2' }};
+ --vr-anim: {{ s.animation_speed | default: 600 }}ms;
+ --vr-divider-color: {{ s.divider_color | default: 'rgba(var(--color-foreground), 0.12)' }};
+ --vr-divider-thickness: {{ s.divider_thickness | default: 1 }}px;
+ --vr-h-size-d: {{ s.heading_size_desktop | default: 28 }}px;
+ --vr-h-size-t: {{ s.heading_size_tablet | default: 26 }}px;
+ --vr-h-size-m: {{ s.heading_size_mobile | default: 26 }}px;
+ --vr-h-weight: {{ s.heading_weight | default: 600 }};
+ --vr-h-spacing: {{ s.letter_spacing | default: -0.5 }}px;
+ --vr-h-line: {{ lh }};
+ --vr-text-width: {{ s.text_width | default: 460 }}px;
+ --vr-icon-shape: {{ radius_shape }};
+ }
+ {%- if s.background_color != blank -%}
+ #VisibleResults-{{ uid }} { --vr-bg: {{ s.background_color }}; }
+ {%- endif -%}
+ {%- if s.background_secondary != blank -%}
+ #VisibleResults-{{ uid }} { --vr-bg-2: {{ s.background_secondary }}; }
+ {%- endif -%}
+ {%- if s.eyebrow_color != blank -%}
+ #VisibleResults-{{ uid }} { --vr-eyebrow-color: {{ s.eyebrow_color }}; }
+ {%- endif -%}
+ {%- if s.heading_color != blank -%}
+ #VisibleResults-{{ uid }} { --vr-heading-color: {{ s.heading_color }}; }
+ {%- endif -%}
+ {%- if s.paragraph_color != blank -%}
+ #VisibleResults-{{ uid }} { --vr-paragraph-color: {{ s.paragraph_color }}; }
+ {%- endif -%}
+{%- endstyle -%}
+
+<visible-results
+ id="VisibleResults-{{ uid }}"
+ class="vr color-{{ s.color_scheme }} vr--align-{{ s.section_alignment }}{% if s.section_width == 'full' %} vr--full{% endif %}{% if s.show_shadow %} vr--shadow{% endif %}{% unless s.enable_animations %} vr--no-anim{% endunless %}{% unless s.enable_hover %} vr--no-hover{% endunless %}{% if s.enable_icon_background %} vr--icon-bg{% endif %}"
+ data-section-id="{{ uid }}"
+ data-animate="{{ s.enable_animations }}"
+ {% if s.heading_color != blank or s.paragraph_color != blank or s.eyebrow_color != blank or s.heading_color_mobile != blank or s.paragraph_color_mobile != blank or s.eyebrow_color_mobile != blank %}data-uc-theme-text style="{% render 'uc-theme-text-vars', heading: s.heading_color, heading_mobile: s.heading_color_mobile, body: s.paragraph_color, body_mobile: s.paragraph_color_mobile, eyebrow: s.eyebrow_color, eyebrow_mobile: s.eyebrow_color_mobile %}"{% endif %}
+>
+ <div class="vr__inner">
+ <div class="vr__grid">
+ {%- comment -%} -- Left: intro ---- {%- endcomment -%}
+ <div class="vr__intro{% unless template.suffix == 'our-story' or template.suffix == 'about' %} category-showcase__heading-group{% endunless %}" data-vr-reveal>
+ {%- if template.suffix == 'our-story' or template.suffix == 'about' -%}
+ {% render 'uc-subpage-section-head',
+ eyebrow: s.eyebrow,
+ heading: s.heading,
+ description_html: s.description,
+ align: 'left',
+ header_class: 'vr__intro-head',
+ reveal: false
+ %}
+ {%- else -%}
+ {%- if s.eyebrow != blank -%}
+ <p class="category-showcase__label">{{ s.eyebrow | escape }}</p>
+ {%- endif -%}
+ {%- if s.heading != blank -%}
+ <h2 class="category-showcase__title">{{ s.heading | escape }}</h2>
+ {%- endif -%}
+ {%- if s.description != blank -%}
+ <div class="category-showcase__intro rte">{{ s.description }}</div>
+ {%- endif -%}
+ {%- endif -%}
+ {%- if template.suffix == 'our-story' or template.suffix == 'about' -%}
+ {%- assign uc_vr_heading = s.heading | downcase -%}
+ {%- assign uc_vr_plain = s.description | strip_html | strip -%}
+ {%- if uc_vr_heading contains 'stand for' and uc_vr_plain.size < 320 -%}
+ <div class="uc-sp-head__desc rte vr__values-more">
+ <p>We build colour people can use at home, week after week, without a salon visit or a complicated kit. Honest formulas, clear instructions, and results you can see in daylight.</p>
+ <p>Quality is how we choose ingredients. Simplicity is how the routine feels. Confidence is how you leave the bathroom. Improvement is what we do after we hear from you.</p>
+ </div>
+ {%- endif -%}
+ {%- endif -%}
+ {%- if s.show_divider -%}
+ <span class="vr__divider" aria-hidden="true"></span>
+ {%- endif -%}
+ {%- if s.footnote != blank -%}
+ <p class="uc-sec-header__footnote">{{ s.footnote | escape }}</p>
+ {%- endif -%}
+ </div>
+
+ {%- comment -%} -- Right: stats + features ---- {%- endcomment -%}
+ <div class="vr__content">
+ {%- assign stat_blocks = section.blocks | where: 'type', 'statistic' -%}
+ {%- assign feature_blocks = section.blocks | where: 'type', 'feature' -%}
+
+ {%- if stat_blocks.size > 0 -%}
+ <ul class="vr__stats" role="list">
+ {%- for block in stat_blocks -%}
+ {%- liquid
+ assign b = block.settings
+ assign delay = b.animation_delay | default: 0
+ -%}
+ <li
+ class="vr-stat{% if b.show_divider %} vr-stat--divided vr-stat--divider-{{ b.divider_style }}{% endif %}"
+ {{ block.shopify_attributes }}
+ data-vr-reveal
+ style="--vr-delay: {{ delay }}ms;{% if b.min_width != blank %} --vr-stat-min: {{ b.min_width }}px;{% endif %}{% if b.number_color != blank %} --vr-stat-num-color: {{ b.number_color }};{% endif %}{% if b.text_color != blank %} --vr-stat-text-color: {{ b.text_color }};{% endif %} --vr-stat-weight: {{ b.weight | default: 600 }};"
+ >
+ {%- if b.percentage != blank -%}
+ <span
+ class="vr-stat__num"
+ {% if b.count_up %}data-vr-count{% endif %}
+ >{{ b.percentage | escape }}</span>
+ {%- endif -%}
+ {%- if b.title != blank -%}
+ <span class="vr-stat__title">{{ b.title | escape }}</span>
+ {%- endif -%}
+ {%- if b.subtitle != blank -%}
+ <span class="vr-stat__subtitle">{{ b.subtitle | escape }}</span>
+ {%- endif -%}
+ {%- if b.label != blank -%}
+ <span class="vr-stat__label">{{ b.label | escape }}</span>
+ {%- endif -%}
+ </li>
+ {%- endfor -%}
+ </ul>
+ {%- endif -%}
+
+ {%- if feature_blocks.size > 0 -%}
+ <ul class="vr__features" role="list">
+ {%- for block in feature_blocks -%}
+ {%- liquid
+ assign b = block.settings
+ assign delay = b.animation_delay | default: 0
+ assign feat_desc = b.description
+ if template.suffix == 'our-story' or template.suffix == 'about'
+   if s.heading == 'What we stand for'
+     case b.title
+       when 'Quality First'
+         assign feat_desc = 'We keep raising the bar on every formula.'
+       when 'Simplicity'
+         assign feat_desc = 'Colour that fits a normal weekday, not a project.'
+       when 'Customer Confidence'
+         assign feat_desc = 'Made so you feel sure about the result.'
+       when 'Continuous Improvement'
+         assign feat_desc = 'We listen, then we refine the next batch.'
+     endcase
+   endif
+ endif
+ -%}
+ <li
+ class="vr-feature vr-feature--{{ b.alignment | default: 'left' }}"
+ {{ block.shopify_attributes }}
+ data-vr-reveal
+ style="--vr-delay: {{ delay }}ms; --vr-icon-size: {{ b.icon_size | default: 48 }}px; --vr-icon-radius: {{ b.icon_radius | default: 14 }}px;{% if b.icon_background != blank %} --vr-icon-bg: {{ b.icon_background }};{% endif %}{% if b.icon_color != blank %} --vr-icon-color: {{ b.icon_color }};{% endif %}{% if b.title_color != blank %} --vr-feat-title-color: {{ b.title_color }};{% endif %}{% if b.description_color != blank %} --vr-feat-desc-color: {{ b.description_color }};{% endif %}{% if b.icon_border %} --vr-icon-border: var(--vr-divider-thickness) solid var(--border-color);{% endif %}"
+ >
+ <span class="vr-feature__icon" aria-hidden="true">
+ {%- if b.icon_image != blank -%}
+ {%- assign vr_icon_alt = b.title | escape -%}
+ {{
+ b.icon_image
+ | image_url: width: 160
+ | image_tag:
+ loading: 'lazy',
+ widths: '48, 72, 96, 128, 160',
+ class: 'vr-feature__img',
+ alt: vr_icon_alt
+ }}
+ {%- elsif b.icon_svg != blank -%}
+ {{ b.icon_svg }}
+ {%- else -%}
+ {%- comment -%} Authentic Lucide icons via shared uc-icon snippet {%- endcomment -%}
+ {%- render 'uc-icon', icon: b.icon -%}
+ {%- endif -%}
+ </span>
+ <div class="vr-feature__text">
+ {%- if b.title != blank -%}
+ <h3 class="vr-feature__title">{{ b.title | escape }}</h3>
+ {%- endif -%}
+ {%- if feat_desc != blank -%}
+ <p class="vr-feature__desc">{{ feat_desc | escape }}</p>
+ {%- endif -%}
+ </div>
+ </li>
+ {%- endfor -%}
+ </ul>
+ {%- endif -%}
+
+ {%- if section.blocks.size == 0 -%}
+ <div class="vr__empty">{{ 'Add statistic and feature blocks to build this section.' }}</div>
+ {%- endif -%}
+ </div>
+ </div>
+ </div>
+</visible-results>
+
+{%- if s.enable_animations -%}
+ <script src="{{ 'visible-results.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{% schema %}
+{
+ "name": "Visible Results",
+ "tag": "section",
+ "class": "section section-visible-results",
+ "max_blocks": 30,
+ "settings": [
+ { "type": "header", "content": "Content" },
+ { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Visible results" },
+ { "type": "text", "id": "heading", "label": "Heading", "default": "Real results. Real confidence." },
+ { "type": "richtext", "id": "description", "label": "Description", "default": "<p>Our formulas are designed to deliver visible improvements - gently and effectively.</p>" },
+ { "type": "text", "id": "footnote", "label": "Footnote / disclaimer" },
+
+ { "type": "header", "content": "Layout" },
+ {
+ "type": "select", "id": "section_width", "label": "Section width", "default": "contained",
+ "options": [
+ { "value": "contained", "label": "Contained" },
+ { "value": "full", "label": "Full width background" }
+ ]
+ },
+ { "type": "range", "id": "max_width", "label": "Maximum content width", "min": 900, "max": 1600, "step": 20, "unit": "px", "default": 1200 },
+ { "type": "range", "id": "content_width", "label": "Text column width", "min": 320, "max": 640, "step": 10, "unit": "px", "default": 460 },
+ {
+ "type": "select", "id": "section_alignment", "label": "Section alignment", "default": "left",
+ "options": [
+ { "value": "left", "label": "Left" },
+ { "value": "center", "label": "Center" }
+ ]
+ },
+ { "type": "range", "id": "border_radius", "label": "Panel border radius", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 20 },
+ { "type": "checkbox", "id": "show_shadow", "label": "Panel shadow", "default": false },
+
+ { "type": "header", "content": "Spacing" },
+ { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 72 },
+ { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 72 },
+ { "type": "range", "id": "padding_left", "label": "Left padding (full width)", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 0 },
+ { "type": "range", "id": "padding_right", "label": "Right padding (full width)", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 0 },
+
+ { "type": "header", "content": "Columns (features)" },
+ { "type": "range", "id": "columns_desktop", "label": "Desktop columns", "min": 2, "max": 6, "step": 1, "default": 4 },
+ { "type": "range", "id": "columns_tablet", "label": "Tablet columns", "min": 1, "max": 4, "step": 1, "default": 2 },
+ {
+ "type": "select", "id": "columns_mobile", "label": "Mobile columns", "default": "2",
+ "options": [
+ { "value": "1", "label": "1 column" },
+ { "value": "2", "label": "2 columns" }
+ ]
+ },
+
+ { "type": "header", "content": "Heading typography" },
+ { "type": "range", "id": "heading_size_desktop", "label": "Heading size  -  desktop", "min": 24, "max": 72, "step": 2, "unit": "px", "default": 28 },
+ { "type": "range", "id": "heading_size_tablet", "label": "Heading size  -  tablet", "min": 20, "max": 60, "step": 2, "unit": "px", "default": 26 },
+ { "type": "range", "id": "heading_size_mobile", "label": "Heading size  -  mobile", "min": 18, "max": 48, "step": 2, "unit": "px", "default": 26 },
+ {
+ "type": "select", "id": "heading_weight", "label": "Heading weight", "default": "600",
+ "options": [
+ { "value": "400", "label": "Regular" },
+ { "value": "500", "label": "Medium" },
+ { "value": "600", "label": "Semibold" },
+ { "value": "700", "label": "Bold" }
+ ]
+ },
+ { "type": "range", "id": "letter_spacing", "label": "Heading letter spacing", "min": -2, "max": 2, "step": 0.5, "unit": "px", "default": -0.5 },
+ { "type": "range", "id": "line_height", "label": "Heading line height", "min": 90, "max": 180, "step": 5, "unit": "%", "default": 115 },
+ { "type": "range", "id": "text_width", "label": "Paragraph max width", "min": 280, "max": 640, "step": 10, "unit": "px", "default": 460 },
+
+ { "type": "header", "content": "Colours" },
+ { "type": "color_scheme", "id": "color_scheme", "label": "Colour scheme", "default": "scheme-1" },
+ { "type": "color", "id": "background_color", "label": "Background override" },
+ { "type": "color", "id": "background_secondary", "label": "Cards / panel background" },
+ { "type": "color", "id": "eyebrow_color", "label": "Eyebrow colour (desktop)" },
+ { "type": "color", "id": "heading_color", "label": "Heading colour (desktop)" },
+ { "type": "color", "id": "paragraph_color", "label": "Paragraph colour (desktop)" },
+ { "type": "color", "id": "eyebrow_color_mobile", "label": "Eyebrow colour (mobile)" },
+ { "type": "color", "id": "heading_color_mobile", "label": "Heading colour (mobile)" },
+ { "type": "color", "id": "paragraph_color_mobile", "label": "Paragraph colour (mobile)" },
+
+ { "type": "header", "content": "Divider" },
+ { "type": "checkbox", "id": "show_divider", "label": "Show divider under intro", "default": true },
+ { "type": "color", "id": "divider_color", "label": "Divider colour" },
+ { "type": "range", "id": "divider_thickness", "label": "Divider thickness", "min": 1, "max": 6, "step": 1, "unit": "px", "default": 1 },
+
+ { "type": "header", "content": "Icons" },
+ { "type": "checkbox", "id": "enable_icon_background", "label": "Enable icon background", "default": true },
+ {
+ "type": "select", "id": "icon_shape", "label": "Icon shape", "default": "squircle",
+ "options": [
+ { "value": "rounded", "label": "Rounded" },
+ { "value": "squircle", "label": "Squircle" },
+ { "value": "circle", "label": "Circle" },
+ { "value": "square", "label": "Square" }
+ ]
+ },
+
+ { "type": "header", "content": "Animation" },
+ { "type": "checkbox", "id": "enable_animations", "label": "Enable scroll animations", "default": true },
+ { "type": "range", "id": "animation_speed", "label": "Animation speed", "min": 200, "max": 1200, "step": 50, "unit": "ms", "default": 600 },
+ { "type": "checkbox", "id": "enable_hover", "label": "Enable hover effects", "default": true },
+
+ { "type": "header", "content": "UC - Responsive spacing" },
+ { "type": "range", "id": "pad_top_lg", "label": "Top padding - laptop (990px+)", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+ { "type": "range", "id": "pad_top_xxl", "label": "Top padding - large desktop (1440px+)", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 96 },
+ { "type": "range", "id": "container_max_lg", "label": "Container max width - laptop+", "min": 960, "max": 1600, "step": 20, "unit": "px", "default": 1280 },
+ { "type": "select", "id": "container_mode", "label": "Container", "default": "boxed", "options": [{"value":"boxed","label":"Boxed"},{"value":"full","label":"Full width"}] },
+ { "type": "header", "content": "Typography — sizes by device" },
+ { "type": "paragraph", "content": "Set font sizes per breakpoint. Values apply immediately (no override checkbox required)." },
+ { "type": "range", "id": "eyebrow_size_xs", "label": "Eyebrow / pill label — mobile", "min": 9, "max": 18, "step": 1, "unit": "px", "default": 11 },
+ { "type": "range", "id": "eyebrow_size_md", "label": "Eyebrow / pill label — tablet (750px+)", "min": 9, "max": 18, "step": 1, "unit": "px", "default": 11 },
+ { "type": "range", "id": "eyebrow_size_lg", "label": "Eyebrow / pill label — laptop (990px+)", "min": 9, "max": 20, "step": 1, "unit": "px", "default": 12 },
+ { "type": "range", "id": "eyebrow_size_xxl", "label": "Eyebrow / pill label — large desktop", "min": 9, "max": 20, "step": 1, "unit": "px", "default": 12 },
+ { "type": "range", "id": "h_size_xs", "label": "Heading — mobile", "min": 18, "max": 56, "step": 1, "unit": "px", "default": 24 },
+ { "type": "range", "id": "h_size_md", "label": "Heading — tablet (750px+)", "min": 18, "max": 64, "step": 1, "unit": "px", "default": 26 },
+ { "type": "range", "id": "h_size_lg", "label": "Heading — laptop (990px+)", "min": 20, "max": 64, "step": 1, "unit": "px", "default": 30 },
+ { "type": "range", "id": "h_size_xxl", "label": "Heading — large desktop", "min": 20, "max": 72, "step": 1, "unit": "px", "default": 32 },
+ { "type": "range", "id": "sub_size_xs", "label": "Subheading — mobile", "min": 12, "max": 36, "step": 1, "unit": "px", "default": 16 },
+ { "type": "range", "id": "sub_size_md", "label": "Subheading — tablet", "min": 12, "max": 40, "step": 1, "unit": "px", "default": 17 },
+ { "type": "range", "id": "sub_size_lg", "label": "Subheading — laptop+", "min": 12, "max": 40, "step": 1, "unit": "px", "default": 18 },
+ { "type": "range", "id": "sub_size_xxl", "label": "Subheading — large desktop", "min": 12, "max": 44, "step": 1, "unit": "px", "default": 18 },
+ { "type": "range", "id": "desc_size_xs", "label": "Description — mobile", "min": 12, "max": 22, "step": 1, "unit": "px", "default": 14 },
+ { "type": "range", "id": "desc_size_md", "label": "Description — tablet", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 15 },
+ { "type": "range", "id": "desc_size_lg", "label": "Description — laptop+", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 15 },
+ { "type": "range", "id": "desc_size_xxl", "label": "Description — large desktop", "min": 12, "max": 26, "step": 1, "unit": "px", "default": 16 },
+ { "type": "range", "id": "btn_size_xs", "label": "Button / pill text — mobile", "min": 11, "max": 18, "step": 1, "unit": "px", "default": 13 },
+ { "type": "range", "id": "btn_size_md", "label": "Button / pill text — tablet", "min": 11, "max": 18, "step": 1, "unit": "px", "default": 13 },
+ { "type": "range", "id": "btn_size_lg", "label": "Button / pill text — laptop+", "min": 11, "max": 20, "step": 1, "unit": "px", "default": 14 },
+ { "type": "range", "id": "btn_size_xxl", "label": "Button / pill text — large desktop", "min": 11, "max": 20, "step": 1, "unit": "px", "default": 14 },
+ { "type": "header", "content": "UC - Section colors" },
+ { "type": "checkbox", "id": "use_global_colors", "label": "Use global brand colors", "default": true }
+ ],
+ "blocks": [
+ {
+ "type": "statistic",
+ "name": "Statistic",
+ "settings": [
+ { "type": "text", "id": "percentage", "label": "Number", "default": "95%" },
+ { "type": "text", "id": "title", "label": "Title", "default": "Healthier hair" },
+ { "type": "text", "id": "subtitle", "label": "Subtitle" },
+ { "type": "text", "id": "label", "label": "Small label" },
+ { "type": "checkbox", "id": "count_up", "label": "Count-up animation", "default": true },
+ {
+ "type": "select", "id": "weight", "label": "Number weight", "default": "600",
+ "options": [
+ { "value": "500", "label": "Medium" },
+ { "value": "600", "label": "Semibold" },
+ { "value": "700", "label": "Bold" }
+ ]
+ },
+ { "type": "color", "id": "number_color", "label": "Number colour" },
+ { "type": "color", "id": "text_color", "label": "Text colour" },
+ { "type": "range", "id": "min_width", "label": "Minimum width", "min": 100, "max": 260, "step": 10, "unit": "px", "default": 150 },
+ { "type": "checkbox", "id": "show_divider", "label": "Show divider", "default": false },
+ {
+ "type": "select", "id": "divider_style", "label": "Divider style", "default": "line",
+ "options": [
+ { "value": "line", "label": "Line" },
+ { "value": "dot", "label": "Dot" }
+ ]
+ },
+ { "type": "range", "id": "animation_delay", "label": "Animation delay", "min": 0, "max": 800, "step": 50, "unit": "ms", "default": 0 }
+ ]
+ },
+ {
+ "type": "feature",
+ "name": "Feature",
+ "settings": [
+ { "type": "header", "content": "Icon" },
+ {
+ "type": "select", "id": "icon", "label": "Built-in icon", "default": "droplet",
+ "options": [
+ { "value": "droplet", "label": "Droplet" },
+ { "value": "sun", "label": "Sun" },
+ { "value": "leaf", "label": "Leaf" },
+ { "value": "shield", "label": "Shield" },
+ { "value": "sparkle", "label": "Sparkle" },
+ { "value": "heart", "label": "Heart" },
+ { "value": "check", "label": "Check" },
+ { "value": "star", "label": "Star" },
+ { "value": "flask", "label": "Flask" },
+ { "value": "moon", "label": "Moon" },
+ { "value": "flower", "label": "Flower" },
+ { "value": "feather", "label": "Feather" }
+ ]
+ },
+ { "type": "image_picker", "id": "icon_image", "label": "Icon image (PNG / WEBP / retina)", "info": "Recommended: 256 × 256 px. Overrides the built-in icon." },
+ { "type": "textarea", "id": "icon_svg", "label": "Custom inline SVG (advanced)", "info": "Paste raw <svg>... markup. Overrides the built-in icon." },
+ { "type": "range", "id": "icon_size", "label": "Icon size", "min": 24, "max": 96, "step": 2, "unit": "px", "default": 48 },
+ { "type": "range", "id": "icon_radius", "label": "Icon background radius", "min": 0, "max": 50, "step": 2, "unit": "px", "default": 14 },
+ { "type": "checkbox", "id": "icon_border", "label": "Icon border", "default": false },
+ { "type": "color", "id": "icon_background", "label": "Icon background colour" },
+ { "type": "color", "id": "icon_color", "label": "Icon colour" },
+
+ { "type": "header", "content": "Text" },
+ { "type": "text", "id": "title", "label": "Title", "default": "Hydrating" },
+ { "type": "text", "id": "description", "label": "Description", "default": "Deep moisture for lasting comfort" },
+ { "type": "color", "id": "title_color", "label": "Title colour" },
+ { "type": "color", "id": "description_color", "label": "Description colour" },
+ {
+ "type": "select", "id": "alignment", "label": "Alignment", "default": "left",
+ "options": [
+ { "value": "left", "label": "Left" },
+ { "value": "center", "label": "Center" }
+ ]
+ },
+ { "type": "range", "id": "animation_delay", "label": "Animation delay", "min": 0, "max": 800, "step": 50, "unit": "ms", "default": 0 }
+ ]
+ }
+ ],
+ "presets": [
+ {
+ "name": "Visible Results",
+ "blocks": [
+ { "type": "statistic", "settings": { "percentage": "95%", "title": "Healthier hair" } },
+ { "type": "statistic", "settings": { "percentage": "89%", "title": "Improved hydration" } },
+ { "type": "statistic", "settings": { "percentage": "92%", "title": "More shine" } },
+ { "type": "feature", "settings": { "icon": "droplet", "title": "Hydrating", "description": "Deep moisture" } },
+ { "type": "feature", "settings": { "icon": "sun", "title": "Brightening", "description": "Even tone" } },
+ { "type": "feature", "settings": { "icon": "leaf", "title": "Calming", "description": "Reduces irritation" } },
+ { "type": "feature", "settings": { "icon": "shield", "title": "Protecting", "description": "Barrier support" } }
+ ]
+ },
+ {
+ "name": "About - Statistics",
+ "settings": {
+ "eyebrow": "By the numbers",
+ "heading": "Trusted at scale",
+ "enable_animations": true
+ },
+ "blocks": [
+ { "type": "statistic", "settings": { "percentage": "100K+", "title": "Happy customers" } },
+ { "type": "statistic", "settings": { "percentage": "4.8★", "title": "Average rating" } },
+ { "type": "statistic", "settings": { "percentage": "30", "title": "Day guarantee", "subtitle": "Money back" } }
+ ]
+ },
+ {
+ "name": "B2B - Business statistics",
+ "settings": { "heading": "Business at a glance", "enable_animations": true },
+ "blocks": [
+ { "type": "statistic", "settings": { "percentage": "100K+", "title": "End customers served" } },
+ { "type": "statistic", "settings": { "percentage": "40+", "title": "SKUs in catalogue" } },
+ { "type": "statistic", "settings": { "percentage": "24h", "title": "Partner response time" } }
+ ]
+ }
+ ]
+}
+{% endschema %}

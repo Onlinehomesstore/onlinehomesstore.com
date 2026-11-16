@@ -1,0 +1,31 @@
+/*
+ * ------------------------------------------------------------
+ * Online Homes Store — Collections index
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "uc-page-intro",
+      "settings": {
+        "eyebrow": "COLLECTIONS",
+        "heading": "Shop all collections",
+        "tagline": "Browse baby toys, educational play, sensory favourites, wooden toys and gift-ready edits.",
+        "padding_top": 8,
+        "padding_bottom": 12,
+        "use_global_colors": true
+      }
+    },
+    "main": {
+      "type": "main-list-collections",
+      "settings": {
+        "title": "Collections",
+        "sort": "alphabetical",
+        "image_ratio": "square",
+        "columns_desktop": 3,
+        "columns_mobile": "2"
+      }
+    }
+  },
+  "order": ["hero", "main"]
+}

@@ -1,0 +1,82 @@
+/* Two full review rows — JS steps one card at a time, never hover-pause */
+.pt:has(.pt-marquee) .pt__toolbar,
+.pt:has(.pt-marquee) .pt__arrows,
+.pt:has(.pt-marquee) .pt__progress {
+  display: none !important;
+}
+
+.upr-marquee,
+.pt-marquee {
+  --uc-rev-gap: 16px;
+  --uc-rev-show: 3;
+  --uc-rev-card: 280px;
+  --uc-rev-step: calc(var(--uc-rev-card) + var(--uc-rev-gap));
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow: hidden;
+  margin: 8px 0 0;
+  padding-block: 2px;
+  position: relative;
+}
+
+.upr-marquee__row,
+.pt-marquee__row {
+  overflow: hidden;
+  width: 100%;
+}
+
+.upr-marquee__track,
+.pt-marquee__track {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: var(--uc-rev-gap);
+  width: max-content !important;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+}
+
+html body .upr-marquee .upr__card,
+html body .pt-marquee .pt__card,
+html body.template-index .pt-marquee .pt__card,
+html body .pt-marquee .pt__track .pt__card,
+html body .pt-marquee .pt-marquee__track .pt__card {
+  flex: 0 0 var(--uc-rev-card) !important;
+  width: var(--uc-rev-card) !important;
+  max-width: var(--uc-rev-card) !important;
+  min-width: var(--uc-rev-card) !important;
+  min-height: 260px;
+  box-sizing: border-box;
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+}
+
+.upr-marquee .upr__card[data-uc-reveal],
+.pt-marquee .pt__card[data-uc-reveal] {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+@media screen and (max-width: 1199px) {
+  .upr-marquee,
+  .pt-marquee {
+    --uc-rev-show: 2;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .upr-marquee,
+  .pt-marquee {
+    --uc-rev-show: 1;
+    --uc-rev-gap: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .upr-marquee__track,
+  .pt-marquee__track {
+    transition: none !important;
+    transform: none !important;
+  }
+}

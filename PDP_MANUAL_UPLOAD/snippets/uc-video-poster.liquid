@@ -1,0 +1,107 @@
+{% comment %}
+  uc-video-poster.liquid
+  Resolves the best available poster/thumbnail for a video block.
+
+  IMPORTANT: Must be called with {% include %} (not render) so these assigns
+  reach the parent section: uc_poster_image, uc_poster_url, uc_video_provider, uc_video_id
+
+  Parameters:
+    video_shopify, video_url, poster, thumbnail, poster_url, product
+    thumbnail_mode - 'auto' | 'manual' (default: auto)
+{% endcomment %}
+
+{%- liquid
+  assign uc_mode = thumbnail_mode | default: 'auto'
+  assign uc_ext = video_url | strip
+  assign uc_poster_image = blank
+  assign uc_poster_url = blank
+  assign uc_video_provider = 'unknown'
+  assign uc_video_id = ''
+
+  comment
+    Bundled TikTok posters (theme assets) — reliable when browser oEmbed is CORS-blocked.
+  endcomment
+  assign uc_tt_bundled = '7541676266819226902|7507391833979260182|7542041614491847958|7488125209917050134|7481049348051127574|7507397245545860374'
+
+  if uc_mode == 'manual'
+    if poster != blank
+      assign uc_poster_image = poster
+    elsif thumbnail != blank
+      assign uc_poster_image = thumbnail
+    elsif poster_url != blank
+      assign uc_poster_url = poster_url | strip
+    endif
+  else
+    if poster != blank
+      assign uc_poster_image = poster
+    elsif video_shopify != blank and video_shopify.preview_image != blank
+      assign uc_poster_image = video_shopify.preview_image
+    endif
+
+    if uc_poster_image == blank and poster_url != blank
+      assign uc_poster_url = poster_url | strip
+    endif
+
+    if uc_poster_image == blank and uc_poster_url == blank and uc_ext != blank
+      if uc_ext contains 'youtube.com' or uc_ext contains 'youtu.be'
+        assign uc_video_provider = 'youtube'
+        if uc_ext contains 'youtu.be/'
+          assign uc_video_id = uc_ext | split: 'youtu.be/' | last | split: '?' | first | split: '&' | first
+        elsif uc_ext contains 'shorts/'
+          assign uc_video_id = uc_ext | split: 'shorts/' | last | split: '?' | first | split: '&' | first
+        elsif uc_ext contains 'watch?v='
+          assign uc_video_id = uc_ext | split: 'watch?v=' | last | split: '&' | first
+        elsif uc_ext contains 'embed/'
+          assign uc_video_id = uc_ext | split: 'embed/' | last | split: '?' | first
+        endif
+        if uc_video_id != blank
+          assign uc_poster_url = 'https://img.youtube.com/vi/' | append: uc_video_id | append: '/hqdefault.jpg'
+        endif
+      elsif uc_ext contains 'vimeo.com'
+        assign uc_video_provider = 'vimeo'
+        if uc_ext contains 'video/'
+          assign uc_video_id = uc_ext | split: 'video/' | last | split: '?' | first | split: '/' | first
+        else
+          assign uc_video_id = uc_ext | split: 'vimeo.com/' | last | split: '?' | first | split: '/' | first
+        endif
+      elsif uc_ext contains 'tiktok.com'
+        assign uc_video_provider = 'tiktok'
+        if uc_ext contains '/video/'
+          assign uc_video_id = uc_ext | split: '/video/' | last | split: '?' | first | split: '/' | first
+        endif
+        if uc_video_id != blank and uc_tt_bundled contains uc_video_id
+          assign uc_poster_url = 'pvr-poster-' | append: uc_video_id | append: '.jpg' | asset_url
+        endif
+      elsif uc_ext contains 'instagram.com'
+        assign uc_video_provider = 'instagram'
+      elsif uc_ext contains '.mp4'
+        assign uc_video_provider = 'mp4'
+      endif
+    elsif uc_ext != blank
+      comment
+        Still parse provider/id even when a poster image already exists.
+      endcomment
+      if uc_ext contains 'youtube.com' or uc_ext contains 'youtu.be'
+        assign uc_video_provider = 'youtube'
+      elsif uc_ext contains 'vimeo.com'
+        assign uc_video_provider = 'vimeo'
+      elsif uc_ext contains 'tiktok.com'
+        assign uc_video_provider = 'tiktok'
+        if uc_ext contains '/video/'
+          assign uc_video_id = uc_ext | split: '/video/' | last | split: '?' | first | split: '/' | first
+        endif
+      elsif uc_ext contains 'instagram.com'
+        assign uc_video_provider = 'instagram'
+      elsif uc_ext contains '.mp4'
+        assign uc_video_provider = 'mp4'
+      endif
+    endif
+
+    if uc_poster_image == blank and uc_poster_url == blank and thumbnail != blank
+      assign uc_poster_image = thumbnail
+    endif
+    if uc_poster_image == blank and uc_poster_url == blank and product != blank and product.featured_image != blank
+      assign uc_poster_image = product.featured_image
+    endif
+  endif
+-%}

@@ -1,0 +1,625 @@
+{%- comment -%}
+ ============================================================================
+ PREMIUM SHOPPABLE VIDEO REELS
+ ----------------------------------------------------------------------------
+ Luxury shoppable reels slider for Online Store 2.0 (Dawn compatible).
+
+ - Vertical 9:16 video cards with an overlapping product card.
+ - Supports Shopify-hosted video, MP4 URL, YouTube, Vimeo, TikTok, Instagram.
+ - Only the active/visible muted video autoplays (IntersectionObserver).
+ - AJAX add to cart + native dynamic checkout, synced with the custom header
+ cart drawer via the shared `cart:refresh` / PUB_SUB cartUpdate events.
+ - Luxury popup, glassmorphism controls, drag / wheel / touch / keyboard.
+ - Zero external libraries. Vanilla JS inside a <premium-video-reels> element.
+
+ Paste this file into /sections and add the section from the theme editor.
+ ============================================================================
+{%- endcomment -%}
+{{ 'premium-video-reels.css' | asset_url | stylesheet_tag }}
+{{ 'uc-reels-redesign.css' | asset_url | stylesheet_tag }}
+<link rel="dns-prefetch" href="https://www.tiktok.com">
+
+<script src="{{ 'premium-video-reels.js' | asset_url }}" defer="defer"></script>
+
+{%- liquid
+ assign s = section.settings
+ assign uid = section.id
+
+ assign container_max = '1200px'
+ case s.container_width
+ when 'narrow'
+ assign container_max = '1080px'
+ when 'wide'
+ assign container_max = '1400px'
+ when 'full'
+ assign container_max = 'none'
+ endcase
+
+ assign anim = s.animation_speed | default: 280
+-%}
+
+{%- assign uc_sec_scope = '#PremiumVideoReels-' | append: uid -%}
+{%- render 'uc-section-vars', section: section, scope: uc_sec_scope -%}
+{%- render 'uc-section-colors', section: section -%}
+
+{%- style -%}
+ #PremiumVideoReels-{{ uid }} {
+ --pvr-bg: {{ s.background_color | default: 'rgb(var(--color-background))' }};
+ --pvr-heading-color: {{ s.heading_color | default: 'rgb(var(--color-foreground))' }};
+ --pvr-subtitle-color: {{ s.subtitle_color | default: 'rgba(var(--color-foreground), 0.65)' }};
+ --pvr-container-max: {{ container_max }};
+ --pvr-card-radius: {{ s.card_radius | default: 18 }}px;
+ --pvr-card-shadow: {{ s.card_shadow | default: 18 }};
+ --pvr-gap: {{ s.card_gap | default: 20 }}px;
+ --pvr-pad-top: {{ s.padding_top | default: 56 }}px;
+ --pvr-pad-bottom: {{ s.padding_bottom | default: 56 }}px;
+ --pvr-per-desktop: {{ s.cards_desktop | default: 6 }};
+ --pvr-per-laptop: {{ s.cards_laptop | default: 5 }};
+ --pvr-per-tablet: {{ s.cards_tablet | default: 3 }};
+ --pvr-per-mobile: {{ s.cards_mobile | default: 2 }};
+ --pvr-per-small: {{ s.cards_small | default: 1 }};
+ --pvr-anim: {{ anim }}ms;
+ --pvr-viewbox: 9 / 16;
+ }
+ {%- if s.background_color != blank -%}
+ #PremiumVideoReels-{{ uid }} { background: {{ s.background_color }}; }
+ {%- endif -%}
+{%- endstyle -%}
+
+<premium-video-reels
+ id="PremiumVideoReels-{{ uid }}"
+ class="pvr color-{{ s.color_scheme }} pvr--align-{{ s.heading_alignment }}"
+ data-section-id="{{ uid }}"
+ {% if s.heading_color != blank or s.subtitle_color != blank or s.heading_color_mobile != blank or s.subtitle_color_mobile != blank %}data-uc-theme-text style="{% render 'uc-theme-text-vars', heading: s.heading_color, heading_mobile: s.heading_color_mobile, body: s.subtitle_color, body_mobile: s.subtitle_color_mobile %}"{% endif %}
+ data-autoplay="false"
+ data-reel-order="{{ s.order_mode | default: 'sync' }}"
+ data-reel-master-id="{{ s.reel_master_id | default: 'premium_video_reels_CkL9Fj' }}"
+ data-loop="{{ s.loop }}"
+ data-muted="{{ s.start_muted }}"
+ data-hover="{{ s.enable_hover }}"
+ data-glass="{{ s.glass_effect }}"
+ data-popup="{{ s.enable_popup }}"
+ data-arrows="{{ s.show_arrows }}"
+ data-pagination="{{ s.pagination_style }}"
+ data-overlay="{{ s.enable_overlay }}"
+>
+ {%- if s.show_arrows and section.blocks.size > 0 -%}
+ <button type="button" class="pvr__arrow pvr__arrow--prev" data-pvr-prev aria-label="Previous reels">
+ <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+ </button>
+ <button type="button" class="pvr__arrow pvr__arrow--next" data-pvr-next aria-label="Next reels">
+ <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+ </button>
+ {%- endif -%}
+ <div class="pvr__inner">
+ {% render 'uc-section-header',
+ label: s.label,
+ heading: s.heading,
+ description: s.subtitle,
+ reveal: true
+ %}
+
+ {%- if section.blocks.size > 0 -%}
+ <div class="pvr__viewport">
+
+ <ul
+ class="pvr__track"
+ data-pvr-track
+ role="list"
+ tabindex="0"
+ aria-label="{{ s.heading | default: 'Shoppable video reels' | escape }}"
+ >
+ {%- for block in section.blocks -%}
+ {%- liquid
+ assign b = block.settings
+ assign product = b.product
+ assign vid = b.video_shopify
+ assign ext = b.video_url | strip
+
+ assign poster_product = nil
+ if vid != blank or ext != blank
+   assign poster_product = product
+ endif
+
+ assign mp4src = ''
+ if vid != blank
+ for source in vid.sources
+ if source.format == 'mp4'
+ assign mp4src = source.url
+ endif
+ endfor
+ endif
+
+ assign card_title = b.custom_title | default: product.title
+ assign card_vendor = b.custom_subtitle | default: product.vendor
+ assign form_id = 'pvr-form-' | append: uid | append: '-' | append: block.id
+
+ assign uc_poster_image = blank
+ assign uc_poster_url = blank
+ assign uc_video_provider = 'unknown'
+ assign uc_video_id = ''
+ -%}
+ {%- include 'uc-video-poster', video_shopify: vid, video_url: ext, poster: b.poster, thumbnail: b.thumbnail, poster_url: b.poster_url, product: poster_product, thumbnail_mode: b.thumbnail_mode -%}
+ {%- liquid
+ assign current_variant = nil
+ assign on_sale = false
+ assign save_pct = 0
+ if product != blank
+   assign current_variant = product.selected_or_first_available_variant
+   if current_variant != blank and current_variant.compare_at_price > current_variant.price
+     assign on_sale = true
+     assign save_pct = current_variant.compare_at_price | minus: current_variant.price | times: 100 | divided_by: current_variant.compare_at_price | round
+   endif
+ endif
+
+ assign thumb_crop = b.thumbnail_crop | default: 'cover'
+ assign thumb_position = b.thumbnail_position | default: 'center center'
+ assign thumb_radius = b.thumbnail_radius | default: s.card_radius | default: 18
+ -%}
+
+ <li
+ class="pvr__cell"
+ {{ block.shopify_attributes }}
+ data-pvr-cell
+ data-block-id="{{ block.id }}"
+ data-video-shopify="{{ mp4src | escape }}"
+ data-video-url="{{ ext | escape }}"
+ data-video-provider="{{ uc_video_provider | escape }}"
+ data-video-id="{{ uc_video_id | escape }}"
+ data-thumb-auto="{% if b.thumbnail_mode == 'manual' %}false{% else %}true{% endif %}"
+ data-autoplay-block="{{ b.autoplay }}"
+ data-muted-block="{{ b.mute }}"
+ data-gradient="{{ b.gradient }}"
+ {%- if poster_product != blank and poster_product.featured_image != blank -%}
+ data-fallback-image="{{ poster_product.featured_image | image_url: width: 480 }}"
+ {%- elsif b.poster != blank -%}
+ data-fallback-image="{{ b.poster | image_url: width: 480 }}"
+ {%- elsif b.thumbnail != blank -%}
+ data-fallback-image="{{ b.thumbnail | image_url: width: 480 }}"
+ {%- endif -%}
+ >
+ <article class="pvr-card">
+ <div class="pvr-card__media" data-pvr-media style="--pvr-card-h: {{ b.video_height | default: 380 }}px; --pvr-thumb-crop: {{ thumb_crop }}; --pvr-thumb-position: {{ thumb_position }}; --pvr-thumb-radius: {{ thumb_radius }}px; --pvr-overlay-gradient: {{ b.overlay_gradient_strength | default: 60 }}%;">
+
+ <div class="pvr-card__skeleton" data-pvr-skeleton aria-hidden="true"></div>
+
+ {%- if uc_poster_image != blank -%}
+ {%- assign pvr_img_alt = card_title | escape -%}
+ {%- if forloop.index <= 3 -%}
+ {{
+ uc_poster_image
+ | image_url: width: 480
+ | image_tag:
+ class: 'pvr-card__poster',
+ loading: 'eager',
+ fetchpriority: 'high',
+ widths: '240, 360, 480',
+ sizes: '(min-width: 990px) 18vw, 42vw',
+ alt: pvr_img_alt
+ }}
+ {%- else -%}
+ {{
+ uc_poster_image
+ | image_url: width: 480
+ | image_tag:
+ class: 'pvr-card__poster',
+ loading: 'lazy',
+ decoding: 'async',
+ widths: '240, 360, 480',
+ sizes: '(min-width: 990px) 18vw, 42vw',
+ alt: pvr_img_alt
+ }}
+ {%- endif -%}
+ {%- elsif uc_poster_url != blank -%}
+ <img
+ class="pvr-card__poster"
+ src="{{ uc_poster_url | escape }}"
+ data-poster-url="{{ uc_poster_url | escape }}"
+ loading="{% if forloop.index <= 3 %}eager{% else %}lazy{% endif %}"
+ {% if forloop.index <= 3 %}fetchpriority="high"{% endif %}
+ width="480"
+ height="854"
+ alt="{{ card_title | escape }}"
+ referrerpolicy="no-referrer"
+ decoding="async"
+ >
+ {%- elsif ext != blank or mp4src != blank -%}
+ {%- comment -%} Pending poster — JS resolves TikTok/IG/YouTube thumbs into this img {%- endcomment -%}
+ <img
+ class="pvr-card__poster pvr-card__poster--pending"
+ data-poster-pending="true"
+ {% if uc_video_id != blank %}data-tiktok-id="{{ uc_video_id | escape }}"{% endif %}
+ alt="{{ card_title | escape }}"
+ width="480"
+ height="854"
+ referrerpolicy="no-referrer"
+ decoding="async"
+ hidden
+ >
+ {%- else -%}
+ {%- comment -%} Theme editor / empty video slot {%- endcomment -%}
+ <div class="pvr-card__editor-slot" data-pvr-editor-slot>
+ {%- if request.design_mode -%}
+ <div class="pvr-card__editor-hint">
+ <strong>Add video</strong>
+ <span>Upload a Shopify video or paste a URL in block settings</span>
+ </div>
+ {%- else -%}
+ <div class="pvr-card__editor-hint pvr-card__editor-hint--muted" aria-hidden="true">
+ <span>Video coming soon</span>
+ </div>
+ {%- endif -%}
+ </div>
+ {%- endif -%}
+
+ {%- comment -%} Video mounts here on activation {%- endcomment -%}
+ <div class="pvr-card__video-slot" data-pvr-video-slot></div>
+
+ {%- if s.enable_overlay and b.overlay_text != blank or s.enable_overlay and b.overlay_subtitle != blank or s.enable_overlay and b.overlay_cta != blank -%}
+ <div class="pvr-card__overlay pvr-card__overlay--{{ b.overlay_position | default: 'bottom' }}">
+ {%- if b.overlay_text != blank -%}
+ <p class="pvr-card__overlay-title">{{ b.overlay_text | escape }}</p>
+ {%- endif -%}
+ {%- if b.overlay_subtitle != blank -%}
+ <p class="pvr-card__overlay-sub">{{ b.overlay_subtitle | escape }}</p>
+ {%- endif -%}
+ {%- if b.overlay_cta != blank -%}
+ <a class="pvr-card__overlay-cta" href="{{ b.overlay_cta_url | default: product.url | default: '#' }}">{{ b.overlay_cta | escape }}</a>
+ {%- endif -%}
+ </div>
+ {%- endif -%}
+
+ {%- if b.badge != 'none' or b.badge_custom != blank -%}
+ <span class="pvr-card__badge pvr-card__badge--{{ b.badge }}">
+ {{ b.badge_custom | default: b.badge | upcase }}
+ </span>
+ {%- elsif on_sale -%}
+ <span class="pvr-card__badge pvr-card__badge--sale">SALE</span>
+ {%- endif -%}
+
+ {%- comment -%} Inline play/pause + mute - no popup {%- endcomment -%}
+ <button type="button" class="pvr-card__hit" data-pvr-toggle aria-label="Play or pause reel"></button>
+ <button type="button" class="pvr-card__mute" data-pvr-mute aria-label="Toggle mute" aria-pressed="true">
+ <svg class="pvr-card__mute-on" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8.65v6.7A4.47 4.47 0 0 0 16.5 12zM14 3.23v2.06a7 7 0 0 1 0 13.42v2.06A9 9 0 0 0 14 3.23z"/></svg>
+ <svg class="pvr-card__mute-off" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" hidden><path fill="currentColor" d="M16.5 12A4.5 4.5 0 0 0 14 8.65v2.2l2.45 2.45c.03-.2.05-.41.05-.62zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51A8.8 8.8 0 0 0 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06a9 9 0 0 0 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+ </button>
+
+ <span class="pvr-card__cue" aria-hidden="true">
+ <svg viewBox="0 0 24 24" width="18" height="18"><polygon points="6 3 20 12 6 21 6 3" fill="currentColor"/></svg>
+ </span>
+
+ <div class="pvr-card__spinner" data-pvr-spinner hidden aria-hidden="true">
+ <svg viewBox="0 0 24 24" width="30" height="30"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="46" stroke-linecap="round"/></svg>
+ </div>
+
+ <div class="pvr-card__progress" data-pvr-progress aria-hidden="true">
+ <span class="pvr-card__progress-buffer" data-pvr-buffer></span>
+ <span class="pvr-card__progress-fill" data-pvr-fill></span>
+ </div>
+ </div>
+
+ {%- if product != blank and current_variant != blank -%}
+ <div class="pvr-card__product{% if s.glass_effect %} is-glass{% endif %}">
+ <a class="pvr-card__product-media" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
+ {%- if product.featured_image != blank -%}
+ {{ product.featured_image | image_url: width: 120 | image_tag: class: 'pvr-card__product-img', loading: 'lazy', widths: '60, 120', alt: '' }}
+ {%- endif -%}
+ </a>
+ <div class="pvr-card__product-info">
+ {%- if card_vendor != blank -%}
+ <p class="pvr-card__product-vendor">{{ card_vendor | escape }}</p>
+ {%- endif -%}
+ <a class="pvr-card__product-title" href="{{ product.url }}">{{ card_title | escape }}</a>
+ <div class="pvr-card__product-price">
+ {%- if on_sale -%}
+ <span class="pvr-price pvr-price--sale">{{ current_variant.price | money }}</span>
+ <span class="pvr-price pvr-price--compare">{{ current_variant.compare_at_price | money }}</span>
+ {%- else -%}
+ <span class="pvr-price">{{ current_variant.price | money }}</span>
+ {%- endif -%}
+ </div>
+ </div>
+
+ {%- form 'product', product, id: form_id, class: 'pvr-card__form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+ <input type="hidden" name="id" value="{{ current_variant.id }}" data-pvr-variant>
+ <input type="hidden" name="quantity" value="1">
+ <button
+ type="submit"
+ name="add"
+ class="pvr-btn pvr-btn--add"
+ data-pvr-add
+ {% unless current_variant.available %}disabled{% endunless %}
+ >
+ <span class="pvr-btn__text">
+ {%- if current_variant.available -%}{{ b.button_text | default: 'Add to cart' }}{%- else -%}{{ 'products.product.sold_out' | t | default: 'Sold out' }}{%- endif -%}
+ </span>
+ <span class="pvr-btn__spin" hidden aria-hidden="true">
+ <svg viewBox="0 0 24 24" width="18" height="18"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="32" stroke-linecap="round"/></svg>
+ </span>
+ <span class="pvr-btn__done" hidden aria-hidden="true">Added {%- render 'uc-icon', icon: 'check', size: 14 -%}</span>
+ </button>
+ {%- if current_variant.available -%}
+ {{ form | payment_button }}
+ {%- endif -%}
+ {%- endform -%}
+ </div>
+ {%- endif -%}
+ </article>
+
+ {%- comment -%} Data island used to build the luxury popup {%- endcomment -%}
+ <script type="application/json" data-pvr-data>
+ {
+ "id": {{ block.id | json }},
+ "title": {{ card_title | json }},
+ "vendor": {{ card_vendor | json }},
+ "url": {% if product != blank %}{{ product.url | json }}{% else %}""{% endif %},
+ "handle": {% if product != blank %}{{ product.handle | json }}{% else %}""{% endif %},
+ "variantId": {% if current_variant != blank %}{{ current_variant.id | json }}{% else %}null{% endif %},
+ "available": {% if current_variant != blank %}{{ current_variant.available | json }}{% else %}false{% endif %},
+ "priceHtml": {% if current_variant != blank %}{{ current_variant.price | money | json }}{% else %}""{% endif %},
+ "compareHtml": {% if current_variant != blank and current_variant.compare_at_price %}{{ current_variant.compare_at_price | money | json }}{% else %}""{% endif %},
+ "onSale": {{ on_sale | json }},
+ "image": {% if product != blank and product.featured_image != blank %}{{ product.featured_image | image_url: width: 200 | json }}{% else %}""{% endif %},
+ "description": {% if product != blank %}{{ product.description | strip_html | truncatewords: 60 | json }}{% else %}""{% endif %}
+ }
+ </script>
+ </li>
+ {%- endfor -%}
+ </ul>
+ </div>
+
+ {%- if s.pagination_style == 'dots' -%}
+ <div class="pvr__dots" data-pvr-dots role="group" aria-label="Video reels slides" hidden></div>
+ {%- elsif s.pagination_style == 'progress' -%}
+ <div class="pvr__progressbar" data-pvr-scrollbar aria-hidden="true"><span data-pvr-scrollfill></span></div>
+ {%- elsif s.pagination_style == 'numbers' -%}
+ <div class="pvr__numbers" data-pvr-numbers aria-hidden="true"><span data-pvr-num-current>1</span> / <span data-pvr-num-total>{{ section.blocks.size }}</span></div>
+ {%- endif -%}
+ {%- else -%}
+ <div class="pvr__empty">
+ {{ 'onboarding.product_title' | t | default: 'Add reel blocks to display shoppable videos.' }}
+ </div>
+ {%- endif -%}
+ </div>
+</premium-video-reels>
+
+{% schema %}
+{
+ "name": "Premium Video Reels",
+ "tag": "section",
+ "class": "section section-premium-video-reels",
+ "max_blocks": 50,
+ "settings": [
+ { "type": "paragraph", "content": "Add up to 50 videos here. Duplicate this section on the page if you need more. Keep existing TikTok and Instagram links as they are." },
+ { "type": "header", "content": "Section header" },
+ { "type": "text", "id": "label", "label": "Small label", "default": "Watch and shop" },
+ { "type": "text", "id": "heading", "label": "Heading", "default": "Shop the reels" },
+ { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Real routines, real glow. Tap any reel to shop the look." },
+ { "type": "checkbox", "id": "show_divider", "label": "Show decorative divider", "default": true },
+ {
+ "type": "select", "id": "heading_alignment", "label": "Header alignment", "default": "center",
+ "options": [
+ { "value": "left", "label": "Left" },
+ { "value": "center", "label": "Center" },
+ { "value": "right", "label": "Right" }
+ ]
+ },
+
+ { "type": "header", "content": "Layout" },
+ {
+ "type": "select", "id": "container_width", "label": "Container width", "default": "medium",
+ "options": [
+ { "value": "narrow", "label": "Narrow" },
+ { "value": "medium", "label": "Medium" },
+ { "value": "wide", "label": "Wide" },
+ { "value": "full", "label": "Full width" }
+ ]
+ },
+ { "type": "range", "id": "card_gap", "label": "Gap between cards", "min": 8, "max": 40, "step": 2, "unit": "px", "default": 20 },
+ { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 },
+ { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 },
+
+ { "type": "header", "content": "Cards per view" },
+ { "type": "range", "id": "cards_desktop", "label": "Desktop (1200px+)", "min": 3, "max": 8, "step": 1, "default": 6 },
+ { "type": "range", "id": "cards_laptop", "label": "Laptop (990 - 1199px)", "min": 3, "max": 7, "step": 1, "default": 5 },
+ { "type": "range", "id": "cards_tablet", "label": "Tablet (750 - 989px)", "min": 2, "max": 5, "step": 1, "default": 3 },
+ { "type": "range", "id": "cards_mobile", "label": "Mobile (480 - 749px)", "min": 1, "max": 4, "step": 1, "default": 2 },
+ {
+ "type": "select", "id": "cards_small", "label": "Small mobile (<480px)", "default": "1",
+ "options": [
+ { "value": "1", "label": "1 card" },
+ { "value": "1.15", "label": "1 card (peek next)" },
+ { "value": "1.3", "label": "1 card (larger peek)" },
+ { "value": "2", "label": "2 cards" }
+ ]
+ },
+
+ { "type": "header", "content": "Card design" },
+ { "type": "range", "id": "card_radius", "label": "Card radius", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 18 },
+ { "type": "range", "id": "card_shadow", "label": "Card shadow depth", "min": 0, "max": 40, "step": 2, "default": 18 },
+ { "type": "checkbox", "id": "glass_effect", "label": "Glass effect on product card", "default": true },
+ { "type": "checkbox", "id": "enable_hover", "label": "Enable hover effects (desktop)", "default": true },
+
+ { "type": "header", "content": "Slider behaviour" },
+ { "type": "checkbox", "id": "autoplay", "label": "Autoplay active video", "default": false, "info": "Leave off. Reel cards stay a still image until the viewer opens." },
+ {
+ "type": "select",
+ "id": "order_mode",
+ "label": "Reel order",
+ "default": "sync",
+ "info": "Sync follows the homepage reel section. Reorder reels there and every synced section updates. Manual keeps this section's own block order.",
+ "options": [
+ { "value": "sync", "label": "Sync with homepage" },
+ { "value": "manual", "label": "Manual order (this section)" }
+ ]
+ },
+ { "type": "text", "id": "reel_master_id", "label": "Homepage reel section id", "default": "premium_video_reels_CkL9Fj", "info": "Used when Reel order is Sync. This is the homepage section whose block order is the site order." },
+ { "type": "checkbox", "id": "loop", "label": "Loop slider (wrap at ends)", "default": true },
+ { "type": "checkbox", "id": "start_muted", "label": "Start muted", "default": true },
+ { "type": "checkbox", "id": "show_arrows", "label": "Show arrows (desktop)", "default": true },
+ { "type": "checkbox", "id": "enable_popup", "label": "Enable premium reel viewer", "default": true, "info": "Opens a clean 9:16 player. TikTok/Instagram never embed their chrome in the carousel." },
+ { "type": "checkbox", "id": "enable_overlay", "label": "Enable text overlays", "default": true },
+ {
+ "type": "select", "id": "pagination_style", "label": "Pagination", "default": "dots",
+ "options": [
+ { "value": "none", "label": "None" },
+ { "value": "dots", "label": "Dots" },
+ { "value": "progress", "label": "Progress bar" },
+ { "value": "numbers", "label": "Numbers" }
+ ]
+ },
+ { "type": "range", "id": "animation_speed", "label": "Animation speed", "min": 120, "max": 600, "step": 40, "unit": "ms", "default": 280 },
+
+ { "type": "header", "content": "Colours" },
+ { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+ { "type": "color", "id": "background_color", "label": "Background override" },
+ { "type": "color", "id": "heading_color", "label": "Heading colour (desktop)" },
+ { "type": "color", "id": "subtitle_color", "label": "Subtitle colour (desktop)" },
+ { "type": "color", "id": "heading_color_mobile", "label": "Heading colour (mobile)" },
+ { "type": "color", "id": "subtitle_color_mobile", "label": "Subtitle colour (mobile)" },
+
+ { "type": "header", "content": "UC - Responsive spacing" },
+ { "type": "range", "id": "pad_top_lg", "label": "Top padding - laptop (990px+)", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+ { "type": "range", "id": "pad_top_xxl", "label": "Top padding - large desktop (1440px+)", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 96 },
+ { "type": "range", "id": "container_max_lg", "label": "Container max width - laptop+", "min": 960, "max": 1600, "step": 20, "unit": "px", "default": 1280 },
+ { "type": "select", "id": "container_mode", "label": "Container", "default": "boxed", "options": [{"value":"boxed","label":"Boxed"},{"value":"full","label":"Full width"}] },
+ { "type": "header", "content": "Typography — sizes by device" },
+ { "type": "paragraph", "content": "Set font sizes per breakpoint. Values apply immediately (no override checkbox required)." },
+ { "type": "range", "id": "eyebrow_size_xs", "label": "Eyebrow / pill label — mobile", "min": 9, "max": 18, "step": 1, "unit": "px", "default": 11 },
+ { "type": "range", "id": "eyebrow_size_md", "label": "Eyebrow / pill label — tablet (750px+)", "min": 9, "max": 18, "step": 1, "unit": "px", "default": 11 },
+ { "type": "range", "id": "eyebrow_size_lg", "label": "Eyebrow / pill label — laptop (990px+)", "min": 9, "max": 20, "step": 1, "unit": "px", "default": 12 },
+ { "type": "range", "id": "eyebrow_size_xxl", "label": "Eyebrow / pill label — large desktop", "min": 9, "max": 20, "step": 1, "unit": "px", "default": 12 },
+ { "type": "range", "id": "h_size_xs", "label": "Heading — mobile", "min": 18, "max": 56, "step": 1, "unit": "px", "default": 24 },
+ { "type": "range", "id": "h_size_md", "label": "Heading — tablet (750px+)", "min": 18, "max": 64, "step": 1, "unit": "px", "default": 26 },
+ { "type": "range", "id": "h_size_lg", "label": "Heading — laptop (990px+)", "min": 20, "max": 64, "step": 1, "unit": "px", "default": 30 },
+ { "type": "range", "id": "h_size_xxl", "label": "Heading — large desktop", "min": 20, "max": 72, "step": 1, "unit": "px", "default": 32 },
+ { "type": "range", "id": "sub_size_xs", "label": "Subheading — mobile", "min": 12, "max": 36, "step": 1, "unit": "px", "default": 16 },
+ { "type": "range", "id": "sub_size_md", "label": "Subheading — tablet", "min": 12, "max": 40, "step": 1, "unit": "px", "default": 17 },
+ { "type": "range", "id": "sub_size_lg", "label": "Subheading — laptop+", "min": 12, "max": 40, "step": 1, "unit": "px", "default": 18 },
+ { "type": "range", "id": "sub_size_xxl", "label": "Subheading — large desktop", "min": 12, "max": 44, "step": 1, "unit": "px", "default": 18 },
+ { "type": "range", "id": "desc_size_xs", "label": "Description — mobile", "min": 12, "max": 22, "step": 1, "unit": "px", "default": 14 },
+ { "type": "range", "id": "desc_size_md", "label": "Description — tablet", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 15 },
+ { "type": "range", "id": "desc_size_lg", "label": "Description — laptop+", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 15 },
+ { "type": "range", "id": "desc_size_xxl", "label": "Description — large desktop", "min": 12, "max": 26, "step": 1, "unit": "px", "default": 16 },
+ { "type": "range", "id": "btn_size_xs", "label": "Button / pill text — mobile", "min": 11, "max": 18, "step": 1, "unit": "px", "default": 13 },
+ { "type": "range", "id": "btn_size_md", "label": "Button / pill text — tablet", "min": 11, "max": 18, "step": 1, "unit": "px", "default": 13 },
+ { "type": "range", "id": "btn_size_lg", "label": "Button / pill text — laptop+", "min": 11, "max": 20, "step": 1, "unit": "px", "default": 14 },
+ { "type": "range", "id": "btn_size_xxl", "label": "Button / pill text — large desktop", "min": 11, "max": 20, "step": 1, "unit": "px", "default": 14 },
+ { "type": "header", "content": "UC - Section colors" },
+ { "type": "checkbox", "id": "use_custom_section_styles", "label": "Use custom section styles", "default": false },
+ { "type": "checkbox", "id": "use_global_colors", "label": "Use global brand colors", "default": true }
+ ],
+ "blocks": [
+ {
+ "type": "reel",
+ "name": "Reel",
+ "settings": [
+ { "type": "header", "content": "Video source" },
+ { "type": "video", "id": "video_shopify", "label": "Shopify-hosted video" },
+ { "type": "text", "id": "video_url", "label": "External video URL", "info": "Keep your pasted TikTok, Instagram, YouTube, Vimeo, or MP4 link. Do not change existing links when adding more reels. Shopify allows up to 50 reels in this section. Duplicate the section for more." },
+ {
+ "type": "select",
+ "id": "thumbnail_mode",
+ "label": "Thumbnail mode",
+ "default": "auto",
+ "options": [
+ { "value": "auto", "label": "Auto thumbnail (recommended)" },
+ { "value": "manual", "label": "Manual override only" }
+ ]
+ },
+ { "type": "image_picker", "id": "poster", "label": "Manual poster override", "info": "Recommended: 1080 × 1920 px (portrait)." },
+ { "type": "image_picker", "id": "thumbnail", "label": "Fallback thumbnail", "info": "Recommended: 1080 × 1920 px" },
+ { "type": "text", "id": "poster_url", "label": "Poster image URL", "info": "Optional direct image URL when TikTok auto-thumbnails fail. Use a Shopify Files URL for best results." },
+ {
+ "type": "select",
+ "id": "thumbnail_crop",
+ "label": "Thumbnail crop",
+ "default": "cover",
+ "options": [
+ { "value": "cover", "label": "Cover" },
+ { "value": "contain", "label": "Contain" }
+ ]
+ },
+ {
+ "type": "select",
+ "id": "thumbnail_position",
+ "label": "Thumbnail position",
+ "default": "center center",
+ "options": [
+ { "value": "center center", "label": "Center" },
+ { "value": "center top", "label": "Top" },
+ { "value": "center bottom", "label": "Bottom" }
+ ]
+ },
+ { "type": "range", "id": "thumbnail_radius", "label": "Thumbnail radius", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 18 },
+ { "type": "range", "id": "overlay_gradient_strength", "label": "Overlay gradient strength", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 60 },
+ {
+ "type": "select",
+ "id": "play_button_style",
+ "label": "Play button style",
+ "default": "glass",
+ "options": [
+ { "value": "glass", "label": "Glass" },
+ { "value": "solid", "label": "Solid gold" },
+ { "value": "minimal", "label": "Minimal" }
+ ]
+ },
+ { "type": "range", "id": "video_height", "label": "Card height", "min": 360, "max": 640, "step": 10, "unit": "px", "default": 520 },
+
+ { "type": "header", "content": "Product" },
+ { "type": "product", "id": "product", "label": "Linked product" },
+ { "type": "text", "id": "custom_title", "label": "Custom title", "info": "Overrides product title." },
+ { "type": "text", "id": "custom_subtitle", "label": "Custom subtitle / vendor" },
+ { "type": "text", "id": "button_text", "label": "Add button text", "default": "Add to cart" },
+
+ { "type": "header", "content": "Badge" },
+ {
+ "type": "select", "id": "badge", "label": "Badge", "default": "none",
+ "options": [
+ { "value": "none", "label": "None" },
+ { "value": "bestseller", "label": "Bestseller" },
+ { "value": "new", "label": "New" },
+ { "value": "limited", "label": "Limited" },
+ { "value": "hot", "label": "Hot" },
+ { "value": "trending", "label": "Trending" },
+ { "value": "sale", "label": "Sale" }
+ ]
+ },
+ { "type": "text", "id": "badge_custom", "label": "Custom badge text", "info": "Overrides the badge above." },
+
+ { "type": "header", "content": "Overlay" },
+ { "type": "text", "id": "overlay_text", "label": "Overlay title" },
+ { "type": "text", "id": "overlay_subtitle", "label": "Overlay subtitle" },
+ { "type": "text", "id": "overlay_cta", "label": "Overlay button text" },
+ { "type": "url", "id": "overlay_cta_url", "label": "Overlay button link" },
+ {
+ "type": "select", "id": "overlay_position", "label": "Overlay position", "default": "bottom",
+ "options": [
+ { "value": "top", "label": "Top" },
+ { "value": "center", "label": "Center" },
+ { "value": "bottom", "label": "Bottom" }
+ ]
+ },
+ { "type": "checkbox", "id": "gradient", "label": "Gradient overlay", "default": true },
+
+ { "type": "header", "content": "Playback" },
+ { "type": "checkbox", "id": "autoplay", "label": "Autoplay this reel", "default": true },
+ { "type": "checkbox", "id": "mute", "label": "Start muted", "default": true }
+ ]
+ }
+ ],
+ "presets": [
+ {
+ "name": "Premium Video Reels",
+ "blocks": [
+ { "type": "reel" },
+ { "type": "reel" },
+ { "type": "reel" },
+ { "type": "reel" },
+ { "type": "reel" },
+ { "type": "reel" }
+ ]
+ }
+ ]
+}
+{% endschema %}

@@ -1,0 +1,139 @@
+/*
+  UC Micro-interactions — subtle luxury motion (60fps-friendly)
+*/
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .pc-card,
+  .cs-card,
+  .blog-card,
+  .article-card,
+  .collection-card,
+  .ucc__card,
+  .upr__card,
+  .fu__trust-item {
+    transition:
+      transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      opacity 220ms ease;
+  }
+
+  .pc-card:hover,
+  .cs-card:hover,
+  .blog-card:hover,
+  .article-card:hover {
+    transform: translate3d(0, -4px, 0);
+  }
+
+  .pc-card__media img,
+  .cs-card__img,
+  .pph-gallery__img {
+    transition: transform 420ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+
+  .pc-card:hover .pc-card__img--primary,
+  .cs-card:hover .cs-card__img {
+    transform: scale(1.035);
+  }
+
+  .pc-card__btn,
+  .pph__atc,
+  .pph__buy-fast,
+  .button,
+  .uc-btn,
+  .pf-qv__atc,
+  .pf-qv__buy,
+  .shopify-payment-button__button {
+    transition:
+      transform 160ms ease,
+      opacity 160ms ease,
+      filter 160ms ease,
+      background-color 160ms ease,
+      border-color 160ms ease;
+  }
+
+  .pc-card__btn:hover:not(:disabled),
+  .pph__atc:hover:not(:disabled),
+  .pph__buy-fast:hover:not(:disabled),
+  .button:hover:not([disabled]),
+  .uc-btn:hover:not(:disabled) {
+    transform: translateY(-1px);
+  }
+
+  .pc-card__btn:active:not(:disabled),
+  .button:active:not([disabled]),
+  .uc-btn:active:not(:disabled) {
+    transform: translateY(0) scale(0.98);
+  }
+
+  .uc-phdr__tool,
+  .uc-phdr__nav a,
+  .footer a,
+  .uc-footer a,
+  .list-social__link,
+  .list-menu__item {
+    transition: color 160ms ease, opacity 160ms ease, transform 160ms ease;
+  }
+
+  .uc-phdr__tool:hover,
+  .list-social__link:hover {
+    transform: translateY(-1px);
+  }
+
+  .pph-gallery__thumb:hover {
+    opacity: 1;
+    transform: scale(1.03);
+  }
+
+  .pph-gallery__thumb {
+    transition: transform 180ms ease, opacity 180ms ease, border-color 180ms ease;
+  }
+
+  .pfaq__item summary,
+  .accordion__title,
+  details > summary {
+    transition: color 160ms ease;
+  }
+
+  input:not([type='checkbox']):not([type='radio']):not([type='hidden']),
+  textarea,
+  select {
+    transition: border-color 180ms ease, box-shadow 180ms ease;
+  }
+
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible,
+  button:focus-visible,
+  a:focus-visible {
+    outline: 2px solid rgba(182, 138, 53, 0.55);
+    outline-offset: 2px;
+  }
+}
+
+/* Scroll reveal base (paired with uc-motion.js) — keep light; no will-change */
+[data-uc-reveal]:not(.is-visible):not(.is-revealed):not(.cs-is-visible) {
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+}
+
+[data-uc-reveal].is-visible,
+[data-uc-reveal].is-revealed,
+[data-uc-reveal].cs-is-visible,
+.uc-reveal.is-visible,
+.pc-card.is-visible,
+.pc-card.is-revealed {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 450ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 450ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-uc-reveal],
+  .uc-reveal,
+  .pc-card,
+  .cs-card {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

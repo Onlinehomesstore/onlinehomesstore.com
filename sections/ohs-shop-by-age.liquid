@@ -1,0 +1,101 @@
+{%- comment -%}
+  Shop by age — baby toys age-group tiles.
+{%- endcomment -%}
+{{ 'ohs-brand-override.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign s = section.settings
+-%}
+
+<section class="ohs-section" id="OhsAge-{{ section.id }}" style="{% if s.background != blank %}background:{{ s.background }};{% endif %}">
+  <div class="ohs-section__inner">
+    <header class="ohs-section__head" data-uc-reveal>
+      {%- if s.eyebrow != blank -%}<p class="ohs-section__eyebrow">{{ s.eyebrow | escape }}</p>{%- endif -%}
+      {%- if s.heading != blank -%}<h2 class="ohs-section__heading">{{ s.heading | escape }}</h2>{%- endif -%}
+      {%- if s.description != blank -%}<p class="ohs-section__desc">{{ s.description | escape }}</p>{%- endif -%}
+    </header>
+
+    <div class="ohs-grid ohs-grid--ages">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign b = block.settings
+          assign tile_tone = b.tone | default: 'cream'
+          assign href = b.link
+          if href == blank and b.collection != blank
+            assign href = b.collection.url
+          endif
+          if href == blank
+            assign href = routes.all_products_collection_url
+          endif
+        -%}
+        <a class="ohs-tile ohs-tile--{{ tile_tone }}" href="{{ href }}" {{ block.shopify_attributes }} data-uc-reveal>
+          {%- if b.image != blank -%}
+            <div class="ohs-tile__media">
+              {{ b.image | image_url: width: 720 | image_tag: loading: 'lazy', widths: '360,540,720', sizes: '(min-width: 990px) 16vw, (min-width: 750px) 30vw, 45vw', alt: b.title }}
+            </div>
+            <span class="ohs-tile__shade" aria-hidden="true"></span>
+          {%- endif -%}
+          <div class="ohs-tile__body">
+            {%- if b.label != blank -%}<p class="ohs-tile__label">{{ b.label | escape }}</p>{%- endif -%}
+            <h3 class="ohs-tile__title">{{ b.title | escape }}</h3>
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "OHS Shop by Age",
+  "tag": "section",
+  "class": "ohs-shop-by-age",
+  "max_blocks": 8,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "SHOP BY AGE" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Find play that fits every stage." },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "Browse thoughtful toys chosen for each early milestone." },
+    { "type": "color", "id": "background", "label": "Background", "default": "#FFFDF8" }
+  ],
+  "blocks": [
+    {
+      "type": "age",
+      "name": "Age group",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Age" },
+        { "type": "text", "id": "title", "label": "Title", "default": "0–6 Months" },
+        { "type": "collection", "id": "collection", "label": "Collection" },
+        { "type": "url", "id": "link", "label": "Custom link" },
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        {
+          "type": "select",
+          "id": "tone",
+          "label": "Pastel tone",
+          "options": [
+            { "value": "cream", "label": "Cream" },
+            { "value": "sage", "label": "Sage" },
+            { "value": "mint", "label": "Mint" },
+            { "value": "peach", "label": "Peach" },
+            { "value": "powder", "label": "Powder blue" },
+            { "value": "beige", "label": "Beige" }
+          ],
+          "default": "cream"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "OHS Shop by Age",
+      "blocks": [
+        { "type": "age", "settings": { "title": "0–6 Months", "tone": "peach", "link": "/collections/0-6-months" } },
+        { "type": "age", "settings": { "title": "6–12 Months", "tone": "mint", "link": "/collections/6-12-months" } },
+        { "type": "age", "settings": { "title": "1–2 Years", "tone": "sage", "link": "/collections/1-2-years" } },
+        { "type": "age", "settings": { "title": "2–3 Years", "tone": "powder", "link": "/collections/2-3-years" } },
+        { "type": "age", "settings": { "title": "3–5 Years", "tone": "beige", "link": "/collections/3-5-years" } },
+        { "type": "age", "settings": { "title": "5+ Years", "tone": "cream", "link": "/collections/5-plus-years" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

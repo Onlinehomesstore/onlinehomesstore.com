@@ -1,0 +1,438 @@
+/* ==========================================================================
+   VISIBLE RESULTS / BRAND BENEFITS — layout polish (design preserved)
+   Token-driven, dependency-free. Inherits uc-design-tokens.css.
+   ========================================================================== */
+
+/* 1) Shell --------------------------------------------------------------- */
+.vr {
+  --vr-bg: transparent;
+  --vr-bg-2: var(--uc-glass-bg-soft, rgba(255, 255, 255, 0.72));
+  --vr-eyebrow-color: #5c4518;
+  --vr-heading-color: rgb(var(--color-foreground));
+  --vr-paragraph-color: var(--text-secondary);
+  --vr-icon-bg: rgba(var(--color-foreground), 0.04);
+  --vr-icon-color: rgb(var(--color-foreground));
+  --vr-feat-title-color: rgb(var(--color-foreground));
+  --vr-feat-desc-color: var(--text-secondary);
+  --vr-gap: clamp(var(--space-7, 32px), 4vw, var(--space-10, 64px));
+  --vr-stat-min-h: 100%;
+
+  display: block;
+  background: var(--vr-bg);
+  color: rgb(var(--color-foreground));
+  padding-block: var(--vr-pad-top, clamp(56px, 7vw, 96px)) var(--vr-pad-bottom, clamp(56px, 7vw, 96px));
+}
+
+.vr__inner {
+  width: 100%;
+  max-width: var(--vr-max-width, min(1200px, 100%));
+  margin-inline: auto;
+  padding-inline: var(--container-padding, clamp(16px, 4vw, 48px));
+}
+
+.vr--full .vr__inner {
+  max-width: none;
+  padding-inline: var(--vr-pad-left, 0) var(--vr-pad-right, 0);
+}
+
+.vr--shadow .vr__grid {
+  padding: clamp(var(--space-6, 24px), 4vw, var(--space-9, 48px));
+  border-radius: var(--vr-radius, var(--uc-radius-card, 20px));
+  background: var(--vr-bg-2);
+  -webkit-backdrop-filter: blur(var(--uc-glass-blur, 18px)) saturate(var(--uc-glass-saturate, 160%));
+  backdrop-filter: blur(var(--uc-glass-blur, 18px)) saturate(var(--uc-glass-saturate, 160%));
+  border: 1px solid var(--uc-glass-border-soft, rgba(230, 224, 214, 0.65));
+  box-shadow: var(--uc-glass-inset), var(--uc-glass-shadow);
+}
+
+/* Grid: balanced two-column layout */
+.vr__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: var(--vr-gap);
+  align-items: start;
+}
+
+/* 2) Intro --------------------------------------------------------------- */
+.vr__intro {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 14px;
+  position: relative;
+  top: auto;
+  height: auto;
+  min-height: 0;
+  align-self: start;
+}
+
+.vr__intro > .uc-sp-head,
+.vr__intro > .category-showcase__heading-group {
+  gap: var(--uc-space-heading-to-desc, 10px);
+}
+
+.vr__intro .uc-sp-head__eyebrow,
+.vr__intro .category-showcase__label,
+.vr__intro .uc-sp-head__title,
+.vr__intro .category-showcase__title,
+.vr__intro .uc-sp-head__desc,
+.vr__intro .category-showcase__intro {
+  margin: 0 !important;
+}
+
+.vr__eyebrow {
+  margin: 0;
+  font-size: var(--uc-text-xs, 12px);
+  letter-spacing: var(--type-label-spacing, 0.12em);
+  text-transform: uppercase;
+  font-weight: var(--font-weight-bold, 600);
+  color: var(--vr-eyebrow-color);
+  line-height: 1.2;
+}
+
+ .vr__heading {
+  margin: 0;
+  font-family: var(--heading-font, inherit);
+  font-size: 28px;
+  font-weight: var(--vr-h-weight, 600);
+  letter-spacing: var(--vr-h-spacing, -0.02em);
+  line-height: var(--uc-lh-heading, 1.12);
+  color: var(--vr-heading-color);
+  max-width: none;
+}
+
+.vr__description {
+  margin: 0;
+  max-width: var(--vr-text-width, var(--uc-prose-max, 42ch));
+  font-size: 16px;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+  color: var(--vr-paragraph-color);
+}
+
+.vr__description > :first-child { margin-top: 0; }
+.vr__description > :last-child { margin-bottom: 0; }
+
+.vr__intro .uc-sp-head,
+.vr__intro .vr__intro-head {
+  height: auto;
+  min-height: 0;
+  justify-content: flex-start;
+}
+
+.vr__intro .uc-sp-head__desc,
+.vr__intro .category-showcase__intro {
+  max-width: 52ch;
+}
+
+.vr__intro .uc-sp-head__desc p,
+.vr__intro .category-showcase__intro p {
+  margin: 0 0 12px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.vr__intro .uc-sp-head__desc p:last-child,
+.vr__intro .category-showcase__intro p:last-child {
+  margin-bottom: 0;
+}
+
+.vr__divider {
+  display: none !important;
+  width: 0;
+  height: 0;
+  margin: 0;
+  opacity: 0;
+}
+
+.vr__footnote {
+  margin: 0;
+  font-size: var(--uc-text-body, 17px);
+  line-height: 1.55;
+  color: var(--text-secondary);
+  opacity: 0.9;
+}
+
+.vr--align-center .vr__intro { text-align: center; align-items: center; }
+.vr--align-center .vr__heading { max-width: none; }
+.vr--align-center .vr__divider { margin-inline: auto; }
+
+/* 3) Content / stats ----------------------------------------------------- */
+.vr__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vr-gap);
+  min-height: 100%;
+}
+
+.vr__stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(var(--space-4, 16px), 2.5vw, var(--space-7, 32px));
+  margin: 0;
+  padding: clamp(var(--space-5, 20px), 3vw, var(--space-7, 32px));
+  list-style: none;
+  border-radius: calc(var(--vr-radius, 20px) - 4px);
+  background: var(--vr-bg-2);
+  border: 1px solid var(--uc-glass-border-soft, rgba(230, 224, 214, 0.55));
+  box-shadow: var(--uc-glass-shadow);
+  align-items: stretch;
+}
+
+.vr-stat {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: clamp(4px, 0.5vw, 8px);
+  min-height: var(--vr-stat-min-h);
+  padding-block: var(--space-2, 8px);
+  transition: transform var(--transition-fast), filter var(--transition-fast);
+}
+
+.vr-stat__num {
+  font-family: var(--heading-font, inherit);
+  font-size: clamp(22px, 2.2vw, 30px);
+  font-weight: var(--vr-stat-weight, 600);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--vr-stat-num-color, rgb(var(--color-foreground)));
+  font-variant-numeric: tabular-nums;
+}
+
+.vr-stat__title {
+  font-size: clamp(var(--uc-text-sm, 14px), 1vw, var(--uc-text-base, 16px));
+  font-weight: var(--font-weight-medium, 500);
+  line-height: var(--uc-lh-tight, 1.35);
+  color: var(--vr-stat-text-color, rgb(var(--color-foreground)));
+}
+
+.vr-stat__subtitle {
+  font-size: var(--uc-text-sm, 14px);
+  line-height: 1.45;
+  color: var(--text-secondary);
+}
+
+.vr-stat__label {
+  font-size: var(--uc-text-xs, 12px);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.vr-stat--divided { position: relative; padding-left: var(--space-5, 20px); }
+.vr-stat--divided.vr-stat--divider-line::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 8px; bottom: 8px;
+  width: var(--vr-divider-thickness, 1px);
+  background: var(--vr-divider-color, var(--uc-color-border));
+}
+.vr-stat--divided.vr-stat--divider-dot::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 12px;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--vr-divider-color, var(--uc-color-accent));
+}
+
+/* 4) Features — equal-height cards --------------------------------------- */
+.vr__features {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(var(--space-4, 16px), 2vw, var(--space-6, 24px));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  align-items: stretch;
+}
+
+@media screen and (min-width: 990px) {
+  .vr__features {
+    grid-template-columns: repeat(var(--vr-cols-d, 2), minmax(0, 1fr));
+  }
+}
+
+.vr-feature {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  height: auto;
+  min-width: 0;
+  padding: 14px 14px 16px;
+  border-radius: calc(var(--vr-radius, 20px) - 6px);
+  background: rgba(var(--color-background), 0.55);
+  border: 1px solid var(--uc-glass-border-soft, rgba(230, 224, 214, 0.45));
+  transition:
+    transform var(--transition-normal),
+    box-shadow var(--transition-normal),
+    border-color var(--transition-fast);
+}
+
+.vr-feature--center { align-items: center; text-align: center; }
+
+.vr-feature__icon {
+  display: inline-grid;
+  place-items: center;
+  width: var(--vr-icon-size, 44px);
+  height: var(--vr-icon-size, 44px);
+  border-radius: var(--vr-icon-shape, var(--vr-icon-radius, 14px));
+  color: var(--vr-icon-color);
+  border: none;
+  background: transparent;
+  flex-shrink: 0;
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal), background var(--transition-normal);
+}
+
+.vr--icon-bg .vr-feature__icon { background: transparent; }
+
+.vr-feature__icon svg,
+.vr-feature__img {
+  width: var(--vr-icon-size, 44px);
+  height: var(--vr-icon-size, 44px);
+  display: block;
+  object-fit: contain;
+}
+
+.vr-feature__text {
+  display: grid;
+  gap: clamp(4px, 0.5vw, 8px);
+  flex: 1;
+  min-width: 0;
+}
+
+.vr-feature__title {
+  margin: 0;
+  font-size: clamp(16px, 15px + 0.2vw, 18px);
+  font-weight: var(--font-weight-bold, 600);
+  line-height: 1.35;
+  color: var(--vr-feat-title-color);
+  transition: color var(--transition-fast);
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  word-break: normal;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+
+.vr-feature__desc {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--vr-feat-desc-color);
+  transition: color var(--transition-fast);
+}
+
+.vr__empty {
+  grid-column: 1 / -1;
+  padding: var(--space-9, 48px);
+  text-align: center;
+  color: var(--text-secondary);
+  border: 1px dashed var(--border-color);
+  border-radius: var(--vr-radius, 20px);
+}
+
+/* Hover effects */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .vr:not(.vr--no-hover) .vr-feature:hover {
+    transform: translate3d(0, -3px, 0);
+    box-shadow: var(--uc-glass-shadow-hover);
+    border-color: var(--uc-glass-border, rgba(182, 138, 53, 0.25));
+  }
+  .vr:not(.vr--no-hover) .vr-feature:hover .vr-feature__icon {
+    transform: scale(1.04);
+  }
+}
+
+/* 5) Motion -------------------------------------------------------------- */
+.vr.is-armed [data-vr-reveal] {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.vr.is-armed.is-in [data-vr-reveal] {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity var(--vr-anim, 600ms) var(--ease-premium) var(--vr-delay, 0ms),
+    transform var(--vr-anim, 600ms) var(--ease-premium) var(--vr-delay, 0ms);
+}
+
+@media (hover: hover) {
+  .vr.is-in .vr-feature__icon { animation: vr-float 6s ease-in-out infinite; }
+  .vr.is-in .vr-feature:nth-child(2n) .vr-feature__icon { animation-delay: -2s; }
+  .vr.is-in .vr-feature:nth-child(3n) .vr-feature__icon { animation-delay: -4s; }
+}
+
+@keyframes vr-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* 6) Responsive ---------------------------------------------------------- */
+@media screen and (max-width: 1200px) {
+  .vr__grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(var(--space-6, 24px), 4vw, var(--space-8, 40px));
+  }
+}
+
+@media screen and (max-width: 989px) {
+  .vr__grid { grid-template-columns: 1fr; }
+  .vr__intro { position: static; }
+  .vr__heading { max-width: none; }
+  .vr__stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .vr__features { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media screen and (max-width: 749px) {
+  .vr__stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4, 16px); }
+}
+
+/* 5+ stats (e.g. About page) — balanced auto grid */
+.vr__stats:has(.vr-stat:nth-child(4)) {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 148px), 1fr));
+}
+
+@media screen and (min-width: 990px) {
+  .vr__stats:has(.vr-stat:nth-child(5)) {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+@media screen and (max-width: 989px) {
+  .vr__stats:has(.vr-stat:nth-child(5)) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .vr__stats:has(.vr-stat:nth-child(5)) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .vr__stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .vr__features {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(12px, 3vw, 16px);
+  }
+  .vr-feature { align-items: flex-start; text-align: left; }
+}
+
+@media screen and (max-width: 359px) {
+  .vr__stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .vr__features { grid-template-columns: 1fr; }
+  .vr-feature { align-items: center; text-align: center; }
+}
+
+/* 7) Accessibility ------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  [data-vr-reveal] { opacity: 1 !important; transform: none !important; }
+  .vr *, .vr *::before, .vr *::after {
+    animation: none !important;
+    transition-duration: 0.001ms !important;
+  }
+}

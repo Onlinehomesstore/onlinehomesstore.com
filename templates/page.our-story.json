@@ -1,0 +1,71 @@
+/*
+ * ------------------------------------------------------------
+ * Online Homes Store — Our Story page
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "uc-page-intro",
+      "settings": {
+        "eyebrow": "OUR STORY",
+        "heading": "Little moments. Big discoveries.",
+        "tagline": "Online Homes Store grew from a simple idea: help parents find beautiful toys that make playtime feel special.",
+        "padding_top": 0,
+        "padding_bottom": 12,
+        "use_global_colors": true
+      }
+    },
+    "beginning": {
+      "type": "uc-narrative",
+      "settings": {
+        "layout_style": "split",
+        "image_position": "left",
+        "layout_alternate": false,
+        "lock_media_frame": true,
+        "media_placeholder": "lifestyle-1",
+        "eyebrow": "THE IDEA",
+        "heading": "A calmer way to shop for play",
+        "body": "<p>Finding the right toy should not feel overwhelming. We set out to create a store that feels soft, organised and trustworthy — with clear categories for baby toys, sensory play, educational favourites and gifts.</p>",
+        "button_label": "Shop Baby Toys",
+        "button_link": "/collections/baby-toys",
+        "media_radius": 24,
+        "padding_top": 24,
+        "padding_bottom": 24,
+        "use_global_colors": true
+      }
+    },
+    "today": {
+      "type": "uc-narrative",
+      "settings": {
+        "layout_style": "split",
+        "image_position": "left",
+        "layout_alternate": true,
+        "lock_media_frame": true,
+        "media_placeholder": "lifestyle-2",
+        "eyebrow": "TODAY",
+        "heading": "Curated play for growing minds",
+        "body": "<p>Today, Online Homes Store brings together soft toys, wooden classics, activity play and learning-inspired pieces in one place. We keep the experience simple so parents can browse with confidence and gift with ease.</p>",
+        "button_label": "Explore Collections",
+        "button_link": "/collections",
+        "media_radius": 24,
+        "padding_top": 24,
+        "padding_bottom": 24,
+        "use_global_colors": true
+      }
+    },
+    "cta": {
+      "type": "uc-cta-banner",
+      "settings": {
+        "eyebrow": "START EXPLORING",
+        "heading": "Find something special for your little one",
+        "description": "Browse new arrivals, best sellers and gift-ready collections.",
+        "button_label": "Shop All",
+        "button_link": "/collections/all",
+        "button_secondary_label": "New Arrivals",
+        "button_secondary_link": "/collections/new-arrivals"
+      }
+    }
+  },
+  "order": ["hero", "beginning", "today", "cta"]
+}

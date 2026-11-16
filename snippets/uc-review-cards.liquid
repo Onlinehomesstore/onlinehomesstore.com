@@ -1,0 +1,81 @@
+{%- assign rnum = row | plus: 0 -%}
+{%- case family -%}
+{%- when 'shampoo' -%}
+  {%- if rnum != 2 -%}
+  {% render 'uc-review-card', author: 'Amira', location: 'Birmingham', rating: 5, title: 'Covered my greys in one wash', body: 'Used Natural Black on grown-out roots. Colour took evenly and my scalp did not sting the way box dye usually does. Hair felt like I had just washed it, not coated.', date: '2026-09-14' %}
+  {% render 'uc-review-card', author: 'James', location: 'Manchester', rating: 5, title: 'Dark Brown looks natural', body: '400ml lasted longer than I expected. Greys are gone and it still looks like my own colour in daylight, not a harsh dye job.', date: '2026-08-02' %}
+  {% render 'uc-review-card', author: 'Priya', location: 'Leicester', rating: 4, title: 'Easy Sunday routine', body: 'I do it in the shower now. Chestnut is a touch warmer than the photo but it faded softly over three weeks, which I actually prefer.', date: '2026-07-19' %}
+  {% render 'uc-review-card', author: 'Helen', location: 'Leeds', rating: 5, title: 'No stained sink this time', body: 'Rinsed cleaner than the last brand I tried. Maroon came out rich without turning my towels pink. Will repurchase the 200ml for roots.', date: '2026-06-28' %}
+  {%- endif -%}
+  {%- if rnum != 1 -%}
+  {% render 'uc-review-card', author: 'Omar', location: 'London', rating: 5, title: 'Finally a dye that behaves', body: 'I was sceptical of shampoo colour. Burgundy on the 400ml was even from roots to ends and the smell was gone after one proper wash.', date: '2026-05-11' %}
+  {% render 'uc-review-card', author: 'Sophie', location: 'Bristol', rating: 4, title: 'Good colour, mild scent', body: 'Natural Black on mixed grey hair. Needed a second pass on a few stubborn bits at the temple, then it was solid. Not drying.', date: '2026-04-03' %}
+  {% render 'uc-review-card', author: 'Nadia', location: 'Glasgow', rating: 5, title: 'Husband did not notice it was dye', body: 'That was the brief. Dark Brown just looks like I got more sleep. Leaves hair soft enough to skip the heavy conditioner.', date: '2026-03-16' %}
+  {% render 'uc-review-card', author: 'Daniel', location: 'Cardiff', rating: 5, title: 'Worth switching from salon gloss', body: 'I was paying for a toner every six weeks. This keeps the same depth between visits and I can do it after the gym.', date: '2026-02-08' %}
+  {%- endif -%}
+{%- when 'gel' -%}
+  {%- if rnum != 2 -%}
+  {% render 'uc-review-card', author: 'Maya', location: 'London', rating: 5, title: 'Neat application, no drips', body: 'The gel stays where I put it, so I can pick out greys without staining my hairline. Colour developed evenly in the time on the pack.', date: '2026-09-21' %}
+  {% render 'uc-review-card', author: 'Chris', location: 'Nottingham', rating: 5, title: 'Better control than shampoo', body: 'I only need to touch the sides. Gel is easier to place and rinsed out without that muddy water mess I get with other dyes.', date: '2026-08-17' %}
+  {% render 'uc-review-card', author: 'Aisha', location: 'Bradford', rating: 4, title: 'Rich shade, slightly strong smell', body: 'Colour is exactly what I wanted. Scent is a bit more noticeable than the shampoo while it is on, then it goes. Soft finish.', date: '2026-07-06' %}
+  {% render 'uc-review-card', author: 'Tom', location: 'Southampton', rating: 5, title: 'Grey blend looks decent', body: 'I do not want a helmet of colour. Used a little through the front and it blended instead of blocking everything out.', date: '2026-06-12' %}
+  {%- endif -%}
+  {%- if rnum != 1 -%}
+  {% render 'uc-review-card', author: 'Elena', location: 'Edinburgh', rating: 5, title: 'Stayed put on stubborn greys', body: 'Temple greys usually laugh at me. Left the gel on a few extra minutes and they took. No itchy scalp after.', date: '2026-05-04' %}
+  {% render 'uc-review-card', author: 'Ravi', location: 'Coventry', rating: 4, title: 'Does what it says', body: 'Not a miracle, just a tidy at-home colour. Lasted about three weeks on my hair before roots asked for another pass.', date: '2026-03-29' %}
+  {% render 'uc-review-card', author: 'Lauren', location: 'Brighton', rating: 5, title: 'Cleaner than a kit', body: 'No extra bottles, no gloves drama. I keep one tube in the bathroom cabinet and use it when I see the next grey.', date: '2026-02-21' %}
+  {% render 'uc-review-card', author: 'Yasmin', location: 'Manchester', rating: 5, title: 'Even colour on thick hair', body: 'I sectioned it like I would at the salon. Ends did not go darker than the roots, which is usually my problem.', date: '2026-01-18' %}
+  {%- endif -%}
+{%- when 'sachets' -%}
+  {%- if rnum != 2 -%}
+  {% render 'uc-review-card', author: 'Fatima', location: 'London', rating: 5, title: 'Perfect for travel', body: 'Took two sachets to my mum’s. No bottles leaking in the bag and the colour matched what I use at home.', date: '2026-09-08' %}
+  {% render 'uc-review-card', author: 'Ben', location: 'Sheffield', rating: 4, title: 'Handy single use', body: 'I do not colour often enough to open a big bottle. One sachet did my roots. A little fiddly to empty, but fine.', date: '2026-08-24' %}
+  {% render 'uc-review-card', author: 'Imani', location: 'Birmingham', rating: 5, title: 'Same result as the bottle', body: 'I was worried it would be weaker. Colour came up the same depth and rinsed clean. Keep a box in the drawer now.', date: '2026-07-13' %}
+  {% render 'uc-review-card', author: 'Grace', location: 'Liverpool', rating: 5, title: 'No waste', body: 'I always used to throw half a bottle away. Sachets mean I mix what I need and I am not staring at oxidised leftover.', date: '2026-06-01' %}
+  {%- endif -%}
+  {%- if rnum != 1 -%}
+  {% render 'uc-review-card', author: 'Hassan', location: 'Leeds', rating: 5, title: 'Guest-bathroom friendly', body: 'Small, tidy, and it does not look like a chemistry set on the shelf. Colour was even on short hair.', date: '2026-04-22' %}
+  {% render 'uc-review-card', author: 'Chloe', location: 'Oxford', rating: 4, title: 'Good for a first try', body: 'Wanted to test the shade before committing to 400ml. Glad I did — the tone suits me and I have ordered the bottle since.', date: '2026-03-09' %}
+  {% render 'uc-review-card', author: 'Sana', location: 'Slough', rating: 5, title: 'Quick root touch-up', body: 'Ten minutes before I had to leave. Dried nicely and nobody asked if I had just dyed my hair, which is the point.', date: '2026-02-14' %}
+  {% render 'uc-review-card', author: 'Marcus', location: 'Newcastle', rating: 5, title: 'Less mess than I expected', body: 'Cut the corner, applied, rinsed. Sink wiped clean. I will keep these for weekends away.', date: '2026-01-07' %}
+  {%- endif -%}
+{%- when 'mask' -%}
+  {%- if rnum != 2 -%}
+  {% render 'uc-review-card', author: 'Leila', location: 'London', rating: 5, title: 'Hair actually feels heavier in a good way', body: 'Used it after colouring. Ends that usually catch on my jumper are smooth and it did not flatten the roots.', date: '2026-09-30' %}
+  {% render 'uc-review-card', author: 'Hannah', location: 'Cambridge', rating: 5, title: 'Weekly treat that I finish', body: 'Most masks sit unused. This one I reach for on Sunday night. Soft without that greasy film.', date: '2026-08-11' %}
+  {% render 'uc-review-card', author: 'Kofi', location: 'Milton Keynes', rating: 4, title: 'Helped after a dry month', body: 'Central heating wrecked my hair. Two uses and the static calmed down. Scent is warm, not sugary.', date: '2026-07-02' %}
+  {% render 'uc-review-card', author: 'Ayesha', location: 'Manchester', rating: 5, title: 'Pairs well with the dye shampoo', body: 'I colour, rinse, then this. The colour looks glossier the next morning and my comb goes through without a fight.', date: '2026-05-26' %}
+  {%- endif -%}
+  {%- if rnum != 1 -%}
+  {% render 'uc-review-card', author: 'Ruth', location: 'York', rating: 5, title: 'Not heavy on fine hair', body: 'I usually avoid masks. A small amount mid-lengths to ends was enough. Hair moved the next day instead of sitting limp.', date: '2026-04-18' %}
+  {% render 'uc-review-card', author: 'Sam', location: 'Bristol', rating: 4, title: 'Solid, not magical', body: 'It will not replace a trim. It does make mid-week hair look less fried. I use it twice a month.', date: '2026-03-05' %}
+  {% render 'uc-review-card', author: 'Noor', location: 'Leicester', rating: 5, title: 'Scalp stayed comfortable', body: 'A lot of treatments itch me. This sat on the lengths only and rinsed clean. Colour still looks fresh.', date: '2026-02-02' %}
+  {% render 'uc-review-card', author: 'Peter', location: 'Belfast', rating: 5, title: 'Bought a second jar', body: 'First one went on my partner’s hair too. We now keep it in the shower caddy like a normal product, not a special occasion.', date: '2026-01-12' %}
+  {%- endif -%}
+{%- when 'set' -%}
+  {%- if rnum != 2 -%}
+  {% render 'uc-review-card', author: 'Zara', location: 'London', rating: 5, title: 'Shampoo and conditioner finally match', body: 'The pair feels like one routine. Hair is cleaner at the roots and the conditioner is light enough that I do not skip it.', date: '2026-09-18' %}
+  {% render 'uc-review-card', author: 'Liam', location: 'Dublin', rating: 5, title: 'Scalp feels calmer', body: 'I bought this for the onion and biotin mention. After two weeks my scalp is less itchy and my hair looks a bit fuller at the parting.', date: '2026-08-09' %}
+  {% render 'uc-review-card', author: 'Mei', location: 'Manchester', rating: 4, title: 'Scent is stronger in the shower', body: 'You notice the onion a little while it is on. Once rinsed, hair just smells clean. Softness is better than my old supermarket pair.', date: '2026-06-30' %}
+  {% render 'uc-review-card', author: 'Iqra', location: 'Birmingham', rating: 5, title: 'Good after colour days', body: 'I use this in the weeks between dye. Colour lasts a bit longer and my ends are not as crispy.', date: '2026-05-20' %}
+  {%- endif -%}
+  {%- if rnum != 1 -%}
+  {% render 'uc-review-card', author: 'Owen', location: 'Cardiff', rating: 5, title: 'Simple two-step', body: 'No extra bottles. Wash, condition, done. Hair sits better the next morning, which is all I wanted.', date: '2026-04-07' %}
+  {% render 'uc-review-card', author: 'Hana', location: 'Leeds', rating: 4, title: 'Conditioner is the star', body: 'Shampoo is fine. Conditioner is what I would repurchase on its own — detangles without weighing a bob down.', date: '2026-03-01' %}
+  {% render 'uc-review-card', author: 'Adam', location: 'Glasgow', rating: 5, title: 'Noticeable after a fortnight', body: 'Not overnight. Around day ten my hair looked less flat at the crown. I am staying with the set.', date: '2026-02-11' %}
+  {% render 'uc-review-card', author: 'Farah', location: 'Luton', rating: 5, title: 'Family now shares the bottles', body: 'Bought it for me, now everyone uses it. No one has complained about dryness, which is rare in this house.', date: '2026-01-20' %}
+  {%- endif -%}
+{%- else -%}
+  {%- if rnum != 2 -%}
+  {% render 'uc-review-card', author: 'Nina', location: 'London', rating: 5, title: 'Does what I bought it for', body: 'Straightforward to use and the finish looks considered, not like I experimented on myself. I will order again.', date: '2026-09-12' %}
+  {% render 'uc-review-card', author: 'Joseph', location: 'Manchester', rating: 5, title: 'Arrived and worked first time', body: 'Instructions were clear. Result looked even and my hair felt normal afterwards, which is the bar a lot of brands miss.', date: '2026-08-03' %}
+  {% render 'uc-review-card', author: 'Amina', location: 'Birmingham', rating: 4, title: 'Quietly good', body: 'Nothing flashy, just a product I now keep in the bathroom. A little goes further than I thought.', date: '2026-06-25' %}
+  {% render 'uc-review-card', author: 'Callum', location: 'Edinburgh', rating: 5, title: 'Replaced my old brand', body: 'I was loyal to something else for years. This is cleaner to use and I have not gone back.', date: '2026-05-14' %}
+  {%- endif -%}
+  {%- if rnum != 1 -%}
+  {% render 'uc-review-card', author: 'Sara', location: 'Bristol', rating: 5, title: 'Looks like the photos', body: 'Shade and finish matched what I expected. That sounds basic, but it is why I am writing this.', date: '2026-04-02' %}
+  {% render 'uc-review-card', author: 'Ibrahim', location: 'Leicester', rating: 4, title: 'Solid everyday option', body: 'Not a salon visit in a bottle, and it does not pretend to be. Fine for keeping things tidy between appointments.', date: '2026-03-08' %}
+  {% render 'uc-review-card', author: 'Emily', location: 'Southampton', rating: 5, title: 'Gentle enough for regular use', body: 'My skin is fussy. No tightness, no lingering smell on pillows. Happy to keep it in the rotation.', date: '2026-02-16' %}
+  {% render 'uc-review-card', author: 'David', location: 'Belfast', rating: 5, title: 'Bought it twice already', body: 'First order was a test. Second is sitting in the cupboard. That is the review.', date: '2026-01-09' %}
+  {%- endif -%}
+{%- endcase -%}

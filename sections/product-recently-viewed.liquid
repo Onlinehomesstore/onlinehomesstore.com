@@ -1,0 +1,76 @@
+{%- comment -%}
+ Product recently viewed - client-side from localStorage handles.
+ Namespace: prv-
+{%- endcomment -%}
+{{ 'uc-product-card.css' | asset_url | stylesheet_tag }}
+{{ 'product-related.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+ assign s = section.settings
+ assign uid = section.id
+-%}
+
+{%- assign uc_sec_scope = '#ProductRecent-' | append: uid -%}
+{%- render 'uc-section-vars', section: section, scope: uc_sec_scope -%}
+{%- render 'uc-section-colors', section: section -%}
+
+{%- style -%}
+ #ProductRecent-{{ uid }} {
+ --prel-pad-top: {{ s.padding_top | default: 64 }}px;
+ --prel-pad-bottom: {{ s.padding_bottom | default: 64 }}px;
+ --pc-card-radius: {{ s.card_radius | default: 18 }}px;
+ }
+ {%- if s.background_color != blank -%}
+ #ProductRecent-{{ uid }} { background: {{ s.background_color }}; }
+ {%- endif -%}
+ #ProductRecent-{{ uid }}[hidden] { display: none !important; }
+{%- endstyle -%}
+
+<section
+ id="ProductRecent-{{ uid }}"
+ class="prel prv uc-sec color-{{ s.color_scheme }}"
+ data-prv-section
+ data-prv-current="{{ product.handle | escape }}"
+ data-prv-max="{{ s.max_products | default: 4 }}"
+ data-prv-key="uc:recently-viewed"
+ hidden
+>
+ <div class="prel__inner uc-sec__container">
+ <header class="prel__header">
+ {%- if s.eyebrow != blank -%}
+ <p class="prel__eyebrow">{{ s.eyebrow | escape }}</p>
+ {%- endif -%}
+ <h2 class="prel__heading uc-sec__heading">{{ s.heading | default: 'Recently viewed' | escape }}</h2>
+ </header>
+ <div class="prel__grid" data-prv-grid></div>
+ </div>
+</section>
+
+<script src="{{ 'uc-product-card.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'product-recently-viewed.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+ "name": "Recently viewed",
+ "tag": "section",
+ "class": "section section-product-recently-viewed",
+ "enabled_on": { "templates": ["product"] },
+ "settings": [
+ { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Your history" },
+ { "type": "text", "id": "heading", "label": "Heading", "default": "Recently viewed" },
+ { "type": "range", "id": "max_products", "label": "Max products", "min": 2, "max": 8, "step": 1, "default": 4 },
+ { "type": "select", "id": "image_ratio", "label": "Image ratio", "options": [{"value": "portrait", "label": "Portrait"}, {"value": "square", "label": "Square"}, {"value": "landscape", "label": "Landscape"}], "default": "square" },
+ { "type": "range", "id": "card_radius", "label": "Card radius", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 18 },
+ { "type": "range", "id": "padding_top", "label": "Padding top", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 64 },
+ { "type": "range", "id": "padding_bottom", "label": "Padding bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 64 },
+ { "type": "range", "id": "pad_top_lg", "label": "Top padding - laptop", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+ { "type": "range", "id": "pad_top_xxl", "label": "Top padding - large desktop", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 96 },
+ { "type": "range", "id": "container_max_lg", "label": "Container max width", "min": 960, "max": 1600, "step": 20, "unit": "px", "default": 1280 },
+ { "type": "select", "id": "container_mode", "label": "Container", "default": "boxed", "options": [{"value":"boxed","label":"Boxed"},{"value":"full","label":"Full width"}] },
+ { "type": "checkbox", "id": "use_global_colors", "label": "Use global brand colors", "default": true },
+ { "type": "color_scheme", "id": "color_scheme", "label": "Colour scheme", "default": "scheme-2" },
+ { "type": "color", "id": "background_color", "label": "Background override" }
+ ],
+ "presets": [{ "name": "Recently viewed" }]
+}
+{% endschema %}

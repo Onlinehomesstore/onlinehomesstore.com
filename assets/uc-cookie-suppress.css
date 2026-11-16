@@ -1,0 +1,21 @@
+/*
+  Hide Shopify Customer Privacy / cookie consent banner (admin may still inject it).
+  Disable in Shopify Admin → Settings → Customer privacy for a permanent fix.
+*/
+#shopify-pc__banner,
+#shopify-pc__prefs__dialog,
+.shopify-pc__banner__dialog,
+.shopify-pc__prefs__dialog,
+[data-shopify-privacy-banner],
+.shopify-privacy-banner,
+.shopify-privacy-banner-container,
+#cookie-banner,
+.cookie-banner,
+#shopify-cc-banner {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  max-height: 0 !important;
+  overflow: hidden !important;
+}

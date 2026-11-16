@@ -1,0 +1,72 @@
+{%- comment -%}
+  Educational play storytelling section.
+{%- endcomment -%}
+{{ 'ohs-brand-override.css' | asset_url | stylesheet_tag }}
+
+{%- assign s = section.settings -%}
+
+<section class="ohs-section" id="OhsEdu-{{ section.id }}" style="{% if s.background != blank %}background:{{ s.background }};{% endif %}">
+  <div class="ohs-section__inner">
+    <div class="ohs-edu{% if s.image_position == 'right' %} ohs-edu--media-right{% endif %}">
+      <div class="ohs-edu__media" data-uc-reveal>
+        {%- if s.image != blank -%}
+          {{ s.image | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '600,900,1200,1400', sizes: '(min-width: 900px) 48vw, 100vw', alt: s.heading }}
+        {%- else -%}
+          <div style="min-height:280px;display:grid;place-items:center;padding:2rem;color:#777D78;text-align:center;">
+            Add a lifestyle image of children at play
+          </div>
+        {%- endif -%}
+      </div>
+      <div class="ohs-edu__copy" data-uc-reveal>
+        {%- if s.eyebrow != blank -%}<p class="ohs-section__eyebrow">{{ s.eyebrow | escape }}</p>{%- endif -%}
+        {%- if s.heading != blank -%}<h2 class="ohs-section__heading">{{ s.heading | escape }}</h2>{%- endif -%}
+        {%- if s.body != blank -%}
+          <div class="ohs-section__desc">{{ s.body }}</div>
+        {%- endif -%}
+        {%- if s.button_label != blank -%}
+          <a class="ohs-edu__cta" href="{{ s.button_link | default: routes.all_products_collection_url }}">{{ s.button_label | escape }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @media (min-width: 900px) {
+    #OhsEdu-{{ section.id }} .ohs-edu--media-right .ohs-edu__media { order: 2; }
+    #OhsEdu-{{ section.id }} .ohs-edu--media-right .ohs-edu__copy { order: 1; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "OHS Educational Play",
+  "tag": "section",
+  "class": "ohs-educational-play",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "LEARNING THROUGH PLAY" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Play Today. Learn Every Day." },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body",
+      "default": "<p>Age-appropriate toys can spark curiosity, invite exploration and turn everyday play into joyful early learning moments for little ones.</p>"
+    },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Explore Learning Toys" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "color", "id": "background", "label": "Background", "default": "#FFFDF8" }
+  ],
+  "presets": [{ "name": "OHS Educational Play" }]
+}
+{% endschema %}

@@ -1,0 +1,40 @@
+{%- liquid
+  assign applied_discount_code = ''
+  if cart.total_discount > 0
+    for discount in cart.cart_level_discount_applications
+      if discount.total_allocated_amount > 0
+        assign applied_discount_code = discount.title
+        break
+      endif
+    endfor
+  endif
+-%}
+<div
+  class="uc-cartx__coupon"
+  data-uc-coupon
+  data-applied-code="{{ applied_discount_code | escape }}"
+  data-has-discount="{% if cart.total_discount > 0 %}true{% else %}false{% endif %}"
+>
+  <label class="uc-cartx__coupon-label" for="UcCartCouponInput">Coupon code</label>
+  <div class="uc-cartx__coupon-field">
+    <input
+      type="text"
+      class="uc-cartx__coupon-input"
+      id="UcCartCouponInput"
+      placeholder="Enter your coupon code"
+      autocomplete="off"
+      autocapitalize="characters"
+      spellcheck="false"
+      aria-label="Coupon code"
+      data-uc-coupon-input
+      value="{{ applied_discount_code | escape }}"
+    >
+    <button type="button" class="uc-cartx__coupon-btn" data-uc-coupon-apply>Apply</button>
+  </div>
+  {%- if applied_discount_code != blank -%}
+    <button type="button" class="uc-cartx__coupon-remove" data-uc-coupon-remove aria-label="Remove coupon {{ applied_discount_code | escape }}">
+      Remove {{ applied_discount_code | escape }}
+    </button>
+  {%- endif -%}
+  <p class="uc-cartx__coupon-msg" data-uc-coupon-msg hidden role="status" aria-live="polite"></p>
+</div>

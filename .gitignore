@@ -1,0 +1,19 @@
+# Shopify / local dev
+node_modules/
+.shopify/
+.env
+.env.*
+*.local
+
+# Archives & OS
+*.zip
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Editor / agent
+.cursor/
+.vscode/
+
+# Local helper scratch (optional rebuild scripts stay out of deploy noise)
+_user_product_restore.json

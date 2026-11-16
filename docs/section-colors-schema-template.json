@@ -1,0 +1,90 @@
+[
+  {
+    "_comment": "SECTION COLOR OVERRIDE TEMPLATE — Copy this block into any section's schema settings array.",
+    "_usage": "After adding this to a section schema, call {% render 'uc-section-colors', section: section %} at the top of the section's HTML output.",
+    "_css_vars": "Inside the section's CSS, replace var(--uc-color-primary) with var(--s-color-primary) etc.",
+
+    "type": "header",
+    "content": "Section Colors"
+  },
+  {
+    "type": "checkbox",
+    "id": "use_global_colors",
+    "label": "Use global brand colors",
+    "default": true,
+    "info": "When enabled, this section automatically follows the global Design System colors. Uncheck to set custom colors for this section only — without affecting any other section."
+  },
+  {
+    "type": "color",
+    "id": "custom_color_bg",
+    "label": "Section background",
+    "default": "#F7F4EF",
+    "info": "Only applied when 'Use global brand colors' is unchecked."
+  },
+  {
+    "type": "color",
+    "id": "custom_color_surface",
+    "label": "Inner / card background",
+    "default": "#FFFFFF"
+  },
+  {
+    "type": "color",
+    "id": "custom_color_primary",
+    "label": "Accent / highlight color",
+    "default": "#B68A35",
+    "info": "Buttons, icons, active states."
+  },
+  {
+    "type": "color",
+    "id": "custom_color_primary_dark",
+    "label": "Accent hover color",
+    "default": "#8F6824"
+  },
+  {
+    "type": "color",
+    "id": "custom_color_text",
+    "label": "Heading text color",
+    "default": "#171717"
+  },
+  {
+    "type": "color",
+    "id": "custom_color_text_body",
+    "label": "Body text color",
+    "default": "#555555"
+  },
+  {
+    "type": "color",
+    "id": "custom_color_text_muted",
+    "label": "Secondary text color",
+    "default": "#7A7A7A"
+  },
+  {
+    "type": "color",
+    "id": "custom_color_border",
+    "label": "Border / divider color",
+    "default": "#E6E0D6"
+  },
+  {
+    "type": "header",
+    "content": "Button Colors (Custom Mode)"
+  },
+  {
+    "type": "color",
+    "id": "custom_color_btn_bg",
+    "label": "Button background",
+    "default": "#B68A35",
+    "info": "Defaults to section accent color."
+  },
+  {
+    "type": "color",
+    "id": "custom_color_btn_text",
+    "label": "Button text",
+    "default": "#FFFFFF"
+  },
+  {
+    "type": "color",
+    "id": "custom_color_btn_hover",
+    "label": "Button hover background",
+    "default": "#8F6824"
+  }
+]

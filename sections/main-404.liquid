@@ -1,0 +1,101 @@
+{%- comment -%}
+  Main 404 — premium customer-facing 404 + soft-serve known UC routes.
+{%- endcomment -%}
+
+{%- liquid
+  assign req_path = request.path | downcase
+  assign is_story_path = false
+  assign is_wishlist_path = false
+
+  if req_path contains '/pages/our-story'
+    or req_path contains '/pages/our_story'
+    or req_path contains '/pages/about'
+    assign is_story_path = true
+  endif
+
+  if req_path contains '/pages/wishlist'
+    or req_path contains '/pages/wish-list'
+    or req_path contains '/pages/my-wishlist'
+    assign is_wishlist_path = true
+  endif
+-%}
+
+{%- if is_story_path -%}
+  {%- if pages['our-story'] != blank and req_path contains '/pages/our_story' -%}
+    <script>location.replace({{ pages['our-story'].url | json }});</script>
+  {%- elsif pages['about'] != blank and req_path contains '/pages/our_story' -%}
+    <script>location.replace({{ pages['about'].url | json }});</script>
+  {%- elsif pages['our-story'] != blank and req_path contains '/pages/about' and pages['our-story'].url != request.path -%}
+    <script>location.replace({{ pages['our-story'].url | json }});</script>
+  {%- else -%}
+    <div class="template-page-our-story uc-soft-page">
+      {% render 'uc-our-story-content' %}
+    </div>
+  {%- endif -%}
+{%- elsif is_wishlist_path -%}
+  {% render 'uc-soft-wishlist' %}
+{%- else -%}
+
+{{ 'uc-404.css' | asset_url | stylesheet_tag }}
+
+<section class="uc-404-page template-404" aria-labelledby="Uc404Title">
+  <div class="uc-404-page__inner">
+    <p class="uc-404-page__badge">{{ 'templates.404.subtext' | t | default: 'Page not found' }}</p>
+    <h1 class="uc-404-page__title" id="Uc404Title">
+      {{ 'templates.404.title' | t | default: 'This page wandered off' }}
+    </h1>
+    <p class="uc-404-page__text">
+      The link may be outdated or the page was moved. Search below or head back to explore baby toys and little gifts.
+    </p>
+
+    <div class="uc-404-page__search">
+      <form action="{{ routes.search_url }}" method="get" role="search" class="uc-404-page__search-form">
+        <input type="hidden" name="type" value="product">
+        <label class="visually-hidden" for="Uc404Search">{{ 'general.search.search' | t }}</label>
+        <input
+          id="Uc404Search"
+          class="uc-404-page__search-input"
+          type="search"
+          name="q"
+          value="{{ search.terms | escape }}"
+          placeholder="Search products, shades, or care"
+          autocomplete="off"
+        >
+        <button type="submit" class="uc-404-page__search-btn">{{ 'general.search.search' | t }}</button>
+      </form>
+    </div>
+
+    <div class="uc-404-page__actions">
+      <a href="{{ routes.root_url }}" class="uc-404-page__btn uc-404-page__btn--primary">Back to home</a>
+      <a href="{{ routes.all_products_collection_url }}" class="uc-404-page__btn uc-404-page__btn--ghost">
+        {{ 'general.continue_shopping' | t }}
+      </a>
+    </div>
+
+    <ul class="uc-404-page__links">
+      <li><a href="{{ routes.collections_url | default: routes.all_products_collection_url }}">Shop all</a></li>
+      {%- if blogs['articles'] != blank -%}
+        <li><a href="{{ blogs['articles'].url }}">Journal</a></li>
+      {%- endif -%}
+      {%- if pages.contact != blank -%}
+        <li><a href="{{ pages.contact.url }}">Contact</a></li>
+      {%- endif -%}
+      <li><a href="/pages/wishlist">Wishlist</a></li>
+    </ul>
+  </div>
+</section>
+
+{%- if settings.uc_show_error_diagnostics or request.design_mode -%}
+  {%- render 'uc-error-diagnostics', force: true -%}
+{%- endif -%}
+
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "404 page",
+  "tag": "section",
+  "class": "section-main-404",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,424 @@
+{%- comment -%}
+ ============================================================================
+ BEFORE and AFTER IMAGE COMPARISON
+ ----
+ Premium draggable before/after comparison inside a glassmorphism card that
+ floats over a full-width background image. Online Store 2.0 / Dawn ready.
+
+ - Reuses the store design system (uc-design-tokens.css, uc-components.css,
+ uc-icon.liquid) so type, colours, radius, shadows and the CTA button match
+ the header, hero and other sections automatically.
+ - Drag / mouse / touch / click / keyboard, requestAnimationFrame movement.
+ - Fully customisable through the theme editor; original, lightweight code.
+
+ Paste into /sections and add it from the theme editor.
+ ============================================================================
+{%- endcomment -%}
+{{ 'before-after-comparison.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+ assign s = section.settings
+ assign uid = section.id
+
+ assign lh = s.heading_line_height | default: 115 | divided_by: 100.0
+
+ assign btn_class = 'uc-btn--premium'
+ case s.button_style
+ when 'secondary'
+ assign btn_class = 'uc-btn--secondary'
+ when 'ghost'
+ assign btn_class = 'uc-btn--ghost'
+ when 'glass'
+ assign btn_class = 'uc-btn--glass'
+ endcase
+-%}
+
+{%- assign uc_sec_scope = '#BeforeAfter-' | append: uid -%}
+{%- render 'uc-section-vars', section: section, scope: uc_sec_scope -%}
+{%- render 'uc-section-colors', section: section -%}
+
+{%- style -%}
+ #BeforeAfter-{{ uid }} {
+ --ba-pad-top: {{ s.padding_top | default: 72 }}px;
+ --ba-pad-bottom: {{ s.padding_bottom | default: 72 }}px;
+ --ba-bg-height: {{ s.background_height | default: 0 }}px;
+ --ba-overlay: {{ s.overlay_color | default: '#0a0a0a' }};
+ --ba-overlay-opacity: {{ s.overlay_opacity | default: 35 | divided_by: 100.0 }};
+ --ba-bg-blur: {{ s.background_blur | default: 0 }}px;
+
+ --ba-card-max: {{ s.card_max_width | default: 900 }}px;
+ --ba-card-width: {{ s.card_width | default: 100 }}%;
+ --ba-card-blur: {{ s.card_blur | default: 20 }}px;
+ --ba-card-radius: {{ s.card_radius | default: 28 }}px;
+ --ba-card-padding: {{ s.card_padding | default: 32 }}px;
+ --ba-card-bg-opacity: {{ s.card_bg_opacity | default: 55 | divided_by: 100.0 }};
+ --ba-card-tint: {{ s.card_tint | default: '#ffffff' }};
+ --ba-card-border-opacity: {{ s.card_border_opacity | default: 55 | divided_by: 100.0 }};
+ --ba-card-shadow-intensity: {{ s.card_shadow | default: 24 }};
+
+ --ba-img-radius: {{ s.image_radius | default: 16 }}px;
+ --ba-img-height: {{ s.image_height | default: 460 }}px;
+
+ --ba-divider-width: {{ s.divider_width | default: 3 }}px;
+ --ba-divider-color: {{ s.divider_color | default: '#ffffff' }};
+ --ba-handle-size: {{ s.handle_size | default: 48 }}px;
+ --ba-handle-color: {{ s.handle_color | default: '#ffffff' }};
+ --ba-handle-icon-color: {{ s.handle_icon_color | default: '#111111' }};
+ --ba-handle-border: {{ s.handle_border | default: 2 }}px;
+ --ba-anim: {{ s.animation_speed | default: 300 }}ms;
+
+ --ba-label-bg: {{ s.label_background | default: 'rgba(17,17,17,0.55)' }};
+ --ba-label-color: {{ s.label_color | default: '#ffffff' }};
+ --ba-label-size: {{ s.label_size | default: 13 }}px;
+ --ba-label-radius: {{ s.label_radius | default: 100 }}px;
+
+ --ba-heading-size: {{ s.heading_size | default: 40 }}px;
+ --ba-heading-weight: {{ s.heading_weight | default: 600 }};
+ --ba-heading-spacing: {{ s.heading_letter_spacing | default: -0.5 }}px;
+ --ba-heading-line: {{ lh }};
+ --ba-heading-color: {{ s.heading_color | default: 'rgb(var(--color-foreground))' }};
+ --ba-desc-color: {{ s.description_color | default: 'rgba(var(--color-foreground), 0.7)' }};
+ --ba-desc-size: {{ s.description_size | default: 17 }}px;
+ }
+{%- endstyle -%}
+
+<section
+ id="BeforeAfter-{{ uid }}"
+ class="ba color-{{ s.color_scheme }} ba--align-{{ s.content_alignment }}{% if s.background_image == blank %} ba--no-bg{% endif %}{% if s.background_fixed %} ba--fixed{% endif %}{% if s.enable_reveal %} ba--reveal{% endif %}{% if s.divider_glow %} ba--divider-glow{% endif %}{% if s.handle_glow %} ba--handle-glow{% endif %}"
+ {% if s.heading_color != blank or s.description_color != blank or s.heading_color_mobile != blank or s.description_color_mobile != blank %}data-uc-theme-text style="{% render 'uc-theme-text-vars', heading: s.heading_color, heading_mobile: s.heading_color_mobile, body: s.description_color, body_mobile: s.description_color_mobile %}"{% endif %}
+>
+ {%- if s.background_image != blank -%}
+ <div class="ba__bg" aria-hidden="true">
+ {{
+ s.background_image
+ | image_url: width: 3000
+ | image_tag:
+ class: 'ba__bg-img',
+ loading: 'lazy',
+ widths: '750, 1100, 1500, 2000, 3000',
+ sizes: '100vw',
+ alt: ''
+ }}
+ <span class="ba__bg-overlay"></span>
+ </div>
+ {%- endif -%}
+
+ <div class="ba__shell">
+ {% render 'uc-section-header',
+ eyebrow: s.eyebrow,
+ heading: s.heading,
+ description: s.description,
+ reveal: true,
+ header_class: 'ba__section-header'
+ %}
+
+ <div class="ba__inner">
+ <div class="ba__card" data-ba-reveal>
+
+ {%- liquid
+ assign before_img = s.before_image
+ assign after_img = s.after_image
+ -%}
+
+ <div
+ class="ba__compare"
+ data-ba-compare
+ data-start="{{ s.initial_position | default: 50 }}"
+ style="--ba-object-fit: {{ s.object_fit | default: 'cover' }};{% if s.image_aspect != 'custom' %} --ba-aspect: {{ s.image_aspect | default: '7-8' | replace: '-', ' / ' }};{% else %} --ba-img-height: {{ s.image_height | default: 460 }}px;{% endif %}"
+ {% if s.image_aspect == 'custom' %}data-ba-custom-height="true"{% endif %}
+ role="slider"
+ tabindex="0"
+ aria-label="{{ s.a11y_label | default: 'Before and after comparison. Use arrow keys to reveal.' | escape }}"
+ aria-valuemin="0"
+ aria-valuemax="100"
+ aria-valuenow="{{ s.initial_position | default: 50 }}"
+ >
+ {%- comment -%} AFTER = base layer (full width) {%- endcomment -%}
+ <div class="ba__layer ba__layer--after">
+ {%- if after_img != blank -%}
+ {%- assign ba_after_alt = s.after_alt | default: 'After' | escape -%}
+ {{
+ after_img
+ | image_url: width: 1600
+ | image_tag:
+ class: 'ba__img',
+ loading: 'lazy',
+ widths: '600, 900, 1200, 1600',
+ sizes: '(min-width: 990px) 850px, 92vw',
+ alt: ba_after_alt
+ }}
+ {%- else -%}
+ {{ 'lifestyle-2' | placeholder_svg_tag: 'ba__img ba__img--placeholder' }}
+ {%- endif -%}
+ </div>
+
+ {%- comment -%} BEFORE = full-size twin layer, revealed via clip-path {%- endcomment -%}
+ <div class="ba__layer ba__layer--before" data-ba-before>
+ {%- if before_img != blank -%}
+ {%- assign ba_before_alt = s.before_alt | default: 'Before' | escape -%}
+ {{
+ before_img
+ | image_url: width: 1600
+ | image_tag:
+ class: 'ba__img',
+ loading: 'lazy',
+ widths: '600, 900, 1200, 1600',
+ sizes: '(min-width: 990px) 850px, 92vw',
+ alt: ba_before_alt
+ }}
+ {%- else -%}
+ {{ 'lifestyle-1' | placeholder_svg_tag: 'ba__img ba__img--placeholder' }}
+ {%- endif -%}
+ </div>
+
+ {%- if s.show_labels -%}
+ <span class="ba__label ba__label--{{ s.label_before_position | default: 'bottom-left' }}">{{ s.before_text | default: 'Before' | escape }}</span>
+ <span class="ba__label ba__label--{{ s.label_after_position | default: 'bottom-right' }}">{{ s.after_text | default: 'After' | escape }}</span>
+ {%- endif -%}
+
+ {%- comment -%} Divider + handle {%- endcomment -%}
+ <div class="ba__divider" data-ba-divider aria-hidden="true">
+ <button type="button" class="ba__handle" data-ba-handle tabindex="-1" aria-hidden="true">
+ {%- case s.handle_icon -%}
+ {%- when 'arrows' -%}
+ <svg class="ba__handle-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 7-5 5 5 5"/><path d="m15 7 5 5-5 5"/></svg>
+ {%- when 'chevrons' -%}
+ <svg class="ba__handle-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m11 7-5 5 5 5"/><path d="m18 7-5 5 5 5"/><path d="m6 7-5 5 5 5" opacity="0"/></svg>
+ {%- when 'grip' -%}
+ <svg class="ba__handle-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="18" r="1"/></svg>
+ {%- when 'dot' -%}
+ <span class="ba__handle-dot"></span>
+ {%- when 'custom' -%}
+ {{ s.handle_custom_svg }}
+ {%- else -%}
+ <svg class="ba__handle-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 7-5 5 5 5"/><path d="m15 7 5 5-5 5"/></svg>
+ {%- endcase -%}
+ </button>
+ </div>
+ </div>
+
+ {%- if s.button_label != blank -%}
+ <div class="ba__cta">
+ <a
+ class="uc-btn {{ btn_class }}{% if s.button_full_width %} ba__cta-btn--full{% endif %}"
+ {% if s.button_link != blank %}href="{{ s.button_link }}"{% else %}role="link" aria-disabled="true"{% endif %}
+ >
+ <span>{{ s.button_label | escape }}</span>
+ {%- if s.button_icon == 'arrow-right' -%}
+ {% render 'uc-icon', icon: 'arrow-right', size: 16 %}
+ {%- endif -%}
+ </a>
+ </div>
+ {%- endif -%}
+
+ </div>
+ </div>
+ </div>
+</section>
+
+<script src="{{ 'before-after-comparison.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+ "name": "Before and After",
+ "tag": "section",
+ "class": "section section-before-after",
+ "settings": [
+ { "type": "header", "content": "Content" },
+ { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Proven results" },
+ { "type": "text", "id": "heading", "label": "Heading", "default": "See the transformation" },
+ { "type": "richtext", "id": "description", "label": "Description", "default": "<p>Drag the slider to reveal the difference our hair colour makes  -  real results, real shine.</p>" },
+
+ { "type": "header", "content": "Images" },
+ { "type": "image_picker", "id": "before_image", "label": "Before image", "info": "Recommended: 1400 × 1600 px" },
+ { "type": "text", "id": "before_alt", "label": "Before alt text", "default": "Before" },
+ { "type": "image_picker", "id": "after_image", "label": "After image", "info": "Recommended: 1400 × 1600 px" },
+ { "type": "text", "id": "after_alt", "label": "After alt text", "default": "After" },
+ {
+ "type": "select", "id": "image_aspect", "label": "Aspect ratio", "default": "7-8",
+ "info": "Match upload size: 1400 × 1600 uses Portrait 7:8",
+ "options": [
+ { "value": "7-8", "label": "Portrait 1400×1600 (7:8)" },
+ { "value": "3-4", "label": "Portrait (3:4)" },
+ { "value": "4-5", "label": "Portrait (4:5)" },
+ { "value": "1-1", "label": "Square (1:1)" },
+ { "value": "4-3", "label": "Landscape (4:3)" },
+ { "value": "3-2", "label": "Landscape (3:2)" },
+ { "value": "16-9", "label": "Wide (16:9)" },
+ { "value": "custom", "label": "Custom height" }
+ ]
+ },
+ { "type": "range", "id": "image_height", "label": "Custom height", "min": 240, "max": 720, "step": 10, "unit": "px", "default": 460, "info": "Used when aspect ratio is set to Custom." },
+ { "type": "range", "id": "image_radius", "label": "Image radius", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 16 },
+ {
+ "type": "select", "id": "object_fit", "label": "Object fit", "default": "cover",
+ "options": [
+ { "value": "cover", "label": "Cover" },
+ { "value": "contain", "label": "Contain" }
+ ]
+ },
+
+ { "type": "header", "content": "Slider" },
+ { "type": "range", "id": "initial_position", "label": "Initial position", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 50 },
+ { "type": "range", "id": "animation_speed", "label": "Animation speed", "min": 100, "max": 600, "step": 50, "unit": "ms", "default": 300 },
+ { "type": "text", "id": "a11y_label", "label": "Accessibility label", "default": "Before and after comparison. Use arrow keys to reveal." },
+
+ { "type": "header", "content": "Divider and handle" },
+ { "type": "range", "id": "divider_width", "label": "Divider width", "min": 1, "max": 10, "step": 1, "unit": "px", "default": 3 },
+ { "type": "color", "id": "divider_color", "label": "Divider colour", "default": "#ffffff" },
+ { "type": "checkbox", "id": "divider_glow", "label": "Divider glow", "default": true },
+ { "type": "range", "id": "handle_size", "label": "Handle size", "min": 32, "max": 72, "step": 2, "unit": "px", "default": 48 },
+ { "type": "color", "id": "handle_color", "label": "Handle colour", "default": "#ffffff" },
+ { "type": "color", "id": "handle_icon_color", "label": "Handle icon colour", "default": "#111111" },
+ { "type": "range", "id": "handle_border", "label": "Handle border", "min": 0, "max": 6, "step": 1, "unit": "px", "default": 2 },
+ { "type": "checkbox", "id": "handle_glow", "label": "Handle glow", "default": true },
+ {
+ "type": "select", "id": "handle_icon", "label": "Handle icon", "default": "arrows",
+ "options": [
+ { "value": "arrows", "label": "Arrows" },
+ { "value": "chevrons", "label": "Chevrons" },
+ { "value": "grip", "label": "Grip dots" },
+ { "value": "dot", "label": "Dot" },
+ { "value": "custom", "label": "Custom SVG" }
+ ]
+ },
+ { "type": "textarea", "id": "handle_custom_svg", "label": "Custom handle SVG", "info": "Paste raw <svg>... markup. Used when Handle icon is Custom." },
+
+ { "type": "header", "content": "Labels" },
+ { "type": "checkbox", "id": "show_labels", "label": "Show labels", "default": true },
+ { "type": "text", "id": "before_text", "label": "Before label", "default": "Before" },
+ { "type": "text", "id": "after_text", "label": "After label", "default": "After" },
+ { "type": "color", "id": "label_background", "label": "Label background", "default": "#111111" },
+ { "type": "color", "id": "label_color", "label": "Label text colour", "default": "#ffffff" },
+ { "type": "range", "id": "label_size", "label": "Label font size", "min": 10, "max": 20, "step": 1, "unit": "px", "default": 13 },
+ { "type": "range", "id": "label_radius", "label": "Label radius", "min": 0, "max": 100, "step": 2, "unit": "px", "default": 100 },
+ {
+ "type": "select", "id": "label_before_position", "label": "Before label position", "default": "bottom-left",
+ "options": [
+ { "value": "top-left", "label": "Top left" },
+ { "value": "top-right", "label": "Top right" },
+ { "value": "bottom-left", "label": "Bottom left" },
+ { "value": "bottom-right", "label": "Bottom right" }
+ ]
+ },
+ {
+ "type": "select", "id": "label_after_position", "label": "After label position", "default": "bottom-right",
+ "options": [
+ { "value": "top-left", "label": "Top left" },
+ { "value": "top-right", "label": "Top right" },
+ { "value": "bottom-left", "label": "Bottom left" },
+ { "value": "bottom-right", "label": "Bottom right" }
+ ]
+ },
+
+ { "type": "header", "content": "Background" },
+ { "type": "image_picker", "id": "background_image", "label": "Full-width background image", "info": "Recommended: 2560 × 1440 px" },
+ { "type": "color", "id": "overlay_color", "label": "Overlay colour", "default": "#0a0a0a" },
+ { "type": "range", "id": "overlay_opacity", "label": "Overlay opacity", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 35 },
+ { "type": "range", "id": "background_blur", "label": "Background blur", "min": 0, "max": 24, "step": 1, "unit": "px", "default": 0 },
+ { "type": "range", "id": "background_height", "label": "Minimum height", "min": 0, "max": 900, "step": 20, "unit": "px", "default": 0, "info": "0 = fit content." },
+ { "type": "checkbox", "id": "background_fixed", "label": "Fixed (parallax) background", "default": false },
+
+ { "type": "header", "content": "Glass card" },
+ { "type": "range", "id": "card_width", "label": "Card width", "min": 60, "max": 100, "step": 5, "unit": "%", "default": 100 },
+ { "type": "range", "id": "card_max_width", "label": "Card max width", "min": 600, "max": 1200, "step": 20, "unit": "px", "default": 900 },
+ { "type": "range", "id": "card_blur", "label": "Card blur", "min": 0, "max": 40, "step": 2, "unit": "px", "default": 20 },
+ { "type": "range", "id": "card_radius", "label": "Card radius", "min": 0, "max": 48, "step": 2, "unit": "px", "default": 28 },
+ { "type": "range", "id": "card_padding", "label": "Card padding", "min": 8, "max": 64, "step": 2, "unit": "px", "default": 32 },
+ { "type": "range", "id": "card_bg_opacity", "label": "Card background opacity", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 55 },
+ { "type": "color", "id": "card_tint", "label": "Card tint", "default": "#ffffff" },
+ { "type": "range", "id": "card_border_opacity", "label": "Card border opacity", "min": 0, "max": 100, "step": 5, "unit": "%", "default": 55 },
+ { "type": "range", "id": "card_shadow", "label": "Card shadow intensity", "min": 0, "max": 60, "step": 4, "default": 24 },
+
+ { "type": "header", "content": "Typography" },
+ { "type": "range", "id": "heading_size", "label": "Heading size", "min": 22, "max": 64, "step": 2, "unit": "px", "default": 40 },
+ {
+ "type": "select", "id": "heading_weight", "label": "Heading weight", "default": "600",
+ "options": [
+ { "value": "400", "label": "Regular" },
+ { "value": "500", "label": "Medium" },
+ { "value": "600", "label": "Semibold" },
+ { "value": "700", "label": "Bold" }
+ ]
+ },
+ { "type": "range", "id": "heading_letter_spacing", "label": "Heading letter spacing", "min": -2, "max": 2, "step": 0.5, "unit": "px", "default": -0.5 },
+ { "type": "range", "id": "heading_line_height", "label": "Heading line height", "min": 90, "max": 180, "step": 5, "unit": "%", "default": 115 },
+ { "type": "color", "id": "heading_color", "label": "Heading colour (desktop)" },
+ { "type": "color", "id": "heading_color_mobile", "label": "Heading colour (mobile)" },
+ { "type": "range", "id": "description_size", "label": "Description size", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 17 },
+ { "type": "color", "id": "description_color", "label": "Description colour (desktop)" },
+ { "type": "color", "id": "description_color_mobile", "label": "Description colour (mobile)" },
+
+ { "type": "header", "content": "CTA button" },
+ { "type": "text", "id": "button_label", "label": "Button text", "default": "Shop the collection" },
+ { "type": "url", "id": "button_link", "label": "Button link" },
+ {
+ "type": "select", "id": "button_style", "label": "Button style", "default": "primary",
+ "options": [
+ { "value": "primary", "label": "Primary" },
+ { "value": "secondary", "label": "Secondary" },
+ { "value": "ghost", "label": "Ghost" }
+ ]
+ },
+ {
+ "type": "select", "id": "button_icon", "label": "Button icon", "default": "arrow-right",
+ "options": [
+ { "value": "none", "label": "None" },
+ { "value": "arrow-right", "label": "Arrow" },
+ { "value": "sparkle", "label": "Sparkle" },
+ { "value": "heart", "label": "Heart" }
+ ]
+ },
+ { "type": "checkbox", "id": "button_full_width", "label": "Full-width button", "default": false },
+
+ { "type": "header", "content": "Layout" },
+ {
+ "type": "select", "id": "content_alignment", "label": "Content alignment", "default": "center",
+ "options": [
+ { "value": "left", "label": "Left" },
+ { "value": "center", "label": "Center" }
+ ]
+ },
+ { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 72 },
+ { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 72 },
+ { "type": "checkbox", "id": "enable_reveal", "label": "Fade-in on scroll", "default": true },
+
+ { "type": "header", "content": "Colours" },
+ { "type": "color_scheme", "id": "color_scheme", "label": "Colour scheme", "default": "scheme-1" },
+
+ { "type": "header", "content": "UC - Responsive spacing" },
+ { "type": "range", "id": "pad_top_lg", "label": "Top padding - laptop (990px+)", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+ { "type": "range", "id": "pad_top_xxl", "label": "Top padding - large desktop (1440px+)", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 96 },
+ { "type": "range", "id": "container_max_lg", "label": "Container max width - laptop+", "min": 960, "max": 1600, "step": 20, "unit": "px", "default": 1280 },
+ { "type": "select", "id": "container_mode", "label": "Container", "default": "boxed", "options": [{"value":"boxed","label":"Boxed"},{"value":"full","label":"Full width"}] },
+ { "type": "header", "content": "Typography — sizes by device" },
+ { "type": "paragraph", "content": "Set font sizes per breakpoint. Values apply immediately (no override checkbox required)." },
+ { "type": "range", "id": "eyebrow_size_xs", "label": "Eyebrow / pill label — mobile", "min": 9, "max": 18, "step": 1, "unit": "px", "default": 11 },
+ { "type": "range", "id": "eyebrow_size_md", "label": "Eyebrow / pill label — tablet (750px+)", "min": 9, "max": 18, "step": 1, "unit": "px", "default": 11 },
+ { "type": "range", "id": "eyebrow_size_lg", "label": "Eyebrow / pill label — laptop (990px+)", "min": 9, "max": 20, "step": 1, "unit": "px", "default": 12 },
+ { "type": "range", "id": "eyebrow_size_xxl", "label": "Eyebrow / pill label — large desktop", "min": 9, "max": 20, "step": 1, "unit": "px", "default": 12 },
+ { "type": "range", "id": "h_size_xs", "label": "Heading — mobile", "min": 18, "max": 56, "step": 1, "unit": "px", "default": 24 },
+ { "type": "range", "id": "h_size_md", "label": "Heading — tablet (750px+)", "min": 18, "max": 64, "step": 1, "unit": "px", "default": 26 },
+ { "type": "range", "id": "h_size_lg", "label": "Heading — laptop (990px+)", "min": 20, "max": 64, "step": 1, "unit": "px", "default": 30 },
+ { "type": "range", "id": "h_size_xxl", "label": "Heading — large desktop", "min": 20, "max": 72, "step": 1, "unit": "px", "default": 32 },
+ { "type": "range", "id": "sub_size_xs", "label": "Subheading — mobile", "min": 12, "max": 36, "step": 1, "unit": "px", "default": 16 },
+ { "type": "range", "id": "sub_size_md", "label": "Subheading — tablet", "min": 12, "max": 40, "step": 1, "unit": "px", "default": 17 },
+ { "type": "range", "id": "sub_size_lg", "label": "Subheading — laptop+", "min": 12, "max": 40, "step": 1, "unit": "px", "default": 18 },
+ { "type": "range", "id": "sub_size_xxl", "label": "Subheading — large desktop", "min": 12, "max": 44, "step": 1, "unit": "px", "default": 18 },
+ { "type": "range", "id": "desc_size_xs", "label": "Description — mobile", "min": 12, "max": 22, "step": 1, "unit": "px", "default": 14 },
+ { "type": "range", "id": "desc_size_md", "label": "Description — tablet", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 15 },
+ { "type": "range", "id": "desc_size_lg", "label": "Description — laptop+", "min": 12, "max": 24, "step": 1, "unit": "px", "default": 15 },
+ { "type": "range", "id": "desc_size_xxl", "label": "Description — large desktop", "min": 12, "max": 26, "step": 1, "unit": "px", "default": 16 },
+ { "type": "range", "id": "btn_size_xs", "label": "Button / pill text — mobile", "min": 11, "max": 18, "step": 1, "unit": "px", "default": 13 },
+ { "type": "range", "id": "btn_size_md", "label": "Button / pill text — tablet", "min": 11, "max": 18, "step": 1, "unit": "px", "default": 13 },
+ { "type": "range", "id": "btn_size_lg", "label": "Button / pill text — laptop+", "min": 11, "max": 20, "step": 1, "unit": "px", "default": 14 },
+ { "type": "range", "id": "btn_size_xxl", "label": "Button / pill text — large desktop", "min": 11, "max": 20, "step": 1, "unit": "px", "default": 14 },
+ { "type": "header", "content": "UC - Section colors" },
+ { "type": "checkbox", "id": "use_global_colors", "label": "Use global brand colors", "default": true }
+ ],
+ "presets": [
+ { "name": "Before and After" },
+ { "name": "Content - Before and after comparison", "settings": { "heading": "See the transformation" } }
+ ]
+}
+{% endschema %}

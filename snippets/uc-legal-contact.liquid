@@ -1,0 +1,67 @@
+{%- liquid
+  assign uc_market_iso = localization.country.iso_code | upcase
+  assign uc_site_email = settings.uc_contact_email_default | default: ''
+  assign uc_site_phone = blank
+  assign uc_site_whatsapp = settings.uc_contact_whatsapp_default | default: ''
+  assign uc_site_hours = settings.uc_contact_hours_default | default: ''
+  assign uc_site_address = settings.uc_contact_address_default | default: ''
+  assign uc_site_map_url = settings.uc_contact_map_url_default | default: ''
+
+  case uc_market_iso
+    when 'GB'
+      if settings.uc_contact_email_gb != blank
+        assign uc_site_email = settings.uc_contact_email_gb
+      endif
+      if settings.uc_contact_address_gb != blank
+        assign uc_site_address = settings.uc_contact_address_gb
+      endif
+      if settings.uc_contact_hours_gb != blank
+        assign uc_site_hours = settings.uc_contact_hours_gb
+      endif
+    when 'US'
+      if settings.uc_contact_email_us != blank
+        assign uc_site_email = settings.uc_contact_email_us
+      endif
+      if settings.uc_contact_address_us != blank
+        assign uc_site_address = settings.uc_contact_address_us
+      endif
+      if settings.uc_contact_hours_us != blank
+        assign uc_site_hours = settings.uc_contact_hours_us
+      endif
+  endcase
+
+  assign has_contact = false
+  if uc_site_email != blank or uc_site_hours != blank or uc_site_address != blank or uc_site_phone != blank
+    assign has_contact = true
+  endif
+-%}
+{%- if has_contact -%}
+<aside class="uc-legal__contact" aria-label="Contact Online Homes Store">
+  <p class="uc-sec__eyebrow uc-legal__contact-eyebrow">Contact</p>
+  <h3 class="uc-legal__contact-title">Contact us</h3>
+  <ul class="uc-legal__contact-list">
+    {%- if uc_site_email != blank -%}
+    <li>
+      <span class="uc-legal__contact-label">Email</span>
+      <a href="mailto:{{ uc_site_email | escape }}">{{ uc_site_email | escape }}</a>
+    </li>
+    {%- endif -%}
+    {%- if uc_site_hours != blank -%}
+    <li>
+      <span class="uc-legal__contact-label">Hours</span>
+      <span>{{ uc_site_hours | escape }}</span>
+    </li>
+    {%- endif -%}
+    {%- if uc_site_address != blank -%}
+    <li>
+      <span class="uc-legal__contact-label">Address</span>
+      {%- if uc_site_map_url != blank -%}
+        <a href="{{ uc_site_map_url }}" target="_blank" rel="noopener noreferrer">{{ uc_site_address | escape }}</a>
+      {%- else -%}
+        <span>{{ uc_site_address | escape }}</span>
+      {%- endif -%}
+    </li>
+    {%- endif -%}
+  </ul>
+</aside>
+{%- endif -%}

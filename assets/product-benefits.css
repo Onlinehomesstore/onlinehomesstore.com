@@ -1,0 +1,384 @@
+/*
+  ============================================================================
+  PRODUCT BENEFITS — CSS
+  ----------------------------------------------------------------------------
+  Two-column layout (image | benefit grid). Prefix: pb-
+  Uses uc-design-tokens.css variables throughout.
+
+  Sections:
+    1. Shell & layout
+    2. Media / product image
+    3. Content column (header, grid, CTA)
+    4. Benefit cards
+    5. Reveal animation
+    6. Responsive
+    7. Accessibility / reduced motion
+  ============================================================================
+*/
+
+/* ─── 1. Shell & layout ──────────────────────────────────────────────────── */
+.pb {
+  padding-block: var(--pb-pad-top, 60px) var(--pb-pad-bottom, 60px);
+  background: rgb(var(--color-background));
+}
+
+.pb__inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(32px, 5vw, 56px);
+  max-width: min(var(--page-width), 100%);
+  margin-inline: auto;
+  padding-inline: var(--container-padding, clamp(16px, 4vw, 48px));
+  align-items: center;
+}
+
+/* ─── 2. Media / product image ───────────────────────────────────────────── */
+.pb__media {
+  position: relative;
+  border-radius: var(--pb-img-radius, 20px);
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  background: rgba(var(--color-foreground), 0.04);
+}
+
+.pb__media-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.pb__media-img--placeholder {
+  width: 100%;
+  height: 100%;
+  opacity: 0.3;
+}
+
+.pb__img-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  padding: 6px 14px;
+  border-radius: 100px;
+  background: linear-gradient(135deg, #b68a35, #8a6528);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(182, 138, 53, 0.35);
+}
+
+/* ─── 3. Content column ──────────────────────────────────────────────────── */
+.pb__content {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.pb__header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pb__eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--uc-color-primary, #b68a35);
+  opacity: 1;
+  margin: 0;
+}
+
+.pb__heading {
+  font-family: var(--uc-font-heading, 'Manrope', system-ui, sans-serif);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  color: #2a2a2a;
+  margin: 0;
+}
+
+.pb__subtitle {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #2a2a2a;
+  opacity: 1;
+  margin: 0;
+}
+
+/* ─── 4. Benefit cards grid ───────────────────────────────────────────────── */
+.pb__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--pb-gap, 16px);
+}
+
+.pb__card {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 16px;
+  border-radius: var(--pb-card-radius, 16px);
+  background: rgba(var(--color-foreground), 0.03);
+  border: 1px solid rgba(var(--color-foreground), 0.08);
+  transition:
+    transform var(--transition-normal, 240ms) var(--ease-premium, cubic-bezier(.22,.68,0,1.2)),
+    box-shadow var(--transition-normal, 240ms),
+    border-color var(--transition-normal, 240ms),
+    background var(--transition-normal, 240ms);
+  cursor: default;
+  will-change: transform;
+}
+
+.pb__card:hover {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+  border-color: rgba(var(--color-foreground), 0.14);
+  background: rgba(var(--color-foreground), 0.05);
+}
+
+/* Gradient outline on hover using pseudo-element */
+.pb__card::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: calc(var(--pb-card-radius, 16px) + 1px);
+  background: linear-gradient(135deg, rgba(182, 138, 53, 0), rgba(182, 138, 53, 0));
+  transition: background var(--transition-normal, 240ms);
+  pointer-events: none;
+}
+
+.pb__card {
+  position: relative;
+}
+
+.pb__card:hover::before {
+  background: linear-gradient(135deg, rgba(182, 138, 53, 0.18), rgba(138, 101, 40, 0.1));
+}
+
+/* Icon — tinted square so SVG stroke stays visible on cream/gold accents */
+.pb__card-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: rgba(182, 138, 53, 0.14);
+  color: #b68a35;
+  transition: transform var(--transition-normal, 240ms) var(--ease-premium, cubic-bezier(.22,.68,0,1.2));
+}
+
+.pb__card-icon svg,
+.pb__card-icon .uc-icon {
+  stroke: currentColor;
+  fill: none;
+  display: block;
+  width: 22px;
+  height: 22px;
+  color: inherit;
+}
+
+.pb__card:hover .pb__card-icon {
+  transform: scale(1.12) rotate(-3deg);
+}
+
+/* Card content */
+.pb__card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.pb__card-badge {
+  display: inline-flex;
+  align-self: flex-start;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 100px;
+  border: 1px solid currentColor;
+  margin-bottom: 2px;
+}
+
+.pb__card-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: rgb(var(--color-foreground));
+  margin: 0;
+  line-height: 1.3;
+}
+
+.pb__card-desc {
+  font-size: 16px;
+  line-height: 1.45;
+  color: rgb(var(--color-foreground));
+  opacity: 0.65;
+  margin: 0;
+}
+
+/* CTA */
+.pb__cta { margin-top: 4px; }
+
+/* ─── 5. Reveal animation ────────────────────────────────────────────────── */
+.pb--reveal [data-uc-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
+  transition:
+    opacity 0.5s ease var(--ucs-delay, 0ms),
+    transform 0.5s var(--ease-premium, cubic-bezier(.22,.68,0,1.2)) var(--ucs-delay, 0ms);
+}
+
+.pb--reveal [data-uc-reveal].is-visible,
+.pb--reveal [data-uc-reveal].is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* ─── 6. Responsive ──────────────────────────────────────────────────────── */
+@media (max-width: 749px) {
+  .pb__media {
+    aspect-ratio: 4 / 3; /* Landscape on mobile to save vertical space */
+    max-height: 280px;
+  }
+
+  .pb__grid {
+    /* Keep 2 columns on mobile for compactness */
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pb__card {
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .pb__card-icon {
+    width: 34px;
+    height: 34px;
+  }
+}
+
+@media (min-width: 750px) and (max-width: 989px) {
+  .pb__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 990px) {
+  .pb__inner {
+    grid-template-columns: 40% 1fr;
+    gap: var(--pb-gap, 16px);
+    gap: clamp(40px, 5vw, 64px);
+  }
+
+  .pb__media {
+    /* Sticky on desktop so image stays visible as user reads benefits */
+    position: sticky;
+    top: 90px;
+    aspect-ratio: 3 / 4;
+    max-height: 580px;
+  }
+
+  .pb__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ─── 7. Accessibility / reduced motion ───────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .pb--reveal [data-uc-reveal] { transition: none; opacity: 1; transform: none; }
+  .pb__card { transition: none; }
+  .pb__card-icon { transition: none; }
+}
+
+.pb__card:focus-within {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Full-width values grid (About / brand pages) */
+.pb--cards-only .pb__inner {
+  grid-template-columns: 1fr;
+  max-width: min(var(--page-width), 100%);
+}
+
+.pb--cards-only .pb__header {
+  text-align: center;
+  align-items: center;
+  max-width: 40rem;
+  margin-inline: auto;
+}
+
+.pb--cards-only .pb__subtitle {
+  max-width: 42ch;
+}
+
+.pb--cards-only .pb__grid {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 640px) {
+  .pb--cards-only .pb__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 990px) {
+  .pb--cards-only .pb__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.pb--cards-only .pb__card {
+  flex-direction: column;
+  align-items: flex-start;
+  min-height: 220px;
+  padding: clamp(20px, 3vw, 28px);
+  background: rgba(var(--color-background), 0.72);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(var(--color-foreground), 0.08);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.06);
+}
+
+.pb--cards-only .pb__card-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: rgba(182, 138, 53, 0.12);
+  color: #b68a35;
+}
+
+@media (max-width: 749px) {
+  .pb--cards-only .pb__card {
+    min-height: 0;
+    padding: 16px 18px;
+    gap: 10px;
+  }
+
+  .pb--cards-only .pb__card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+  }
+
+  .pb--cards-only .pb__card-title {
+    font-size: 18px;
+  }
+
+  .pb--cards-only .pb__card-desc {
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .pb--cards-only .pb__grid {
+    gap: 12px;
+  }
+}
