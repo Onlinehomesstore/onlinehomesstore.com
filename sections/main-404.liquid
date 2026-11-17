@@ -7,15 +7,11 @@
   assign is_story_path = false
   assign is_wishlist_path = false
 
-  if req_path contains '/pages/our-story'
-    or req_path contains '/pages/our_story'
-    or req_path contains '/pages/about'
+  if req_path contains '/pages/our-story' or req_path contains '/pages/our_story' or req_path contains '/pages/about'
     assign is_story_path = true
   endif
 
-  if req_path contains '/pages/wishlist'
-    or req_path contains '/pages/wish-list'
-    or req_path contains '/pages/my-wishlist'
+  if req_path contains '/pages/wishlist' or req_path contains '/pages/wish-list' or req_path contains '/pages/my-wishlist'
     assign is_wishlist_path = true
   endif
 -%}
