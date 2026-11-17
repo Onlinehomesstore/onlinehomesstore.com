@@ -1,48 +1,14 @@
 {
   "sections": {
     "hero": {
-      "type": "image-with-text",
+      "type": "rich-text",
       "blocks": {
-        "heading": {
-          "type": "heading",
-          "settings": {
-            "heading": "Little Moments. Big Discoveries.",
-            "heading_size": "hxl"
-          }
-        },
-        "text": {
-          "type": "text",
-          "settings": {
-            "text": "<p>Thoughtfully chosen toys that inspire imagination, encourage learning and make every little moment special.</p>"
-          }
-        },
-        "button": {
-          "type": "button",
-          "settings": {
-            "button_label": "Shop toys",
-            "button_link": "/collections/all"
-          }
-        }
+        "heading": { "type": "heading", "settings": { "heading": "Little Moments. Big Discoveries.", "heading_size": "h0" } },
+        "text": { "type": "text", "settings": { "text": "<p>Thoughtfully chosen toys that inspire imagination and make every little moment special.</p>" } },
+        "button": { "type": "button", "settings": { "button_label": "Shop toys", "button_link": "/collections/all", "button_style_secondary": false, "button_style_secondary_color": false } }
       },
-      "block_order": [
-        "heading",
-        "text",
-        "button"
-      ],
-      "settings": {
-        "desktop_image_width": "medium",
-        "layout": "image_first",
-        "desktop_content_position": "middle",
-        "desktop_content_alignment": "left",
-        "content_layout": "no-overlap",
-        "section_color_scheme": "scheme-1",
-        "color_scheme": "scheme-1",
-        "image_behavior": "none",
-        "mobile_content_alignment": "left",
-        "padding_top": 36,
-        "padding_bottom": 36,
-        "height": "adapt"
-      }
+      "block_order": ["heading", "text", "button"],
+      "settings": { "desktop_content_position": "center", "content_alignment": "center", "color_scheme": "scheme-1", "full_width": true, "padding_top": 72, "padding_bottom": 56 }
     },
     "trust": {
       "type": "ohs-trust-features",
@@ -64,130 +30,21 @@
         "background": "#F8F5EE"
       },
       "blocks": {
-        "f1": {
-          "type": "feature",
-          "settings": {
-            "icon": "sparkles",
-            "title": "Thoughtfully Selected",
-            "description": "Curated toys for quality and everyday play."
-          }
-        },
-        "f2": {
-          "type": "feature",
-          "settings": {
-            "icon": "cart",
-            "title": "Easy Shopping",
-            "description": "Clear categories and a smooth path to checkout."
-          }
-        },
-        "f3": {
-          "type": "feature",
-          "settings": {
-            "icon": "lock",
-            "title": "Secure Checkout",
-            "description": "Shop confidently with Shopify checkout."
-          }
-        },
-        "f4": {
-          "type": "feature",
-          "settings": {
-            "icon": "support",
-            "title": "Helpful Support",
-            "description": "We are here for products, orders and gift ideas."
-          }
-        }
+        "f1": { "type": "feature", "settings": { "icon": "sparkles", "title": "Thoughtfully Selected", "description": "Curated toys for quality and everyday play." } },
+        "f2": { "type": "feature", "settings": { "icon": "cart", "title": "Easy Shopping", "description": "Clear categories and a smooth path to checkout." } },
+        "f3": { "type": "feature", "settings": { "icon": "lock", "title": "Secure Checkout", "description": "Shop confidently with Shopify checkout." } },
+        "f4": { "type": "feature", "settings": { "icon": "support", "title": "Helpful Support", "description": "We are here for products, orders and gift ideas." } }
       },
-      "block_order": [
-        "f1",
-        "f2",
-        "f3",
-        "f4"
-      ]
+      "block_order": ["f1", "f2", "f3", "f4"]
     },
     "collections": {
       "type": "collection-list",
       "blocks": {
-        "c1": {
-          "type": "featured_collection",
-          "settings": {
-            "collection": "build-and-discover"
-          }
-        },
-        "c2": {
-          "type": "featured_collection",
-          "settings": {
-            "collection": "stories-in-motion"
-          }
-        }
+        "c1": { "type": "featured_collection", "settings": { "collection": "build-and-discover" } },
+        "c2": { "type": "featured_collection", "settings": { "collection": "stories-in-motion" } }
       },
-      "block_order": [
-        "c1",
-        "c2"
-      ],
-      "settings": {
-        "title": "Featured collections",
-        "heading_size": "h1",
-        "image_ratio": "square",
-        "columns_desktop": 2,
-        "color_scheme": "scheme-1",
-        "columns_mobile": "1",
-        "swipe_on_mobile": false,
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
-    },
-    "ages": {
-      "type": "ohs-shop-by-age",
-      "settings": {
-        "eyebrow": "SHOP BY AGE",
-        "heading": "Find play that fits every stage.",
-        "description": "Browse thoughtful toys for each early milestone.",
-        "background": "#FFFDF8"
-      },
-      "blocks": {
-        "a1": {
-          "type": "age",
-          "settings": {
-            "title": "0–6 Months",
-            "tone": "peach",
-            "link": "/collections/build-and-discover",
-            "asset_file": "ohs-age-0-6.jpg"
-          }
-        },
-        "a2": {
-          "type": "age",
-          "settings": {
-            "title": "6–12 Months",
-            "tone": "mint",
-            "link": "/collections/build-and-discover",
-            "asset_file": "ohs-age-6-12.jpg"
-          }
-        },
-        "a3": {
-          "type": "age",
-          "settings": {
-            "title": "1–2 Years",
-            "tone": "sage",
-            "link": "/collections/stories-in-motion",
-            "asset_file": "ohs-age-1-2.jpg"
-          }
-        },
-        "a4": {
-          "type": "age",
-          "settings": {
-            "title": "2–3 Years",
-            "tone": "powder",
-            "link": "/collections/stories-in-motion",
-            "asset_file": "ohs-age-2-3.jpg"
-          }
-        }
-      },
-      "block_order": [
-        "a1",
-        "a2",
-        "a3",
-        "a4"
-      ]
+      "block_order": ["c1", "c2"],
+      "settings": { "title": "Featured collections", "heading_size": "h1", "image_ratio": "square", "columns_desktop": 2, "color_scheme": "scheme-1", "columns_mobile": "1", "swipe_on_mobile": false, "padding_top": 36, "padding_bottom": 36 }
     },
     "grid": {
       "type": "ohs-demo-product-grid",
@@ -201,50 +58,18 @@
         "view_all_label": "Shop collection",
         "view_all_link": "/collections/build-and-discover",
         "background": "#FFFDF8"
-      },
-      "blocks": {},
-      "block_order": []
+      }
     },
     "newsletter": {
       "type": "newsletter",
       "blocks": {
-        "heading": {
-          "type": "heading",
-          "settings": {
-            "heading": "A Little More Joy in Your Inbox",
-            "heading_size": "h1"
-          }
-        },
-        "paragraph": {
-          "type": "paragraph",
-          "settings": {
-            "text": "<p>Discover new arrivals, gift ideas and playful inspiration.</p>"
-          }
-        },
-        "email_form": {
-          "type": "email_form",
-          "settings": {}
-        }
+        "heading": { "type": "heading", "settings": { "heading": "A Little More Joy in Your Inbox", "heading_size": "h1" } },
+        "paragraph": { "type": "paragraph", "settings": { "text": "<p>Discover new arrivals, gift ideas and playful inspiration.</p>" } },
+        "email_form": { "type": "email_form", "settings": {} }
       },
-      "block_order": [
-        "heading",
-        "paragraph",
-        "email_form"
-      ],
-      "settings": {
-        "color_scheme": "scheme-1",
-        "full_width": true,
-        "padding_top": 48,
-        "padding_bottom": 64
-      }
+      "block_order": ["heading", "paragraph", "email_form"],
+      "settings": { "color_scheme": "scheme-1", "full_width": true, "padding_top": 48, "padding_bottom": 64 }
     }
   },
-  "order": [
-    "hero",
-    "trust",
-    "collections",
-    "ages",
-    "grid",
-    "newsletter"
-  ]
+  "order": ["hero", "trust", "collections", "grid", "newsletter"]
 }
