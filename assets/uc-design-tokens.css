@@ -13,12 +13,12 @@
 
 :root {
   /* ── Typography ─────────────────────────────────────────────────────────── */
-  --uc-font-heading:       'Manrope', system-ui, -apple-system, sans-serif;
-  --uc-font-ui:            'Manrope', system-ui, -apple-system, sans-serif;
-  --uc-font-nav:           'Manrope', system-ui, sans-serif;
-  --uc-font-product-title: 'Manrope', system-ui, sans-serif;
-  --uc-font-btn:           'Manrope', system-ui, sans-serif;
-  --uc-font-body:          'Manrope', system-ui, -apple-system, sans-serif;
+  --uc-font-heading:       'Fredoka', 'Nunito Sans', system-ui, sans-serif;
+  --uc-font-ui:            'Nunito Sans', system-ui, -apple-system, sans-serif;
+  --uc-font-nav:           'Nunito Sans', system-ui, sans-serif;
+  --uc-font-product-title: 'Nunito Sans', system-ui, sans-serif;
+  --uc-font-btn:           'Nunito Sans', system-ui, sans-serif;
+  --uc-font-body:          'Nunito Sans', system-ui, -apple-system, sans-serif;
   --uc-font-mono:          'SF Mono', Consolas, 'Courier New', monospace;
 
   --uc-font-size-base: 16px;

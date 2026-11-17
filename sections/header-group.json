@@ -2,19 +2,39 @@
   "name": "t:sections.header.name",
   "type": "header",
   "sections": {
+    "ohs_announcement": {
+      "type": "ohs-announcement-bar",
+      "settings": {
+        "background": "#FFD95A",
+        "text_color": "#292C35"
+      },
+      "blocks": {
+        "a1": {
+          "type": "announcement",
+          "settings": {
+            "text": "Little toys. Big adventures. Discover something special!"
+          }
+        }
+      },
+      "block_order": ["a1"]
+    },
     "ohs_okido_header": {
       "type": "ohs-okido-header",
       "name": "OHS Okido Header",
       "settings": {
         "logo_text": "OHS",
-        "logo_shadow_color": "#FF4B2E",
+        "logo_shadow_color": "#FF806E",
         "menu": "main-menu",
         "search_placeholder": "Search our store",
-        "enable_country_selector": true
+        "enable_country_selector": true,
+        "enable_wishlist": true,
+        "wishlist_label": "Wishlist",
+        "sticky_header": true
       }
     }
   },
   "order": [
+    "ohs_announcement",
     "ohs_okido_header"
   ]
 }

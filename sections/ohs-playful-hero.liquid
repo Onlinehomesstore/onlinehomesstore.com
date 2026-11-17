@@ -1,0 +1,96 @@
+{%- comment -%}
+  OHS Playful Hero — asymmetric two-column baby toys homepage hero.
+{%- endcomment -%}
+{{ 'ohs-brand-override.css' | asset_url | stylesheet_tag }}
+{{ 'ohs-playful-home.css' | asset_url | stylesheet_tag }}
+
+{%- assign s = section.settings -%}
+
+<section
+  class="ohs-hero"
+  id="OhsHero-{{ section.id }}"
+  style="background: {{ s.background | default: '#FFC6A5' }};"
+>
+  <span class="ohs-deco ohs-deco--star ohs-deco--star-1" aria-hidden="true"></span>
+  <span class="ohs-deco ohs-deco--star ohs-deco--star-2" aria-hidden="true"></span>
+  <span class="ohs-deco ohs-deco--dot ohs-deco--dot-1" aria-hidden="true"></span>
+  <span class="ohs-deco ohs-deco--blob ohs-deco--blob-1" aria-hidden="true"></span>
+
+  <div class="ohs-hero__inner">
+    <div class="ohs-hero__copy">
+      {%- if s.eyebrow != blank -%}
+        <p class="ohs-hero__eyebrow">{{ s.eyebrow | escape }}</p>
+      {%- endif -%}
+      {%- if s.heading != blank -%}
+        <h1 class="ohs-hero__title">{{ s.heading | escape }}</h1>
+      {%- endif -%}
+      {%- if s.text != blank -%}
+        <p class="ohs-hero__text">{{ s.text | escape }}</p>
+      {%- endif -%}
+      <div class="ohs-hero__actions">
+        {%- if s.button_label != blank -%}
+          <a class="ohs-btn ohs-btn--primary" href="{{ s.button_link | default: routes.all_products_collection_url }}">
+            {{ s.button_label | escape }}
+          </a>
+        {%- endif -%}
+        {%- if s.button_label_2 != blank -%}
+          <a class="ohs-btn ohs-btn--secondary" href="{{ s.button_link_2 | default: routes.all_products_collection_url }}">
+            {{ s.button_label_2 | escape }}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="ohs-hero__media">
+      {%- if s.image != blank -%}
+        {{
+          s.image
+          | image_url: width: 1600
+          | image_tag:
+            loading: 'eager',
+            widths: '600,900,1200,1600',
+            sizes: '(min-width: 900px) 46vw, 100vw',
+            alt: s.heading
+        }}
+      {%- elsif s.mobile_image != blank -%}
+        {{
+          s.mobile_image
+          | image_url: width: 1200
+          | image_tag:
+            loading: 'eager',
+            widths: '600,900,1200',
+            sizes: '100vw',
+            alt: s.heading
+        }}
+      {%- else -%}
+        {% render 'ohs-asset-img', file: 'ohs-edu-play.jpg', alt: s.heading, loading: 'eager' %}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "OHS Playful Hero",
+  "tag": "section",
+  "class": "ohs-playful-hero-section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Play More. Discover More. Grow Happy." },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Big Smiles. Little Toys. Endless Fun!" },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Supporting text",
+      "default": "Discover playful treasures, thoughtful gifts and little learning adventures for every stage of growing up."
+    },
+    { "type": "text", "id": "button_label", "label": "Primary button", "default": "Shop All Toys" },
+    { "type": "url", "id": "button_link", "label": "Primary button link" },
+    { "type": "text", "id": "button_label_2", "label": "Secondary button", "default": "Explore Learning Toys" },
+    { "type": "url", "id": "button_link_2", "label": "Secondary button link" },
+    { "type": "image_picker", "id": "image", "label": "Hero image" },
+    { "type": "image_picker", "id": "mobile_image", "label": "Mobile image (optional)" },
+    { "type": "color", "id": "background", "label": "Background", "default": "#FFC6A5" }
+  ],
+  "presets": [{ "name": "OHS Playful Hero" }]
+}
+{% endschema %}

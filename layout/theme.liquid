@@ -26,15 +26,15 @@
  --uc-color-bg: #fffdf8;
  --uc-color-text: #292d2b;
  --uc-color-text-body: #292d2b;
- --uc-color-primary: #c98770;
- --uc-font-body: 'Manrope', system-ui, -apple-system, sans-serif;
- --uc-font-heading: 'Manrope', system-ui, -apple-system, sans-serif;
+ --uc-color-primary: #ff806e;
+ --uc-font-body: 'Nunito Sans', system-ui, -apple-system, sans-serif;
+ --uc-font-heading: 'Fredoka', 'Nunito Sans', system-ui, sans-serif;
  }
- html { background: #fffdf8; }
+ html { background: #fffdf7; }
  body {
- background-color: #fffdf8;
- color: #292d2b;
- font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+ background-color: #fffdf7;
+ color: #292c35;
+ font-family: 'Nunito Sans', system-ui, -apple-system, sans-serif;
  }
  @media (max-width: 749px) {
  :root {
@@ -79,12 +79,12 @@
  </style>
  <script>document.documentElement.classList.add('css-ready');</script>
 
- {%- comment -%} Manrope only — single font family for the entire storefront {%- endcomment -%}
+ {%- comment -%} Fredoka (display) + Nunito Sans (body) — playful premium baby toys {%- endcomment -%}
  <link rel="preconnect" href="https://fonts.googleapis.com">
  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
  <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
- <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap"></noscript>
+ <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" media="print" onload="this.media='all'">
+ <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"></noscript>
 
  <title>
  {{ page_title }}
@@ -239,25 +239,25 @@
  }
 
  :root {
- /* Online Homes Store — Manrope only */
- --font-body-family: 'Manrope', system-ui, -apple-system, sans-serif;
+ /* Online Homes Store — Fredoka + Nunito Sans */
+ --font-body-family: 'Nunito Sans', system-ui, -apple-system, sans-serif;
  --font-body-style: normal;
  --font-body-weight: 400;
  --font-body-weight-bold: 600;
 
- --font-heading-family: 'Manrope', system-ui, -apple-system, sans-serif;
+ --font-heading-family: 'Fredoka', 'Nunito Sans', system-ui, sans-serif;
  --font-heading-style: normal;
- --font-heading-weight: 700;
+ --font-heading-weight: 600;
 
- --uc-font-body: 'Manrope', system-ui, -apple-system, sans-serif;
- --uc-font-heading: 'Manrope', system-ui, -apple-system, sans-serif;
- --uc-font-ui: 'Manrope', system-ui, -apple-system, sans-serif;
- --uc-font-btn: 'Manrope', system-ui, -apple-system, sans-serif;
- --uc-font-nav: 'Manrope', system-ui, -apple-system, sans-serif;
- --uc-font-product-title: 'Manrope', system-ui, -apple-system, sans-serif;
- --uc-color-text: #2a2a2a;
- --uc-color-text-body: #2a2a2a;
- --uc-color-text-muted: #2a2a2a;
+ --uc-font-body: 'Nunito Sans', system-ui, -apple-system, sans-serif;
+ --uc-font-heading: 'Fredoka', 'Nunito Sans', system-ui, sans-serif;
+ --uc-font-ui: 'Nunito Sans', system-ui, -apple-system, sans-serif;
+ --uc-font-btn: 'Nunito Sans', system-ui, -apple-system, sans-serif;
+ --uc-font-nav: 'Nunito Sans', system-ui, -apple-system, sans-serif;
+ --uc-font-product-title: 'Nunito Sans', system-ui, -apple-system, sans-serif;
+ --uc-color-text: #292c35;
+ --uc-color-text-body: #292c35;
+ --uc-color-text-muted: #747780;
 
  --font-body-scale: {{ settings.body_scale | divided_by: 100.0 }};
  --font-heading-scale: {{ settings.heading_scale | times: 1.0 | divided_by: settings.body_scale }};

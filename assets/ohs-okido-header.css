@@ -1,18 +1,24 @@
 /* OHS Okido-replica header */
 .ohs-okido {
   --ohs-okido-top-bg: #ffffff;
-  --ohs-okido-nav-bg: #f4f4f4;
+  --ohs-okido-nav-bg: #f5f1e8;
   --ohs-okido-text: #111111;
   --ohs-okido-muted: #9a9a9a;
   --ohs-okido-border: #d8d8d8;
   --ohs-okido-logo-fill: #ffffff;
-  --ohs-okido-logo-shadow: #ff4b2e;
+  --ohs-okido-logo-shadow: #ff806e;
   --ohs-okido-max: 1280px;
   position: relative;
   z-index: 40;
   background: var(--ohs-okido-top-bg);
   color: var(--ohs-okido-text);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--ohs-font-body, 'Nunito Sans', system-ui, sans-serif);
+}
+
+.ohs-okido-header-section.shopify-section-group-header-group {
+  position: sticky;
+  top: 0;
+  z-index: 50;
 }
 
 .ohs-okido *,

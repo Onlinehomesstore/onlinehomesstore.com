@@ -1,6 +1,7 @@
 {%- comment -%}
   OHS Okido-replica header: top utility row + bottom nav bar.
 {%- endcomment -%}
+{{ 'ohs-brand-override.css' | asset_url | stylesheet_tag }}
 {{ 'ohs-okido-header.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'ohs-okido-header.js' | asset_url }}" defer="defer"></script>
 
@@ -44,24 +45,29 @@
         {%- if st.logo != blank -%}
           {{ st.logo | image_url: width: 360 | image_tag: class: 'ohs-okido__logo-img', widths: '120,180,240,360', loading: 'eager', alt: shop.name }}
         {%- else -%}
-          <span class="ohs-okido__wordmark" style="--ohs-okido-logo-shadow: {{ st.logo_shadow_color | default: '#ff4b2e' }}; -webkit-text-stroke-color: {{ st.logo_shadow_color | default: '#ff4b2e' }}; text-shadow: 3px 3px 0 {{ st.logo_shadow_color | default: '#ff4b2e' }}, 4px 4px 0 {{ st.logo_shadow_color | default: '#ff4b2e' }};">
+          <span class="ohs-okido__wordmark" style="--ohs-okido-logo-shadow: {{ st.logo_shadow_color | default: '#FF806E' }}; -webkit-text-stroke-color: {{ st.logo_shadow_color | default: '#FF806E' }}; text-shadow: 3px 3px 0 {{ st.logo_shadow_color | default: '#FF806E' }}, 4px 4px 0 {{ st.logo_shadow_color | default: '#FF806E' }};">
             {{ logo_text | escape }}
           </span>
         {%- endif -%}
       </a>
 
       <div class="ohs-okido__tools">
-        <span class="ohs-okido__currency" aria-label="Currency">
-          <span>{{ cart.currency.symbol }} {{ cart.currency.iso_code }}</span>
-          <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4l4 4 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </span>
+        {%- if st.enable_country_selector -%}
+          <span class="ohs-okido__currency" aria-label="Currency">
+            <span>{{ cart.currency.symbol }} {{ cart.currency.iso_code }}</span>
+            <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4l4 4 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        {%- endif -%}
 
-        <a class="ohs-okido__icon" href="{{ routes.account_login_url }}" aria-label="{{ 'customer.log_in' | t | default: 'Log in' }}">
+        <a class="ohs-okido__icon" href="{{ routes.account_login_url }}" aria-label="{{ 'customer.log_in' | t | default: 'Account' }}">
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 19.2c1.6-3 4-4.5 6.5-4.5s4.9 1.5 6.5 4.5" stroke-linecap="round"/></svg>
         </a>
-        <a class="ohs-okido__icon" href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_register_url }}{% endif %}" aria-label="{{ 'customer.account_fallback' | t | default: 'Account' }}">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 19.2c1.6-3 4-4.5 6.5-4.5s4.9 1.5 6.5 4.5" stroke-linecap="round"/></svg>
-        </a>
+
+        {%- if st.enable_wishlist -%}
+          <a class="ohs-okido__icon" href="{{ st.wishlist_url | default: '/pages/wishlist' }}" aria-label="{{ st.wishlist_label | default: 'Wishlist' | escape }}">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-9.2A3.8 3.8 0 0 1 12 7.5a3.8 3.8 0 0 1 7 3.3C19 15.6 12 20 12 20z" stroke-linejoin="round"/></svg>
+          </a>
+        {%- endif -%}
 
         <a class="ohs-okido__icon" href="{{ routes.cart_url }}" id="cart-icon-bubble" aria-label="{{ 'templates.cart.cart' | t | default: 'Cart' }}">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 8.5h11l-.8 9.2a2 2 0 0 1-2 1.8H9.3a2 2 0 0 1-2-1.8L6.5 8.5z"/><path d="M9 8.5V7a3 3 0 0 1 6 0v1.5" stroke-linecap="round"/></svg>
@@ -149,10 +155,14 @@
   "settings": [
     { "type": "image_picker", "id": "logo", "label": "Logo image (optional)" },
     { "type": "text", "id": "logo_text", "label": "Logo wordmark", "default": "OHS" },
-    { "type": "color", "id": "logo_shadow_color", "label": "Logo shadow color", "default": "#FF4B2E" },
+    { "type": "color", "id": "logo_shadow_color", "label": "Logo shadow color", "default": "#FF806E" },
     { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" },
     { "type": "text", "id": "search_placeholder", "label": "Search placeholder", "default": "Search our store" },
-    { "type": "checkbox", "id": "enable_country_selector", "label": "Show currency / country selector", "default": true }
+    { "type": "checkbox", "id": "enable_country_selector", "label": "Show currency / country selector", "default": true },
+    { "type": "checkbox", "id": "enable_wishlist", "label": "Show wishlist", "default": true },
+    { "type": "text", "id": "wishlist_label", "label": "Wishlist label", "default": "Wishlist" },
+    { "type": "url", "id": "wishlist_url", "label": "Wishlist page" },
+    { "type": "checkbox", "id": "sticky_header", "label": "Sticky header", "default": true }
   ],
   "presets": [{ "name": "OHS Okido Header" }]
 }
