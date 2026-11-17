@@ -191,6 +191,26 @@
     color: #777D78 !important;
     cursor: default;
   }
+  @media (max-width: 749px) {
+    #OhsDemoGrid-{{ section.id }} .ohs-demo-grid__head {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+    #OhsDemoGrid-{{ section.id }} .ohs-demo-grid__grid {
+      gap: 0.85rem;
+    }
+    #OhsDemoGrid-{{ section.id }} .ohs-demo-card__body {
+      padding: 0.85rem 0.85rem 1rem;
+    }
+    #OhsDemoGrid-{{ section.id }} .ohs-demo-card__title {
+      font-size: 0.92rem;
+    }
+    #OhsDemoGrid-{{ section.id }} .ohs-demo-card__btn {
+      min-height: 40px;
+      font-size: 0.85rem;
+    }
+  }
 </style>
 
 {% schema %}

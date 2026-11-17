@@ -1,0 +1,202 @@
+{%- comment -%}
+  OHS Trust Features — self-contained trust / why-parents cards.
+  No external snippet dependencies (safe for Shopify Code Editor save).
+{%- endcomment -%}
+{{ 'ohs-brand-override.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign s = section.settings
+  assign cols = s.columns | default: 4
+-%}
+
+<section
+  class="ohs-section ohs-trust"
+  id="OhsTrust-{{ section.id }}"
+  style="
+    --ohs-trust-cols: {{ cols }};
+    --ohs-trust-gap: {{ s.card_gap | default: 20 }}px;
+    --ohs-trust-radius: {{ s.card_radius | default: 18 }}px;
+    --ohs-trust-accent: {{ s.accent_color | default: '#C98770' }};
+    --ohs-trust-icon: {{ s.icon_color | default: '#C98770' }};
+    --ohs-trust-icon-bg: {{ s.icon_bg | default: '#F8E8E2' }};
+    --ohs-trust-card-bg: {{ s.card_bg | default: '#FFFFFF' }};
+    --ohs-trust-title: {{ s.title_color | default: '#292D2B' }};
+    --ohs-trust-desc: {{ s.desc_color | default: '#777D78' }};
+    {% if s.background != blank %}background: {{ s.background }};{% endif %}
+    padding-top: {{ s.padding_top | default: 48 }}px;
+    padding-bottom: {{ s.padding_bottom | default: 48 }}px;
+  "
+>
+  <div class="ohs-section__inner">
+    <header class="ohs-section__head" data-uc-reveal>
+      {%- if s.eyebrow != blank -%}
+        <p class="ohs-section__eyebrow">{{ s.eyebrow | escape }}</p>
+      {%- endif -%}
+      {%- if s.heading != blank -%}
+        <h2 class="ohs-section__heading">{{ s.heading | escape }}</h2>
+      {%- endif -%}
+      {%- if s.subheading != blank -%}
+        <p class="ohs-section__desc">{{ s.subheading | escape }}</p>
+      {%- endif -%}
+    </header>
+
+    <div class="ohs-trust__grid">
+      {%- for block in section.blocks -%}
+        {%- assign b = block.settings -%}
+        <article class="ohs-trust__card" {{ block.shopify_attributes }} data-uc-reveal>
+          <span class="ohs-trust__icon" aria-hidden="true">
+            {%- case b.icon -%}
+              {%- when 'sparkles' -%}
+                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5L12 3z"/><path d="M19 14l.8 2.2L22 17l-2.2.8L19 20l-.8-2.2L16 17l2.2-.8L19 14z"/><path d="M5 15l.6 1.8L7.5 17.5 5.6 18.2 5 20l-.6-1.8L2.5 17.5l1.9-.7L5 15z"/></svg>
+              {%- when 'cart' -%}
+                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M3 3h2l2.4 12.2a2 2 0 0 0 2 1.6h7.8a2 2 0 0 0 2-1.5L21 7H7"/></svg>
+              {%- when 'lock' -%}
+                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+              {%- when 'support' -%}
+                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3.2-6.9"/><path d="M21 3v6h-6"/><path d="M8.5 13.5h.01M12 13.5h.01M15.5 13.5h.01"/><path d="M8 17.5c1.2 1 2.5 1.5 4 1.5s2.8-.5 4-1.5"/></svg>
+              {%- when 'gift' -%}
+                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M17 12v9H7v-9"/><path d="M7.5 8a2.5 2.5 0 1 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>
+              {%- when 'heart' -%}
+                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 5.6a5 5 0 0 0-7.1 0L12 7.3l-1.7-1.7a5 5 0 0 0-7.1 7.1l1.7 1.7L12 21.4l7.1-7.1 1.7-1.7a5 5 0 0 0 0-7z"/></svg>
+              {%- else -%}
+                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            {%- endcase -%}
+          </span>
+          <div class="ohs-trust__body">
+            {%- if b.title != blank -%}
+              <h3 class="ohs-trust__title">{{ b.title | escape }}</h3>
+            {%- endif -%}
+            {%- if b.description != blank -%}
+              <p class="ohs-trust__desc">{{ b.description | escape }}</p>
+            {%- endif -%}
+          </div>
+        </article>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<style>
+  #OhsTrust-{{ section.id }} .ohs-trust__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--ohs-trust-gap, 20px);
+  }
+  @media (min-width: 750px) {
+    #OhsTrust-{{ section.id }} .ohs-trust__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 990px) {
+    #OhsTrust-{{ section.id }} .ohs-trust__grid {
+      grid-template-columns: repeat(var(--ohs-trust-cols, 4), minmax(0, 1fr));
+    }
+  }
+  #OhsTrust-{{ section.id }} .ohs-trust__card {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.35rem 1.25rem;
+    border-radius: var(--ohs-trust-radius, 18px);
+    background: var(--ohs-trust-card-bg, #fff);
+    border: 1px solid rgba(41, 45, 43, 0.06);
+    box-shadow: 0 10px 28px rgba(41, 45, 43, 0.04);
+    min-height: 100%;
+  }
+  #OhsTrust-{{ section.id }} .ohs-trust__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    color: var(--ohs-trust-icon, #C98770);
+    background: var(--ohs-trust-icon-bg, #F8E8E2);
+    flex-shrink: 0;
+  }
+  #OhsTrust-{{ section.id }} .ohs-trust__title {
+    margin: 0 0 0.35rem;
+    font-size: clamp(1rem, 2.4vw, 1.125rem);
+    line-height: 1.3;
+    color: var(--ohs-trust-title, #292D2B);
+  }
+  #OhsTrust-{{ section.id }} .ohs-trust__desc {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: var(--ohs-trust-desc, #777D78);
+  }
+  @media (max-width: 749px) {
+    #OhsTrust-{{ section.id }} {
+      padding-top: max(24px, calc({{ s.padding_top | default: 48 }}px * 0.7)) !important;
+      padding-bottom: max(24px, calc({{ s.padding_bottom | default: 48 }}px * 0.7)) !important;
+    }
+    #OhsTrust-{{ section.id }} .ohs-trust__card {
+      flex-direction: row;
+      align-items: flex-start;
+      padding: 1.1rem;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "OHS Trust Features",
+  "tag": "section",
+  "class": "ohs-trust-features",
+  "max_blocks": 8,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "WHY PARENTS CHOOSE US" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Simple, trusted shopping for little joy." },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Designed to feel calm, clear and helpful from first click to checkout." },
+    { "type": "range", "id": "columns", "min": 2, "max": 4, "step": 1, "label": "Desktop columns", "default": 4 },
+    { "type": "range", "id": "card_gap", "min": 8, "max": 40, "step": 2, "unit": "px", "label": "Card gap", "default": 20 },
+    { "type": "range", "id": "card_radius", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Card radius", "default": 18 },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding top", "default": 48 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding bottom", "default": 48 },
+    { "type": "color", "id": "accent_color", "label": "Accent", "default": "#C98770" },
+    { "type": "color", "id": "icon_color", "label": "Icon color", "default": "#C98770" },
+    { "type": "color", "id": "icon_bg", "label": "Icon background", "default": "#F8E8E2" },
+    { "type": "color", "id": "card_bg", "label": "Card background", "default": "#FFFFFF" },
+    { "type": "color", "id": "title_color", "label": "Title color", "default": "#292D2B" },
+    { "type": "color", "id": "desc_color", "label": "Description color", "default": "#777D78" },
+    { "type": "color", "id": "background", "label": "Section background", "default": "#F8F5EE" }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "default": "sparkles",
+          "options": [
+            { "value": "sparkles", "label": "Sparkles" },
+            { "value": "cart", "label": "Cart" },
+            { "value": "lock", "label": "Lock" },
+            { "value": "support", "label": "Support" },
+            { "value": "gift", "label": "Gift" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "check", "label": "Check" }
+          ]
+        },
+        { "type": "text", "id": "title", "label": "Title", "default": "Thoughtfully Selected Products" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "A curated mix of toys chosen for quality, simplicity and everyday play." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "OHS Trust Features",
+      "blocks": [
+        { "type": "feature", "settings": { "icon": "sparkles", "title": "Thoughtfully Selected Products", "description": "A curated mix of toys chosen for quality, simplicity and everyday play." } },
+        { "type": "feature", "settings": { "icon": "cart", "title": "Easy Shopping Experience", "description": "Clear categories, helpful search and a smooth path from browse to basket." } },
+        { "type": "feature", "settings": { "icon": "lock", "title": "Secure Checkout", "description": "Shop with confidence through Shopify’s secure checkout." } },
+        { "type": "feature", "settings": { "icon": "support", "title": "Helpful Customer Support", "description": "Reach us when you need help with products, orders or gift ideas." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

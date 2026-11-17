@@ -4,21 +4,21 @@
       "type": "uc-editorial-hero",
       "settings": {
         "container_width": 1720,
-        "gutter": 12,
+        "gutter": 8,
         "header_gap": 0,
         "corner_radius": 28,
-        "height_desktop": 820,
-        "height_tablet": 640,
-        "height_mobile": 600,
+        "height_desktop": 720,
+        "height_tablet": 560,
+        "height_mobile": 480,
         "content_width": 560,
         "enable_overlay": true,
-        "overlay_opacity": 35,
+        "overlay_opacity": 18,
         "overlay_direction": "right",
-        "heading_size": 58,
-        "heading_size_mobile": 34,
-        "accent_color": "#b68a35",
+        "heading_size": 36,
+        "heading_size_mobile": 28,
+        "accent_color": "#C98770",
         "autoplay": true,
-        "autoplay_speed": 6,
+        "autoplay_speed": 7,
         "transition_speed": 700,
         "show_arrows": true,
         "show_dots": true,
@@ -29,83 +29,64 @@
         "slide_1": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Desktop_banners_1.webp",
-            "image_mobile": "shopify://shop_images/mobilebann_2.webp",
             "focal_point": "center center",
-            "subheading": "UNIK CARE HAIR COLOUR",
-            "heading": "<p>Beautiful colour. Made beautifully simple.</p>",
-            "description": "Discover effortless hair colour designed for beautiful, natural looking results from the comfort of home.",
-            "text_color": "#ffffff",
+            "subheading": "ONLINE HOMES STORE",
+            "heading": "<p>Little Moments. Big Discoveries.</p>",
+            "heading_mobile": "",
+            "description": "Thoughtfully chosen toys that inspire imagination, encourage learning and make every little moment special.",
+            "text_color": "#292D2B",
+            "text_color_mobile": "#292D2B",
             "text_position": "bl",
-            "button_label": "Shop Hair Colour",
-            "button_link": "/collections/all",
-            "button2_label": "Explore Our Story",
-            "button2_link": "/pages/about"
+            "button_label": "Shop Baby Toys",
+            "button_link": "/collections/baby-toys",
+            "button2_label": "Explore Learning Toys",
+            "button2_link": "/collections/educational-toys"
           }
         },
         "slide_2": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/Desktop_banners_2.webp",
-            "image_mobile": "shopify://shop_images/mobilebann_3.webp",
             "focal_point": "center center",
-            "subheading": "COLOUR YOUR CONFIDENCE",
-            "heading": "<p>A fresh colour can change how you feel.</p>",
-            "description": "From timeless black and beautiful browns to expressive shades, find the colour that feels like you.",
-            "text_color": "#ffffff",
+            "subheading": "NEW ARRIVALS",
+            "heading": "<p>Playful finds for growing minds.</p>",
+            "heading_mobile": "",
+            "description": "Discover soft toys, wooden classics, sensory play and gifts parents love to give.",
+            "text_color": "#292D2B",
+            "text_color_mobile": "#292D2B",
             "text_position": "bl",
-            "button_label": "Find Your Colour",
-            "button_link": "/collections/all",
-            "button2_label": "Shop All Products",
-            "button2_link": "/collections/all"
-          }
-        },
-        "slide_aF4wbj": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/Desktop_banners_3.webp",
-            "image_mobile": "shopify://shop_images/mobilebann_1.webp",
-            "focal_point": "center center",
-            "subheading": "AT HOME MADE EASY",
-            "heading": "<p>Colour you can trust at home.</p>",
-            "description": "Clear steps, beautiful results, and shades chosen for real everyday hair.",
-            "text_color": "#ffffff",
-            "text_position": "bl",
-            "button_label": "Shop Hair Colour",
-            "button2_label": "",
-            "button_link": "/collections/all"
+            "button_label": "Shop New Arrivals",
+            "button_link": "/collections/new-arrivals",
+            "button2_label": "Shop Best Sellers",
+            "button2_link": "/collections/best-sellers"
           }
         }
       },
       "block_order": [
         "slide_1",
-        "slide_2",
-        "slide_aF4wbj"
+        "slide_2"
       ]
     },
-    "category_showcase_3emxFE": {
+    "category_showcase": {
       "type": "category-showcase",
       "settings": {
-        "subheading": "EXPLORE THE RITUAL",
-        "heading": "Your colour ritual starts here.",
-        "description": "<p>Choose the format that fits your routine. From shampoo and gel to sachets, every option is created for beautiful colour at home.</p>",
-        "button_label": "Shop All Colour",
+        "subheading": "EXPLORE",
+        "heading": "Shop by Category",
+        "description": "<p>Browse baby toys, learning play, soft companions and gift-ready favourites.</p>",
+        "button_label": "Shop All",
+        "button_link": "/collections/all",
         "header_button_style": "secondary",
         "columns_desktop": 4,
         "columns_tablet": 2,
-        "columns_mobile": "1.15",
+        "columns_mobile": "1",
         "full_width": false,
         "container_width": 1440,
-        "card_gap": 32,
-        "image_ratio": 125,
+        "card_gap": 20,
+        "image_ratio": 115,
         "image_object_fit": "cover",
-        "card_radius": 18,
-        "card_shadow": 18,
-        "overlay_strength": 45,
+        "card_radius": 20,
+        "card_shadow": 12,
+        "overlay_strength": 30,
         "color_scheme": "scheme-1",
-        "background_color": "",
-        "background_gradient": "",
-        "text_color": "",
         "enable_slider": true,
         "enable_hover": true,
         "enable_image_zoom": true,
@@ -113,862 +94,690 @@
         "enable_gradient": true,
         "enable_badge": true,
         "enable_description": true,
-        "enable_count": true,
+        "enable_count": false,
         "enable_button": true,
         "enable_lazy": true,
         "show_arrows": true,
         "show_pagination": true,
         "slider_loop": true,
-        "autoplay": true,
-        "autoplay_speed": 5,
+        "autoplay": false,
         "padding_top": 56,
-        "padding_bottom": 56,
-        "pad_top_lg": 80,
-        "pad_top_xxl": 96,
-        "container_max_lg": 1280,
-        "container_mode": "boxed",
-        "use_custom_section_styles": false,
-        "h_size_xs": 28,
-        "h_size_lg": 40,
-        "h_size_xxl": 44,
-        "use_global_colors": true,
-        "button_link": "/collections/all"
+        "padding_bottom": 40,
+        "use_global_colors": true
       },
-      "name": "Category Showcase",
+      "name": "Shop by Category",
       "blocks": {
-        "category_QfqfDN": {
+        "cat_baby": {
           "type": "category",
           "settings": {
-            "collection": "all-products",
-            "image_position": "center center",
-            "heading": "Shop All Colour",
-            "description": "Explore the full UNIK CARE hair colour collection in one place.",
+            "collection": "",
+            "heading": "Baby Toys",
+            "description": "Gentle first toys for tiny hands and curious minds.",
             "text_alignment": "left",
             "badge": "",
-            "badge_position": "top-left",
-            "badge_color": "#111111",
-            "badge_background": "#ffffff",
-            "button_text": "View All",
+            "button_text": "Shop",
+            "button_link": "/collections/baby-toys",
             "button_style": "ghost",
-            "button_full_width": false,
-            "overlay_strength": 45,
-            "animation_delay": 0,
+            "overlay_strength": 30,
             "hide_desktop": false,
             "hide_mobile": false
           }
         },
-        "category_Dq9kew": {
+        "cat_rattles": {
           "type": "category",
           "settings": {
-            "collection": "hair-color-shampoo",
-            "image_position": "center center",
-            "heading": "Hair Colour Shampoo",
-            "description": "A simple way to refresh your colour with rich coverage and an easy application routine.",
-            "text_alignment": "left",
-            "badge": "BESTSELLER",
-            "badge_position": "top-left",
-            "badge_color": "#111111",
-            "badge_background": "#ffffff",
-            "button_text": "Shop Shampoo",
+            "heading": "Rattles & Teethers",
+            "description": "Soothing textures and simple sounds for early play.",
+            "button_text": "Shop",
+            "button_link": "/collections/rattles-teethers",
             "button_style": "ghost",
-            "button_full_width": false,
-            "overlay_strength": 45,
-            "animation_delay": 0,
-            "hide_desktop": false,
-            "hide_mobile": false
+            "overlay_strength": 30
           }
         },
-        "category_Ex4VML": {
+        "cat_soft": {
           "type": "category",
           "settings": {
-            "collection": "hair-color-gel",
-            "image_position": "center center",
-            "heading": "Hair Dye Gel",
-            "description": "A convenient two part colour system created for controlled application and confident results.",
-            "text_alignment": "left",
-            "badge": "PROFESSIONAL FAVOURITE",
-            "badge_position": "top-left",
-            "badge_color": "#111111",
-            "badge_background": "#ffffff",
-            "button_text": "Shop Gel",
+            "heading": "Soft & Plush Toys",
+            "description": "Cuddly companions for comfort and imaginative play.",
+            "button_text": "Shop",
+            "button_link": "/collections/soft-plush-toys",
             "button_style": "ghost",
-            "button_full_width": false,
-            "overlay_strength": 45,
-            "animation_delay": 0,
-            "hide_desktop": false,
-            "hide_mobile": false
+            "overlay_strength": 30
           }
         },
-        "category_iPiLLc": {
+        "cat_musical": {
           "type": "category",
           "settings": {
-            "collection": "hair-colour-sachets",
-            "image_position": "center center",
-            "heading": "Hair Colour Sachets",
-            "description": "Portion ready colour made for easy mixing and dependable coverage when you need it.",
-            "text_alignment": "left",
-            "badge": "",
-            "badge_position": "top-left",
-            "badge_color": "#111111",
-            "badge_background": "#ffffff",
-            "button_text": "Shop Sachets",
+            "heading": "Musical Toys",
+            "description": "Rhythm, melody and joyful sound discovery.",
+            "button_text": "Shop",
+            "button_link": "/collections/musical-toys",
             "button_style": "ghost",
-            "button_full_width": false,
-            "overlay_strength": 45,
-            "animation_delay": 0,
-            "hide_desktop": false,
-            "hide_mobile": false
+            "overlay_strength": 30
+          }
+        },
+        "cat_sensory": {
+          "type": "category",
+          "settings": {
+            "heading": "Sensory Toys",
+            "description": "Textures, colours and shapes that invite exploration.",
+            "button_text": "Shop",
+            "button_link": "/collections/sensory-toys",
+            "button_style": "ghost",
+            "overlay_strength": 30
+          }
+        },
+        "cat_gyms": {
+          "type": "category",
+          "settings": {
+            "heading": "Activity Gyms & Play Mats",
+            "description": "Comfortable spaces for tummy time and early movement.",
+            "button_text": "Shop",
+            "button_link": "/collections/activity-gyms-play-mats",
+            "button_style": "ghost",
+            "overlay_strength": 30
+          }
+        },
+        "cat_edu": {
+          "type": "category",
+          "settings": {
+            "heading": "Educational Toys",
+            "description": "Playful tools that encourage curiosity and problem-solving.",
+            "button_text": "Shop",
+            "button_link": "/collections/educational-toys",
+            "button_style": "ghost",
+            "overlay_strength": 30
+          }
+        },
+        "cat_wood": {
+          "type": "category",
+          "settings": {
+            "heading": "Wooden Toys",
+            "description": "Timeless, tactile toys with a natural feel.",
+            "button_text": "Shop",
+            "button_link": "/collections/wooden-toys",
+            "button_style": "ghost",
+            "overlay_strength": 30
+          }
+        },
+        "cat_blocks": {
+          "type": "category",
+          "settings": {
+            "heading": "Building Blocks",
+            "description": "Stack, build and create with open-ended play.",
+            "button_text": "Shop",
+            "button_link": "/collections/building-blocks",
+            "button_style": "ghost",
+            "overlay_strength": 30
+          }
+        },
+        "cat_bath": {
+          "type": "category",
+          "settings": {
+            "heading": "Bath Toys",
+            "description": "Splashy fun that makes bathtime brighter.",
+            "button_text": "Shop",
+            "button_link": "/collections/bath-toys",
+            "button_style": "ghost",
+            "overlay_strength": 30
+          }
+        },
+        "cat_pretend": {
+          "type": "category",
+          "settings": {
+            "heading": "Pretend Play",
+            "description": "Role-play sets for storytelling and creativity.",
+            "button_text": "Shop",
+            "button_link": "/collections/pretend-play",
+            "button_style": "ghost",
+            "overlay_strength": 30
+          }
+        },
+        "cat_puzzles": {
+          "type": "category",
+          "settings": {
+            "heading": "Puzzles & Games",
+            "description": "Quiet-time favourites for focus and family fun.",
+            "button_text": "Shop",
+            "button_link": "/collections/puzzles-games",
+            "button_style": "ghost",
+            "overlay_strength": 30
           }
         }
       },
       "block_order": [
-        "category_QfqfDN",
-        "category_Dq9kew",
-        "category_Ex4VML",
-        "category_iPiLLc"
+        "cat_baby",
+        "cat_rattles",
+        "cat_soft",
+        "cat_musical",
+        "cat_sensory",
+        "cat_gyms",
+        "cat_edu",
+        "cat_wood",
+        "cat_blocks",
+        "cat_bath",
+        "cat_pretend",
+        "cat_puzzles"
       ]
     },
-    "premium_product_showcase_meM4TD": {
-      "type": "premium-product-showcase",
+    "best_sellers": {
+      "type": "ohs-demo-product-grid",
       "settings": {
-        "collection": "all-products",
+        "eyebrow": "PARENT FAVOURITES",
+        "heading": "Best Sellers",
+        "description": "Popular picks for playtime, learning and gifting.",
+        "collection": "best-sellers",
         "products_to_show": 8,
-        "subtitle": "COLOUR MADE FOR REAL LIFE",
-        "title": "Hair colour that fits your routine.",
-        "description": "<p>Beautiful shades and easy formats designed for natural looking colour you can achieve at home.</p>",
-        "header_layout": "split",
-        "header_alignment": "left",
-        "show_view_all": true,
-        "view_all_label": "Shop All Colour",
-        "view_all_in_footer": false,
         "columns_desktop": 4,
-        "columns_tablet": 2,
-        "grid_gap": 32,
-        "container_width": "medium",
-        "full_width": false,
-        "padding_top": 56,
-        "padding_bottom": 56,
-        "card_radius": 18,
-        "card_shadow": true,
-        "card_shadow_strength": 18,
-        "card_padding": 12,
-        "card_min_height": 0,
-        "image_ratio": "square",
-        "image_fit": "cover",
-        "enable_hover": true,
-        "enable_image_zoom": true,
-        "show_secondary_image": true,
-        "enable_reveal": true,
-        "enable_quick_add": true,
-        "enable_quick_view": true,
-        "enable_wishlist": true,
-        "show_variant_picker": true,
-        "show_quantity": true,
-        "show_rating": true,
-        "show_vendor": false,
-        "show_subtitle": true,
-        "show_stock_status": true,
-        "show_savings": true,
-        "show_price_note": true,
-        "price_note": "Starting at",
-        "button_label": "Shop Now",
-        "show_bestseller_badge": true,
-        "bestseller_tag": "bestseller",
-        "bestseller_label": "Bestseller",
-        "show_new_badge": true,
-        "new_tag": "new",
-        "new_label": "New",
-        "show_sale_badge": true,
-        "show_sku_pill": true,
-        "color_scheme": "scheme-1",
-        "button_bg": "#b68a35",
-        "button_text_color": "#ffffff",
-        "button_hover_bg": "#8f6824",
-        "button_hover_text": "#ffffff",
-        "badge_bestseller_bg": "#b68a35",
-        "badge_bestseller_text": "#ffffff",
-        "badge_new_bg": "#fbf5e6",
-        "badge_new_text": "#8f6824",
-        "badge_sale_bg": "#b83d3d",
-        "badge_sale_text": "#ffffff",
-        "savings_color": "#4a7a54",
-        "pad_top_lg": 80,
-        "pad_top_xxl": 96,
-        "container_max_lg": 1280,
-        "container_mode": "boxed",
-        "use_custom_section_styles": false,
-        "h_size_xs": 28,
-        "h_size_lg": 40,
-        "h_size_xxl": 44,
-        "use_global_colors": true
+        "view_all_label": "View Best Sellers",
+        "view_all_link": "/collections/best-sellers",
+        "background": "#FFFDF8"
       },
-      "name": "Premium Products"
-    },
-    "before_after_comparison_YFNQLG": {
-      "type": "before-after-comparison",
-      "settings": {
-        "eyebrow": "SEE THE DIFFERENCE",
-        "heading": "One colour. A whole new feeling.",
-        "description": "<p>See how the right shade can refresh your look and bring new confidence to your everyday routine. Results can vary from person to person depending on starting hair colour, hair condition and application.</p>",
-        "before_image": "shopify://shop_images/Before.webp",
-        "before_alt": "Before",
-        "after_image": "shopify://shop_images/After.webp",
-        "after_alt": "After",
-        "image_aspect": "1-1",
-        "image_height": 460,
-        "image_radius": 16,
-        "object_fit": "cover",
-        "initial_position": 50,
-        "animation_speed": 300,
-        "a11y_label": "Before and after comparison. Use arrow keys to reveal.",
-        "divider_width": 3,
-        "divider_color": "#ffffff",
-        "divider_glow": false,
-        "handle_size": 48,
-        "handle_color": "#ffffff",
-        "handle_icon_color": "#111111",
-        "handle_border": 2,
-        "handle_glow": true,
-        "handle_icon": "arrows",
-        "handle_custom_svg": "",
-        "show_labels": true,
-        "before_text": "BEFORE",
-        "after_text": "AFTER",
-        "label_background": "#111111",
-        "label_color": "#ffffff",
-        "label_size": 13,
-        "label_radius": 100,
-        "label_before_position": "bottom-left",
-        "label_after_position": "bottom-right",
-        "overlay_color": "#0a0a0a",
-        "overlay_opacity": 35,
-        "background_blur": 0,
-        "background_height": 0,
-        "background_fixed": false,
-        "card_width": 100,
-        "card_max_width": 900,
-        "card_blur": 20,
-        "card_radius": 18,
-        "card_padding": 32,
-        "card_bg_opacity": 55,
-        "card_tint": "#ffffff",
-        "card_border_opacity": 55,
-        "card_shadow": 24,
-        "heading_size": 40,
-        "heading_weight": "600",
-        "heading_letter_spacing": -0.5,
-        "heading_line_height": 115,
-        "heading_color": "",
-        "description_size": 17,
-        "description_color": "",
-        "button_label": "Shop The Collection",
-        "button_style": "primary",
-        "button_icon": "arrow-right",
-        "button_full_width": false,
-        "content_alignment": "center",
-        "padding_top": 56,
-        "padding_bottom": 56,
-        "enable_reveal": true,
-        "color_scheme": "scheme-1",
-        "pad_top_lg": 80,
-        "pad_top_xxl": 96,
-        "container_max_lg": 1280,
-        "container_mode": "boxed",
-        "use_custom_section_styles": false,
-        "h_size_xs": 28,
-        "h_size_lg": 40,
-        "h_size_xxl": 44,
-        "use_global_colors": true,
-        "button_link": "/collections/all"
-      },
-      "name": "Before and After"
-    },
-    "visible_results_FHCmVm": {
-      "type": "visible-results",
-      "settings": {
-        "eyebrow": "WHY IT WORKS",
-        "heading": "Colour results you can feel good about.",
-        "description": "<p>Created for coverage, shine and an easier at home colour experience.</p>",
-        "footnote": "Individual results vary based on starting colour and hair condition.",
-        "section_width": "contained",
-        "max_width": 1280,
-        "content_width": 460,
-        "section_alignment": "left",
-        "border_radius": 18,
-        "show_shadow": false,
-        "padding_top": 56,
-        "padding_bottom": 56,
-        "padding_left": 0,
-        "padding_right": 0,
-        "columns_desktop": 4,
-        "columns_tablet": 2,
-        "columns_mobile": "2",
-        "heading_size_desktop": 44,
-        "heading_size_tablet": 36,
-        "heading_size_mobile": 28,
-        "heading_weight": "600",
-        "letter_spacing": -0.5,
-        "line_height": 115,
-        "text_width": 460,
-        "color_scheme": "scheme-1",
-        "background_color": "",
-        "background_secondary": "",
-        "eyebrow_color": "",
-        "heading_color": "",
-        "paragraph_color": "",
-        "show_divider": false,
-        "divider_color": "",
-        "divider_thickness": 1,
-        "enable_icon_background": true,
-        "icon_shape": "squircle",
-        "enable_animations": true,
-        "animation_speed": 600,
-        "enable_hover": true,
-        "pad_top_lg": 80,
-        "pad_top_xxl": 96,
-        "container_max_lg": 1280,
-        "container_mode": "boxed",
-        "use_custom_section_styles": false,
-        "h_size_xs": 28,
-        "h_size_lg": 40,
-        "h_size_xxl": 44,
-        "use_global_colors": true
-      },
-      "name": "Visible Results",
       "blocks": {
-        "statistic_LCVFh4": {
-          "type": "statistic",
+        "p1": {
+          "type": "product",
           "settings": {
-            "percentage": "Rich Colour",
-            "title": "Beautiful colour payoff",
-            "subtitle": "",
-            "label": "",
-            "count_up": false,
-            "weight": "600",
-            "number_color": "",
-            "text_color": "",
-            "min_width": 150,
-            "show_divider": false,
-            "divider_style": "line",
-            "animation_delay": 0
+            "title": "Soft Cloud Plush",
+            "price": "$24.00",
+            "compare_price": "$29.00",
+            "badge": "Bestseller",
+            "asset_file": "ohs-prod-2.jpg",
+            "link": "/collections/best-sellers"
           }
         },
-        "statistic_Xdtyfy": {
-          "type": "statistic",
+        "p2": {
+          "type": "product",
           "settings": {
-            "percentage": "Easy Application",
-            "title": "Designed for home use",
-            "subtitle": "",
-            "label": "",
-            "count_up": false,
-            "weight": "600",
-            "number_color": "",
-            "text_color": "",
-            "min_width": 150,
-            "show_divider": false,
-            "divider_style": "line",
-            "animation_delay": 0
+            "title": "Wooden Rainbow Stacker",
+            "price": "$32.00",
+            "badge": "Bestseller",
+            "asset_file": "ohs-prod-3.jpg",
+            "link": "/collections/wooden-toys"
           }
         },
-        "statistic_DRdDYe": {
-          "type": "statistic",
+        "p3": {
+          "type": "product",
           "settings": {
-            "percentage": "Made for Your Routine",
-            "title": "Simple and convenient",
-            "subtitle": "",
-            "label": "",
-            "count_up": false,
-            "weight": "600",
-            "number_color": "",
-            "text_color": "",
-            "min_width": 150,
-            "show_divider": false,
-            "divider_style": "line",
-            "animation_delay": 0
+            "title": "Activity Play Gym",
+            "price": "$58.00",
+            "compare_price": "$68.00",
+            "badge": "Bestseller",
+            "asset_file": "ohs-prod-11.jpg",
+            "link": "/collections/activity-gyms-play-mats"
           }
         },
-        "feature_YPL97J": {
-          "type": "feature",
+        "p4": {
+          "type": "product",
           "settings": {
-            "icon": "droplet",
-            "icon_svg": "",
-            "icon_size": 48,
-            "icon_radius": 14,
-            "icon_border": false,
-            "icon_background": "",
-            "icon_color": "",
-            "title": "Natural look",
-            "description": "Soft, believable colour",
-            "title_color": "",
-            "description_color": "",
-            "alignment": "left",
-            "animation_delay": 0
+            "title": "Shape Sorter House",
+            "price": "$28.00",
+            "asset_file": "ohs-prod-4.jpg",
+            "link": "/collections/educational-toys"
           }
         },
-        "feature_TNJVKR": {
-          "type": "feature",
+        "p5": {
+          "type": "product",
           "settings": {
-            "icon": "sun",
-            "icon_svg": "",
-            "icon_size": 48,
-            "icon_radius": 14,
-            "icon_border": false,
-            "icon_background": "",
-            "icon_color": "",
-            "title": "Lasting shine",
-            "description": "Fresh looking finish",
-            "title_color": "",
-            "description_color": "",
-            "alignment": "left",
-            "animation_delay": 0
+            "title": "Plush Panda Buddy",
+            "price": "$22.00",
+            "asset_file": "ohs-prod-2.jpg",
+            "link": "/collections/soft-plush-toys"
           }
         },
-        "feature_wCjqLf": {
-          "type": "feature",
+        "p6": {
+          "type": "product",
           "settings": {
-            "icon": "leaf",
-            "icon_svg": "",
-            "icon_size": 48,
-            "icon_radius": 14,
-            "icon_border": false,
-            "icon_background": "",
-            "icon_color": "",
-            "title": "Gentle feel",
-            "description": "Comfort focused formulas",
-            "title_color": "",
-            "description_color": "",
-            "alignment": "left",
-            "animation_delay": 0
+            "title": "Alphabet Building Blocks",
+            "price": "$36.00",
+            "compare_price": "$42.00",
+            "badge": "Bestseller",
+            "asset_file": "ohs-prod-5.jpg",
+            "link": "/collections/building-blocks"
           }
         },
-        "feature_gz77r8": {
-          "type": "feature",
+        "p7": {
+          "type": "product",
           "settings": {
-            "icon": "shield",
-            "icon_svg": "",
-            "icon_size": 48,
-            "icon_radius": 14,
-            "icon_border": false,
-            "icon_background": "",
-            "icon_color": "",
-            "title": "At home confidence",
-            "description": "Clear, simple steps",
-            "title_color": "",
-            "description_color": "",
-            "alignment": "left",
-            "animation_delay": 0
+            "title": "Little Explorer Pull-Along",
+            "price": "$31.00",
+            "asset_file": "ohs-prod-11.jpg",
+            "link": "/collections/little-explorers"
+          }
+        },
+        "p8": {
+          "type": "product",
+          "settings": {
+            "title": "Cloud Soft Play Mat",
+            "price": "$45.00",
+            "compare_price": "$55.00",
+            "asset_file": "ohs-prod-11.jpg",
+            "link": "/collections/activity-gyms-play-mats"
           }
         }
       },
       "block_order": [
-        "statistic_LCVFh4",
-        "statistic_Xdtyfy",
-        "statistic_DRdDYe",
-        "feature_YPL97J",
-        "feature_TNJVKR",
-        "feature_wCjqLf",
-        "feature_gz77r8"
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5",
+        "p6",
+        "p7",
+        "p8"
       ]
     },
-    "premium_video_reels_CikyNW": {
-      "type": "premium-video-reels",
+    "shop_by_age": {
+      "type": "ohs-shop-by-age",
       "settings": {
-        "label": "WATCH AND SHOP",
-        "heading": "Real colour. Real routines.",
-        "subtitle": "See how people use UNIK CARE at home, then shop the shades you love.",
-        "show_divider": false,
-        "heading_alignment": "center",
-        "container_width": "full",
-        "card_gap": 32,
-        "padding_top": 56,
-        "padding_bottom": 56,
-        "cards_desktop": 4,
-        "cards_laptop": 4,
-        "cards_tablet": 3,
-        "cards_mobile": 2,
-        "cards_small": "1.15",
-        "card_radius": 18,
-        "card_shadow": 18,
-        "glass_effect": true,
-        "enable_hover": true,
-        "autoplay": true,
-        "loop": true,
-        "start_muted": true,
-        "show_arrows": true,
-        "enable_popup": false,
-        "enable_overlay": true,
-        "pagination_style": "dots",
-        "animation_speed": 400,
-        "color_scheme": "scheme-1",
-        "background_color": "",
-        "heading_color": "",
-        "subtitle_color": "",
-        "pad_top_lg": 80,
-        "pad_top_xxl": 96,
-        "container_max_lg": 1280,
-        "container_mode": "boxed",
-        "use_custom_section_styles": false,
-        "h_size_xs": 28,
-        "h_size_lg": 40,
-        "h_size_xxl": 44,
-        "use_global_colors": true
+        "eyebrow": "SHOP BY AGE",
+        "heading": "Find play that fits every stage.",
+        "description": "Browse thoughtful toys chosen for each early milestone.",
+        "background": "#FFFDF8"
       },
-      "name": "Premium Video Reels",
       "blocks": {
-        "reel_JFxmJL": {
-          "type": "reel",
+        "age_0_6": {
+          "type": "age",
           "settings": {
-            "video_url": "https://www.tiktok.com/@unikpromo/video/7541676266819226902?is_from_webapp=1&sender_device=pc&web_id=7667282674911020552",
-            "thumbnail_mode": "auto",
-            "thumbnail_crop": "cover",
-            "thumbnail_position": "center center",
-            "thumbnail_radius": 18,
-            "overlay_gradient_strength": 60,
-            "play_button_style": "glass",
-            "video_height": 520,
-            "product": "",
-            "custom_title": "",
-            "custom_subtitle": "",
-            "button_text": "Add to cart",
-            "badge": "none",
-            "badge_custom": "",
-            "overlay_text": "",
-            "overlay_subtitle": "",
-            "overlay_cta": "",
-            "overlay_position": "bottom",
-            "gradient": true,
-            "autoplay": true,
-            "mute": true
+            "title": "0–6 Months",
+            "tone": "peach",
+            "link": "/collections/0-6-months",
+            "asset_file": "ohs-age-0-6.jpg"
           }
         },
-        "reel_jpWFCq": {
-          "type": "reel",
+        "age_6_12": {
+          "type": "age",
           "settings": {
-            "video_url": "https://www.tiktok.com/@unikpromo/video/7507391833979260182?is_from_webapp=1&sender_device=pc&web_id=7667282674911020552",
-            "thumbnail_mode": "auto",
-            "thumbnail_crop": "cover",
-            "thumbnail_position": "center center",
-            "thumbnail_radius": 18,
-            "overlay_gradient_strength": 60,
-            "play_button_style": "glass",
-            "video_height": 520,
-            "product": "",
-            "custom_title": "",
-            "custom_subtitle": "",
-            "button_text": "Add to cart",
-            "badge": "none",
-            "badge_custom": "",
-            "overlay_text": "",
-            "overlay_subtitle": "",
-            "overlay_cta": "",
-            "overlay_position": "bottom",
-            "gradient": true,
-            "autoplay": true,
-            "mute": true
+            "title": "6–12 Months",
+            "tone": "mint",
+            "link": "/collections/6-12-months",
+            "asset_file": "ohs-age-6-12.jpg"
           }
         },
-        "reel_BEAfew": {
-          "type": "reel",
+        "age_1_2": {
+          "type": "age",
           "settings": {
-            "video_url": "https://www.tiktok.com/@unikpromo/video/7542041614491847958?is_from_webapp=1&sender_device=pc&web_id=7667282674911020552",
-            "thumbnail_mode": "auto",
-            "thumbnail_crop": "cover",
-            "thumbnail_position": "center center",
-            "thumbnail_radius": 18,
-            "overlay_gradient_strength": 60,
-            "play_button_style": "glass",
-            "video_height": 520,
-            "product": "",
-            "custom_title": "",
-            "custom_subtitle": "",
-            "button_text": "Add to cart",
-            "badge": "none",
-            "badge_custom": "",
-            "overlay_text": "",
-            "overlay_subtitle": "",
-            "overlay_cta": "",
-            "overlay_position": "bottom",
-            "gradient": true,
-            "autoplay": true,
-            "mute": true
+            "title": "1–2 Years",
+            "tone": "sage",
+            "link": "/collections/1-2-years",
+            "asset_file": "ohs-age-1-2.jpg"
           }
         },
-        "reel_JbVP3i": {
-          "type": "reel",
+        "age_2_3": {
+          "type": "age",
           "settings": {
-            "video_url": "https://www.tiktok.com/@unikpromo/video/7488125209917050134?is_from_webapp=1&sender_device=pc&web_id=7667282674911020552",
-            "thumbnail_mode": "auto",
-            "thumbnail_crop": "cover",
-            "thumbnail_position": "center center",
-            "thumbnail_radius": 18,
-            "overlay_gradient_strength": 60,
-            "play_button_style": "glass",
-            "video_height": 520,
-            "product": "",
-            "custom_title": "",
-            "custom_subtitle": "",
-            "button_text": "Add to cart",
-            "badge": "none",
-            "badge_custom": "",
-            "overlay_text": "",
-            "overlay_subtitle": "",
-            "overlay_cta": "",
-            "overlay_position": "bottom",
-            "gradient": true,
-            "autoplay": true,
-            "mute": true
+            "title": "2–3 Years",
+            "tone": "powder",
+            "link": "/collections/2-3-years",
+            "asset_file": "ohs-age-2-3.jpg"
           }
         },
-        "reel_3Pyb8i": {
-          "type": "reel",
+        "age_3_5": {
+          "type": "age",
           "settings": {
-            "video_url": "https://www.tiktok.com/@unikpromo/video/7481049348051127574?is_from_webapp=1&sender_device=pc&web_id=7667282674911020552",
-            "thumbnail_mode": "auto",
-            "thumbnail_crop": "cover",
-            "thumbnail_position": "center center",
-            "thumbnail_radius": 18,
-            "overlay_gradient_strength": 60,
-            "play_button_style": "glass",
-            "video_height": 520,
-            "product": "",
-            "custom_title": "",
-            "custom_subtitle": "",
-            "button_text": "Add to cart",
-            "badge": "none",
-            "badge_custom": "",
-            "overlay_text": "",
-            "overlay_subtitle": "",
-            "overlay_cta": "",
-            "overlay_position": "bottom",
-            "gradient": true,
-            "autoplay": true,
-            "mute": true
+            "title": "3–5 Years",
+            "tone": "beige",
+            "link": "/collections/3-5-years",
+            "asset_file": "ohs-age-3-5.jpg"
           }
         },
-        "reel_pAwhhi": {
-          "type": "reel",
+        "age_5": {
+          "type": "age",
           "settings": {
-            "video_url": "https://www.tiktok.com/@unikpromo/video/7507397245545860374?is_from_webapp=1&sender_device=pc&web_id=7667282674911020552",
-            "thumbnail_mode": "auto",
-            "thumbnail_crop": "cover",
-            "thumbnail_position": "center center",
-            "thumbnail_radius": 18,
-            "overlay_gradient_strength": 60,
-            "play_button_style": "glass",
-            "video_height": 520,
-            "product": "",
-            "custom_title": "",
-            "custom_subtitle": "",
-            "button_text": "Add to cart",
-            "badge": "none",
-            "badge_custom": "",
-            "overlay_text": "",
-            "overlay_subtitle": "",
-            "overlay_cta": "",
-            "overlay_position": "bottom",
-            "gradient": true,
-            "autoplay": true,
-            "mute": true
+            "title": "5+ Years",
+            "tone": "cream",
+            "link": "/collections/5-plus-years",
+            "asset_file": "ohs-age-5.jpg"
           }
         }
       },
       "block_order": [
-        "reel_JFxmJL",
-        "reel_jpWFCq",
-        "reel_BEAfew",
-        "reel_JbVP3i",
-        "reel_3Pyb8i",
-        "reel_pAwhhi"
+        "age_0_6",
+        "age_6_12",
+        "age_1_2",
+        "age_2_3",
+        "age_3_5",
+        "age_5"
       ]
     },
-    "product_testimonials_8GJ38D": {
-      "type": "product-testimonials",
+    "why_parents": {
+      "type": "ohs-trust-features",
       "settings": {
-        "eyebrow": "REAL CUSTOMER STORIES",
-        "heading": "What our customers say.",
-        "subtitle": "Thousands of colour routines begin with UNIK CARE. Here are some of the experiences shared by our customers.",
-        "average_rating_text": "4.9",
-        "review_count": "1,240",
-        "review_count_label": "verified reviews",
-        "show_distribution": true,
-        "reviews_per_page": 6,
-        "enable_autoplay": false,
-        "autoplay_speed": 5,
-        "show_progress": true,
-        "card_gap": 24,
+        "eyebrow": "WHY PARENTS CHOOSE US",
+        "heading": "Simple, trusted shopping for little joy.",
+        "subheading": "Designed to feel calm, clear and helpful from first click to checkout.",
+        "columns": 4,
+        "card_gap": 20,
         "card_radius": 18,
-        "padding_top": 56,
-        "padding_bottom": 56,
-        "pad_top_lg": 80,
-        "pad_top_xxl": 96,
-        "container_max_lg": 1280,
-        "container_mode": "boxed",
-        "use_custom_section_styles": false,
-        "h_size_xs": 28,
-        "h_size_lg": 40,
-        "h_size_xxl": 44,
-        "h_align_xs": "left",
-        "desc_size_xs": 16,
-        "desc_size_lg": 18,
-        "gap_xs": 24,
-        "gap_lg": 32,
-        "use_global_colors": true,
-        "color_scheme": "scheme-1",
-        "background_color": "",
-        "accent_color": "#b68a35"
+        "padding_top": 48,
+        "padding_bottom": 48,
+        "accent_color": "#C98770",
+        "icon_color": "#C98770",
+        "icon_bg": "#F8E8E2",
+        "card_bg": "#FFFFFF",
+        "title_color": "#292D2B",
+        "desc_color": "#777D78",
+        "background": "#F8F5EE"
       },
-      "name": "Testimonials",
       "blocks": {
-        "testimonial_g8HMAE": {
-          "type": "testimonial",
+        "f1": {
+          "type": "feature",
           "settings": {
-            "verified": true,
-            "customer_name": "Sarah M.",
-            "location": "Lahore, PK",
-            "rating": 5,
-            "review_title": "Absolutely amazing!",
-            "review_text": "I have been struggling with grey hair for years. After just 3 applications I noticed a visible difference. Cannot recommend this enough.",
-            "result_duration": "After 4 weeks",
-            "purchased_variant": "Dark Brown  -  200ml",
-            "review_date": "July 2025",
-            "helpful_count": "34"
+            "icon": "sparkles",
+            "title": "Thoughtfully Selected Products",
+            "description": "A curated mix of toys chosen for quality, simplicity and everyday play."
           }
         },
-        "testimonial_ajBEjK": {
-          "type": "testimonial",
+        "f2": {
+          "type": "feature",
           "settings": {
-            "verified": true,
-            "customer_name": "Ahmed R.",
-            "location": "Karachi, PK",
-            "rating": 5,
-            "review_title": "Game changer for me",
-            "review_text": "Easy to use, smells great and the coverage is incredible. My wife noticed the difference in the first week!",
-            "result_duration": "After 2 weeks",
-            "purchased_variant": "Dark Brown  -  200ml",
-            "review_date": "June 2025",
-            "helpful_count": "21"
+            "icon": "cart",
+            "title": "Easy Shopping Experience",
+            "description": "Clear categories, helpful search and a smooth path from browse to basket."
           }
         },
-        "testimonial_DwYbad": {
-          "type": "testimonial",
-          "settings": {
-            "verified": true,
-            "customer_name": "Fatima K.",
-            "location": "Islamabad, PK",
-            "rating": 5,
-            "review_title": "Natural looking results",
-            "review_text": "Very natural finish  -  you cannot tell it is a hair product at all. My friends keep asking what I have been doing differently.",
-            "result_duration": "After 6 weeks",
-            "purchased_variant": "Dark Brown  -  200ml",
-            "review_date": "May 2025",
-            "helpful_count": "18"
-          }
-        },
-        "stat_CRrNj8": {
-          "type": "stat",
-          "settings": {
-            "icon": "star",
-            "stars": true,
-            "prefix": "",
-            "number": "4.9",
-            "suffix": "",
-            "label": "Average Rating"
-          }
-        },
-        "stat_Pz6J6T": {
-          "type": "stat",
-          "settings": {
-            "icon": "users",
-            "stars": false,
-            "prefix": "",
-            "number": "Reviews",
-            "suffix": "",
-            "label": "Real experiences from our community"
-          }
-        },
-        "stat_bKhfGt": {
-          "type": "stat",
-          "settings": {
-            "icon": "trending-up",
-            "stars": false,
-            "prefix": "",
-            "number": "Easy",
-            "suffix": "",
-            "label": "Designed for convenient home use"
-          }
-        },
-        "stat_8wVMK9": {
-          "type": "stat",
-          "settings": {
-            "icon": "shield-check",
-            "stars": false,
-            "prefix": "",
-            "number": "Colour",
-            "suffix": "",
-            "label": "Multiple shades and formats"
-          }
-        },
-        "stat_PrHU4d": {
-          "type": "stat",
+        "f3": {
+          "type": "feature",
           "settings": {
             "icon": "lock",
-            "stars": false,
-            "prefix": "",
-            "number": "Support",
-            "suffix": "",
-            "label": "Here when you need us"
+            "title": "Secure Checkout",
+            "description": "Shop with confidence through Shopify’s secure checkout."
+          }
+        },
+        "f4": {
+          "type": "feature",
+          "settings": {
+            "icon": "support",
+            "title": "Helpful Customer Support",
+            "description": "Reach us when you need help with products, orders or gift ideas."
           }
         }
       },
       "block_order": [
-        "testimonial_g8HMAE",
-        "testimonial_ajBEjK",
-        "testimonial_DwYbad",
-        "stat_CRrNj8",
-        "stat_Pz6J6T",
-        "stat_bKhfGt",
-        "stat_8wVMK9",
-        "stat_PrHU4d"
+        "f1",
+        "f2",
+        "f3",
+        "f4"
       ]
     },
-    "uc_blog_home": {
-      "type": "uc-blog-posts",
+    "featured_collections": {
+      "type": "ohs-featured-collections",
       "settings": {
-        "eyebrow": "FROM THE UNIK CARE JOURNAL",
-        "heading": "Hair colour knowledge worth knowing.",
-        "description": "Helpful guides, colour inspiration and practical advice to help you feel more confident about your hair colour routine.",
-        "blog": "news",
-        "posts_count": 3,
-        "show_date": true,
-        "show_reading_time": true,
-        "show_excerpt": true,
-        "read_more_label": "Read article",
-        "btn_label": "Read The Journal",
-        "full_width": false,
-        "container_width": 1200,
-        "columns": 3,
-        "card_gap": 24,
-        "card_radius": 18,
-        "image_ratio": "4 / 5",
-        "overlay_strength": 45,
-        "padding_top": 56,
-        "padding_bottom": 64,
-        "accent_color": "#b68a35",
-        "heading_color": "#171717",
-        "desc_color": "#5a5a5a",
-        "card_bg": "#ffffff",
-        "background_color": ""
+        "eyebrow": "COLLECTIONS",
+        "heading": "Featured Collections",
+        "description": "Curated edits for explorers, first toys, wooden wonders and soft cuddles.",
+        "background": "#FFFDF8"
+      },
+      "blocks": {
+        "fc1": {
+          "type": "collection_card",
+          "settings": {
+            "title": "Little Explorers",
+            "tone": "sage",
+            "link": "/collections/little-explorers"
+          }
+        },
+        "fc2": {
+          "type": "collection_card",
+          "settings": {
+            "title": "First Toys",
+            "tone": "peach",
+            "link": "/collections/first-toys"
+          }
+        },
+        "fc3": {
+          "type": "collection_card",
+          "settings": {
+            "title": "Learning Through Play",
+            "tone": "mint",
+            "link": "/collections/learning-through-play"
+          }
+        },
+        "fc4": {
+          "type": "collection_card",
+          "settings": {
+            "title": "Wooden Wonders",
+            "tone": "beige",
+            "link": "/collections/wooden-wonders"
+          }
+        },
+        "fc5": {
+          "type": "collection_card",
+          "settings": {
+            "title": "Soft & Cuddly",
+            "tone": "powder",
+            "link": "/collections/soft-and-cuddly"
+          }
+        },
+        "fc6": {
+          "type": "collection_card",
+          "settings": {
+            "title": "Perfect Little Gifts",
+            "tone": "cream",
+            "link": "/collections/perfect-little-gifts"
+          }
+        }
+      },
+      "block_order": [
+        "fc1",
+        "fc2",
+        "fc3",
+        "fc4",
+        "fc5",
+        "fc6"
+      ]
+    },
+    "new_arrivals": {
+      "type": "ohs-demo-product-grid",
+      "settings": {
+        "eyebrow": "JUST IN",
+        "heading": "New Arrivals",
+        "description": "Fresh finds ready for playtime, gifting and everyday discovery.",
+        "collection": "new-arrivals",
+        "products_to_show": 8,
+        "columns_desktop": 4,
+        "view_all_label": "Shop New Arrivals",
+        "view_all_link": "/collections/new-arrivals",
+        "background": "#FFFDF8"
+      },
+      "blocks": {
+        "n1": {
+          "type": "product",
+          "settings": {
+            "title": "Silicone Teether Ring",
+            "price": "$12.00",
+            "compare_price": "$15.00",
+            "badge": "New",
+            "asset_file": "ohs-prod-1.jpg",
+            "link": "/collections/new-arrivals"
+          }
+        },
+        "n2": {
+          "type": "product",
+          "settings": {
+            "title": "First Rattle Duo",
+            "price": "$14.00",
+            "badge": "New",
+            "asset_file": "ohs-prod-12.jpg",
+            "link": "/collections/rattles-teethers"
+          }
+        },
+        "n3": {
+          "type": "product",
+          "settings": {
+            "title": "Soft Activity Book",
+            "price": "$21.00",
+            "compare_price": "$26.00",
+            "badge": "New",
+            "asset_file": "ohs-prod-7.jpg",
+            "link": "/collections/sensory-toys"
+          }
+        },
+        "n4": {
+          "type": "product",
+          "settings": {
+            "title": "Classic Wooden Car",
+            "price": "$20.00",
+            "badge": "New",
+            "asset_file": "ohs-prod-3.jpg",
+            "link": "/collections/wooden-toys"
+          }
+        },
+        "n5": {
+          "type": "product",
+          "settings": {
+            "title": "Newborn Gift Bundle",
+            "price": "$49.00",
+            "compare_price": "$59.00",
+            "badge": "New",
+            "asset_file": "ohs-prod-10.jpg",
+            "link": "/collections/newborn-gifts"
+          }
+        },
+        "n6": {
+          "type": "product",
+          "settings": {
+            "title": "Melody Xylophone",
+            "price": "$29.00",
+            "compare_price": "$35.00",
+            "asset_file": "ohs-prod-9.jpg",
+            "link": "/collections/musical-toys"
+          }
+        },
+        "n7": {
+          "type": "product",
+          "settings": {
+            "title": "Bath Splash Friends",
+            "price": "$16.00",
+            "asset_file": "ohs-prod-8.jpg",
+            "link": "/collections/bath-toys"
+          }
+        },
+        "n8": {
+          "type": "product",
+          "settings": {
+            "title": "Cozy Lamb Plush",
+            "price": "$26.00",
+            "asset_file": "ohs-prod-2.jpg",
+            "link": "/collections/soft-plush-toys"
+          }
+        }
+      },
+      "block_order": [
+        "n1",
+        "n2",
+        "n3",
+        "n4",
+        "n5",
+        "n6",
+        "n7",
+        "n8"
+      ]
+    },
+    "educational_play": {
+      "type": "ohs-educational-play",
+      "settings": {
+        "eyebrow": "LEARNING THROUGH PLAY",
+        "heading": "Play Today. Learn Every Day.",
+        "body": "<p>Age-appropriate toys can spark curiosity, invite exploration and turn everyday play into joyful early learning moments for little ones.</p>",
+        "image_position": "left",
+        "button_label": "Explore Learning Toys",
+        "button_link": "/collections/educational-toys",
+        "background": "#E5F0E8"
+      }
+    },
+    "gift_shopping": {
+      "type": "ohs-gift-shopping",
+      "settings": {
+        "eyebrow": "GIFTS",
+        "heading": "Find Something Special for Every Little One.",
+        "description": "Thoughtful gift ideas for birthdays, baby showers, newcomers and everyday joy.",
+        "background": "#F8F5EE"
+      },
+      "blocks": {
+        "g1": {
+          "type": "gift",
+          "settings": {
+            "title": "Birthday Gifts",
+            "tone": "peach",
+            "link": "/collections/birthday-gifts"
+          }
+        },
+        "g2": {
+          "type": "gift",
+          "settings": {
+            "title": "Baby Shower Gifts",
+            "tone": "mint",
+            "link": "/collections/baby-shower-gifts"
+          }
+        },
+        "g3": {
+          "type": "gift",
+          "settings": {
+            "title": "Newborn Gifts",
+            "tone": "powder",
+            "link": "/collections/newborn-gifts"
+          }
+        },
+        "g4": {
+          "type": "gift",
+          "settings": {
+            "title": "Everyday Surprises",
+            "tone": "beige",
+            "link": "/collections/everyday-gifts"
+          }
+        }
+      },
+      "block_order": [
+        "g1",
+        "g2",
+        "g3",
+        "g4"
+      ]
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "A Little More Joy in Your Inbox",
+            "heading_size": "h1"
+          }
+        },
+        "paragraph": {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>Discover new arrivals, thoughtful gift ideas and playful inspiration.</p>"
+          }
+        },
+        "email_form": {
+          "type": "email_form",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "heading",
+        "paragraph",
+        "email_form"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "full_width": true,
+        "padding_top": 48,
+        "padding_bottom": 64
       }
     }
   },
   "order": [
     "uc_hero_home",
-    "category_showcase_3emxFE",
-    "premium_product_showcase_meM4TD",
-    "before_after_comparison_YFNQLG",
-    "visible_results_FHCmVm",
-    "premium_video_reels_CikyNW",
-    "product_testimonials_8GJ38D",
-    "uc_blog_home"
+    "category_showcase",
+    "best_sellers",
+    "shop_by_age",
+    "why_parents",
+    "featured_collections",
+    "new_arrivals",
+    "educational_play",
+    "gift_shopping",
+    "newsletter"
   ]
 }
