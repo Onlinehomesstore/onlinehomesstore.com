@@ -2,50 +2,6 @@
   "name": "t:sections.header.name",
   "type": "header",
   "sections": {
-    "ohs_announcement": {
-      "type": "ohs-announcement-bar",
-      "disabled": true,
-      "blocks": {
-        "a1": {
-          "type": "announcement",
-          "settings": {
-            "text": "Discover something special for little ones."
-          }
-        }
-      },
-      "block_order": ["a1"],
-      "settings": {
-        "background": "#F8F5EE",
-        "text_color": "#777D78"
-      }
-    },
-    "header": {
-      "type": "header",
-      "disabled": true,
-      "settings": {
-        "logo_position": "middle-left",
-        "menu": "main-menu",
-        "menu_type_desktop": "dropdown",
-        "sticky_header_type": "on-scroll-up",
-        "show_line_separator": true,
-        "color_scheme": "scheme-1",
-        "menu_color_scheme": "scheme-1",
-        "enable_country_selector": true,
-        "enable_language_selector": false,
-        "margin_bottom": 0,
-        "padding_top": 20,
-        "padding_bottom": 20
-      }
-    },
-    "uc_premium_header": {
-      "type": "uc-premium-header",
-      "disabled": true,
-      "name": "OHS Premium Header",
-      "settings": {
-        "menu": "main-menu",
-        "enable_sticky": true
-      }
-    },
     "ohs_okido_header": {
       "type": "ohs-okido-header",
       "name": "OHS Okido Header",
@@ -59,9 +15,6 @@
     }
   },
   "order": [
-    "ohs_announcement",
-    "header",
-    "uc_premium_header",
     "ohs_okido_header"
   ]
 }
