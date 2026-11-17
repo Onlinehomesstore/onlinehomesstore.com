@@ -17,29 +17,28 @@ locales/
 ## Brand direction
 
 - Niche: baby toys, educational toys, sensory play, wooden toys, soft toys, gifts
-- Palette: warm ivory `#FFFDF8`, soft cream `#F8F5EE`, muted terracotta `#C98770`
-- Typography: Manrope
+- Slogan: **Little Toys. Big Adventures.**
+- Palette: warm white `#FFFDF7`, cream `#F5F1E8`, coral `#FF806E`, butter `#FFD95A`, mint `#9EDFC0`, sky `#8ECDF5`, lavender `#C8B5F0`, peach `#FFC6A5`
+- Typography: **Fredoka** (headings) + **Nunito Sans** (body)
+- Brand assets: `assets/ohs-logo-primary.svg`, `ohs-logo-mark.svg`, `ohs-favicon.svg`, lifestyle `ohs-*.jpg`
 
 ## Merchant setup checklist
 
-1. Create collections with these handles (or update homepage links):
-   - `baby-toys`, `rattles-teethers`, `soft-plush-toys`, `musical-toys`, `sensory-toys`
-   - `activity-gyms-play-mats`, `educational-toys`, `wooden-toys`, `building-blocks`
-   - `bath-toys`, `pretend-play`, `puzzles-games`, `new-arrivals`, `best-sellers`
-   - Age: `0-6-months`, `6-12-months`, `1-2-years`, `2-3-years`, `3-5-years`, `5-plus-years`
-   - Gifts / edits: `birthday-gifts`, `baby-shower-gifts`, `newborn-gifts`, `everyday-gifts`
-   - Featured: `little-explorers`, `first-toys`, `learning-through-play`, `wooden-wonders`, `soft-and-cuddly`, `perfect-little-gifts`
-2. Update **Navigation → main-menu** with: Home, Shop All, Baby Toys, Educational Toys, Sensory Toys, Wooden Toys, Soft Toys, New Arrivals, Best Sellers, Gifts
-3. Replace logo/favicon in Theme settings
-4. Add hero + category lifestyle images in the Theme Editor
+1. Create dedicated collection handles when ready (homepage currently falls back to live collections `build-and-discover` / `stories-in-motion` / `all`):
+   - Ideal: `baby-toys`, `wooden-toys`, `educational-toys`, `sensory-toys`, `soft-plush-toys`, `musical-toys`, `building-blocks`, `new-arrivals`, `best-sellers`, gift edits
+2. Update **Navigation → main-menu** with: Home, Shop All, Baby Toys, Educational Toys, Sensory Toys, Wooden Toys, Soft Toys, Musical Toys, Gifts (header auto-falls back if the menu has fewer than 4 links)
+3. Optional: upload a custom logo in the Okido header section; otherwise the SVG wordmark is used
+4. Hero/category images already ship as theme assets; override in Theme Editor when you have custom photography
 5. Set contact email / social links in the footer section settings
-6. Replace old hair-care products with baby toys catalog
+6. Keep product media accurate — do not replace real PDP photos with lifestyle placeholders
 
-## Local push
+## Safe unpublished push (do not publish)
 
 ```powershell
-.\push-theme.ps1
+.\push-theme.ps1 -Store onlinehomesstore.myshopify.com -ThemeId <UNPUBLISHED_THEME_ID>
 ```
+
+`push-theme.ps1` runs `shopify theme push` **without** `--publish`. Preview in Admin, then publish manually only after approval.
 
 See `THEME-UPDATE.md` and `docs/UPLOAD-GUIDE.md`.
 

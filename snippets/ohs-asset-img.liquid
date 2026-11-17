@@ -1,14 +1,14 @@
 {%- comment -%}
   Renders a theme asset image by filename (e.g. ohs-hero-1.jpg).
-  Params: file, alt, class, loading, sizes
+  Params: file, alt, class, loading, sizes, width, height
 {%- endcomment -%}
 {%- if file != blank -%}
   <img
-    class="{{ class }}"
+    class="ohs-asset-img{% if class != blank %} {{ class }}{% endif %}"
     src="{{ file | asset_url }}"
     alt="{{ alt | default: shop.name | escape }}"
-    width="1200"
-    height="1200"
+    width="{{ width | default: 1200 }}"
+    height="{{ height | default: 900 }}"
     loading="{{ loading | default: 'lazy' }}"
     decoding="async"
     {% if sizes != blank %}sizes="{{ sizes }}"{% endif %}

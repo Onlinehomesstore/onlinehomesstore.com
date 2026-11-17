@@ -5,9 +5,10 @@
 
 {%- assign s = section.settings -%}
 
+{%- if section.blocks.size > 0 -%}
 <section class="ohs-section" id="OhsFeat-{{ section.id }}" style="{% if s.background != blank %}background:{{ s.background }};{% endif %}">
   <div class="ohs-section__inner">
-    <header class="ohs-section__head" data-uc-reveal>
+    <header class="ohs-section__head">
       {%- if s.eyebrow != blank -%}<p class="ohs-section__eyebrow">{{ s.eyebrow | escape }}</p>{%- endif -%}
       {%- if s.heading != blank -%}<h2 class="ohs-section__heading">{{ s.heading | escape }}</h2>{%- endif -%}
       {%- if s.description != blank -%}<p class="ohs-section__desc">{{ s.description | escape }}</p>{%- endif -%}
@@ -59,12 +60,12 @@
             endcase
           endif
         -%}
-        <a class="ohs-tile ohs-tile--{{ b.tone | default: 'sage' }}" href="{{ href }}" {{ block.shopify_attributes }} data-uc-reveal style="min-height: 260px;">
+        <a class="ohs-tile ohs-tile--{{ b.tone | default: 'sage' }}" href="{{ href }}" {{ block.shopify_attributes }} data-uc-reveal>
           <div class="ohs-tile__media">
             {%- if image != blank -%}
               {{ image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '400,600,900', sizes: '(min-width: 750px) 22vw, 45vw', alt: title }}
             {%- else -%}
-              {% render 'ohs-asset-img', file: fallback, alt: title %}
+              {% render 'ohs-asset-img', file: fallback, alt: title, class: 'ohs-tile__img' %}
             {%- endif -%}
           </div>
           <span class="ohs-tile__shade" aria-hidden="true"></span>
@@ -77,6 +78,7 @@
     </div>
   </div>
 </section>
+{%- endif -%}
 
 {% schema %}
 {

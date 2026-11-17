@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Online Homes Store">
+  <title>OHS</title>
+  <rect width="64" height="64" rx="16" fill="#FFFDF7"/>
+  <path fill="#FF806E" d="M32 8l5.6 16.2H55l-14 10.2 5.4 16.4L32 40.6 17.6 50.8l5.4-16.4-14-10.2h17.4z"/>
+  <path fill="#FFD95A" d="M32 20l2.5 7.2H42l-6.1 4.4 2.3 7.2L32 34.4l-6.2 4.4 2.3-7.2-6.1-4.4h7.5z"/>
+</svg>

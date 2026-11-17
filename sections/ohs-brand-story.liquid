@@ -35,7 +35,7 @@
         {%- if s.image != blank -%}
           {{ s.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '600,900,1200', sizes: '(min-width: 800px) 40vw, 100vw', alt: s.heading }}
         {%- else -%}
-          {% render 'ohs-asset-img', file: 'ohs-edu-play.jpg', alt: s.heading %}
+          {% render 'ohs-asset-img', file: 'ohs-hero-2.jpg', alt: s.heading, class: 'ohs-story__img' %}
         {%- endif -%}
       </div>
     </div>

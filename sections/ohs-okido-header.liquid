@@ -1,5 +1,5 @@
 {%- comment -%}
-  OHS Okido-replica header: top utility row + bottom nav bar.
+  OHS playful header: announcement-ready top utility + shopping nav.
 {%- endcomment -%}
 {{ 'ohs-brand-override.css' | asset_url | stylesheet_tag }}
 {{ 'ohs-okido-header.css' | asset_url | stylesheet_tag }}
@@ -8,8 +8,11 @@
 {%- liquid
   assign st = section.settings
   assign menu = st.menu
-  assign logo_text = st.logo_text | default: 'OHS'
   assign search_placeholder = st.search_placeholder | default: 'Search our store'
+  assign use_fallback_nav = false
+  if menu == blank or menu.links.size < 4
+    assign use_fallback_nav = true
+  endif
 -%}
 
 <header class="ohs-okido" data-ohs-okido id="OhsOkido-{{ section.id }}">
@@ -30,7 +33,7 @@
         <input type="hidden" name="type" value="product">
         <input type="hidden" name="options[prefix]" value="last">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5" stroke-linecap="round"/></svg>
-          <label class="ohs-okido__sr-only" for="OhsOkidoSearch-{{ section.id }}">{{ search_placeholder | escape }}</label>
+        <label class="ohs-okido__sr-only" for="OhsOkidoSearch-{{ section.id }}">{{ search_placeholder | escape }}</label>
         <input
           id="OhsOkidoSearch-{{ section.id }}"
           class="ohs-okido__search-input"
@@ -43,11 +46,16 @@
 
       <a class="ohs-okido__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
         {%- if st.logo != blank -%}
-          {{ st.logo | image_url: width: 360 | image_tag: class: 'ohs-okido__logo-img', widths: '120,180,240,360', loading: 'eager', alt: shop.name }}
+          {{ st.logo | image_url: width: 420 | image_tag: class: 'ohs-okido__logo-img', widths: '160,240,320,420', loading: 'eager', alt: shop.name }}
         {%- else -%}
-          <span class="ohs-okido__wordmark" style="--ohs-okido-logo-shadow: {{ st.logo_shadow_color | default: '#FF806E' }}; -webkit-text-stroke-color: {{ st.logo_shadow_color | default: '#FF806E' }}; text-shadow: 3px 3px 0 {{ st.logo_shadow_color | default: '#FF806E' }}, 4px 4px 0 {{ st.logo_shadow_color | default: '#FF806E' }};">
-            {{ logo_text | escape }}
-          </span>
+          <img
+            class="ohs-okido__logo-img ohs-okido__logo-img--brand"
+            src="{{ 'ohs-logo-primary.svg' | asset_url }}"
+            alt="Online Homes Store"
+            width="260"
+            height="36"
+            loading="eager"
+          >
         {%- endif -%}
       </a>
 
@@ -59,7 +67,7 @@
           </span>
         {%- endif -%}
 
-        <a class="ohs-okido__icon" href="{{ routes.account_login_url }}" aria-label="{{ 'customer.log_in' | t | default: 'Account' }}">
+        <a class="ohs-okido__icon" href="{{ routes.account_login_url }}" aria-label="Account">
           <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 19.2c1.6-3 4-4.5 6.5-4.5s4.9 1.5 6.5 4.5" stroke-linecap="round"/></svg>
         </a>
 
@@ -69,7 +77,7 @@
           </a>
         {%- endif -%}
 
-        <a class="ohs-okido__icon" href="{{ routes.cart_url }}" id="cart-icon-bubble" aria-label="{{ 'templates.cart.cart' | t | default: 'Cart' }}">
+        <a class="ohs-okido__icon" href="{{ routes.cart_url }}" id="cart-icon-bubble" aria-label="Cart">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 8.5h11l-.8 9.2a2 2 0 0 1-2 1.8H9.3a2 2 0 0 1-2-1.8L6.5 8.5z"/><path d="M9 8.5V7a3 3 0 0 1 6 0v1.5" stroke-linecap="round"/></svg>
           <span class="ohs-okido__badge">{{ cart.item_count }}</span>
         </a>
@@ -77,9 +85,9 @@
     </div>
   </div>
 
-  <nav class="ohs-okido__nav" aria-label="{{ menu.title | default: 'Main menu' | escape }}">
+  <nav class="ohs-okido__nav" aria-label="Main menu">
     <ul class="ohs-okido__nav-inner" role="list">
-      {%- if menu != blank -%}
+      {%- unless use_fallback_nav -%}
         {%- for link in menu.links -%}
           <li class="ohs-okido__nav-item">
             {%- if link.links != blank and link.links.size > 0 -%}
@@ -100,20 +108,23 @@
           </li>
         {%- endfor -%}
       {%- else -%}
-        <li class="ohs-okido__nav-item"><a class="ohs-okido__nav-link" href="/collections/all">Shop Toys &amp; Games</a></li>
-        <li class="ohs-okido__nav-item"><a class="ohs-okido__nav-link" href="/collections/educational-toys">Educational Toys</a></li>
-        <li class="ohs-okido__nav-item"><a class="ohs-okido__nav-link" href="/collections/soft-plush-toys">Soft &amp; Plush</a></li>
-        <li class="ohs-okido__nav-item"><a class="ohs-okido__nav-link" href="/collections/perfect-little-gifts">Gifts</a></li>
-        <li class="ohs-okido__nav-item"><a class="ohs-okido__nav-link" href="/collections/new-arrivals">New Arrivals</a></li>
-      {%- endif -%}
+        <li class="ohs-okido__nav-item"><a class="ohs-okido__nav-link" href="{{ routes.root_url }}">Home</a></li>
+        <li class="ohs-okido__nav-item"><a class="ohs-okido__nav-link" href="/collections/all">Shop All</a></li>
+        <li class="ohs-okido__nav-item"><a class="ohs-okido__nav-link" href="/collections/build-and-discover">Baby Toys</a></li>
+        <li class="ohs-okido__nav-item"><a class="ohs-okido__nav-link" href="/collections/build-and-discover">Educational Toys</a></li>
+        <li class="ohs-okido__nav-item"><a class="ohs-okido__nav-link" href="/collections/build-and-discover">Wooden Toys</a></li>
+        <li class="ohs-okido__nav-item"><a class="ohs-okido__nav-link" href="/collections/stories-in-motion">Soft Toys</a></li>
+        <li class="ohs-okido__nav-item"><a class="ohs-okido__nav-link" href="/collections/stories-in-motion">Sensory Toys</a></li>
+        <li class="ohs-okido__nav-item"><a class="ohs-okido__nav-link" href="/collections/all">Gifts</a></li>
+      {%- endunless -%}
     </ul>
   </nav>
 
   <div class="ohs-okido__drawer" id="OhsOkidoDrawer-{{ section.id }}" data-ohs-okido-drawer aria-hidden="true">
     <div class="ohs-okido__drawer-overlay" data-ohs-okido-close></div>
-    <div class="ohs-okido__drawer-panel" role="dialog" aria-modal="true" aria-label="{{ 'sections.header.menu' | t | default: 'Menu' }}">
+    <div class="ohs-okido__drawer-panel" role="dialog" aria-modal="true" aria-label="Menu">
       <div class="ohs-okido__drawer-head">
-        <span class="ohs-okido__drawer-title">{{ shop.name | escape }}</span>
+        <span class="ohs-okido__drawer-title">Online Homes Store</span>
         <button type="button" class="ohs-okido__drawer-close" data-ohs-okido-close aria-label="Close">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/></svg>
         </button>
@@ -124,7 +135,7 @@
         <input type="search" name="q" placeholder="{{ search_placeholder | escape }}">
       </form>
       <ul class="ohs-okido__drawer-nav" role="list">
-        {%- if menu != blank -%}
+        {%- unless use_fallback_nav -%}
           {%- for link in menu.links -%}
             <li>
               {%- if link.links != blank and link.links.size > 0 -%}
@@ -141,7 +152,16 @@
               {%- endif -%}
             </li>
           {%- endfor -%}
-        {%- endif -%}
+        {%- else -%}
+          <li><a href="{{ routes.root_url }}">Home</a></li>
+          <li><a href="/collections/all">Shop All</a></li>
+          <li><a href="/collections/build-and-discover">Baby Toys</a></li>
+          <li><a href="/collections/build-and-discover">Educational Toys</a></li>
+          <li><a href="/collections/build-and-discover">Wooden Toys</a></li>
+          <li><a href="/collections/stories-in-motion">Soft Toys</a></li>
+          <li><a href="/collections/stories-in-motion">Sensory Toys</a></li>
+          <li><a href="/collections/all">Gifts</a></li>
+        {%- endunless -%}
       </ul>
     </div>
   </div>
@@ -153,12 +173,10 @@
   "tag": "section",
   "class": "ohs-okido-header-section",
   "settings": [
-    { "type": "image_picker", "id": "logo", "label": "Logo image (optional)" },
-    { "type": "text", "id": "logo_text", "label": "Logo wordmark", "default": "OHS" },
-    { "type": "color", "id": "logo_shadow_color", "label": "Logo shadow color", "default": "#FF806E" },
+    { "type": "image_picker", "id": "logo", "label": "Custom logo image (optional)" },
     { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" },
     { "type": "text", "id": "search_placeholder", "label": "Search placeholder", "default": "Search our store" },
-    { "type": "checkbox", "id": "enable_country_selector", "label": "Show currency / country selector", "default": true },
+    { "type": "checkbox", "id": "enable_country_selector", "label": "Show currency selector", "default": true },
     { "type": "checkbox", "id": "enable_wishlist", "label": "Show wishlist", "default": true },
     { "type": "text", "id": "wishlist_label", "label": "Wishlist label", "default": "Wishlist" },
     { "type": "url", "id": "wishlist_url", "label": "Wishlist page" },

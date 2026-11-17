@@ -1,11 +1,14 @@
-# Push UNIK CARE theme code to an existing Shopify theme (keeps settings/images).
+# Push Online Homes Store theme code to an unpublished Shopify theme (keeps settings/images).
+# Does NOT publish. Preview the theme in Admin before going live.
+#
 # Usage:
 #   .\push-theme.ps1
-#   .\push-theme.ps1 -ThemeId 123456789012
+#   .\push-theme.ps1 -Store onlinehomesstore.myshopify.com -ThemeId 202967777657
 
 param(
-  [string]$Store = 'unik-care.myshopify.com',
-  [string]$ThemeId = ''
+  [string]$Store = 'online-homes-store-7rve32vy.myshopify.com',
+  # Default: keep working on the single live theme "OHS Homepage Fix"
+  [string]$ThemeId = '202967777657'
 )
 
 $ErrorActionPreference = 'Stop'
@@ -24,9 +27,10 @@ Set-Location $themePath
 
 if (-not $ThemeId) {
   Write-Host ''
-  Write-Host 'Listing themes on store...' -ForegroundColor Cyan
+  Write-Host "Listing themes on $Store ..." -ForegroundColor Cyan
   shopify theme list --store $Store
   Write-Host ''
+  Write-Host 'Choose an UNPUBLISHED theme ID (do not use the live/main theme).' -ForegroundColor Yellow
   $ThemeId = Read-Host 'Enter the Theme ID to update (keeps images/settings)'
 }
 
@@ -35,11 +39,11 @@ if (-not $ThemeId) {
 }
 
 Write-Host ''
-Write-Host "Pushing code to theme $ThemeId on $Store ..." -ForegroundColor Cyan
-Write-Host 'Your Theme Editor settings and uploaded images will be kept.' -ForegroundColor Green
+Write-Host "Pushing code to UNPUBLISHED theme $ThemeId on $Store ..." -ForegroundColor Cyan
+Write-Host 'This does not publish. Theme Editor settings and uploaded images are kept.' -ForegroundColor Green
 
 shopify theme push --store $Store --theme $ThemeId --path . --only assets sections snippets templates layout config locales
 
 Write-Host ''
-Write-Host 'Done. Refresh the storefront (hard refresh) and re-check Our Story template assignment if needed.' -ForegroundColor Green
-Write-Host 'Pages → Our Story → Theme template → our-story' -ForegroundColor Yellow
+Write-Host 'Done. In Shopify Admin → Online Store → Themes → Preview the unpublished theme.' -ForegroundColor Green
+Write-Host 'Hard-refresh the preview. Do not click Publish until you approve the design.' -ForegroundColor Yellow

@@ -22,10 +22,8 @@
       "type": "ohs-okido-header",
       "name": "OHS Okido Header",
       "settings": {
-        "logo_text": "OHS",
-        "logo_shadow_color": "#FF806E",
         "menu": "main-menu",
-        "search_placeholder": "Search our store",
+        "search_placeholder": "Search toys, gifts & more",
         "enable_country_selector": true,
         "enable_wishlist": true,
         "wishlist_label": "Wishlist",

@@ -172,8 +172,6 @@ h1, h2, h3, h4, h5, .h0, .h1, .h2,
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  min-height: 220px;
   border-radius: 22px;
   overflow: hidden;
   text-decoration: none;
@@ -189,27 +187,36 @@ h1, h2, h3, h4, h5, .h0, .h1, .h2,
 }
 
 .ohs-tile__media {
-  position: absolute;
-  inset: 0;
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--ohs-cream) 80%, white);
 }
 
-.ohs-tile__media img {
+.ohs-tile__media img,
+.ohs-tile__media .ohs-asset-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 .ohs-tile__shade {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, transparent 30%, rgba(255, 253, 247, 0.94) 100%);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 55%;
+  background: linear-gradient(180deg, transparent 0%, rgba(255, 253, 247, 0.92) 100%);
   pointer-events: none;
+  z-index: 1;
 }
 
 .ohs-tile__body {
   position: relative;
-  z-index: 1;
-  padding: 1.25rem 1.35rem 1.4rem;
+  z-index: 2;
+  margin-top: -2.5rem;
+  padding: 0 1.15rem 1.2rem;
 }
 
 .ohs-tile__label {
@@ -294,7 +301,6 @@ h1, h2, h3, h4, h5, .h0, .h1, .h2,
     width: min(1280px, calc(100% - 2rem));
   }
 
-  .ohs-tile { min-height: 180px; }
 }
 
 /* ── Educational / story split ────────────────────────────────────────────── */
@@ -314,18 +320,18 @@ h1, h2, h3, h4, h5, .h0, .h1, .h2,
 .ohs-edu__media {
   border-radius: 28px;
   overflow: hidden;
-  min-height: 280px;
+  aspect-ratio: 4 / 3;
   background: color-mix(in srgb, var(--ohs-mint) 45%, white);
   border: 1px solid var(--ohs-border);
   position: relative;
 }
 
-.ohs-edu__media img {
+.ohs-edu__media img,
+.ohs-edu__media .ohs-asset-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-  min-height: 280px;
 }
 
 .ohs-edu__cta,
@@ -411,6 +417,42 @@ h1, h2, h3, h4, h5, .h0, .h1, .h2,
 .product-form__submit,
 .ohs-btn-primary {
   --uc-color-primary: var(--ohs-coral);
+}
+
+/* Collection / search product cards */
+.card-wrapper .card,
+.product-card-wrapper .card {
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--ohs-border);
+  background: var(--ohs-white);
+}
+
+.card__media,
+.card .media {
+  border-radius: 20px 20px 0 0;
+}
+
+.card__heading {
+  font-family: var(--ohs-font-body);
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.quick-add__submit,
+.card .button,
+.card__content .button {
+  min-height: 46px !important;
+  border-radius: 999px !important;
+  font-weight: 700 !important;
+  font-size: 0.9rem !important;
+}
+
+.price-item--sale,
+.badge--sale,
+.card__badge .badge {
+  background: var(--ohs-coral) !important;
+  color: #fff !important;
 }
 
 @media (prefers-reduced-motion: reduce) {

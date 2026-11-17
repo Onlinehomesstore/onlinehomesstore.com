@@ -3,33 +3,33 @@
     "hero": {
       "type": "ohs-playful-hero",
       "settings": {
-        "eyebrow": "Play More. Discover More. Grow Happy.",
-        "heading": "Big Smiles. Little Toys. Endless Fun!",
-        "text": "Discover playful treasures, thoughtful gifts and little learning adventures for every stage of growing up.",
-        "button_label": "Shop All Toys",
+        "eyebrow": "Online Homes Store",
+        "heading": "Little Toys. BIG Adventures!",
+        "text": "Discover colorful toys, thoughtful gifts and playful treasures for every little stage.",
+        "button_label": "SHOP ALL TOYS",
         "button_link": "/collections/all",
-        "button_label_2": "Explore Learning Toys",
+        "button_label_2": "EXPLORE LEARNING TOYS",
         "button_link_2": "/collections/build-and-discover",
-        "background": "#FFC6A5"
+        "background": "#F5F1E8"
       }
     },
     "categories": {
       "type": "ohs-shop-by-category",
       "settings": {
-        "eyebrow": "SHOP BY INTEREST",
+        "eyebrow": "SHOP BY CATEGORY",
         "heading": "Find Their Next Favorite!",
-        "description": "Explore toys made for every little interest.",
+        "description": "From first discoveries to big little adventures, explore something for every kind of play.",
         "background": "#FFFDF7"
       },
       "blocks": {
-        "c1": { "type": "category", "settings": { "title": "Baby Toys", "description": "Soft starts for tiny explorers.", "tone": "powder", "asset_file": "ohs-cat-baby.jpg" } },
-        "c2": { "type": "category", "settings": { "title": "Wooden Toys", "description": "Natural, lasting play.", "tone": "butter", "asset_file": "ohs-feat-wooden.jpg", "collection": "build-and-discover" } },
-        "c3": { "type": "category", "settings": { "title": "Educational Toys", "description": "Curiosity through play.", "tone": "mint", "asset_file": "ohs-feat-learning.jpg", "collection": "build-and-discover" } },
-        "c4": { "type": "category", "settings": { "title": "Plush & Soft Toys", "description": "Cuddle-ready companions.", "tone": "lavender", "asset_file": "ohs-feat-soft.jpg", "collection": "stories-in-motion" } },
-        "c5": { "type": "category", "settings": { "title": "Sensory Toys", "description": "Touch, sound and discovery.", "tone": "peach", "asset_file": "ohs-feat-explorers.jpg" } },
-        "c6": { "type": "category", "settings": { "title": "Building Blocks", "description": "Stack, build and imagine.", "tone": "mint", "asset_file": "ohs-feat-explorers.jpg", "collection": "build-and-discover" } },
-        "c7": { "type": "category", "settings": { "title": "Puzzles & Games", "description": "Focus and fun together.", "tone": "powder", "asset_file": "ohs-feat-learning.jpg" } },
-        "c8": { "type": "category", "settings": { "title": "Gifts", "description": "Little presents, big smiles.", "tone": "coral", "asset_file": "ohs-feat-gifts.jpg" } }
+        "c1": { "type": "category", "settings": { "title": "Baby Toys", "description": "Soft starts for tiny explorers.", "tone": "powder", "asset_file": "ohs-cat-baby.jpg", "collection": "build-and-discover" } },
+        "c2": { "type": "category", "settings": { "title": "Wooden Toys", "description": "Natural, lasting play.", "tone": "butter", "asset_file": "ohs-cat-wooden.jpg", "collection": "build-and-discover" } },
+        "c3": { "type": "category", "settings": { "title": "Soft & Plush Toys", "description": "Cuddle-ready companions.", "tone": "lavender", "asset_file": "ohs-cat-plush.jpg", "collection": "stories-in-motion" } },
+        "c4": { "type": "category", "settings": { "title": "Educational Toys", "description": "Curiosity through play.", "tone": "mint", "asset_file": "ohs-cat-educational.jpg", "collection": "build-and-discover" } },
+        "c5": { "type": "category", "settings": { "title": "Sensory Toys", "description": "Touch, sound and discovery.", "tone": "peach", "asset_file": "ohs-cat-sensory.jpg", "collection": "stories-in-motion" } },
+        "c6": { "type": "category", "settings": { "title": "Musical Toys", "description": "Rhythm for little ears.", "tone": "coral", "asset_file": "ohs-cat-musical.jpg", "collection": "stories-in-motion" } },
+        "c7": { "type": "category", "settings": { "title": "Building Blocks", "description": "Stack, build and imagine.", "tone": "mint", "asset_file": "ohs-cat-blocks.jpg", "collection": "build-and-discover" } },
+        "c8": { "type": "category", "settings": { "title": "Activity Toys", "description": "Busy hands, big smiles.", "tone": "powder", "asset_file": "ohs-cat-gyms.jpg", "collection": "build-and-discover" } }
       },
       "block_order": ["c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8"]
     },
@@ -37,12 +37,12 @@
       "type": "ohs-demo-product-grid",
       "settings": {
         "eyebrow": "BEST SELLERS",
-        "heading": "Little Favorites. Big Smiles.",
-        "description": "Popular picks ready for playtime and gifting.",
+        "heading": "Little Favorites. Big Smiles!",
+        "description": "Discover some of our most-loved playtime picks.",
         "collection": "build-and-discover",
         "products_to_show": 8,
         "columns_desktop": 4,
-        "view_all_label": "Shop collection",
+        "view_all_label": "View all",
         "view_all_link": "/collections/build-and-discover",
         "background": "#FFFDF7"
       }
@@ -51,17 +51,17 @@
       "type": "ohs-shop-by-age",
       "settings": {
         "eyebrow": "SHOP BY AGE",
-        "heading": "Made for Every Little Stage",
+        "heading": "Little Stages. Big Discoveries.",
         "description": "Browse toys suited to every early chapter of growing up.",
         "background": "#F5F1E8"
       },
       "blocks": {
-        "a1": { "type": "age", "settings": { "label": "Age", "title": "0–6 Months", "tone": "powder", "asset_file": "ohs-age-0-6.jpg" } },
-        "a2": { "type": "age", "settings": { "label": "Age", "title": "6–12 Months", "tone": "peach", "asset_file": "ohs-age-6-12.jpg" } },
-        "a3": { "type": "age", "settings": { "label": "Age", "title": "1–2 Years", "tone": "mint", "asset_file": "ohs-age-1-2.jpg" } },
-        "a4": { "type": "age", "settings": { "label": "Age", "title": "2–3 Years", "tone": "butter", "asset_file": "ohs-age-2-3.jpg" } },
-        "a5": { "type": "age", "settings": { "label": "Age", "title": "3–5 Years", "tone": "lavender", "asset_file": "ohs-age-3-5.jpg" } },
-        "a6": { "type": "age", "settings": { "label": "Age", "title": "5+ Years", "tone": "coral", "asset_file": "ohs-age-5.jpg" } }
+        "a1": { "type": "age", "settings": { "label": "Age", "title": "0–6 Months", "tone": "powder", "asset_file": "ohs-age-0-6.jpg", "collection": "build-and-discover" } },
+        "a2": { "type": "age", "settings": { "label": "Age", "title": "6–12 Months", "tone": "peach", "asset_file": "ohs-age-6-12.jpg", "collection": "build-and-discover" } },
+        "a3": { "type": "age", "settings": { "label": "Age", "title": "1–2 Years", "tone": "mint", "asset_file": "ohs-age-1-2.jpg", "collection": "build-and-discover" } },
+        "a4": { "type": "age", "settings": { "label": "Age", "title": "2–3 Years", "tone": "butter", "asset_file": "ohs-age-2-3.jpg", "collection": "build-and-discover" } },
+        "a5": { "type": "age", "settings": { "label": "Age", "title": "3–5 Years", "tone": "lavender", "asset_file": "ohs-age-3-5.jpg", "collection": "stories-in-motion" } },
+        "a6": { "type": "age", "settings": { "label": "Age", "title": "5+ Years", "tone": "coral", "asset_file": "ohs-age-5.jpg", "collection": "stories-in-motion" } }
       },
       "block_order": ["a1", "a2", "a3", "a4", "a5", "a6"]
     },
@@ -70,46 +70,45 @@
       "settings": {
         "eyebrow": "PLAY AND LEARN",
         "heading": "Learning Looks a Lot Like Play!",
-        "body": "<p>Shape sorters, stacking toys, puzzles, building blocks and sensory play — joyful ways for little ones to explore, imagine and grow.</p>",
+        "body": "<p>Explore puzzles, building blocks and playful activities that invite little minds to discover something new.</p>",
         "image_position": "left",
-        "button_label": "Shop Learning Toys",
+        "button_label": "Explore Learning Toys",
         "button_link": "/collections/build-and-discover",
         "background": "#E8F8F0"
       }
-    },
-    "gifts": {
-      "type": "ohs-gift-shopping",
-      "settings": {
-        "eyebrow": "GIFT SHOPPING",
-        "heading": "Little Gifts. Lovely Memories.",
-        "description": "Thoughtful gift ideas for every sweet occasion.",
-        "background": "#FFFDF7"
-      },
-      "blocks": {
-        "g1": { "type": "gift", "settings": { "title": "Newborn Gifts", "description": "Gentle firsts for tiny newcomers.", "tone": "peach", "asset_file": "ohs-gift-newborn.jpg" } },
-        "g2": { "type": "gift", "settings": { "title": "Baby Shower Gifts", "description": "Celebrate with playful picks.", "tone": "lavender", "asset_file": "ohs-gift-shower.jpg" } },
-        "g3": { "type": "gift", "settings": { "title": "Birthday Gifts", "description": "Big-day joy for little stars.", "tone": "butter", "asset_file": "ohs-gift-birthday.jpg" } },
-        "g4": { "type": "gift", "settings": { "title": "Toddler Gifts", "description": "Curious finds for busy explorers.", "tone": "mint", "asset_file": "ohs-gift-everyday.jpg" } },
-        "g5": { "type": "gift", "settings": { "title": "Special Surprises", "description": "Just-because smile makers.", "tone": "coral", "asset_file": "ohs-feat-gifts.jpg" } }
-      },
-      "block_order": ["g1", "g2", "g3", "g4", "g5"]
     },
     "featured": {
       "type": "ohs-featured-collections",
       "settings": {
         "eyebrow": "FEATURED WORLDS",
-        "heading": "Stories Worth Exploring",
+        "heading": "Explore Our Little Worlds",
         "description": "Editorial collections curated for different kinds of play.",
-        "background": "#F5F1E8"
+        "background": "#FFFDF7"
       },
       "blocks": {
         "f1": { "type": "collection_card", "settings": { "title": "Tiny Explorers", "description": "First discoveries and gentle play.", "tone": "powder", "asset_file": "ohs-feat-explorers.jpg", "collection": "build-and-discover" } },
-        "f2": { "type": "collection_card", "settings": { "title": "Cuddle Buddies", "description": "Soft friends for quiet moments.", "tone": "lavender", "asset_file": "ohs-feat-soft.jpg", "collection": "stories-in-motion" } },
-        "f3": { "type": "collection_card", "settings": { "title": "Wooden Wonders", "description": "Natural toys with lasting charm.", "tone": "butter", "asset_file": "ohs-feat-wooden.jpg", "collection": "build-and-discover" } },
-        "f4": { "type": "collection_card", "settings": { "title": "Sensory Adventures", "description": "Textures, sounds and wonder.", "tone": "peach", "asset_file": "ohs-feat-first.jpg" } },
+        "f2": { "type": "collection_card", "settings": { "title": "Wooden Wonders", "description": "Natural toys with lasting charm.", "tone": "butter", "asset_file": "ohs-feat-wooden.jpg", "collection": "build-and-discover" } },
+        "f3": { "type": "collection_card", "settings": { "title": "Cuddle Buddies", "description": "Soft friends for quiet moments.", "tone": "lavender", "asset_file": "ohs-feat-soft.jpg", "collection": "stories-in-motion" } },
+        "f4": { "type": "collection_card", "settings": { "title": "Sensory Adventures", "description": "Textures, sounds and wonder.", "tone": "peach", "asset_file": "ohs-feat-first.jpg", "collection": "stories-in-motion" } },
         "f5": { "type": "collection_card", "settings": { "title": "Little Learners", "description": "Playful tools for curious minds.", "tone": "mint", "asset_file": "ohs-feat-learning.jpg", "collection": "build-and-discover" } }
       },
       "block_order": ["f1", "f2", "f3", "f4", "f5"]
+    },
+    "gifts": {
+      "type": "ohs-gift-shopping",
+      "settings": {
+        "eyebrow": "GIFT SHOP",
+        "heading": "Little Gifts. Lovely Memories.",
+        "description": "Thoughtful gift ideas for every sweet occasion.",
+        "background": "#FFF1E8"
+      },
+      "blocks": {
+        "g1": { "type": "gift", "settings": { "title": "Newborn Gifts", "description": "Gentle firsts for tiny newcomers.", "tone": "peach", "asset_file": "ohs-gift-newborn.jpg", "collection": "stories-in-motion" } },
+        "g2": { "type": "gift", "settings": { "title": "Baby Shower Gifts", "description": "Celebrate with playful picks.", "tone": "lavender", "asset_file": "ohs-gift-shower.jpg", "collection": "stories-in-motion" } },
+        "g3": { "type": "gift", "settings": { "title": "Birthday Gifts", "description": "Big-day joy for little stars.", "tone": "butter", "asset_file": "ohs-gift-birthday.jpg", "collection": "build-and-discover" } },
+        "g4": { "type": "gift", "settings": { "title": "Toddler Gifts", "description": "Curious finds for busy explorers.", "tone": "mint", "asset_file": "ohs-gift-everyday.jpg", "collection": "build-and-discover" } }
+      },
+      "block_order": ["g1", "g2", "g3", "g4"]
     },
     "new": {
       "type": "ohs-demo-product-grid",
@@ -128,9 +127,9 @@
     "trust": {
       "type": "ohs-trust-features",
       "settings": {
-        "eyebrow": "WHY SHOP WITH US?",
-        "heading": "Simple, trusted shopping for little joy.",
-        "subheading": "Clear benefits parents can count on — no fluff.",
+        "eyebrow": "WHY SHOP WITH US",
+        "heading": "Why Parents Choose Us",
+        "subheading": "Clear benefits for a smoother shopping experience.",
         "columns": 4,
         "card_gap": 20,
         "card_radius": 20,
@@ -148,7 +147,7 @@
         "t1": { "type": "feature", "settings": { "icon": "sparkles", "title": "Thoughtfully Selected Products", "description": "Curated toys chosen for everyday play and gifting." } },
         "t2": { "type": "feature", "settings": { "icon": "cart", "title": "Easy Shopping", "description": "Clear categories and a smooth path to checkout." } },
         "t3": { "type": "feature", "settings": { "icon": "lock", "title": "Secure Checkout", "description": "Shop confidently with Shopify checkout." } },
-        "t4": { "type": "feature", "settings": { "icon": "support", "title": "Customer Support", "description": "We're here for products, orders and gift ideas." } }
+        "t4": { "type": "feature", "settings": { "icon": "support", "title": "Helpful Customer Support", "description": "We're here for products, orders and gift ideas." } }
       },
       "block_order": ["t1", "t2", "t3", "t4"]
     },
@@ -173,7 +172,7 @@
       "type": "newsletter",
       "blocks": {
         "heading": { "type": "heading", "settings": { "heading": "Join the Happy Little Club!", "heading_size": "h1" } },
-        "paragraph": { "type": "paragraph", "settings": { "text": "<p>Get playful inspiration, new arrivals and lovely gift ideas delivered to your inbox.</p>" } },
+        "paragraph": { "type": "paragraph", "settings": { "text": "<p>Discover playful inspiration, lovely gift ideas and new arrivals.</p>" } },
         "email_form": { "type": "email_form", "settings": {} }
       },
       "block_order": ["heading", "paragraph", "email_form"],
@@ -186,8 +185,8 @@
     "bestsellers",
     "ages",
     "learn",
-    "gifts",
     "featured",
+    "gifts",
     "new",
     "trust",
     "story",

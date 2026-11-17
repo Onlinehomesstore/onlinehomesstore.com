@@ -109,8 +109,14 @@
 
 .ohs-okido__logo-img {
   display: block;
-  max-height: 52px;
+  max-height: 44px;
   width: auto;
+  height: auto;
+}
+
+.ohs-okido__logo-img--brand {
+  max-height: 40px;
+  width: min(260px, 52vw);
 }
 
 .ohs-okido__wordmark {
