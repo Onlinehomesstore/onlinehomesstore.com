@@ -56,14 +56,12 @@
           <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4l4 4 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </span>
 
-        {%- if shop.customer_accounts_enabled -%}
-          <a class="ohs-okido__icon" href="{{ routes.account_login_url }}" aria-label="{{ 'customer.account_fallback' | t | default: 'Account' }}">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 19.2c1.6-3 4-4.5 6.5-4.5s4.9 1.5 6.5 4.5" stroke-linecap="round"/></svg>
-          </a>
-          <a class="ohs-okido__icon" href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_register_url }}{% endif %}" aria-label="{{ 'customer.account_fallback' | t | default: 'Account' }}">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 19.2c1.6-3 4-4.5 6.5-4.5s4.9 1.5 6.5 4.5" stroke-linecap="round"/></svg>
-          </a>
-        {%- endif -%}
+        <a class="ohs-okido__icon" href="{{ routes.account_login_url }}" aria-label="{{ 'customer.log_in' | t | default: 'Log in' }}">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 19.2c1.6-3 4-4.5 6.5-4.5s4.9 1.5 6.5 4.5" stroke-linecap="round"/></svg>
+        </a>
+        <a class="ohs-okido__icon" href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_register_url }}{% endif %}" aria-label="{{ 'customer.account_fallback' | t | default: 'Account' }}">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 19.2c1.6-3 4-4.5 6.5-4.5s4.9 1.5 6.5 4.5" stroke-linecap="round"/></svg>
+        </a>
 
         <a class="ohs-okido__icon" href="{{ routes.cart_url }}" id="cart-icon-bubble" aria-label="{{ 'templates.cart.cart' | t | default: 'Cart' }}">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 8.5h11l-.8 9.2a2 2 0 0 1-2 1.8H9.3a2 2 0 0 1-2-1.8L6.5 8.5z"/><path d="M9 8.5V7a3 3 0 0 1 6 0v1.5" stroke-linecap="round"/></svg>

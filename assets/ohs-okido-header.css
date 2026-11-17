@@ -41,12 +41,12 @@
 .ohs-okido__top-inner {
   max-width: var(--ohs-okido-max);
   margin: 0 auto;
-  min-height: 88px;
-  padding: 14px 24px;
+  min-height: 92px;
+  padding: 18px 28px;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  gap: 16px;
+  gap: 20px;
 }
 
 .ohs-okido__search {
@@ -109,34 +109,37 @@
 
 .ohs-okido__wordmark {
   margin: 0;
-  font-family: "Arial Rounded MT Bold", "Arial Black", Impact, Arial, sans-serif;
-  font-size: clamp(34px, 4.2vw, 52px);
+  font-family: "Arial Rounded MT Bold", "Arial Black", "Helvetica Rounded", Impact, Arial, sans-serif;
+  font-size: clamp(40px, 4.8vw, 58px);
   font-weight: 900;
-  letter-spacing: -0.06em;
+  letter-spacing: -0.08em;
   text-transform: uppercase;
   color: #ffffff;
-  -webkit-text-stroke: 2px var(--ohs-okido-logo-shadow);
+  -webkit-text-stroke: 3px var(--ohs-okido-logo-shadow);
   paint-order: stroke fill;
   text-shadow:
+    2px 2px 0 var(--ohs-okido-logo-shadow),
     3px 3px 0 var(--ohs-okido-logo-shadow),
-    4px 4px 0 var(--ohs-okido-logo-shadow);
+    4px 4px 0 var(--ohs-okido-logo-shadow),
+    5px 5px 0 var(--ohs-okido-logo-shadow);
   white-space: nowrap;
+  line-height: 0.9;
 }
 
 .ohs-okido__tools {
   justify-self: end;
   display: inline-flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
 }
 
 .ohs-okido__currency {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  min-height: 34px;
-  padding: 0 12px;
-  border: 1px solid var(--ohs-okido-border);
+  gap: 8px;
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid #cfcfcf;
   border-radius: 999px;
   background: #fff;
   color: #222;
@@ -144,6 +147,7 @@
   font-weight: 600;
   text-decoration: none;
   line-height: 1;
+  cursor: default;
 }
 
 .ohs-okido__currency svg {
@@ -225,16 +229,24 @@
 }
 
 .ohs-okido__nav-inner {
-  max-width: var(--ohs-okido-max);
-  margin: 0 auto;
-  padding: 0 12px;
+  max-width: none;
+  width: 100%;
+  margin: 0;
+  padding: 0 8px;
   display: flex;
   align-items: stretch;
   justify-content: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 0;
   list-style: none;
   margin-block: 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.ohs-okido__nav-inner::-webkit-scrollbar {
+  display: none;
 }
 
 .ohs-okido__nav-item {
