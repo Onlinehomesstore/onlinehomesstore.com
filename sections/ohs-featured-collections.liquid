@@ -2,6 +2,8 @@
   Featured collections grid for baby toys brand stories.
 {%- endcomment -%}
 {{ 'ohs-brand-override.css' | asset_url | stylesheet_tag }}
+{{ 'ohs-theme.css' | asset_url | stylesheet_tag }}
+{{ 'ohs-playful-home.css' | asset_url | stylesheet_tag }}
 
 {%- assign s = section.settings -%}
 
@@ -21,15 +23,14 @@
           assign href = b.link
           assign title = b.title
           assign image = b.image
+          # Prefer picker/asset art over collection.featured_image so featured
+          # cards stay visually distinct from category tiles.
           if b.collection != blank
             if href == blank
               assign href = b.collection.url
             endif
             if title == blank
               assign title = b.collection.title
-            endif
-            if image == blank and b.collection.featured_image != blank
-              assign image = b.collection.featured_image
             endif
           endif
           if href == blank

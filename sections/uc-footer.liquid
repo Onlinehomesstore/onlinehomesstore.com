@@ -24,7 +24,7 @@
  assign nav_support = linklists[s.nav_support]
 
  # Accent color for CSS vars
- assign accent = s.accent_color | default: settings.uc_color_primary | default: '#B68A35'
+ assign accent = s.accent_color | default: settings.uc_color_primary | default: '#2F7A4A'
 
  assign uc_ft_email = s.contact_email | default: uc_site_email
  assign uc_ft_phone = blank
@@ -351,7 +351,6 @@
 
  <div class="uc-ft-nav-row">
  {%- comment -%} ── Column 2: Shop Navigation ── {%- endcomment -%}
- {%- if s.nav_shop != blank and nav_shop != blank -%}
  <div class="uc-ft-nav-col" data-accordion>
  <div class="uc-ft-nav-col__head">
  <h3 class="uc-ft-nav-col__heading" id="uc-ft-heading-shop-{{ section.id }}">
@@ -369,6 +368,7 @@
  </button>
  </div>
  <ul class="uc-ft-nav-col__list" id="uc-ft-nav-shop-{{ section.id }}" role="list">
+ {%- if nav_shop != blank and nav_shop.links.size > 0 -%}
  {%- for link in nav_shop.links -%}
  {%- unless link.url contains '/pages/legal' or link.handle == 'legal' -%}
  <li>
@@ -380,6 +380,13 @@
  </li>
  {%- endunless -%}
  {%- endfor -%}
+ {%- else -%}
+ <li><a href="{{ routes.all_products_collection_url }}" class="uc-ft-nav-col__link">Shop all</a></li>
+ <li><a href="/products/dancing-cactus" class="uc-ft-nav-col__link">Dancing Cactus</a></li>
+ <li><a href="/products/usb-dynamic-water-pattern-light" class="uc-ft-nav-col__link">USB Water Light</a></li>
+ <li><a href="/products/rose-diamond-table-lamp" class="uc-ft-nav-col__link">Rose Diamond Lamp</a></li>
+ <li><a href="/collections/build-and-discover" class="uc-ft-nav-col__link">Shop Collection</a></li>
+ {%- endif -%}
  {%- for block in section.blocks -%}
  {%- if block.type == 'link' and block.settings.column == 'shop' and block.settings.url != blank -%}
  <li {{ block.shopify_attributes }}><a href="{{ block.settings.url }}" class="uc-ft-nav-col__link">{{ block.settings.title | default: block.settings.url | escape }}</a></li>
@@ -387,27 +394,30 @@
  {%- endfor -%}
  </ul>
  </div>
- {%- endif -%}
- {%- if s.nav_company != blank and nav_company != blank -%}
  <div class="uc-ft-nav-col" data-accordion>
  <div class="uc-ft-nav-col__head">
  <h3 class="uc-ft-nav-col__heading" id="uc-ft-heading-company-{{ section.id }}">
- {{ s.nav_company_label | default: nav_company.title | default: 'Company' | escape }}
+ {{ s.nav_company_label | default: nav_company.title | default: 'Help' | escape }}
  </h3>
  <button
  class="uc-ft-nav-col__toggle"
  aria-expanded="false"
  aria-controls="uc-ft-nav-company-{{ section.id }}"
  aria-labelledby="uc-ft-heading-company-{{ section.id }}"
- data-label-open="Expand {{ s.nav_company_label | default: 'Company' | escape }} navigation"
- data-label-close="Collapse {{ s.nav_company_label | default: 'Company' | escape }} navigation"
+ data-label-open="Expand {{ s.nav_company_label | default: 'Help' | escape }} navigation"
+ data-label-close="Collapse {{ s.nav_company_label | default: 'Help' | escape }} navigation"
  >
  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
  </button>
  </div>
  <ul class="uc-ft-nav-col__list" id="uc-ft-nav-company-{{ section.id }}" role="list">
+ {%- assign uc_ft_has_search = false -%}
+ {%- assign uc_ft_has_cart = false -%}
+ {%- if nav_company != blank and nav_company.links.size > 0 -%}
  {%- for link in nav_company.links -%}
  {%- unless link.url contains '/pages/legal' or link.handle == 'legal' -%}
+ {%- if link.url == routes.search_url or link.title == 'Search' -%}{%- assign uc_ft_has_search = true -%}{%- endif -%}
+ {%- if link.url == routes.cart_url or link.title == 'Cart' -%}{%- assign uc_ft_has_cart = true -%}{%- endif -%}
  <li>
  <a
  href="{{ link.url }}"
@@ -417,6 +427,19 @@
  </li>
  {%- endunless -%}
  {%- endfor -%}
+ {%- endif -%}
+ {%- unless uc_ft_has_search -%}
+ <li><a href="{{ routes.search_url }}" class="uc-ft-nav-col__link">Search</a></li>
+ {%- endunless -%}
+ {%- unless uc_ft_has_cart -%}
+ <li><a href="{{ routes.cart_url }}" class="uc-ft-nav-col__link">Cart</a></li>
+ {%- endunless -%}
+ {%- if shop.shipping_policy != blank -%}
+ <li><a href="{{ shop.shipping_policy.url }}" class="uc-ft-nav-col__link">Shipping</a></li>
+ {%- endif -%}
+ {%- if shop.refund_policy != blank -%}
+ <li><a href="{{ shop.refund_policy.url }}" class="uc-ft-nav-col__link">Returns</a></li>
+ {%- endif -%}
  {%- for block in section.blocks -%}
  {%- if block.type == 'link' and block.settings.column == 'company' and block.settings.url != blank -%}
  <li {{ block.shopify_attributes }}><a href="{{ block.settings.url }}" class="uc-ft-nav-col__link">{{ block.settings.title | default: block.settings.url | escape }}</a></li>
@@ -424,25 +447,24 @@
  {%- endfor -%}
  </ul>
  </div>
- {%- endif -%}
- {%- if s.nav_support != blank and nav_support != blank -%}
  <div class="uc-ft-nav-col uc-ft-nav-col--support" data-accordion>
  <div class="uc-ft-nav-col__head">
  <h3 class="uc-ft-nav-col__heading" id="uc-ft-heading-support-{{ section.id }}">
- {{ s.nav_support_label | default: nav_support.title | default: 'Customer Service' | escape }}
+ {{ s.nav_support_label | default: nav_support.title | default: 'Explore' | escape }}
  </h3>
  <button
  class="uc-ft-nav-col__toggle"
  aria-expanded="false"
  aria-controls="uc-ft-nav-support-{{ section.id }}"
  aria-labelledby="uc-ft-heading-support-{{ section.id }}"
- data-label-open="Expand {{ s.nav_support_label | default: 'Customer Service' | escape }} navigation"
- data-label-close="Collapse {{ s.nav_support_label | default: 'Customer Service' | escape }} navigation"
+ data-label-open="Expand {{ s.nav_support_label | default: 'Explore' | escape }} navigation"
+ data-label-close="Collapse {{ s.nav_support_label | default: 'Explore' | escape }} navigation"
  >
  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
  </button>
  </div>
  <ul class="uc-ft-nav-col__list" id="uc-ft-nav-support-{{ section.id }}" role="list">
+ {%- if nav_support != blank and nav_support.links.size > 0 -%}
  {%- for link in nav_support.links -%}
  {%- unless link.url contains '/pages/legal' or link.handle == 'legal' -%}
  <li>
@@ -454,6 +476,12 @@
  </li>
  {%- endunless -%}
  {%- endfor -%}
+ {%- else -%}
+ <li><a href="/collections/stories-in-motion" class="uc-ft-nav-col__link">Ambient Lighting</a></li>
+ <li><a href="/collections/frontpage" class="uc-ft-nav-col__link">Home page picks</a></li>
+ <li><a href="/collections/all" class="uc-ft-nav-col__link">All products</a></li>
+ <li><a href="{{ routes.root_url }}" class="uc-ft-nav-col__link">Home</a></li>
+ {%- endif -%}
  {%- for block in section.blocks -%}
  {%- if block.type == 'link' and block.settings.column == 'support' and block.settings.url != blank -%}
  <li {{ block.shopify_attributes }}><a href="{{ block.settings.url }}" class="uc-ft-nav-col__link">{{ block.settings.title | default: block.settings.url | escape }}</a></li>
@@ -461,7 +489,6 @@
  {%- endfor -%}
  </ul>
  </div>
- {%- endif -%}
  <div class="uc-ft-contact" data-accordion>
  <div class="uc-ft-nav-col__head">
  <h3 class="uc-ft-nav-col__heading uc-ft-contact__heading-desktop" id="uc-ft-heading-contact-{{ section.id }}">

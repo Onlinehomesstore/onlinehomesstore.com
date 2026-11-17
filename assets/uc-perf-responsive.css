@@ -66,19 +66,19 @@ html {
 
 /* Below-fold sections: skip layout work until near viewport.
    Exclude collection/search — their filter drawer needs position:fixed
-   which breaks inside content-visibility:auto containment. */
-.template-index #MainContent .shopify-section:nth-child(n + 4),
+   which breaks inside content-visibility:auto containment.
+   Index uses visible sizing — a 480px intrinsic placeholder caused
+   large empty gaps under short homepage sections (CTA/trust). */
 .template-product #MainContent .shopify-section:nth-child(n + 4),
 .template-page #MainContent .shopify-section:nth-child(n + 3) {
   content-visibility: auto;
-  contain-intrinsic-size: 480px;
+  contain-intrinsic-size: auto 320px;
 }
 
-/* Never clip the first three sections (hero + next) */
-.template-index #MainContent .shopify-section:nth-child(-n + 3),
+.template-index #MainContent .shopify-section,
 .template-product #MainContent .shopify-section:nth-child(-n + 3) {
   content-visibility: visible;
-  contain-intrinsic-size: 480px;
+  contain-intrinsic-size: none;
 }
 
 /* Global overflow safety — use hidden on body, not clip on html

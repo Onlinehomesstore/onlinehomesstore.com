@@ -91,26 +91,26 @@
 
   /* ── Color Tokens ──────────────────────────────────────────────────────── */
 
-  /* Brand accent — muted terracotta */
-  --uc-color-primary:      #C98770;
-  --uc-color-primary-dark: #B0725C;
-  --uc-color-secondary:    #D4A08C;
-  --uc-color-accent:       #C98770;
+  /* Brand accent — forest green */
+  --uc-color-primary:      #2F7A4A;
+  --uc-color-primary-dark: #24633B;
+  --uc-color-secondary:    #7BC49A;
+  --uc-color-accent:       #2F7A4A;
 
-  /* Backgrounds — warm ivory editorial palette */
-  --uc-color-bg:           #FFFDF8;  /* Warm ivory */
-  --uc-color-surface:      #F8F5EE;  /* Soft cream */
-  --uc-color-card-bg:      #FFFFFF;  /* Cards, drawers, modals, forms */
+  /* Backgrounds — soft leaf palette */
+  --uc-color-bg:           #F7FBF8;
+  --uc-color-surface:      #EEF6F0;
+  --uc-color-card-bg:      #FFFFFF;
 
   /* Text hierarchy */
-  --uc-color-text:         #292D2B;  /* Primary text */
-  --uc-color-text-body:    #292D2B;  /* Body text */
-  --uc-color-text-muted:   #777D78;  /* Secondary text */
-  --uc-color-text-light:   #A0A39F;  /* Captions, placeholders */
+  --uc-color-text:         #1F2E24;
+  --uc-color-text-body:    #1F2E24;
+  --uc-color-text-muted:   #5F7266;
+  --uc-color-text-light:   #7A8C81;
 
   /* Borders & dividers */
-  --uc-color-border:       #E6E0D6;
-  --uc-color-divider:      #EFE8DE;
+  --uc-color-border:       #D5E5DA;
+  --uc-color-divider:      #E2F0E6;
 
   /* Feedback */
   --uc-color-success:      #4A7A54;
@@ -124,15 +124,15 @@
   /* Stars */
   --uc-color-star:         #B68A35;
 
-  /* Footer — luxury dark charcoal scheme */
-  --uc-color-footer-bg:     #F7F4EF;
-  --uc-color-footer-text:   #4A4A4A;
-  --uc-color-footer-border: #E6E0D6;
+  /* Footer — soft leaf green */
+  --uc-color-footer-bg:     #EEF6F0;
+  --uc-color-footer-text:   #5F7266;
+  --uc-color-footer-border: #D5E5DA;
 
   /* Primary color tints */
-  --uc-color-primary-5:    rgba(182, 138, 53, 0.05);
-  --uc-color-primary-10:   rgba(182, 138, 53, 0.10);
-  --uc-color-primary-20:   rgba(182, 138, 53, 0.20);
+  --uc-color-primary-5:    rgba(47, 122, 74, 0.05);
+  --uc-color-primary-10:   rgba(47, 122, 74, 0.10);
+  --uc-color-primary-20:   rgba(47, 122, 74, 0.20);
 
   /* ── Layout ─────────────────────────────────────────────────────────────── */
   --uc-container-max:   var(--page-width);

@@ -2,6 +2,7 @@
   Online Homes Store — soft announcement bar for baby toys storefront.
 {%- endcomment -%}
 {{ 'ohs-brand-override.css' | asset_url | stylesheet_tag }}
+{{ 'ohs-theme.css' | asset_url | stylesheet_tag }}
 
 {%- liquid
   assign s = section.settings
@@ -13,9 +14,9 @@
       {%- for block in section.blocks -%}
         {%- if block.settings.text != blank -%}
           {%- if block.settings.link != blank -%}
-            <a href="{{ block.settings.link }}" {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</a>
+            <a href="{{ block.settings.link }}" {{ block.shopify_attributes }}><span class="ohs-announce__star" aria-hidden="true">✦</span> {{ block.settings.text | escape }} <span class="ohs-announce__star" aria-hidden="true">✦</span></a>
           {%- else -%}
-            <span {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</span>
+            <span {{ block.shopify_attributes }}><span class="ohs-announce__star" aria-hidden="true">✦</span> {{ block.settings.text | escape }} <span class="ohs-announce__star" aria-hidden="true">✦</span></span>
           {%- endif -%}
         {%- endif -%}
       {%- endfor -%}
@@ -29,7 +30,7 @@
   "class": "ohs-announcement-section",
   "max_blocks": 4,
   "settings": [
-    { "type": "color", "id": "background", "label": "Background", "default": "#FFD95A" },
+    { "type": "color", "id": "background", "label": "Background", "default": "#C8E6C9" },
     { "type": "color", "id": "text_color", "label": "Text color", "default": "#292C35" }
   ],
   "blocks": [

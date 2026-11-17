@@ -6,13 +6,13 @@
   --ohs-okido-muted: #9a9a9a;
   --ohs-okido-border: #d8d8d8;
   --ohs-okido-logo-fill: #ffffff;
-  --ohs-okido-logo-shadow: #ff806e;
+  --ohs-okido-logo-shadow: #2f7a4a;
   --ohs-okido-max: 1280px;
   position: relative;
   z-index: 40;
   background: var(--ohs-okido-top-bg);
   color: var(--ohs-okido-text);
-  font-family: var(--ohs-font-body, 'Nunito Sans', system-ui, sans-serif);
+  font-family: var(--ohs-font-body, 'Poppins', system-ui, sans-serif);
 }
 
 .ohs-okido-header-section.shopify-section-group-header-group {
@@ -55,47 +55,64 @@
   gap: 20px;
 }
 
-.ohs-okido__search {
-  justify-self: start;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  min-width: 0;
-  max-width: 280px;
-  width: 100%;
-  text-decoration: none;
-  color: var(--ohs-okido-muted);
-}
-
-.ohs-okido__search svg {
-  flex-shrink: 0;
-  width: 18px;
-  height: 18px;
-  stroke: #222;
-  fill: none;
-}
-
 .ohs-okido__search-form {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
+  justify-self: start;
+  display: block;
+  min-width: 0;
+  max-width: min(300px, 34vw);
   width: 100%;
   margin: 0;
 }
 
+.ohs-okido__search-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 16px;
+  border: 1.5px solid #c9a86c;
+  border-radius: 999px;
+  background: #ffffff;
+  color: var(--ohs-okido-text);
+  transition:
+    border-color 0.22s ease,
+    box-shadow 0.22s ease,
+    background-color 0.22s ease;
+}
+
+.ohs-okido__search-field:hover {
+  border-color: #b8956b;
+  background: #fffdf9;
+}
+
+.ohs-okido__search-field:focus-within {
+  border-color: #a8844f;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(201, 168, 108, 0.28);
+}
+
+.ohs-okido__search-field svg {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  stroke: #5f7266;
+  fill: none;
+}
+
 .ohs-okido__search-input {
   width: 100%;
+  min-width: 0;
   border: 0;
   outline: 0;
   background: transparent;
   color: var(--ohs-okido-text);
-  font-size: 15px;
-  line-height: 1.2;
+  font-size: 1.45rem;
+  line-height: 1.25;
   padding: 0;
 }
 
 .ohs-okido__search-input::placeholder {
-  color: var(--ohs-okido-muted);
+  color: #9a9a9a;
 }
 
 .ohs-okido__logo {
@@ -105,6 +122,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.55rem;
+  color: #292c35;
 }
 
 .ohs-okido__logo-img {
@@ -114,9 +133,24 @@
   height: auto;
 }
 
-.ohs-okido__logo-img--brand {
-  max-height: 40px;
-  width: min(260px, 52vw);
+.ohs-okido__brandmark {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.ohs-okido__brand-star {
+  display: block;
+}
+
+.ohs-okido__brand-text {
+  font-family: var(--ohs-font-display, 'Poppins', system-ui, sans-serif);
+  font-size: clamp(1.55rem, 2.2vw, 2.1rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  white-space: nowrap;
+  text-transform: uppercase;
+  color: #292c35;
 }
 
 .ohs-okido__wordmark {
@@ -348,7 +382,7 @@
     justify-self: start;
   }
 
-  .ohs-okido__search {
+  .ohs-okido__search-form {
     display: none;
   }
 
@@ -419,10 +453,17 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 10px 12px;
+    border: 1.5px solid #c9a86c;
+    border-radius: 999px;
+    padding: 10px 14px;
     margin-bottom: 16px;
+    background: #fff;
+    transition: border-color 0.22s ease, box-shadow 0.22s ease;
+  }
+
+  .ohs-okido__drawer-search:focus-within {
+    border-color: #a8844f;
+    box-shadow: 0 0 0 3px rgba(201, 168, 108, 0.28);
   }
 
   .ohs-okido__drawer-search input {

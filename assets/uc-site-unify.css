@@ -86,13 +86,13 @@ body[class*='template-'] .pb {
 body[class*='template-'] .uc-hero,
 body[class*='template-'] .ucs,
 body[class*='template-'] .uc-ph {
-  --s-color-primary: var(--uc-color-primary, #b68a35);
+  --s-color-primary: var(--uc-color-primary, #2f7a4a);
   font-family: var(--uc-font-body, 'Manrope', system-ui, sans-serif);
 }
 
 body[class*='template-'] .uc-hero .uc-hero__dot.is-active,
 body[class*='template-'] .uc-hero [data-uc-pagination] .is-active {
-  background: var(--uc-color-primary, #b68a35);
+  background: var(--uc-color-primary, #2f7a4a);
 }
 
 /* ── Touch targets & buttons ──────────────────────────────────────────────── */
@@ -172,7 +172,7 @@ input[type='button'] {
 .button:focus-visible,
 .uc-btn:focus-visible,
 button:focus-visible {
-  outline: 2px solid var(--uc-color-primary, #b68a35);
+  outline: 2px solid var(--uc-color-primary, #2f7a4a);
   outline-offset: 3px;
 }
 
@@ -188,7 +188,7 @@ button:focus-visible {
 .uc-ft-nl-btn,
 .pf-nl-btn,
 .pt__filter.is-active {
-  background: var(--uc-color-primary, #b68a35) !important;
+  background: var(--uc-color-primary, #2f7a4a) !important;
   color: #ffffff !important;
   box-shadow: 0 4px 14px rgba(182, 138, 53, 0.22) !important;
 }
@@ -249,11 +249,11 @@ button:focus-visible {
 .pfaq__cat:not(.is-active):hover {
   background: rgba(23, 23, 23, 0.03) !important;
   color: var(--uc-color-text, #171717) !important;
-  box-shadow: inset 0 0 0 1.5px var(--uc-color-primary, #b68a35) !important;
+  box-shadow: inset 0 0 0 1.5px var(--uc-color-primary, #2f7a4a) !important;
 }
 
 .pfaq__cat.is-active {
-  background: var(--uc-color-primary, #b68a35) !important;
+  background: var(--uc-color-primary, #2f7a4a) !important;
   color: #ffffff !important;
   box-shadow: 0 4px 14px rgba(182, 138, 53, 0.22) !important;
 }
@@ -383,7 +383,7 @@ span.badge:is(.price__badge-sold-out) {
     border-radius: 50% !important;
     background: rgba(182, 138, 53, 0.1) !important;
     border: 1.5px solid rgba(182, 138, 53, 0.28) !important;
-    color: #b68a35 !important;
+    color: #2f7a4a !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -502,7 +502,7 @@ span.badge:is(.price__badge-sold-out) {
     padding: 0 20px !important;
     border: 0 !important;
     border-radius: var(--uc-phdr-capsule-radius, 16px) !important;
-    background: #b68a35 !important;
+    background: #2f7a4a !important;
     color: #fff !important;
     font-size: 1.0625rem !important;
     font-weight: 700 !important;
@@ -654,13 +654,11 @@ span.badge:is(.price__badge-sold-out) {
 }
 
 /* Header-pill corner radius for buttons (structure only — not typography) */
-button:not(.pph__qty-btn):not(.pph-gallery__arrow):not(.pph-lightbox__close):not(.pph-lightbox__nav):not(.pc-card__wish):not(.uc-phdr__icon):not([class*='__round']),
-.button,
+button:not(.pph__qty-btn):not(.pph-gallery__arrow):not(.pph-lightbox__close):not(.pph-lightbox__nav):not(.pc-card__wish):not(.pc-card__btn):not(.uc-phdr__icon):not([class*='__round']):not(.ohs-btn):not(.ohs-hs__btn):not(.ohs-demo-card__btn):not(.ohs-edu__cta),
+.button:not(.ohs-btn):not(.ohs-hs__btn):not(.pc-card__btn),
 .uc-btn,
 input[type='submit'],
 input[type='button'],
-.pc-card__btn,
-.pc-card__buy,
 .pph__atc,
 .pph__buy,
 .pf-qv__atc,
@@ -668,4 +666,13 @@ input[type='button'],
 .cart__checkout-button,
 .shopify-payment-button__button {
   border-radius: var(--uc-phdr-capsule-radius, 16px) !important;
+}
+
+/* Product card actions — reference 12px */
+html body .pc-card .pc-card__btn,
+html body .pc-card button.pc-card__btn,
+html body .pc-card a.pc-card__btn,
+html body .pc-card__btn.pc-card__btn--add,
+html body .pc-card__btn.pc-card__btn--buy {
+  border-radius: 12px !important;
 }

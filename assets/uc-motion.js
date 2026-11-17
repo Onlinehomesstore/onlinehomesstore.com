@@ -24,7 +24,15 @@
     '.hiw__step',
     '.pi__card',
     '.pct',
-    '.category-showcase__header'
+    '.category-showcase__header',
+    '.ohs-section__head',
+    '.ohs-cat-card',
+    '.ohs-tile',
+    '.ohs-trust-features__item',
+    '.uc-ft-nav-col',
+    '.uc-ft-brand',
+    '.uc-ft-contact',
+    '.uc-ft-nl-banner'
   ].join(', ');
   var VISIBLE_CLS = ['is-visible', 'is-revealed', 'cs-is-visible'];
   var io = null;

@@ -1,0 +1,237 @@
+{%- comment -%}
+  OHS full-width sliding hero banners — sales-first homepage opener.
+{%- endcomment -%}
+{{ 'ohs-brand-override.css' | asset_url | stylesheet_tag }}
+{{ 'ohs-theme.css' | asset_url | stylesheet_tag }}
+{{ 'ohs-hero-slideshow.css' | asset_url | stylesheet_tag }}
+
+{%- assign s = section.settings -%}
+{%- assign slide_count = section.blocks.size -%}
+{%- if slide_count == 0 -%}
+  {%- assign slide_count = 3 -%}
+{%- endif -%}
+
+<section
+  class="ohs-hs"
+  id="OhsHs-{{ section.id }}"
+  data-ohs-hs
+  data-autoplay="{{ s.autoplay }}"
+  data-interval="{{ s.autoplay_speed | default: 5 | times: 1000 }}"
+  aria-roledescription="carousel"
+  aria-label="{{ s.accessibility_label | default: 'Homepage banners' | escape }}"
+  style="--ohs-hs-h-mobile: {{ s.height_mobile | default: 420 }}px; --ohs-hs-h-desktop: {{ s.height_desktop | default: 560 }}px;"
+>
+  <div class="ohs-hs__viewport">
+    <div class="ohs-hs__track" data-ohs-hs-track>
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign b = block.settings
+            assign fallback = b.asset_file
+            if fallback == blank
+              case forloop.index
+                when 1
+                  assign fallback = 'ohs-hero-1.jpg'
+                when 2
+                  assign fallback = 'ohs-edu-play.jpg'
+                else
+                  assign fallback = 'ohs-hero-2.jpg'
+              endcase
+            endif
+            assign slide_alt = b.heading | default: 'Online Homes Store'
+            if forloop.first
+              assign img_loading = 'eager'
+            else
+              assign img_loading = 'lazy'
+            endif
+          -%}
+          <article class="ohs-hs__slide" {{ block.shopify_attributes }} aria-roledescription="slide" aria-label="{{ forloop.index }} of {{ section.blocks.size }}">
+            <div class="ohs-hs__media">
+              {%- if b.image != blank -%}
+                {%- if forloop.first -%}
+                  {{ b.image | image_url: width: 2400 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '750,1100,1600,2000,2400', sizes: '100vw', alt: slide_alt }}
+                {%- else -%}
+                  {{ b.image | image_url: width: 2400 | image_tag: loading: 'lazy', widths: '750,1100,1600,2000,2400', sizes: '100vw', alt: slide_alt }}
+                {%- endif -%}
+              {%- else -%}
+                {% render 'ohs-asset-img', file: fallback, alt: slide_alt, loading: img_loading, class: 'ohs-hs__img' %}
+              {%- endif -%}
+            </div>
+            <div class="ohs-hs__shade" aria-hidden="true"></div>
+            <div class="ohs-hs__content">
+              <div class="ohs-hs__copy">
+                {%- if b.eyebrow != blank -%}<p class="ohs-hs__eyebrow">{{ b.eyebrow | escape }}</p>{%- endif -%}
+                {%- if b.heading != blank -%}
+                  {%- if forloop.first -%}
+                    <h1 class="ohs-hs__title">{{ b.heading | escape }}</h1>
+                  {%- else -%}
+                    <h2 class="ohs-hs__title">{{ b.heading | escape }}</h2>
+                  {%- endif -%}
+                {%- endif -%}
+                {%- if b.text != blank -%}<p class="ohs-hs__text">{{ b.text | escape }}</p>{%- endif -%}
+                <div class="ohs-hs__actions">
+                  {%- if b.button_label != blank -%}
+                    <a class="ohs-hs__btn ohs-hs__btn--primary" href="{{ b.button_link | default: routes.all_products_collection_url }}">{{ b.button_label | escape }}</a>
+                  {%- endif -%}
+                  {%- if b.button_label_2 != blank -%}
+                    <a class="ohs-hs__btn ohs-hs__btn--secondary" href="{{ b.button_link_2 | default: routes.all_products_collection_url }}">{{ b.button_label_2 | escape }}</a>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+          </article>
+        {%- endfor -%}
+      {%- else -%}
+        <article class="ohs-hs__slide">
+          <div class="ohs-hs__media">{% render 'ohs-asset-img', file: 'ohs-hero-1.jpg', alt: 'Little toys big adventures', loading: 'eager', class: 'ohs-hs__img' %}</div>
+          <div class="ohs-hs__shade" aria-hidden="true"></div>
+          <div class="ohs-hs__content"><div class="ohs-hs__copy">
+            <p class="ohs-hs__eyebrow">New season play</p>
+            <h1 class="ohs-hs__title">Little Toys. Big Adventures.</h1>
+            <p class="ohs-hs__text">Thoughtful toys and lovely gifts for babies and little explorers.</p>
+            <div class="ohs-hs__actions">
+              <a class="ohs-hs__btn ohs-hs__btn--primary" href="/collections/all">Shop All Toys</a>
+              <a class="ohs-hs__btn ohs-hs__btn--secondary" href="/collections/build-and-discover">Explore Learning Toys</a>
+            </div>
+          </div></div>
+        </article>
+        <article class="ohs-hs__slide">
+          <div class="ohs-hs__media">{% render 'ohs-asset-img', file: 'ohs-edu-play.jpg', alt: 'Educational play', loading: 'lazy', class: 'ohs-hs__img' %}</div>
+          <div class="ohs-hs__shade" aria-hidden="true"></div>
+          <div class="ohs-hs__content"><div class="ohs-hs__copy">
+            <p class="ohs-hs__eyebrow">Bestsellers</p>
+            <h2 class="ohs-hs__title">Play that parents love</h2>
+            <p class="ohs-hs__text">Hand-picked favorites for everyday discovery and gifting.</p>
+            <div class="ohs-hs__actions">
+              <a class="ohs-hs__btn ohs-hs__btn--primary" href="/collections/build-and-discover">Shop Best Sellers</a>
+            </div>
+          </div></div>
+        </article>
+        <article class="ohs-hs__slide">
+          <div class="ohs-hs__media">{% render 'ohs-asset-img', file: 'ohs-hero-2.jpg', alt: 'Building blocks', loading: 'lazy', class: 'ohs-hs__img' %}</div>
+          <div class="ohs-hs__shade" aria-hidden="true"></div>
+          <div class="ohs-hs__content"><div class="ohs-hs__copy">
+            <p class="ohs-hs__eyebrow">Gift ready</p>
+            <h2 class="ohs-hs__title">Find the perfect little gift</h2>
+            <p class="ohs-hs__text">Browse by age and interest — checkout in minutes.</p>
+            <div class="ohs-hs__actions">
+              <a class="ohs-hs__btn ohs-hs__btn--primary" href="/collections/all">Start Shopping</a>
+            </div>
+          </div></div>
+        </article>
+      {%- endif -%}
+    </div>
+
+    {%- if slide_count > 1 -%}
+      <div class="ohs-hs__nav">
+        <button type="button" class="ohs-hs__arrow ohs-hs__arrow--prev" data-ohs-hs-prev aria-label="Previous slide">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button type="button" class="ohs-hs__arrow ohs-hs__arrow--next" data-ohs-hs-next aria-label="Next slide">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+      <div class="ohs-hs__dots" data-ohs-hs-dots role="tablist" aria-label="Slide controls">
+        {%- for i in (1..slide_count) -%}
+          <button type="button" class="ohs-hs__dot{% if forloop.first %} is-active{% endif %}" data-ohs-hs-dot="{{ forloop.index0 }}" aria-label="Go to slide {{ forloop.index }}"></button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+<script>
+(function () {
+  var root = document.getElementById('OhsHs-{{ section.id }}');
+  if (!root) return;
+  var track = root.querySelector('[data-ohs-hs-track]');
+  var dots = root.querySelectorAll('[data-ohs-hs-dot]');
+  var slides = root.querySelectorAll('.ohs-hs__slide');
+  if (!track || slides.length < 2) return;
+  var index = 0;
+  var timer = null;
+  var autoplay = root.getAttribute('data-autoplay') === 'true';
+  var interval = parseInt(root.getAttribute('data-interval') || '5000', 10);
+
+  function go(i) {
+    index = (i + slides.length) % slides.length;
+    track.style.transform = 'translate3d(' + (-index * 100) + '%,0,0)';
+    dots.forEach(function (d, di) { d.classList.toggle('is-active', di === index); });
+  }
+  function next() { go(index + 1); }
+  function prev() { go(index - 1); }
+  function start() {
+    if (!autoplay) return;
+    stop();
+    timer = setInterval(next, interval);
+  }
+  function stop() { if (timer) clearInterval(timer); timer = null; }
+
+  var prevBtn = root.querySelector('[data-ohs-hs-prev]');
+  var nextBtn = root.querySelector('[data-ohs-hs-next]');
+  if (prevBtn) prevBtn.addEventListener('click', function () { prev(); start(); });
+  if (nextBtn) nextBtn.addEventListener('click', function () { next(); start(); });
+  dots.forEach(function (d) {
+    d.addEventListener('click', function () {
+      go(parseInt(d.getAttribute('data-ohs-hs-dot'), 10) || 0);
+      start();
+    });
+  });
+
+  var startX = 0;
+  track.addEventListener('touchstart', function (e) { startX = e.changedTouches[0].clientX; stop(); }, { passive: true });
+  track.addEventListener('touchend', function (e) {
+    var dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) > 40) { dx < 0 ? next() : prev(); }
+    start();
+  }, { passive: true });
+
+  root.addEventListener('mouseenter', stop);
+  root.addEventListener('mouseleave', start);
+  document.addEventListener('visibilitychange', function () { document.hidden ? stop() : start(); });
+  start();
+})();
+</script>
+
+{% schema %}
+{
+  "name": "OHS Hero Slideshow",
+  "tag": "section",
+  "class": "ohs-hero-slideshow-section",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "checkbox", "id": "autoplay", "label": "Autoplay", "default": true },
+    { "type": "range", "id": "autoplay_speed", "min": 3, "max": 9, "step": 1, "unit": "s", "label": "Autoplay speed", "default": 5 },
+    { "type": "range", "id": "height_mobile", "min": 320, "max": 560, "step": 10, "unit": "px", "label": "Mobile height", "default": 420 },
+    { "type": "range", "id": "height_desktop", "min": 420, "max": 720, "step": 10, "unit": "px", "label": "Desktop height", "default": 560 },
+    { "type": "text", "id": "accessibility_label", "label": "Accessibility label", "default": "Homepage banners" }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Banner image" },
+        { "type": "text", "id": "asset_file", "label": "Fallback asset filename", "default": "ohs-hero-1.jpg" },
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "New season play" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Little Toys. Big Adventures." },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Thoughtful toys and lovely gifts for babies and little explorers." },
+        { "type": "text", "id": "button_label", "label": "Primary button", "default": "Shop All Toys" },
+        { "type": "url", "id": "button_link", "label": "Primary link" },
+        { "type": "text", "id": "button_label_2", "label": "Secondary button", "default": "Explore Learning Toys" },
+        { "type": "url", "id": "button_link_2", "label": "Secondary link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "OHS Hero Slideshow",
+      "blocks": [
+        { "type": "slide", "settings": { "eyebrow": "New season play", "heading": "Little Toys. Big Adventures.", "asset_file": "ohs-hero-1.jpg", "button_label": "Shop All Toys", "button_label_2": "Explore Learning Toys" } },
+        { "type": "slide", "settings": { "eyebrow": "Bestsellers", "heading": "Play that parents love", "text": "Hand-picked favorites for everyday discovery and gifting.", "asset_file": "ohs-edu-play.jpg", "button_label": "Shop Best Sellers", "button_label_2": "" } },
+        { "type": "slide", "settings": { "eyebrow": "Gift ready", "heading": "Find the perfect little gift", "text": "Browse by age and interest — checkout in minutes.", "asset_file": "ohs-hero-2.jpg", "button_label": "Start Shopping", "button_label_2": "" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

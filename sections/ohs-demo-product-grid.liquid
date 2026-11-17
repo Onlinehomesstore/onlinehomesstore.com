@@ -1,9 +1,11 @@
 {%- comment -%}
-  Product grid for Online Homes Store.
-  Uses a real collection when products exist; otherwise curated editorial cards from theme assets.
+  Homepage product grid — uses the same uc-product-card as collection/search/PDP.
 {%- endcomment -%}
 {{ 'ohs-brand-override.css' | asset_url | stylesheet_tag }}
+{{ 'ohs-theme.css' | asset_url | stylesheet_tag }}
 {{ 'ohs-playful-home.css' | asset_url | stylesheet_tag }}
+{{ 'uc-product-card.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'uc-product-card.js' | asset_url }}" defer="defer"></script>
 
 {%- liquid
   assign s = section.settings
@@ -30,77 +32,92 @@
     <div class="ohs-demo-grid__grid" style="--ohs-cols: {{ s.columns_desktop | default: 4 }};">
       {%- if use_live -%}
         {%- for product in collection.products limit: s.products_to_show -%}
-          <article class="ohs-demo-card">
-            <div class="ohs-demo-card__media-wrap">
-              {%- if product.compare_at_price > product.price -%}
-                <span class="ohs-demo-card__badge">Sale</span>
-              {%- endif -%}
-              <a class="ohs-demo-card__media" href="{{ product.url }}">
-                {%- if product.featured_media -%}
-                  {{ product.featured_media | image_url: width: 900 | image_tag: loading: 'lazy', widths: '400,600,900', sizes: '(min-width: 990px) 22vw, 45vw', alt: product.title }}
-                {%- else -%}
-                  {% render 'ohs-asset-img', file: 'ohs-prod-1.jpg', alt: product.title, class: 'ohs-demo-card__img' %}
-                {%- endif -%}
-              </a>
-            </div>
-            <div class="ohs-demo-card__body">
-              <h3 class="ohs-demo-card__title"><a href="{{ product.url }}">{{ product.title }}</a></h3>
-              <p class="ohs-demo-card__price">
-                {%- if product.compare_at_price > product.price -%}
-                  <s>{{ product.compare_at_price | money }}</s>
-                {%- endif -%}
-                {{ product.price | money }}
-              </p>
-              {%- if product.available -%}
-                <form method="post" action="{{ routes.cart_add_url }}" class="ohs-demo-card__form">
-                  <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-                  <button type="submit" class="ohs-demo-card__btn">Add to cart</button>
-                </form>
-              {%- else -%}
-                <span class="ohs-demo-card__btn ohs-demo-card__btn--disabled">Sold out</span>
-              {%- endif -%}
-            </div>
-          </article>
+          {% render 'uc-product-card',
+            product: product,
+            image_ratio: 'square',
+            show_rating: true,
+            show_quick_add: true,
+            show_vendor: false,
+            lazy: true,
+            section_id: section.id,
+            card_index: forloop.index
+          %}
         {%- endfor -%}
       {%- elsif section.blocks.size > 0 -%}
         {%- for block in section.blocks limit: s.products_to_show -%}
           {%- assign b = block.settings -%}
-          <article class="ohs-demo-card" {{ block.shopify_attributes }}>
-            <div class="ohs-demo-card__media-wrap">
-              {%- if b.badge != blank -%}<span class="ohs-demo-card__badge">{{ b.badge | escape }}</span>{%- endif -%}
-              <a class="ohs-demo-card__media" href="{{ b.link | default: routes.all_products_collection_url }}">
+          {%- comment -%} Editorial fallback when no live collection products {%- endcomment -%}
+          <article class="pc-card pc-card--static" {{ block.shopify_attributes }}>
+            <div class="pc-card__media-wrap pc-card__media--square">
+              <a class="pc-card__media" href="{{ b.link | default: routes.all_products_collection_url }}">
                 {%- if b.image != blank -%}
                   {{ b.image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '400,600,900', sizes: '(min-width: 990px) 22vw, 45vw', alt: b.title }}
                 {%- else -%}
-                  {% render 'ohs-asset-img', file: b.asset_file, alt: b.title, class: 'ohs-demo-card__img' %}
+                  {% render 'ohs-asset-img', file: b.asset_file, alt: b.title %}
                 {%- endif -%}
               </a>
+              {%- if b.badge != blank -%}
+                <div class="pc-card__badges"><span class="pc-badge pc-badge--custom">{{ b.badge | escape }}</span></div>
+              {%- endif -%}
             </div>
-            <div class="ohs-demo-card__body">
-              <h3 class="ohs-demo-card__title"><a href="{{ b.link | default: routes.all_products_collection_url }}">{{ b.title | escape }}</a></h3>
-              <p class="ohs-demo-card__price">
-                {%- if b.compare_price != blank -%}<s>{{ b.compare_price | escape }}</s>{%- endif -%}
-                {{ b.price | escape }}
-              </p>
-              <a class="ohs-demo-card__btn" href="{{ b.link | default: routes.all_products_collection_url }}">View product</a>
+            <div class="pc-card__info">
+              <a class="pc-card__title-link" href="{{ b.link | default: routes.all_products_collection_url }}">
+                <h3 class="pc-card__title">{{ b.title | escape }}</h3>
+              </a>
+              <div class="pc-card__rating" aria-hidden="true">
+                <span class="pc-card__stars">★★★★★</span>
+                <span class="pc-card__rating-value">4.8</span>
+                <span class="pc-card__rating-count">(22)</span>
+              </div>
+              <div class="pc-card__meta">
+                <div class="pc-card__price-row">
+                  {%- if b.compare_price != blank -%}<s class="pc-card__price pc-card__price--compare">{{ b.compare_price | escape }}</s>{%- endif -%}
+                  <span class="pc-card__price">{{ b.price | escape }}</span>
+                </div>
+                <span class="pc-card__stock pc-card__stock--in"><span class="pc-card__stock-dot"></span>In stock</span>
+              </div>
+              <div class="pc-card__actions">
+                <a class="pc-card__btn pc-card__btn--add" href="{{ b.link | default: routes.all_products_collection_url }}" aria-label="View {{ b.title | escape }}">
+                  <span class="pc-card__btn-icon" aria-hidden="true">{% render 'uc-icon', icon: 'shopping-cart', size: 18 %}</span>
+                </a>
+                <a class="pc-card__btn pc-card__btn--buy" href="{{ b.link | default: routes.all_products_collection_url }}">
+                  <span class="pc-card__btn-text">Buy Now</span>
+                </a>
+              </div>
             </div>
           </article>
         {%- endfor -%}
       {%- else -%}
-        {%- comment -%} Hard fallback so the section never collapses to a blank band {%- endcomment -%}
-        {%- assign fallbacks = 'Rainbow Stack Rings|ohs-prod-1.jpg|$28.00,Soft Cloud Bear|ohs-prod-2.jpg|$32.00,Wooden Block Set|ohs-prod-3.jpg|$36.00,Sensory Ball Duo|ohs-prod-4.jpg|$22.00,Musical Xylophone|ohs-prod-5.jpg|$34.00,Shape Sorter Box|ohs-prod-6.jpg|$29.00,Activity Cube|ohs-prod-7.jpg|$39.00,Plush Bunny|ohs-prod-8.jpg|$26.00' | split: ',' -%}
+        {%- assign fallbacks = 'Rainbow Stack Rings|ohs-prod-1.jpg|£28.00,Soft Cloud Bear|ohs-prod-2.jpg|£32.00,Wooden Block Set|ohs-prod-3.jpg|£36.00,Sensory Ball Duo|ohs-prod-4.jpg|£22.00' | split: ',' -%}
         {%- for item in fallbacks limit: s.products_to_show -%}
           {%- assign parts = item | split: '|' -%}
-          <article class="ohs-demo-card">
-            <div class="ohs-demo-card__media-wrap">
-              <a class="ohs-demo-card__media" href="{{ routes.all_products_collection_url }}">
-                {% render 'ohs-asset-img', file: parts[1], alt: parts[0], class: 'ohs-demo-card__img' %}
+          <article class="pc-card pc-card--static">
+            <div class="pc-card__media-wrap pc-card__media--square">
+              <a class="pc-card__media" href="{{ routes.all_products_collection_url }}">
+                {% render 'ohs-asset-img', file: parts[1], alt: parts[0] %}
               </a>
             </div>
-            <div class="ohs-demo-card__body">
-              <h3 class="ohs-demo-card__title"><a href="{{ routes.all_products_collection_url }}">{{ parts[0] | escape }}</a></h3>
-              <p class="ohs-demo-card__price">{{ parts[2] | escape }}</p>
-              <a class="ohs-demo-card__btn" href="{{ routes.all_products_collection_url }}">Shop toys</a>
+            <div class="pc-card__info">
+              <a class="pc-card__title-link" href="{{ routes.all_products_collection_url }}">
+                <h3 class="pc-card__title">{{ parts[0] | escape }}</h3>
+              </a>
+              <div class="pc-card__rating" aria-hidden="true">
+                <span class="pc-card__stars">★★★★★</span>
+                <span class="pc-card__rating-value">4.8</span>
+                <span class="pc-card__rating-count">(22)</span>
+              </div>
+              <div class="pc-card__meta">
+                <div class="pc-card__price-row"><span class="pc-card__price">{{ parts[2] | escape }}</span></div>
+                <span class="pc-card__stock pc-card__stock--in"><span class="pc-card__stock-dot"></span>In stock</span>
+              </div>
+              <div class="pc-card__actions">
+                <a class="pc-card__btn pc-card__btn--add" href="{{ routes.all_products_collection_url }}" aria-label="Shop {{ parts[0] | escape }}">
+                  <span class="pc-card__btn-icon" aria-hidden="true">{% render 'uc-icon', icon: 'shopping-cart', size: 18 %}</span>
+                </a>
+                <a class="pc-card__btn pc-card__btn--buy" href="{{ routes.all_products_collection_url }}">
+                  <span class="pc-card__btn-text">Buy Now</span>
+                </a>
+              </div>
             </div>
           </article>
         {%- endfor -%}
@@ -124,7 +141,7 @@
     { "type": "range", "id": "columns_desktop", "min": 2, "max": 4, "step": 1, "label": "Columns desktop", "default": 4 },
     { "type": "text", "id": "view_all_label", "label": "View all label", "default": "View all" },
     { "type": "url", "id": "view_all_link", "label": "View all link" },
-    { "type": "color", "id": "background", "label": "Background", "default": "#FFFDF7" }
+    { "type": "color", "id": "background", "label": "Background", "default": "#F7FBF8" }
   ],
   "blocks": [
     {
@@ -132,7 +149,7 @@
       "name": "Demo product",
       "settings": [
         { "type": "text", "id": "title", "label": "Title", "default": "Soft Cloud Plush" },
-        { "type": "text", "id": "price", "label": "Price", "default": "$24.00" },
+        { "type": "text", "id": "price", "label": "Price", "default": "£24.00" },
         { "type": "text", "id": "compare_price", "label": "Compare-at price" },
         { "type": "text", "id": "badge", "label": "Badge" },
         { "type": "text", "id": "asset_file", "label": "Fallback asset filename", "default": "ohs-prod-1.jpg" },

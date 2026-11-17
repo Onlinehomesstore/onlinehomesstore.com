@@ -1,44 +1,44 @@
-/*
+﻿/*
   uc-pdp-accent-overrides.css
-  Force UNIK CARE cream/gold accents on every PDP module.
-  No purple / indigo leftovers — Luxury Cream Design System only.
+  Force UNIK CARE green accents on every PDP module.
+  No purple / indigo leftovers — Online Homes Store green theme.
 */
 .template-product {
-  --uc-legacy-purple: var(--uc-color-primary, #b68a35);
-  --uc-color-primary: #b68a35;
-  --uc-color-primary-dark: #8f6824;
-  --uc-color-primary-soft: #f5ebd8;
-  --pct-accent: #b68a35;
-  --pwu-accent: #b68a35;
-  --hiw-accent: #b68a35;
-  --pi-accent: #b68a35;
-  --sma-accent: #b68a35;
-  --satc-accent: #b68a35;
-  --fu-accent: #b68a35;
-  --pb-accent: #b68a35;
-  --pfaq-accent: #b68a35;
-  --pph-accent: #b68a35;
+  --uc-legacy-purple: var(--uc-color-primary, #2f7a4a);
+  --uc-color-primary: #2f7a4a;
+  --uc-color-primary-dark: #24633b;
+  --uc-color-primary-soft: #e6f4ec;
+  --pct-accent: #2f7a4a;
+  --pwu-accent: #2f7a4a;
+  --hiw-accent: #2f7a4a;
+  --pi-accent: #2f7a4a;
+  --sma-accent: #2f7a4a;
+  --satc-accent: #2f7a4a;
+  --fu-accent: #2f7a4a;
+  --pb-accent: #2f7a4a;
+  --pfaq-accent: #2f7a4a;
+  --pph-accent: #2f7a4a;
 }
 
 /* ── Why Choose Us — cream highlight, gold badges ─────────────────────────── */
 .template-product .pwu__card--ours {
-  background: linear-gradient(180deg, #fffdf9 0%, #f7f4ef 100%) !important;
-  border-color: rgba(182, 138, 53, 0.18) !important;
+  background: linear-gradient(180deg, #f7fbf8 0%, #eef6f0 100%) !important;
+  border-color: rgba(47, 122, 74, 0.18) !important;
   box-shadow: 0 12px 36px rgba(23, 20, 16, 0.06) !important;
 }
 .template-product .pwu__card--ours::before {
-  background: linear-gradient(160deg, #b68a35, transparent 55%) !important;
+  background: linear-gradient(160deg, #2f7a4a, transparent 55%) !important;
   opacity: 0.28 !important;
 }
 .template-product .pwu__brand-name--ours,
 .template-product .pwu__brand-badge {
-  background: linear-gradient(135deg, #b68a35, #8f6824) !important;
+  background: linear-gradient(135deg, #2f7a4a, #24633b) !important;
   color: #fff !important;
-  box-shadow: 0 6px 18px rgba(182, 138, 53, 0.28) !important;
+  box-shadow: 0 6px 18px rgba(47, 122, 74, 0.28) !important;
 }
 .template-product .pwu__icon--check,
 .template-product .pwu__stat-number {
-  color: #b68a35 !important;
+  color: #2f7a4a !important;
 }
 
 /* ── Comparison table — gold column (correct selectors) ───────────────────── */
@@ -48,23 +48,23 @@
 .template-product .pct__cell--brand {
   background: linear-gradient(
     180deg,
-    rgba(182, 138, 53, 0.1) 0%,
-    rgba(182, 138, 53, 0.03) 100%
+    rgba(47, 122, 74, 0.1) 0%,
+    rgba(47, 122, 74, 0.03) 100%
   ) !important;
-  border-color: rgba(182, 138, 53, 0.16) !important;
-  border-inline-color: rgba(182, 138, 53, 0.14) !important;
+  border-color: rgba(47, 122, 74, 0.16) !important;
+  border-inline-color: rgba(47, 122, 74, 0.14) !important;
 }
 .template-product .pct__eyebrow,
 .template-product .pct__th-badge,
 .template-product .pct__th--ours {
-  color: #8f6824 !important;
+  color: #24633b !important;
 }
 .template-product .pct__th-badge {
-  background: rgba(182, 138, 53, 0.14) !important;
-  color: #8f6824 !important;
+  background: rgba(47, 122, 74, 0.14) !important;
+  color: #24633b !important;
 }
 .template-product .pct__val--check {
-  color: #b68a35 !important;
+  color: #2f7a4a !important;
 }
 
 /* ── How it works / Ingredients / Benefits ────────────────────────────────── */
@@ -73,38 +73,38 @@
 .template-product .hiw__duration,
 .template-product .pi__badge,
 .template-product .pb__badge {
-  color: #8f6824 !important;
+  color: #24633b !important;
 }
 .template-product .hiw__step.is-active .hiw__step-num,
 .template-product .hiw__progress-fill,
 .template-product .product-benefits .pb__badge,
 .template-product .product-why-us .pwu__stat-icon {
-  background: linear-gradient(135deg, #b68a35, #8f6824) !important;
+  background: linear-gradient(135deg, #2f7a4a, #24633b) !important;
   color: #fff !important;
-  box-shadow: 0 4px 14px rgba(182, 138, 53, 0.28) !important;
-  border-color: #b68a35 !important;
+  box-shadow: 0 4px 14px rgba(47, 122, 74, 0.28) !important;
+  border-color: #2f7a4a !important;
 }
 .template-product .hiw__progress-track::before,
 .template-product .hiw__line {
-  background: linear-gradient(90deg, #b68a35, rgba(182, 138, 53, 0.35)) !important;
+  background: linear-gradient(90deg, #2f7a4a, rgba(47, 122, 74, 0.35)) !important;
 }
 .template-product .pi__card:hover,
 .template-product .pi__card.is-open {
-  border-color: rgba(182, 138, 53, 0.22) !important;
-  box-shadow: 0 8px 32px rgba(182, 138, 53, 0.1) !important;
+  border-color: rgba(47, 122, 74, 0.22) !important;
+  box-shadow: 0 8px 32px rgba(47, 122, 74, 0.1) !important;
 }
 .template-product .pht__step-num {
-  background: rgba(182, 138, 53, 0.12) !important;
-  color: #8f6824 !important;
-  box-shadow: 0 4px 18px rgba(182, 138, 53, 0.22) !important;
+  background: rgba(47, 122, 74, 0.12) !important;
+  color: #24633b !important;
+  box-shadow: 0 4px 18px rgba(47, 122, 74, 0.22) !important;
 }
 
 /* ── Reviews / sticky / footer upsell ─────────────────────────────────────── */
 .template-product .pt__filter.is-active,
 .template-product .pt__card-result {
-  background: rgba(182, 138, 53, 0.1) !important;
-  border-color: rgba(182, 138, 53, 0.35) !important;
-  color: #8f6824 !important;
+  background: rgba(47, 122, 74, 0.1) !important;
+  border-color: rgba(47, 122, 74, 0.35) !important;
+  color: #24633b !important;
 }
 .template-product .pt__sort:focus {
   background: #fff !important;
@@ -115,24 +115,24 @@
 .template-product .sma__atc,
 .template-product .satc__atc,
 .template-product .satc__btn {
-  background: #b68a35 !important;
+  background: #2f7a4a !important;
   color: #fff !important;
 }
 .template-product .sma__atc:hover:not(:disabled),
 .template-product .satc__atc:hover:not(:disabled) {
-  background: #8f6824 !important;
-  box-shadow: 0 4px 16px rgba(182, 138, 53, 0.32) !important;
+  background: #24633b !important;
+  box-shadow: 0 4px 16px rgba(47, 122, 74, 0.32) !important;
 }
 .template-product .footer-upsell .fu__btn,
 .template-product .fu__bundle-btn {
-  background: #b68a35 !important;
+  background: #2f7a4a !important;
 }
 .template-product .footer-upsell .fu__btn:focus-visible,
 .template-product .footer-upsell .fu__bundle-btn:hover {
-  box-shadow: 0 0 0 3px rgba(182, 138, 53, 0.18) !important;
+  box-shadow: 0 0 0 3px rgba(47, 122, 74, 0.18) !important;
 }
 .template-product .fu__progress-fill {
-  background: #b68a35 !important;
+  background: #2f7a4a !important;
 }
 
 /* ── Dynamic checkout (Buy it now) gold polish ────────────────────────────── */
@@ -146,14 +146,14 @@
   letter-spacing: 0.02em !important;
 }
 .template-product .pph__buynow .shopify-payment-button__button--unbranded {
-  background: #b68a35 !important;
+  background: #2f7a4a !important;
   color: #171717 !important;
 }
 .template-product .pph__buynow .shopify-payment-button__button--unbranded:hover {
-  background: #8f6824 !important;
+  background: #24633b !important;
   color: #fff !important;
 }
 
 .template-product .pc-card__qa:not(:disabled):hover {
-  background: #8f6824 !important;
+  background: #24633b !important;
 }

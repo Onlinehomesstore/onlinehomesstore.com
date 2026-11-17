@@ -103,9 +103,56 @@
   select:focus-visible,
   button:focus-visible,
   a:focus-visible {
-    outline: 2px solid rgba(182, 138, 53, 0.55);
+    outline: 2px solid rgba(47, 122, 74, 0.55);
     outline-offset: 2px;
   }
+
+  .ohs-hs__btn,
+  .ohs-btn,
+  .ohs-cat-card,
+  .ohs-tile,
+  .ohs-demo-grid .pc-card,
+  .uc-ft-social__link,
+  .uc-ft-nav-col__link,
+  .uc-sort__trigger,
+  .uf-facets__badge {
+    transition:
+      transform 200ms cubic-bezier(0.22, 0.61, 0.36, 1),
+      box-shadow 220ms ease,
+      background-color 200ms ease,
+      color 160ms ease,
+      border-color 160ms ease;
+  }
+
+  .ohs-cat-card:hover,
+  .ohs-tile:hover {
+    transform: translate3d(0, -4px, 0);
+  }
+
+  .ohs-hs__btn:hover,
+  .ohs-btn:hover {
+    transform: translateY(-2px);
+  }
+
+  .uc-ft-nav-col__link:hover {
+    color: #2f7a4a;
+    transform: translateX(3px);
+  }
+}
+
+@keyframes ohs-fade-up {
+  from { opacity: 0; transform: translate3d(0, 18px, 0); }
+  to { opacity: 1; transform: none; }
+}
+
+.ohs-hs__copy {
+  animation: ohs-fade-up 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+.ohs-section__head,
+.category-showcase__header,
+.uc-sec-header {
+  animation: ohs-fade-up 0.55s cubic-bezier(0.22, 0.61, 0.36, 1) both;
 }
 
 /* Scroll reveal base (paired with uc-motion.js) — keep light; no will-change */

@@ -54,8 +54,6 @@ html body :is(
   .shopify-payment-button__button,
   .cart__checkout-button,
   .cart__update-button,
-  .pc-card__btn,
-  .pc-card__buy,
   .pph__atc,
   .pph__buy,
   .pph__pill:not(.pph__pill--color),
@@ -115,6 +113,7 @@ html body :is(
   .pph-lightbox__close,
   .pph-lightbox__nav,
   .pc-card__wish,
+  .pc-card__btn,
   .pf-card__wish,
   .uc-phdr__icon,
   .uc-phdr__icon-btn,
@@ -130,14 +129,18 @@ html body :is(
   .uc-ft-social__link,
   .uc-ft-social a,
   [class*='__round'],
-  [class*='-round']
+  [class*='-round'],
+  .ohs-btn,
+  .ohs-hs__btn,
+  .ohs-demo-card__btn,
+  .ohs-edu__cta
 ),
-html body [class*='__eyebrow']:not(.uc-ft-nl-eyebrow),
+html body [class*='__eyebrow']:not(.uc-ft-nl-eyebrow):not(.ohs-section__eyebrow):not(.ohs-hs__eyebrow):not(.ohs-hero__eyebrow),
 html body [class*='__pill']:not(.pph__pill--color),
-html body [class*='__btn']:not([class*='__btn-icon']):not([class*='__round']),
+html body [class*='__btn']:not([class*='__btn-icon']):not([class*='__round']):not(.ohs-btn):not(.ohs-hs__btn):not(.ohs-demo-card__btn):not(.pc-card__btn),
 html body [class*='__atc'],
 html body [class*='__buy']:not([class*='__buy-now-icon']),
-html body [class*='__cta']:not([class*='__cta-icon']),
+html body [class*='__cta']:not([class*='__cta-icon']):not(.ohs-edu__cta):not(.ohs-funnel-cta),
 html body [class*='__tag'],
 html body [class*='__chip'],
 html body .pc-badge--soldout,
@@ -153,6 +156,28 @@ html body .pvr-card button.pvr-card__mute-btn {
   border-radius: var(--uc-phdr-capsule-radius, 16px) !important;
 }
 
+/* Product card actions — soft 12px corners (reference design) */
+html body .pc-card .pc-card__btn,
+html body .pc-card button.pc-card__btn,
+html body .pc-card a.pc-card__btn,
+html body button.pc-card__btn.pc-card__btn--add,
+html body button.pc-card__btn.pc-card__btn--buy,
+html body button.pc-card__btn.pc-card__btn--soldout {
+  border-radius: 12px !important;
+}
+
+/* Toys Home CTAs keep true pill radius (beat :is(button) specificity) */
+html body button.ohs-btn,
+html body a.ohs-btn,
+html body button.ohs-hs__btn,
+html body a.ohs-hs__btn,
+html body button.ohs-demo-card__btn,
+html body a.ohs-demo-card__btn,
+html body button.ohs-edu__cta,
+html body a.ohs-edu__cta {
+  border-radius: 999px !important;
+}
+
 /* Search + contact pill fields (Dawn + UC) */
 html body.template-search .field__input,
 html body.template-search .search__input,
@@ -163,4 +188,9 @@ html body .uc-search-bar,
 html body .uc-search-bar__input,
 html body .uc-search-bar__btn {
   border-radius: var(--uc-phdr-capsule-radius, 16px) !important;
+}
+
+html body .ohs-okido__search-field,
+html body .ohs-okido__drawer-search {
+  border-radius: 999px !important;
 }

@@ -9,10 +9,13 @@
  <meta name="robots" content="noindex, nofollow">
  <script>window.location.replace({{ routes.root_url | json }});</script>
  {%- endif -%}
- <meta name="theme-color" content="#FFFDF8">
+ <meta name="theme-color" content="#2F7A4A">
  <meta name="referrer" content="strict-origin-when-cross-origin">
- <meta http-equiv="Permissions-Policy" content="picture-in-picture=()">
+ <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), picture-in-picture=()">
  <link rel="canonical" href="{{ canonical_url }}">
+ <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
  {%- if settings.favicon != blank -%}
  <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
@@ -25,24 +28,22 @@
  :root {
  --uc-phdr-offset: 72px;
  --uc-site-header-offset: 72px;
- --uc-color-bg: #fffdf8;
- --uc-color-text: #292d2b;
- --uc-color-text-body: #292d2b;
- --uc-color-primary: #ff806e;
- --uc-font-body: 'Nunito Sans', system-ui, -apple-system, sans-serif;
- --uc-font-heading: 'Fredoka', 'Nunito Sans', system-ui, sans-serif;
+ --uc-color-bg: #f7fbf8;
+ --uc-color-text: #1f2e24;
+ --uc-color-text-body: #1f2e24;
+ --uc-color-primary: #2f7a4a;
+ --uc-font-body: 'Poppins', system-ui, -apple-system, sans-serif;
+ --uc-font-heading: 'Poppins', system-ui, -apple-system, sans-serif;
  }
- html { background: #fffdf7; }
+ html { background: #f7fbf8; }
  body {
- background-color: #fffdf7;
- color: #292c35;
- font-family: 'Nunito Sans', system-ui, -apple-system, sans-serif;
+ background-color: #f7fbf8;
+ color: #1f2e24;
+ font-family: 'Poppins', system-ui, -apple-system, sans-serif;
  }
- @media (max-width: 749px) {
  :root {
- --uc-phdr-offset: 64px;
- --uc-site-header-offset: 64px;
- }
+ --uc-phdr-offset: 0px;
+ --uc-site-header-offset: 0px;
  }
  /* Hide unstyled flash of async modules until CSS arrives */
  .js .uc-fouc-guard { visibility: hidden; }
@@ -81,12 +82,12 @@
  </style>
  <script>document.documentElement.classList.add('css-ready');</script>
 
- {%- comment -%} Fredoka (display) + Nunito Sans (body) — playful premium baby toys {%- endcomment -%}
+ {%- comment -%} Toys Home type: Poppins only {%- endcomment -%}
  <link rel="preconnect" href="https://fonts.googleapis.com">
  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
  <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
- <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" media="print" onload="this.media='all'">
- <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"></noscript>
+ <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap">
+ <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"></noscript>
 
  <title>
  {{ page_title }}
@@ -241,22 +242,22 @@
  }
 
  :root {
- /* Online Homes Store — Fredoka + Nunito Sans */
- --font-body-family: 'Nunito Sans', system-ui, -apple-system, sans-serif;
+ /* Online Homes Store — Toys Home Poppins only */
+ --font-body-family: 'Poppins', system-ui, -apple-system, sans-serif;
  --font-body-style: normal;
  --font-body-weight: 400;
  --font-body-weight-bold: 600;
 
- --font-heading-family: 'Fredoka', 'Nunito Sans', system-ui, sans-serif;
+ --font-heading-family: 'Poppins', system-ui, -apple-system, sans-serif;
  --font-heading-style: normal;
  --font-heading-weight: 600;
 
- --uc-font-body: 'Nunito Sans', system-ui, -apple-system, sans-serif;
- --uc-font-heading: 'Fredoka', 'Nunito Sans', system-ui, sans-serif;
- --uc-font-ui: 'Nunito Sans', system-ui, -apple-system, sans-serif;
- --uc-font-btn: 'Nunito Sans', system-ui, -apple-system, sans-serif;
- --uc-font-nav: 'Nunito Sans', system-ui, -apple-system, sans-serif;
- --uc-font-product-title: 'Nunito Sans', system-ui, -apple-system, sans-serif;
+ --uc-font-body: 'Poppins', system-ui, -apple-system, sans-serif;
+ --uc-font-heading: 'Poppins', system-ui, -apple-system, sans-serif;
+ --uc-font-ui: 'Poppins', system-ui, -apple-system, sans-serif;
+ --uc-font-btn: 'Poppins', system-ui, -apple-system, sans-serif;
+ --uc-font-nav: 'Poppins', system-ui, -apple-system, sans-serif;
+ --uc-font-product-title: 'Poppins', system-ui, -apple-system, sans-serif;
  --uc-color-text: #292c35;
  --uc-color-text-body: #292c35;
  --uc-color-text-muted: #747780;
@@ -419,7 +420,7 @@
  {{ 'uc-site-unify.css' | asset_url | stylesheet_tag }}
  {{ 'uc-showcase.css' | asset_url | stylesheet_tag }}
  {{ 'uc-section-header.css' | asset_url | stylesheet_tag }}
- {{ 'uc-type-system.css' | asset_url | stylesheet_tag }}
+ {%- comment -%} uc-type-system disabled — ohs-theme.css is sole type authority {%- endcomment -%}
  <link rel="stylesheet" href="{{ 'uc-mobile-premium.css' | asset_url }}" media="(max-width: 989px)">
  <link rel="stylesheet" href="{{ 'uc-mobile-ux.css' | asset_url }}" media="(max-width: 989px)">
  {{ 'uc-perf-responsive.css' | asset_url | stylesheet_tag }}
@@ -491,7 +492,7 @@
  {{ 'uc-cart-page.css' | asset_url | stylesheet_tag }}
  {%- endif -%}
 
- {%- comment -%} Skip preloading unused Shopify theme fonts (Poppins is the live face) {%- endcomment -%}
+ {%- comment -%} Skip Dawn font preload — Poppins loads via Google Fonts {%- endcomment -%}
 
  {%- if localization.available_countries.size > 1 or localization.available_languages.size > 1 -%}
  {{ 'component-localization-form.css' | asset_url | stylesheet_tag: preload: true }}
@@ -513,7 +514,7 @@
  }
  </script>
  {%- comment -%} Early type lock — same file also loads last in body to beat section CSS {%- endcomment -%}
- {{ 'uc-type-lock.css' | asset_url | stylesheet_tag }}
+ {%- comment -%} uc-type-lock disabled {%- endcomment -%}
  </head>
 
  <body class="gradient template-{{ template.name | handle }}{% if template.suffix %} template-{{ template.name | handle }}-{{ template.suffix | handle }}{% endif %}{% if settings.animations_hover_elements != 'none' %} animate--hover-{{ settings.animations_hover_elements }}{% endif %}" data-uc-theme-build="2026.09.18.01">
@@ -600,16 +601,29 @@
  <script src="{{ 'uc-cart-page.js' | asset_url }}" defer="defer"></script>
  {%- endif -%}
 
+ {%- comment -%} Motion/Lenis: skip on cart/search for main-thread budget; honor reduced motion in JS {%- endcomment -%}
+ {%- unless template.name == 'cart' or template.name == 'search' -%}
  <script src="{{ 'uc-motion.js' | asset_url }}" defer="defer"></script>
+ {%- endunless -%}
+ {%- if template.name == 'index' -%}
  <script src="{{ 'uc-lenis.js' | asset_url }}" defer="defer"></script>
+ {%- endif -%}
  {%- comment -%} Late type lock LAST — sitewide typography authority {%- endcomment -%}
  {{ 'uc-scroll-lock.css' | asset_url | stylesheet_tag }}
  {%- if template.name == 'index' -%}
- {{ 'uc-home-polish-v2.css' | asset_url | stylesheet_tag }}
+ {%- comment -%} uc-home-polish-v2 disabled {%- endcomment -%}
  {%- endif -%}
- {{ 'uc-type-lock.css' | asset_url | stylesheet_tag }}
- {%- comment -%} Radius lock LAST — header capsule pill (16px) on all buttons/pills {%- endcomment -%}
+ {%- comment -%} uc-type-lock disabled {%- endcomment -%}
+ {%- comment -%} OHS Toys Home CSS — Poppins + spacing/color authority (sync, never print-deferred) {%- endcomment -%}
+ {{ 'ohs-theme.css' | asset_url | stylesheet_tag }}
+ {{ 'ohs-okido-header.css' | asset_url | stylesheet_tag }}
+{{ 'ohs-playful-home.css' | asset_url | stylesheet_tag }}
+{{ 'ohs-hero-slideshow.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'ohs-card-rail.js' | asset_url }}" defer="defer"></script>
+ {%- comment -%} Radius lock — header capsule pill (16px) on all buttons/pills {%- endcomment -%}
  {{ 'uc-radius-lock.css' | asset_url | stylesheet_tag }}
+ {%- comment -%} Product cards last so reference 12px actions + shadow win {%- endcomment -%}
+ {{ 'uc-product-card.css' | asset_url | stylesheet_tag }}
  {%- if template.name == 'cart' -%}
  {{ 'uc-cart-page.css' | asset_url | stylesheet_tag }}
  {%- endif -%}

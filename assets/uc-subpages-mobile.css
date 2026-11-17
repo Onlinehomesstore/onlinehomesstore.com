@@ -241,7 +241,8 @@
 
   .template-collection .pc-card__title,
   .template-search .pc-card__title {
-    font-size: clamp(0.8125rem, 3vw, 0.9rem) !important;
+    /* Dawn html rem ≈ 10px — use px so titles stay readable on phones */
+    font-size: 15.5px !important;
     line-height: 1.35 !important;
   }
 

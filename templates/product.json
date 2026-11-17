@@ -136,7 +136,7 @@
         "background_color": "",
         "heading_color": "",
         "heading_color_mobile": "",
-        "accent_color": "#C98770",
+        "accent_color": "#2F7A4A",
         "use_custom_section_styles": false,
         "use_global_colors": true
       }
@@ -158,7 +158,7 @@
         "card_radius": 18,
         "padding_top": 56,
         "padding_bottom": 56,
-        "accent_color": "#C98770",
+        "accent_color": "#2F7A4A",
         "background_color": ""
       }
     },

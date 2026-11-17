@@ -1,182 +1,219 @@
 {
   "sections": {
     "hero": {
-      "type": "ohs-playful-hero",
+      "type": "ohs-hero-slideshow",
       "settings": {
-        "eyebrow": "Online Homes Store",
-        "heading": "Little Toys. BIG Adventures!",
-        "text": "Discover colorful toys, thoughtful gifts and playful treasures for every little stage.",
-        "button_label": "SHOP ALL TOYS",
-        "button_link": "/collections/all",
-        "button_label_2": "EXPLORE LEARNING TOYS",
-        "button_link_2": "/collections/build-and-discover",
-        "background": "#F5F1E8"
-      }
+        "autoplay": true,
+        "autoplay_speed": 5,
+        "height_mobile": 460,
+        "height_desktop": 620,
+        "accessibility_label": "Homepage banners"
+      },
+      "blocks": {
+        "s1": {
+          "type": "slide",
+          "settings": {
+            "asset_file": "ohs-hero-1.jpg",
+            "eyebrow": "",
+            "heading": "Lights. Play. Atmosphere.",
+            "text": "Shop our curated trio: dancing cactus, water-pattern lights and rose diamond lamps",
+            "button_label": "Shop All Products",
+            "button_link": "/collections/all",
+            "button_label_2": "View Collection",
+            "button_link_2": "/collections/build-and-discover"
+          }
+        },
+        "s2": {
+          "type": "slide",
+          "settings": {
+            "asset_file": "ohs-edu-play.jpg",
+            "eyebrow": "",
+            "heading": "Ambient glow for every room",
+            "text": "Multicolor USB lights and crystal-inspired lamps, ready to ship",
+            "button_label": "Shop Best Sellers",
+            "button_link": "/collections/build-and-discover",
+            "button_label_2": "",
+            "button_link_2": ""
+          }
+        },
+        "s3": {
+          "type": "slide",
+          "settings": {
+            "asset_file": "ohs-hero-2.jpg",
+            "eyebrow": "",
+            "heading": "Find the perfect little gift",
+            "text": "Interactive toys and ambient lighting with checkout in minutes",
+            "button_label": "Start Shopping",
+            "button_link": "/collections/all",
+            "button_label_2": "",
+            "button_link_2": ""
+          }
+        }
+      },
+      "block_order": ["s1", "s2", "s3"]
     },
     "categories": {
       "type": "ohs-shop-by-category",
       "settings": {
-        "eyebrow": "SHOP BY CATEGORY",
-        "heading": "Find Their Next Favorite!",
-        "description": "From first discoveries to big little adventures, explore something for every kind of play.",
-        "background": "#FFFDF7"
+        "eyebrow": "SHOP BY STYLE",
+        "heading": "Find your next favorite",
+        "description": "Explore interactive toys and ambient lighting",
+        "background": "#F7FBF8"
       },
       "blocks": {
-        "c1": { "type": "category", "settings": { "title": "Baby Toys", "description": "Soft starts for tiny explorers.", "tone": "powder", "asset_file": "ohs-cat-baby.jpg", "collection": "build-and-discover" } },
-        "c2": { "type": "category", "settings": { "title": "Wooden Toys", "description": "Natural, lasting play.", "tone": "butter", "asset_file": "ohs-cat-wooden.jpg", "collection": "build-and-discover" } },
-        "c3": { "type": "category", "settings": { "title": "Soft & Plush Toys", "description": "Cuddle-ready companions.", "tone": "lavender", "asset_file": "ohs-cat-plush.jpg", "collection": "stories-in-motion" } },
-        "c4": { "type": "category", "settings": { "title": "Educational Toys", "description": "Curiosity through play.", "tone": "mint", "asset_file": "ohs-cat-educational.jpg", "collection": "build-and-discover" } },
-        "c5": { "type": "category", "settings": { "title": "Sensory Toys", "description": "Touch, sound and discovery.", "tone": "peach", "asset_file": "ohs-cat-sensory.jpg", "collection": "stories-in-motion" } },
-        "c6": { "type": "category", "settings": { "title": "Musical Toys", "description": "Rhythm for little ears.", "tone": "coral", "asset_file": "ohs-cat-musical.jpg", "collection": "stories-in-motion" } },
-        "c7": { "type": "category", "settings": { "title": "Building Blocks", "description": "Stack, build and imagine.", "tone": "mint", "asset_file": "ohs-cat-blocks.jpg", "collection": "build-and-discover" } },
-        "c8": { "type": "category", "settings": { "title": "Activity Toys", "description": "Busy hands, big smiles.", "tone": "powder", "asset_file": "ohs-cat-gyms.jpg", "collection": "build-and-discover" } }
+        "c1": {
+          "type": "category",
+          "settings": {
+            "title": "Interactive Toys",
+            "description": "Fun that moves and sings",
+            "tone": "powder",
+            "asset_file": "ohs-new-dancing-cactus-01.jpg",
+            "link": "/products/dancing-cactus",
+            "collection": ""
+          }
+        },
+        "c2": {
+          "type": "category",
+          "settings": {
+            "title": "Ambient Lights",
+            "description": "Mood lighting for any room",
+            "tone": "sage",
+            "asset_file": "ohs-new-usb-water-light-06.jpg",
+            "collection": "stories-in-motion"
+          }
+        },
+        "c3": {
+          "type": "category",
+          "settings": {
+            "title": "Table Lamps",
+            "description": "Crystal glow accents",
+            "tone": "lavender",
+            "asset_file": "ohs-new-rose-diamond-lamp-01.jpg",
+            "link": "/products/rose-diamond-table-lamp",
+            "collection": ""
+          }
+        },
+        "c4": {
+          "type": "category",
+          "settings": {
+            "title": "USB Lights",
+            "description": "Plug in and transform",
+            "tone": "mint",
+            "asset_file": "ohs-new-usb-water-light-01.jpg",
+            "link": "/products/usb-dynamic-water-pattern-light",
+            "collection": ""
+          }
+        },
+        "c5": {
+          "type": "category",
+          "settings": {
+            "title": "Gifts",
+            "description": "Ready to wow",
+            "tone": "peach",
+            "asset_file": "ohs-new-dancing-cactus-05.jpg",
+            "collection": "build-and-discover"
+          }
+        },
+        "c6": {
+          "type": "category",
+          "settings": {
+            "title": "Shop All",
+            "description": "See every product",
+            "tone": "butter",
+            "asset_file": "ohs-new-rose-diamond-lamp-02.jpg",
+            "collection": "frontpage"
+          }
+        }
       },
-      "block_order": ["c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8"]
+      "block_order": ["c1", "c2", "c3", "c4", "c5", "c6"]
     },
     "bestsellers": {
       "type": "ohs-demo-product-grid",
       "settings": {
         "eyebrow": "BEST SELLERS",
-        "heading": "Little Favorites. Big Smiles!",
-        "description": "Discover some of our most-loved playtime picks.",
+        "heading": "Our complete collection",
+        "description": "Three standout products, add to cart in one tap",
         "collection": "build-and-discover",
-        "products_to_show": 8,
-        "columns_desktop": 4,
-        "view_all_label": "View all",
-        "view_all_link": "/collections/build-and-discover",
-        "background": "#FFFDF7"
+        "products_to_show": 4,
+        "columns_desktop": 3,
+        "view_all_label": "View all products",
+        "view_all_link": "/collections/all",
+        "background": "#F7FBF8"
       }
     },
     "ages": {
       "type": "ohs-shop-by-age",
       "settings": {
-        "eyebrow": "SHOP BY AGE",
-        "heading": "Little Stages. Big Discoveries.",
-        "description": "Browse toys suited to every early chapter of growing up.",
-        "background": "#F5F1E8"
+        "eyebrow": "SHOP BY ROOM",
+        "heading": "Made for every space",
+        "description": "Browse lighting and play for home moments",
+        "background": "#EEF6F0"
       },
       "blocks": {
-        "a1": { "type": "age", "settings": { "label": "Age", "title": "0–6 Months", "tone": "powder", "asset_file": "ohs-age-0-6.jpg", "collection": "build-and-discover" } },
-        "a2": { "type": "age", "settings": { "label": "Age", "title": "6–12 Months", "tone": "peach", "asset_file": "ohs-age-6-12.jpg", "collection": "build-and-discover" } },
-        "a3": { "type": "age", "settings": { "label": "Age", "title": "1–2 Years", "tone": "mint", "asset_file": "ohs-age-1-2.jpg", "collection": "build-and-discover" } },
-        "a4": { "type": "age", "settings": { "label": "Age", "title": "2–3 Years", "tone": "butter", "asset_file": "ohs-age-2-3.jpg", "collection": "build-and-discover" } },
-        "a5": { "type": "age", "settings": { "label": "Age", "title": "3–5 Years", "tone": "lavender", "asset_file": "ohs-age-3-5.jpg", "collection": "stories-in-motion" } },
-        "a6": { "type": "age", "settings": { "label": "Age", "title": "5+ Years", "tone": "coral", "asset_file": "ohs-age-5.jpg", "collection": "stories-in-motion" } }
+        "a1": { "type": "age", "settings": { "label": "Room", "title": "Bedroom", "description": "Soft ambient glow", "tone": "powder", "asset_file": "ohs-new-rose-diamond-lamp-07.jpg", "collection": "stories-in-motion" } },
+        "a2": { "type": "age", "settings": { "label": "Room", "title": "Desk", "description": "USB-powered focus", "tone": "peach", "asset_file": "ohs-new-usb-water-light-04.jpg", "collection": "stories-in-motion" } },
+        "a3": { "type": "age", "settings": { "label": "Room", "title": "Living room", "description": "Statement lighting", "tone": "mint", "asset_file": "ohs-new-rose-diamond-lamp-04.jpg", "collection": "build-and-discover" } },
+        "a4": { "type": "age", "settings": { "label": "Room", "title": "Kids space", "description": "Interactive fun", "tone": "sage", "asset_file": "ohs-new-dancing-cactus-04.jpg", "collection": "build-and-discover" } },
+        "a5": { "type": "age", "settings": { "label": "Room", "title": "Gifting", "description": "Ready to wrap", "tone": "lavender", "asset_file": "ohs-new-dancing-cactus-05.jpg", "collection": "frontpage" } },
+        "a6": { "type": "age", "settings": { "label": "Room", "title": "All products", "description": "Full catalog", "tone": "butter", "asset_file": "ohs-new-usb-water-light-02.jpg", "collection": "frontpage" } }
       },
       "block_order": ["a1", "a2", "a3", "a4", "a5", "a6"]
-    },
-    "learn": {
-      "type": "ohs-educational-play",
-      "settings": {
-        "eyebrow": "PLAY AND LEARN",
-        "heading": "Learning Looks a Lot Like Play!",
-        "body": "<p>Explore puzzles, building blocks and playful activities that invite little minds to discover something new.</p>",
-        "image_position": "left",
-        "button_label": "Explore Learning Toys",
-        "button_link": "/collections/build-and-discover",
-        "background": "#E8F8F0"
-      }
     },
     "featured": {
       "type": "ohs-featured-collections",
       "settings": {
-        "eyebrow": "FEATURED WORLDS",
-        "heading": "Explore Our Little Worlds",
-        "description": "Editorial collections curated for different kinds of play.",
-        "background": "#FFFDF7"
+        "eyebrow": "CURATED COLLECTIONS",
+        "heading": "Explore the range",
+        "description": "Quick paths to our three products",
+        "background": "#F7FBF8"
       },
       "blocks": {
-        "f1": { "type": "collection_card", "settings": { "title": "Tiny Explorers", "description": "First discoveries and gentle play.", "tone": "powder", "asset_file": "ohs-feat-explorers.jpg", "collection": "build-and-discover" } },
-        "f2": { "type": "collection_card", "settings": { "title": "Wooden Wonders", "description": "Natural toys with lasting charm.", "tone": "butter", "asset_file": "ohs-feat-wooden.jpg", "collection": "build-and-discover" } },
-        "f3": { "type": "collection_card", "settings": { "title": "Cuddle Buddies", "description": "Soft friends for quiet moments.", "tone": "lavender", "asset_file": "ohs-feat-soft.jpg", "collection": "stories-in-motion" } },
-        "f4": { "type": "collection_card", "settings": { "title": "Sensory Adventures", "description": "Textures, sounds and wonder.", "tone": "peach", "asset_file": "ohs-feat-first.jpg", "collection": "stories-in-motion" } },
-        "f5": { "type": "collection_card", "settings": { "title": "Little Learners", "description": "Playful tools for curious minds.", "tone": "mint", "asset_file": "ohs-feat-learning.jpg", "collection": "build-and-discover" } }
+        "f1": { "type": "collection_card", "settings": { "title": "Shop Collection", "description": "All featured picks", "tone": "powder", "asset_file": "ohs-new-dancing-cactus-02.jpg", "collection": "build-and-discover" } },
+        "f2": { "type": "collection_card", "settings": { "title": "Ambient Lighting", "description": "Lamps and USB lights", "tone": "sage", "asset_file": "ohs-new-usb-water-light-08.jpg", "collection": "stories-in-motion" } },
+        "f3": { "type": "collection_card", "settings": { "title": "Home page picks", "description": "Featured on home", "tone": "lavender", "asset_file": "ohs-new-rose-diamond-lamp-03.jpg", "collection": "frontpage" } },
+        "f4": { "type": "collection_card", "settings": { "title": "Shop all", "description": "Every product", "tone": "mint", "asset_file": "ohs-new-rose-diamond-lamp-05.jpg", "collection": "frontpage" } }
       },
-      "block_order": ["f1", "f2", "f3", "f4", "f5"]
+      "block_order": ["f1", "f2", "f3", "f4"]
     },
-    "gifts": {
-      "type": "ohs-gift-shopping",
+    "funnel_cta": {
+      "type": "ohs-funnel-cta",
       "settings": {
-        "eyebrow": "GIFT SHOP",
-        "heading": "Little Gifts. Lovely Memories.",
-        "description": "Thoughtful gift ideas for every sweet occasion.",
-        "background": "#FFF1E8"
-      },
-      "blocks": {
-        "g1": { "type": "gift", "settings": { "title": "Newborn Gifts", "description": "Gentle firsts for tiny newcomers.", "tone": "peach", "asset_file": "ohs-gift-newborn.jpg", "collection": "stories-in-motion" } },
-        "g2": { "type": "gift", "settings": { "title": "Baby Shower Gifts", "description": "Celebrate with playful picks.", "tone": "lavender", "asset_file": "ohs-gift-shower.jpg", "collection": "stories-in-motion" } },
-        "g3": { "type": "gift", "settings": { "title": "Birthday Gifts", "description": "Big-day joy for little stars.", "tone": "butter", "asset_file": "ohs-gift-birthday.jpg", "collection": "build-and-discover" } },
-        "g4": { "type": "gift", "settings": { "title": "Toddler Gifts", "description": "Curious finds for busy explorers.", "tone": "mint", "asset_file": "ohs-gift-everyday.jpg", "collection": "build-and-discover" } }
-      },
-      "block_order": ["g1", "g2", "g3", "g4"]
-    },
-    "new": {
-      "type": "ohs-demo-product-grid",
-      "settings": {
-        "eyebrow": "NEW ARRIVALS",
-        "heading": "Fresh Fun Has Arrived!",
-        "description": "The newest playful finds ready to explore.",
-        "collection": "stories-in-motion",
-        "products_to_show": 8,
-        "columns_desktop": 4,
-        "view_all_label": "View all new arrivals",
-        "view_all_link": "/collections/stories-in-motion",
-        "background": "#FFFDF7"
+        "eyebrow": "READY TO SHOP",
+        "heading": "Find your next favorite today",
+        "text": "Shop the dancing cactus, USB water light and rose diamond lamp with easy checkout powered by Shopify",
+        "button_label": "Shop Collection",
+        "button_link": "/collections/build-and-discover",
+        "button_label_2": "Shop All",
+        "button_link_2": "/collections/all",
+        "background": "#E2F0E6"
       }
     },
     "trust": {
       "type": "ohs-trust-features",
       "settings": {
         "eyebrow": "WHY SHOP WITH US",
-        "heading": "Why Parents Choose Us",
-        "subheading": "Clear benefits for a smoother shopping experience.",
+        "heading": "Why customers choose us",
+        "subheading": "Simple shopping with clear support",
         "columns": 4,
-        "card_gap": 20,
-        "card_radius": 20,
-        "padding_top": 48,
-        "padding_bottom": 48,
-        "accent_color": "#FF806E",
-        "icon_color": "#FF806E",
-        "icon_bg": "#FFE8E4",
+        "card_gap": 16,
+        "card_radius": 16,
+        "padding_top": 40,
+        "padding_bottom": 40,
+        "accent_color": "#2F7A4A",
+        "icon_color": "#2F7A4A",
+        "icon_bg": "#E6F4EC",
         "card_bg": "#FFFFFF",
-        "title_color": "#292C35",
-        "desc_color": "#747780",
-        "background": "#F5F1E8"
+        "title_color": "#1F2E24",
+        "desc_color": "#5F7266",
+        "background": "#EEF6F0"
       },
       "blocks": {
-        "t1": { "type": "feature", "settings": { "icon": "sparkles", "title": "Thoughtfully Selected Products", "description": "Curated toys chosen for everyday play and gifting." } },
-        "t2": { "type": "feature", "settings": { "icon": "cart", "title": "Easy Shopping", "description": "Clear categories and a smooth path to checkout." } },
-        "t3": { "type": "feature", "settings": { "icon": "lock", "title": "Secure Checkout", "description": "Shop confidently with Shopify checkout." } },
-        "t4": { "type": "feature", "settings": { "icon": "support", "title": "Helpful Customer Support", "description": "We're here for products, orders and gift ideas." } }
+        "t1": { "type": "feature", "settings": { "icon": "sparkles", "title": "Thoughtfully Selected", "description": "Curated products for everyday joy" } },
+        "t2": { "type": "feature", "settings": { "icon": "cart", "title": "Easy Shopping", "description": "Clear catalog to checkout" } },
+        "t3": { "type": "feature", "settings": { "icon": "lock", "title": "Secure Checkout", "description": "Powered by Shopify" } },
+        "t4": { "type": "feature", "settings": { "icon": "support", "title": "Helpful Support", "description": "Here for orders and gifts" } }
       },
       "block_order": ["t1", "t2", "t3", "t4"]
-    },
-    "story": {
-      "type": "ohs-brand-story",
-      "settings": {
-        "eyebrow": "OUR STORY",
-        "heading": "A Little Play Goes a Long Way.",
-        "body": "<p>Online Homes Store is a cheerful home for thoughtfully chosen baby toys, playful gifts and everyday discoveries that help little ones explore the world with joy.</p>",
-        "button_label": "About Us",
-        "button_link": "/pages/about-us",
-        "background": "#FFFDF7"
-      },
-      "blocks": {
-        "s1": { "type": "point", "settings": { "text": "Playful finds for every growing stage." } },
-        "s2": { "type": "point", "settings": { "text": "Simple shopping made for busy parents." } },
-        "s3": { "type": "point", "settings": { "text": "Secure checkout with helpful support." } }
-      },
-      "block_order": ["s1", "s2", "s3"]
-    },
-    "newsletter": {
-      "type": "newsletter",
-      "blocks": {
-        "heading": { "type": "heading", "settings": { "heading": "Join the Happy Little Club!", "heading_size": "h1" } },
-        "paragraph": { "type": "paragraph", "settings": { "text": "<p>Discover playful inspiration, lovely gift ideas and new arrivals.</p>" } },
-        "email_form": { "type": "email_form", "settings": {} }
-      },
-      "block_order": ["heading", "paragraph", "email_form"],
-      "settings": { "color_scheme": "scheme-1", "full_width": true, "padding_top": 56, "padding_bottom": 72 }
     }
   },
   "order": [
@@ -184,12 +221,8 @@
     "categories",
     "bestsellers",
     "ages",
-    "learn",
     "featured",
-    "gifts",
-    "new",
-    "trust",
-    "story",
-    "newsletter"
+    "funnel_cta",
+    "trust"
   ]
 }

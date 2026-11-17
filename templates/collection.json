@@ -1,21 +1,10 @@
 {
   "sections": {
-    "hero": {
-      "type": "uc-page-intro",
-      "settings": {
-        "use_global_colors": true,
-        "eyebrow": "SHOP",
-        "heading": "",
-        "tagline": "",
-        "padding_top": 8,
-        "padding_bottom": 8
-      }
-    },
     "banner": {
       "type": "main-collection-banner",
       "settings": {
         "show_collection_description": true,
-        "show_collection_image": true,
+        "show_collection_image": false,
         "color_scheme": "scheme-1"
       }
     },
@@ -48,7 +37,6 @@
     }
   },
   "order": [
-    "hero",
     "banner",
     "product-grid",
     "seo"

@@ -2,6 +2,8 @@
   Shop by age — baby toys age-group tiles.
 {%- endcomment -%}
 {{ 'ohs-brand-override.css' | asset_url | stylesheet_tag }}
+{{ 'ohs-theme.css' | asset_url | stylesheet_tag }}
+{{ 'ohs-playful-home.css' | asset_url | stylesheet_tag }}
 
 {%- liquid
   assign s = section.settings
@@ -15,7 +17,9 @@
       {%- if s.description != blank -%}<p class="ohs-section__desc">{{ s.description | escape }}</p>{%- endif -%}
     </header>
 
-    <div class="ohs-grid ohs-grid--ages">
+    <div class="ohs-card-rail" data-ohs-card-rail id="OhsAgeRail-{{ section.id }}">
+      <div class="ohs-card-rail__viewport" data-ohs-rail-viewport>
+        <div class="ohs-card-rail__track" data-ohs-rail-track>
       {%- for block in section.blocks -%}
         {%- liquid
           assign b = block.settings
@@ -61,9 +65,22 @@
           <div class="ohs-tile__body">
             {%- if b.label != blank -%}<p class="ohs-tile__label">{{ b.label | escape }}</p>{%- endif -%}
             <h3 class="ohs-tile__title">{{ b.title | escape }}</h3>
+            {%- if b.description != blank -%}<p class="ohs-tile__desc">{{ b.description | escape }}</p>{%- endif -%}
           </div>
         </a>
       {%- endfor -%}
+        </div>
+      </div>
+      {%- if section.blocks.size > 2 -%}
+        <div class="ohs-card-rail__nav">
+          <button type="button" class="ohs-card-rail__arrow" data-ohs-rail-prev aria-label="Previous rooms">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button type="button" class="ohs-card-rail__arrow" data-ohs-rail-next aria-label="Next rooms">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+      {%- endif -%}
     </div>
   </div>
 </section>
@@ -87,6 +104,7 @@
       "settings": [
         { "type": "text", "id": "label", "label": "Label", "default": "Age" },
         { "type": "text", "id": "title", "label": "Title", "default": "0–6 Months" },
+        { "type": "text", "id": "description", "label": "Caption", "default": "Soft first play." },
         { "type": "collection", "id": "collection", "label": "Collection" },
         { "type": "url", "id": "link", "label": "Custom link" },
         { "type": "image_picker", "id": "image", "label": "Image" },

@@ -5,14 +5,14 @@
     "ohs_announcement": {
       "type": "ohs-announcement-bar",
       "settings": {
-        "background": "#FFD95A",
-        "text_color": "#292C35"
+        "background": "#C8E6C9",
+        "text_color": "#1F2E24"
       },
       "blocks": {
         "a1": {
           "type": "announcement",
           "settings": {
-            "text": "Little toys. Big adventures. Discover something special!"
+            "text": "Ambient lighting and playful gifts, curated for your home"
           }
         }
       },

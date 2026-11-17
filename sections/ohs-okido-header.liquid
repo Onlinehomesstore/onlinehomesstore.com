@@ -2,6 +2,7 @@
   OHS playful header: announcement-ready top utility + shopping nav.
 {%- endcomment -%}
 {{ 'ohs-brand-override.css' | asset_url | stylesheet_tag }}
+{{ 'ohs-theme.css' | asset_url | stylesheet_tag }}
 {{ 'ohs-okido-header.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'ohs-okido-header.js' | asset_url }}" defer="defer"></script>
 
@@ -29,33 +30,34 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"/></svg>
       </button>
 
-      <form class="ohs-okido__search ohs-okido__search-form" action="{{ routes.search_url }}" method="get" role="search">
+      <form class="ohs-okido__search-form" action="{{ routes.search_url }}" method="get" role="search">
         <input type="hidden" name="type" value="product">
         <input type="hidden" name="options[prefix]" value="last">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5" stroke-linecap="round"/></svg>
-        <label class="ohs-okido__sr-only" for="OhsOkidoSearch-{{ section.id }}">{{ search_placeholder | escape }}</label>
-        <input
-          id="OhsOkidoSearch-{{ section.id }}"
-          class="ohs-okido__search-input"
-          type="search"
-          name="q"
-          placeholder="{{ search_placeholder | escape }}"
-          autocomplete="off"
-        >
+        <div class="ohs-okido__search-field">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5" stroke-linecap="round"/></svg>
+          <label class="ohs-okido__sr-only" for="OhsOkidoSearch-{{ section.id }}">{{ search_placeholder | escape }}</label>
+          <input
+            id="OhsOkidoSearch-{{ section.id }}"
+            class="ohs-okido__search-input"
+            type="search"
+            name="q"
+            placeholder="{{ search_placeholder | escape }}"
+            autocomplete="off"
+          >
+        </div>
       </form>
 
       <a class="ohs-okido__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
         {%- if st.logo != blank -%}
           {{ st.logo | image_url: width: 420 | image_tag: class: 'ohs-okido__logo-img', widths: '160,240,320,420', loading: 'eager', alt: shop.name }}
         {%- else -%}
-          <img
-            class="ohs-okido__logo-img ohs-okido__logo-img--brand"
-            src="{{ 'ohs-logo-primary.svg' | asset_url }}"
-            alt="Online Homes Store"
-            width="260"
-            height="36"
-            loading="eager"
-          >
+          <span class="ohs-okido__brandmark" aria-hidden="true">
+            <svg class="ohs-okido__brand-star" viewBox="0 0 32 32" width="22" height="22" focusable="false">
+              <path fill="#0D9488" d="M16 2l3.4 9.8H30l-8.5 6.2 3.2 9.8L16 22.6 7.3 27.8l3.2-9.8L2 11.8h10.6z"/>
+              <path fill="#5EEAD4" d="M16 9l1.5 4.3H22l-3.7 2.7 1.4 4.3L16 17.6l-3.7 2.7 1.4-4.3-3.7-2.7h4.5z"/>
+            </svg>
+          </span>
+          <span class="ohs-okido__brand-text">Online Homes Store</span>
         {%- endif -%}
       </a>
 
@@ -110,11 +112,11 @@
       {%- else -%}
         <li class="ohs-okido__nav-item"><a class="ohs-okido__nav-link" href="{{ routes.root_url }}">Home</a></li>
         <li class="ohs-okido__nav-item"><a class="ohs-okido__nav-link" href="/collections/all">Shop All</a></li>
-        <li class="ohs-okido__nav-item"><a class="ohs-okido__nav-link" href="/collections/build-and-discover">Baby Toys</a></li>
-        <li class="ohs-okido__nav-item"><a class="ohs-okido__nav-link" href="/collections/build-and-discover">Educational Toys</a></li>
-        <li class="ohs-okido__nav-item"><a class="ohs-okido__nav-link" href="/collections/build-and-discover">Wooden Toys</a></li>
-        <li class="ohs-okido__nav-item"><a class="ohs-okido__nav-link" href="/collections/stories-in-motion">Soft Toys</a></li>
-        <li class="ohs-okido__nav-item"><a class="ohs-okido__nav-link" href="/collections/stories-in-motion">Sensory Toys</a></li>
+        <li class="ohs-okido__nav-item"><a class="ohs-okido__nav-link" href="/collections/build-and-discover">Shop Collection</a></li>
+        <li class="ohs-okido__nav-item"><a class="ohs-okido__nav-link" href="/collections/stories-in-motion">Ambient Lighting</a></li>
+        <li class="ohs-okido__nav-item"><a class="ohs-okido__nav-link" href="/products/dancing-cactus">Dancing Cactus</a></li>
+        <li class="ohs-okido__nav-item"><a class="ohs-okido__nav-link" href="/products/usb-dynamic-water-pattern-light">Water Light</a></li>
+        <li class="ohs-okido__nav-item"><a class="ohs-okido__nav-link" href="/products/rose-diamond-table-lamp">Rose Lamp</a></li>
         <li class="ohs-okido__nav-item"><a class="ohs-okido__nav-link" href="/collections/all">Gifts</a></li>
       {%- endunless -%}
     </ul>
@@ -155,11 +157,11 @@
         {%- else -%}
           <li><a href="{{ routes.root_url }}">Home</a></li>
           <li><a href="/collections/all">Shop All</a></li>
-          <li><a href="/collections/build-and-discover">Baby Toys</a></li>
-          <li><a href="/collections/build-and-discover">Educational Toys</a></li>
-          <li><a href="/collections/build-and-discover">Wooden Toys</a></li>
-          <li><a href="/collections/stories-in-motion">Soft Toys</a></li>
-          <li><a href="/collections/stories-in-motion">Sensory Toys</a></li>
+          <li><a href="/collections/build-and-discover">Shop Collection</a></li>
+          <li><a href="/collections/stories-in-motion">Ambient Lighting</a></li>
+          <li><a href="/products/dancing-cactus">Dancing Cactus</a></li>
+          <li><a href="/products/usb-dynamic-water-pattern-light">Water Light</a></li>
+          <li><a href="/products/rose-diamond-table-lamp">Rose Lamp</a></li>
           <li><a href="/collections/all">Gifts</a></li>
         {%- endunless -%}
       </ul>

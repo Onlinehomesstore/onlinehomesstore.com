@@ -1,0 +1,283 @@
+/* =============================================================================
+   OHS TYPE LOCK — final authority after uc-type-lock.css
+   Headings: Fredoka · Body/UI: Nunito Sans
+   Section hierarchy + homepage rhythm
+   ============================================================================= */
+
+:root {
+  --ohs-font-display: 'Fredoka', 'Nunito Sans', system-ui, sans-serif;
+  --ohs-font-body: 'Nunito Sans', system-ui, -apple-system, sans-serif;
+  --ohs-charcoal: #292c35;
+  --ohs-text-secondary: #747780;
+  --ohs-butter: #c8e6c9;
+  --ohs-coral: #2f7a4a;
+  --ohs-cream: #f5f1e8;
+  --ohs-warm-white: #fffdf7;
+  --ohs-border: #eae7df;
+
+  --uc-font-heading: var(--ohs-font-display) !important;
+  --uc-font-body: var(--ohs-font-body) !important;
+  --uc-font-ui: var(--ohs-font-body) !important;
+  --uc-font-nav: var(--ohs-font-body) !important;
+  --uc-font-btn: var(--ohs-font-body) !important;
+  --uc-font-product-title: var(--ohs-font-body) !important;
+  --font-heading-family: var(--ohs-font-display) !important;
+  --font-body-family: var(--ohs-font-body) !important;
+  --heading-font: var(--ohs-font-display) !important;
+
+  /* Clear type scale */
+  --ohs-h1: clamp(2.15rem, 4.6vw, 3.4rem);
+  --ohs-h2: clamp(1.7rem, 3vw, 2.35rem);
+  --ohs-h3: clamp(1.05rem, 1.6vw, 1.25rem);
+  --ohs-body: 1.05rem;
+  --ohs-eyebrow: 0.72rem;
+  --ohs-section-y: clamp(2.75rem, 5.5vw, 4.75rem);
+}
+
+html body {
+  color: var(--ohs-charcoal) !important;
+  font-family: var(--ohs-font-body) !important;
+  background-color: var(--ohs-warm-white) !important;
+  --uc-font-heading: var(--ohs-font-display) !important;
+  --uc-font-body: var(--ohs-font-body) !important;
+  --uc-font-ui: var(--ohs-font-body) !important;
+  --font-heading-family: var(--ohs-font-display) !important;
+  --font-body-family: var(--ohs-font-body) !important;
+  --heading-font: var(--ohs-font-display) !important;
+  --uc-ink: var(--ohs-charcoal) !important;
+}
+
+/* Display headings */
+html body h1,
+html body h2,
+html body h3,
+html body h4,
+html body h5,
+html body h6,
+html body .h0,
+html body .h1,
+html body .h2,
+html body .h3,
+html body .ohs-hero__title,
+html body .ohs-section__heading,
+html body .ohs-tile__title,
+html body .ohs-cat-card__title,
+html body .ohs-demo-card__title,
+html body .ohs-story__panel .ohs-section__heading,
+html body .newsletter__heading,
+html body .uc-ft-nl-heading,
+html body .ueh__heading,
+html body .uc-sec__heading,
+html body .title,
+html body .card__heading,
+html body .collection-hero__title,
+html body .main-page-title {
+  font-family: var(--ohs-font-display) !important;
+  color: var(--ohs-charcoal) !important;
+  letter-spacing: -0.02em !important;
+}
+
+html body h1,
+html body .h1,
+html body .ohs-hero__title {
+  font-size: var(--ohs-h1) !important;
+  font-weight: 650 !important;
+  line-height: 1.08 !important;
+}
+
+html body h2,
+html body .h2,
+html body .ohs-section__heading,
+html body .newsletter__heading,
+html body .uc-ft-nl-heading {
+  font-size: var(--ohs-h2) !important;
+  font-weight: 600 !important;
+  line-height: 1.15 !important;
+}
+
+html body h3,
+html body .h3,
+html body .ohs-tile__title,
+html body .ohs-cat-card__title,
+html body .ohs-demo-card__title,
+html body .card__heading {
+  font-size: var(--ohs-h3) !important;
+  font-weight: 600 !important;
+  line-height: 1.3 !important;
+}
+
+/* Body / UI */
+html body,
+html body p,
+html body .ohs-section__desc,
+html body .ohs-hero__text,
+html body .ohs-tile__desc,
+html body .ohs-cat-card__desc,
+html body .ohs-demo-card__price,
+html body .rte,
+html body .button,
+html body .ohs-btn,
+html body .ohs-demo-card__btn,
+html body input,
+html body textarea,
+html body select {
+  font-family: var(--ohs-font-body) !important;
+}
+
+html body .ohs-section__desc,
+html body .ohs-hero__text,
+html body .ohs-tile__desc,
+html body .ohs-cat-card__desc {
+  color: var(--ohs-text-secondary) !important;
+  font-size: var(--ohs-body) !important;
+  line-height: 1.65 !important;
+  font-weight: 500 !important;
+}
+
+html body .ohs-section__eyebrow,
+html body .ohs-hero__eyebrow {
+  font-family: var(--ohs-font-body) !important;
+  font-size: var(--ohs-eyebrow) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+}
+
+html body .ohs-btn,
+html body .ohs-demo-card__btn,
+html body .ohs-edu__cta,
+html body .button--primary {
+  font-family: var(--ohs-font-body) !important;
+  font-weight: 700 !important;
+}
+
+html body .ohs-okido,
+html body .ohs-okido__nav-link,
+html body .ohs-okido__search-input,
+html body .ohs-okido__drawer-title {
+  font-family: var(--ohs-font-body) !important;
+}
+
+/* ── Section hierarchy / rhythm ──────────────────────────────────────────── */
+html body .ohs-section {
+  padding-block: var(--ohs-section-y) !important;
+}
+
+html body .ohs-section__head {
+  margin-bottom: clamp(1.35rem, 2.5vw, 2rem) !important;
+  max-width: min(720px, 100%) !important;
+}
+html body .ohs-demo-grid__head.ohs-section__head {
+  max-width: none !important;
+}
+
+html body .ohs-section__head--center {
+  margin-inline: auto !important;
+  text-align: center !important;
+}
+
+html body .ohs-section__eyebrow {
+  margin: 0 0 0.65rem !important;
+}
+
+html body .ohs-section__heading {
+  margin: 0 !important;
+}
+
+html body .ohs-section__desc {
+  margin: 0.7rem 0 0 !important;
+  max-width: min(58ch, 100%) !important;
+}
+
+html body .ohs-section__head--center .ohs-section__desc {
+  margin-inline: auto !important;
+}
+
+/* Alternating section surfaces for clearer hierarchy */
+html body #MainContent .ohs-shop-by-category,
+html body #MainContent .ohs-demo-product-grid:nth-of-type(odd),
+html body #MainContent .ohs-featured-collections,
+html body #MainContent .ohs-brand-story {
+  background: var(--ohs-warm-white);
+}
+
+html body #MainContent .ohs-shop-by-age,
+html body #MainContent .ohs-trust-features {
+  background: var(--ohs-cream);
+}
+
+/* Kill old floating-header offset (Okido header is in-flow / sticky, not overlay) */
+html body {
+  --uc-phdr-offset: 0px !important;
+  --uc-site-header-offset: 0px !important;
+  --uc-phdr-float-y: 0px !important;
+}
+
+html body #MainContent {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+html body.template-index #MainContent > .shopify-section:first-of-type,
+html body.template-index #MainContent > .shopify-section.ohs-playful-hero-section {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+html body.template-index .ohs-hero {
+  margin-top: 0 !important;
+}
+
+html body.template-index .ohs-hero__inner {
+  padding-top: clamp(1.75rem, 4vw, 3rem) !important;
+  padding-bottom: clamp(1.75rem, 4vw, 3rem) !important;
+  min-height: 0 !important;
+}
+
+/* Deco must not cover copy */
+html body .ohs-hero .ohs-deco--dot-1 {
+  top: 8% !important;
+  right: 4% !important;
+  left: auto !important;
+  opacity: 0.55 !important;
+}
+
+html body .ohs-hero .ohs-deco--star-1 {
+  top: 10% !important;
+  left: auto !important;
+  right: 42% !important;
+}
+
+@media (max-width: 899px) {
+  html body .ohs-hero .ohs-deco--star-1,
+  html body .ohs-hero .ohs-deco--dot-1,
+  html body .ohs-hero .ohs-deco--blob-1 {
+    display: none !important;
+  }
+}
+
+/* Header → content continuity */
+html body .ohs-okido-header-section,
+html body .ohs-okido-header-section .shopify-section {
+  margin: 0 !important;
+}
+
+html body .ohs-okido__nav {
+  background: #fff8e8 !important;
+}
+
+html body .newsletter-section,
+html body .shopify-section-group-footer-group {
+  font-family: var(--ohs-font-body) !important;
+}
+
+/* Soften duplicate homepage newsletter vs footer club */
+html body.template-index #MainContent .newsletter-section {
+  background: color-mix(in srgb, var(--ohs-lavender) 22%, white) !important;
+  padding-block: clamp(2.5rem, 5vw, 4rem) !important;
+}
+
+html body.template-index #MainContent .newsletter-section .newsletter__heading,
+html body.template-index #MainContent .newsletter-section h2 {
+  font-family: var(--ohs-font-display) !important;
+}
